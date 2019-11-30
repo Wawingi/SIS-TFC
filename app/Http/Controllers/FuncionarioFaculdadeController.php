@@ -43,16 +43,21 @@ class FuncionarioFaculdadeController extends Controller
         
         //Regista a pessoa e retorna o ID gerado
         //$dados = $this->pegaFaculdade();
-        $dados=session('dados');
-
+        $dados=session('dados_logado');
+        
         $idPessoa = DB::table('pessoa')->insertGetId(
-            ['nome' => $request->nome,'data_nascimento' => $request->data_nascimento,'telefone' => $request->telefone,'bi' => $request->bi,'genero' => $request->genero,'faculdade' => $dados[0]->faculdade]
+            ['nome' => $request->nome,'data_nascimento' =>$request->data_nascimento,'telefone' => $request->telefone,'bi' => $request->bi,'genero' => $request->genero]
         );
         
         if($idPessoa>0){
+            //Regista a faculdade de utilizador
+            DB::table('pessoafaculdade')->insert(
+                ['id_pessoa' => $idPessoa, 'id_faculdade' => $dados[0]->id_faculdade]
+            );
+
             //Regista o funcionario em função do ID gerado
             $funcionario_faculdade = new Funcionario_Faculdade;
-            $funcionario_faculdade->id = $idPessoa;
+            $funcionario_faculdade->id_pessoa = $idPessoa;
             $funcionario_faculdade->funcao = $request->input('funcao');
             $funcionario_faculdade->save();
 
@@ -62,6 +67,7 @@ class FuncionarioFaculdadeController extends Controller
             $utilizador->password = Hash::make(654321);
             $utilizador->estado = 'activo';
             $utilizador->tipo = Auth::user()->tipo;
+            $utilizador->qtd_vezes = 0;
             $utilizador->id_pessoa = $idPessoa;
             
             if($utilizador->save()){         

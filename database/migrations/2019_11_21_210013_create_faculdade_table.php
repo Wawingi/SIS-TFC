@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePessoaTable extends Migration
+class CreateFaculdadeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreatePessoaTable extends Migration
      */
     public function up()
     {
-        Schema::create('pessoa', function (Blueprint $table) {
+        Schema::create('faculdade', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nome');
-            $table->date('data_nascimento');
-            $table->integer('telefone')->unique();
-            $table->string('bi')->unique();
-            $table->string('genero');
+            $table->string('nome')->unique();
+            $table->string('decano');
+            $table->integer('telefone');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreatePessoaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pessoa');
+        Schema::dropIfExists('faculdade');
     }
 }

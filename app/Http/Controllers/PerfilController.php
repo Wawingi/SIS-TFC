@@ -18,10 +18,21 @@ class PerfilController extends Controller
         $this->middleware('auth');
     }
 
+    public function getUsers(){
+        $dados = DB::table('pessoa')
+            ->join('funcionario_faculdade', 'pessoa.id', '=', 'funcionario_faculdade.id')
+            ->join('users', 'pessoa.id', '=', 'users.id_pessoa')
+            ->select('pessoa.id','pessoa.nome', 'funcionario_faculdade.funcao', 'users.email')
+            //->where('users.id','=',Auth::user()->id)
+            ->get();
+
+            return $dados;
+    }
+
     public function listarUtilizadores(){
 
         $dados = DB::table('pessoa')
-            ->join('funcionario_faculdade', 'pessoa.id', '=', 'funcionario_faculdade.id')
+            ->join('funcionario_faculdade', 'pessoa.id', '=', 'funcionario_faculdade.id_pessoa')
             ->join('users', 'pessoa.id', '=', 'users.id_pessoa')
             ->select('pessoa.id','pessoa.nome', 'funcionario_faculdade.funcao', 'users.email')
             //->where('users.id','=',Auth::user()->id)
@@ -34,12 +45,14 @@ class PerfilController extends Controller
     public function verPerfilUtilizador($id){
 
             $dados = DB::table('pessoa')
-            ->join('funcionario_faculdade', 'pessoa.id', '=', 'funcionario_faculdade.id')
+            ->join('funcionario_faculdade', 'pessoa.id', '=', 'funcionario_faculdade.id_pessoa')
             ->join('users', 'pessoa.id', '=', 'users.id_pessoa')
-            ->select('pessoa.nome','pessoa.data_nascimento','pessoa.telefone','pessoa.bi','pessoa.genero','pessoa.faculdade', 'funcionario_faculdade.funcao', 'users.email','users.tipo','users.estado')
-            ->where('pessoa.id','=',$id)
+            //->join('pessoafaculdade', 'pessoa.id', '=', 'pessoafaculdade.id_pessoa')
+            //->join('pessoafaculdade', 'faculdade.id', '=', 'pessoafaculdade.id_faculdade')
+            ->select('pessoa.nome','pessoa.data_nascimento','pessoa.telefone','pessoa.bi','pessoa.genero','funcionario_faculdade.funcao', 'users.email','users.tipo','users.estado')
+            ->where('users.id_pessoa','=',$id)
             ->get();
-            
+            //dd($dados);
         return view('perfil.verPerfilUtilizador',compact('dados'));
     }
 
@@ -60,7 +73,7 @@ class PerfilController extends Controller
         if($request->senha == $request->confirmarsenha){
             DB::table('users')
                 ->where('estado','activo')            
-                ->where('id','=',$dados[0]->id)
+                ->where('id','=',Auth::user()->id)
                 ->update(['password' => Hash::make($request->senha),'qtd_vezes'=>1]);
                 return back()->with('info','Senha definida com sucesso, pode efectuar o login');
         }

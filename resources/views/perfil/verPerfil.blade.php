@@ -1,6 +1,6 @@
 <?php 
     //sessão dos dados do utilizador logado
-    $dados=session('dados'); 
+    $dados=session('dados_logado'); 
 ?>
 @extends('layouts.inicio')
 @section('content')
@@ -199,5 +199,6 @@
 
     </div> 
 </div>
+
 
 @stop

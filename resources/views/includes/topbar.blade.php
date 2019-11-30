@@ -1,6 +1,6 @@
 <?php 
     //sessão dos dados do utilizador logado
-    $dados=session('dados'); 
+    $dados=session('dados_logado'); 
 ?>
 <header id="topnav">
     <!-- Inicio TopBar -->
@@ -212,7 +212,7 @@
 
                     <li class="has-submenu">
                         <a href="#">
-                            <i class="remixicon-home-4-fill"></i>Inicio <div class="arrow-down"></div>
+                            <i class="remixicon-home-4-fill"></i>Inicio 
                         </a>
                     </li>
 
@@ -222,25 +222,34 @@
                         </a>
                         <ul class="submenu">
                             <li>
-                                <a href="apps-kanbanboard.html">Registar departamento</a>
+                                <a href="#"><i class="fe-file-text mr-1"></i>Registar departamento</a>
                             </li>
                             <li>
-                                <a href="apps-companies.html">Listar departamentos</a>
+                                <a href="#"><i class="fe-list mr-1"></i>Listar departamentos</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fe-search mr-1"></i>Pesquisar departamento</a>
+                            </li>
+                            
+                        </ul>
+                    </li>
+
+                    <li class="has-submenu">
+                        <a href="#">
+                            <i class="remixicon-book-open-fill"></i>Gestão de Temas <div class="arrow-down"></div>
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                <a href="#"><i class="fe-file-text mr-1"></i>Registar Tema</a>
                             </li>
                             <li class="has-submenu">
-                                <a href="#">Email <div class="arrow-down"></div></a>
+                                <a href="#"><i class="fe-list mr-1"></i> Listar Temas <div class="arrow-down"></div></a>
                                 <ul class="submenu">
                                     <li>
-                                        <a href="email-inbox.html">Inbox</a>
+                                        <a href="admin-sweet-alert.html">Temas em Curso</a>
                                     </li>
                                     <li>
-                                        <a href="email-read.html">Read Email</a>
-                                    </li>
-                                    <li>
-                                        <a href="email-compose.html">Compose Email</a>
-                                    </li>
-                                    <li>
-                                        <a href="email-templates.html">Email Templates</a>
+                                        <a href="admin-nestable.html">Temas Defendidos</a>
                                     </li>
                                 </ul>
                             </li>
@@ -248,26 +257,14 @@
                     </li>
 
                     <li class="has-submenu">
-                        <a href="#"> <i class="remixicon-layout-line"></i>Layouts <div class="arrow-down"></div></a>
+                        <a href="#">
+                            <i class="remixicon-bar-chart-fill"></i>Estatísticas <div class="arrow-down"></div>
+                        </a>
                         <ul class="submenu">
                             <li>
-                                <a href="layouts-menubar-dark.html">Menubar Dark</a>
+                                <a href="#"><i class="fe-file-text mr-1"></i>Registar Tema</a>
                             </li>
-                            <li>
-                                <a href="layouts-topbar-light.html">Topbar Light</a>
-                            </li>
-                            <li>
-                                <a href="layouts-center-menu.html">Center Menu</a>
-                            </li>
-                            <li>
-                                <a href="layouts-preloader.html">Preloader</a>
-                            </li>
-                            <li>
-                                <a href="layouts-normal-header.html">Unsticky Header</a>
-                            </li>
-                            <li>
-                                <a href="layouts-boxed.html">Boxed</a>
-                            </li>
+                            
                         </ul>
                     </li>
 
@@ -420,91 +417,6 @@
                                     </li>
                                     <li>
                                         <a href="maps-mapael.html">Mapael Maps</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="has-submenu">
-                        <a href="#"> <i class="remixicon-file-copy-2-line"></i>Pages <div class="arrow-down"></div></a>
-                        <ul class="submenu megamenu">
-                            <li>
-                                <ul>
-                                    <li>
-                                        <a href="pages-starter.html">Starter</a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-login.html">Log In</a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-register.html">Register</a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-recoverpw.html">Recover Password</a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-lock-screen.html">Lock Screen</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <ul>
-                                    <li>
-                                        <a href="pages-logout.html">Logout</a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-confirm-mail.html">Confirm Mail</a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-404.html">Error 404</a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-404-alt.html">Error 404-alt</a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-500.html">Error 500</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="has-submenu">
-                        <a href="#"> <i class="remixicon-pages-line"></i>Extra Pages <div class="arrow-down"></div></a>
-                        <ul class="submenu megamenu">
-                            <li>
-                                <ul>
-                                    <li>
-                                        <a href="extras-profile.html">Profile</a>
-                                    </li>
-                                    <li>
-                                        <a href="extras-timeline.html">Timeline</a>
-                                    </li>
-                                    <li>
-                                        <a href="extras-invoice.html">Invoice</a>
-                                    </li>
-                                    <li>
-                                        <a href="extras-faqs.html">FAQs</a>
-                                    </li>
-                                    <li>
-                                        <a href="extras-tour.html">Tour Page</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <ul>
-                                    <li>
-                                        <a href="extras-pricing.html">Pricing</a>
-                                    </li>
-                                    <li>
-                                        <a href="extras-maintenance.html">Maintenance</a>
-                                    </li>
-                                    <li>
-                                        <a href="extras-coming-soon.html">Coming Soon</a>
-                                    </li>
-                                    <li>
-                                        <a href="extras-gallery.html">Gallery</a>
                                     </li>
                                 </ul>
                             </li>

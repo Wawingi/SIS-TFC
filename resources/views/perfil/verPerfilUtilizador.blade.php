@@ -27,10 +27,10 @@
                         <button type="button" class="btn btn-primary waves-effect waves-light">Menu</button>
                         <button type="button" class="btn btn-primary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-chevron-down"></i></button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Desactivar conta</a>
-                            <a class="dropdown-item" href="#">Editar perfil</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-lock mr-2"></i>Desactivar conta</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-edit mr-2"></i>Editar perfil</a>
                             <div role="separator" class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Associar a Perfil</a>
+                            <a class="dropdown-item" href="#"><i class="far fa-address-card mr-2"></i>Adicionar Perfil</a>
                         </div>
                     </div>
                 </div>
@@ -100,7 +100,7 @@
                                 </div> <!-- end col -->
                                 <div class="col-7">
                                     <div class="form-group row mb-3">
-                                        <label class="col-md-7 col-form-label" for="name2">: {{$dados[0]->faculdade}}</label>
+                                        <label class="col-md-7 col-form-label" for="name2">: </label>
                                     </div>
                                 </div> <!-- end col -->
                             </div> <!-- end row -->
@@ -162,7 +162,7 @@
                                 </div> <!-- end col -->
                                 <div class="col-7">
                                     <div class="form-group row mb-3">
-                                        <label class="col-md-7 col-form-label" for="name2">: Administrador</label>
+                                        <label class="col-md-7 col-form-label" for="name2">:</label>
                                     </div>
                                 </div> <!-- end col -->
                             </div> <!-- end row -->

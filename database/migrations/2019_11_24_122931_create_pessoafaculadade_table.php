@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFuncionarioFaculdadeTable extends Migration
+class CreatePessoafaculadadeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateFuncionarioFaculdadeTable extends Migration
      */
     public function up()
     {
-        Schema::create('funcionario_faculdade', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('pessoafaculdade', function (Blueprint $table) {
             $table->unsignedInteger('id_pessoa');
-            $table->string('funcao');
+            $table->unsignedInteger('id_faculdade');
             $table->foreign('id_pessoa')->references('id')->on('pessoa');           
+            $table->foreign('id_faculdade')->references('id')->on('faculdade');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateFuncionarioFaculdadeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('funcionario_faculdade');
+        Schema::dropIfExists('pessoafaculdade');
     }
 }

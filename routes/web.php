@@ -30,3 +30,5 @@ Route::name('utilizador')->group(function () {
     Route::get('listarUtilizadores','PerfilController@listarUtilizadores');
     Route::post('redefinirSenha','PerfilController@redefinirSenha');
 });
+
+Route::get('listarUsers', 'PerfilController@getUsers');

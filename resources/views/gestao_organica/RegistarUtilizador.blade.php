@@ -1,6 +1,6 @@
 <?php 
     //sessão dos dados do utilizador logado
-    $dados=session('dados'); 
+    $dados=session('dados_logado'); 
 ?>
 @extends('layouts.inicio')
 @section('content')
@@ -109,7 +109,7 @@
                                 <div class="col-lg-4">
                                     <div class="form-group mb-3">
                                         <label for="tipo">Faculdade</label>
-                                        <input id="inputblock" type="text" class="form-control" value="{{ $dados[0]->faculdade }}" name="faculdade" disabled required>
+                                        <input id="inputblock" type="text" class="form-control" value="{{ $dados[0]->faculdade }}" name="faculdade" readyonly required>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
