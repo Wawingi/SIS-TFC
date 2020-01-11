@@ -28,24 +28,46 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {  
-        if(Auth::user()->tipo=='unidade_organica'){
+        if(Auth::user()->tipo=='funcionario'){
             //Dados do utilizador a guardar na sessão
-            /*$dados = DB::table('pessoa','faculdade')
-            ->join('funcionario_faculdade', 'pessoa.id', '=', 'funcionario_faculdade.id')
+            $dados = DB::table('pessoa')
+            ->join('funcionario', 'pessoa.id', '=', 'funcionario.id_pessoa')
             ->join('users', 'pessoa.id', '=', 'users.id_pessoa')
-            ->select('pessoa.nome','pessoa.data_nascimento','pessoa.telefone','pessoa.bi','pessoa.genero','funcionario_faculdade.funcao','users.id','users.email','users.tipo','users.qtd_vezes')
+            ->join('pessoa_departamento', 'pessoa.id', '=', 'pessoa_departamento.id_pessoa')
+            ->join('departamento', 'departamento.id', '=', 'pessoa_departamento.id_departamento')
+            ->join('faculdade','faculdade.id','=','departamento.id_faculdade')
+            ->select('pessoa.nome','pessoa.data_nascimento','pessoa.telefone','pessoa.bi','pessoa.genero','users.id_pessoa','users.email','users.tipo','users.qtd_vezes','departamento.id as id_departamento','departamento.nome as departamento','faculdade.id as id_faculdade','faculdade.nome as faculdade','funcionario.funcao')    
             ->where('users.id','=',Auth::user()->id)
-            ->get();*/
-
-            $dados = DB::select('SELECT p.nome,p.data_nascimento,p.telefone,p.bi,p.genero,u.id_pessoa,u.email,u.tipo,u.qtd_vezes,f.id "id_faculdade",f.nome "faculdade",ff.funcao FROM pessoa p,users u,faculdade f,pessoafaculdade pf,funcionario_faculdade ff WHERE p.id=ff.id_pessoa AND p.id=pf.id_pessoa AND f.id=pf.id_faculdade AND p.id=u.id_pessoa AND u.id = :id', ['id' => Auth::user()->id]);
-
-            session(['dados_logado' => $dados]);
-
+            ->get();
+        }
+        if(Auth::user()->tipo=='docente'){
+            $dados = DB::table('pessoa')
+            ->join('docente', 'pessoa.id', '=', 'docente.id_pessoa')
+            ->join('users', 'pessoa.id', '=', 'users.id_pessoa')
+            ->join('pessoa_departamento', 'pessoa.id', '=', 'pessoa_departamento.id_pessoa')
+            ->join('departamento', 'departamento.id', '=', 'pessoa_departamento.id_departamento')
+            ->join('faculdade','faculdade.id','=','departamento.id_faculdade')
+            ->select('pessoa.nome','pessoa.data_nascimento','pessoa.telefone','pessoa.bi','pessoa.genero','users.id_pessoa','users.email','users.tipo','users.qtd_vezes','departamento.id as id_departamento','departamento.nome as departamento','faculdade.id as id_faculdade','faculdade.nome as faculdade','docente.nivel_academico')    
+            ->where('users.id','=',Auth::user()->id)
+            ->get();
+        }else if(Auth::user()->tipo=='estudante'){
+            $dados = DB::table('pessoa')
+            ->join('estudante', 'pessoa.id', '=', 'estudante.id_pessoa')
+            ->join('users', 'pessoa.id', '=', 'users.id_pessoa')
+            ->join('pessoa_departamento', 'pessoa.id', '=', 'pessoa_departamento.id_pessoa')
+            ->join('departamento', 'departamento.id', '=', 'pessoa_departamento.id_departamento')
+            ->join('faculdade','faculdade.id','=','departamento.id_faculdade')
+            ->join('curso','curso.id','=','estudante.id_curso')
+            ->select('pessoa.nome','pessoa.data_nascimento','pessoa.telefone','pessoa.bi','pessoa.genero','users.id_pessoa','users.email','users.tipo','users.qtd_vezes','departamento.id as id_departamento','departamento.nome as departamento','faculdade.id as id_faculdade','faculdade.nome as faculdade','estudante.numero_mecanografico','curso.nome as curso')    
+            ->where('users.id','=',Auth::user()->id)
+            ->get();
+        }
+        session(['dados_logado' => $dados]);
+        //dd($dados);
             if($dados[0]->qtd_vezes == 0){
                 return view('perfil.AlterarSenha');
             } else {
                 return view('layouts.dashboard');
             }
-        }
     }
 }

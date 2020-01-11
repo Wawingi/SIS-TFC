@@ -100,22 +100,74 @@
                                 </div> <!-- end col -->
                                 <div class="col-7">
                                     <div class="form-group row mb-3">
-                                        <label class="col-md-7 col-form-label" for="name2">: </label>
+                                        <label class="col-md-7 col-form-label" for="name2">: {{$dados[0]->faculdade}}</label>
                                     </div>
                                 </div> <!-- end col -->
                             </div> <!-- end row -->
                             <div id="labelespaco" class="row">
                                 <div class="col-5">
                                     <div class="form-group row mb-3">
-                                        <p class="col-md-5 col-form-label" for="name2"> Função</p>
+                                        <p class="col-md-5 col-form-label" for="name2"> Departamento</p>
                                     </div>
                                 </div> <!-- end col -->
                                 <div class="col-7">
                                     <div class="form-group row mb-3">
-                                        <label class="col-md-7 col-form-label" for="name2">: {{$dados[0]->funcao}}</label>
+                                        <label class="col-md-7 col-form-label" for="name2">: {{$dados[0]->departamento}}</label>
                                     </div>
                                 </div> <!-- end col -->
                             </div> <!-- end row -->
+                            <?php if($dados[0]->tipo=='funcionario'){ ?>
+                                <div id="labelespaco" class="row">
+                                    <div class="col-5">
+                                        <div class="form-group row mb-3">
+                                            <p class="col-md-5 col-form-label" for="name2"> Função</p>
+                                        </div>
+                                    </div> <!-- end col -->
+                                    <div class="col-7">
+                                        <div class="form-group row mb-3">
+                                            <label class="col-md-7 col-form-label" for="name2">: <?php try{ echo $dados[0]->funcao;}catch(Exception $e){} ?></label>
+                                        </div>
+                                    </div> <!-- end col -->
+                                </div> <!-- end row -->
+                            <?php } else if($dados[0]->tipo=='docente'){ ?>
+                                <div id="labelespaco" class="row">
+                                    <div class="col-5">
+                                        <div class="form-group row mb-3">
+                                            <p class="col-md-5 col-form-label" for="name2"> Nível Académico</p>
+                                        </div>
+                                    </div> <!-- end col -->
+                                    <div class="col-7">
+                                        <div class="form-group row mb-3">
+                                            <label class="col-md-7 col-form-label" for="name2">: <?php try{ echo $dados[0]->nivel_academico;}catch(Exception $e){} ?></label>
+                                        </div>
+                                    </div> <!-- end col -->
+                                </div> <!-- end row -->
+                            <?php } else if($dados[0]->tipo=='estudante'){ ?>
+                                <div id="labelespaco" class="row">
+                                    <div class="col-5">
+                                        <div class="form-group row mb-3">
+                                            <p class="col-md-5 col-form-label" for="name2"> Curso</p>
+                                        </div>
+                                    </div> <!-- end col -->
+                                    <div class="col-7">
+                                        <div class="form-group row mb-3">
+                                            <label class="col-md-7 col-form-label" for="name2">: <?php try{ echo $dados[0]->curso;}catch(Exception $e){} ?></label>
+                                        </div>
+                                    </div> <!-- end col -->
+                                </div> <!-- end row -->
+                                <div id="labelespaco" class="row">
+                                    <div class="col-5">
+                                        <div class="form-group row mb-3">
+                                            <p class="col-md-5 col-form-label" for="name2"> Número Mecanográfico</p>
+                                        </div>
+                                    </div> <!-- end col -->
+                                    <div class="col-7">
+                                        <div class="form-group row mb-3">
+                                            <label class="col-md-7 col-form-label" for="name2">: <?php try{ echo $dados[0]->numero_mecanografico;}catch(Exception $e){} ?></label>
+                                        </div>
+                                    </div> <!-- end col -->
+                                </div> <!-- end row -->
+                            <?php } ?>
                             <div id="labelespaco" class="row">
                                 <div class="col-5">
                                     <div class="form-group row mb-3">
@@ -157,24 +209,24 @@
                             <div id="labelespaco" class="row">
                                 <div class="col-5">
                                     <div class="form-group row mb-3">
-                                        <p class="col-md-5 col-form-label" for="name2"> Pefil de conta</p>
-                                    </div>
-                                </div> <!-- end col -->
-                                <div class="col-7">
-                                    <div class="form-group row mb-3">
-                                        <label class="col-md-7 col-form-label" for="name2">:</label>
-                                    </div>
-                                </div> <!-- end col -->
-                            </div> <!-- end row -->
-                            <div id="labelespaco" class="row">
-                                <div class="col-5">
-                                    <div class="form-group row mb-3">
                                         <p class="col-md-5 col-form-label" for="name2"> Estado</p>
                                     </div>
                                 </div> <!-- end col -->
                                 <div class="col-7">
                                     <div class="form-group row mb-3">
                                         <label class="col-md-7 col-form-label" for="name2">: {{$dados[0]->estado}}</label>
+                                    </div>
+                                </div> <!-- end col -->
+                            </div> <!-- end row -->
+                            <div id="labelespaco" class="row">
+                                <div class="col-5">
+                                    <div class="form-group row mb-3">
+                                        <p class="col-md-5 col-form-label" for="name2"> Pefil de conta</p>
+                                    </div>
+                                </div> <!-- end col -->
+                                <div class="col-7">
+                                    <div class="form-group row mb-3">
+                                        <label class="col-md-7 col-form-label" for="name2">:</label>
                                     </div>
                                 </div> <!-- end col -->
                             </div> <!-- end row -->
