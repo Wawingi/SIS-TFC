@@ -47,7 +47,8 @@
                                     </a>
                                 </li>
                             </ul>
-                            <hr>            
+                            <hr>
+                            <!-- Primeira ABA -->            
                             <div class="tab-content mb-0 b-0">
 
                                 <div class="tab-pane fade" id="tab12">
@@ -100,118 +101,123 @@
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
                                 </div>
-
+                                
+                                <!-- Segunda ABA -->  
                                 <div class="tab-pane fade" id="tab22">
                                     <div class="row">
                                         <div class="col-5">
                                             <div class="form-group row mb-3">
-                                                <p class="col-md-5 col-form-label" for="name2"> Faculdade</p>
+                                                <p class="col-md-5 col-form-label"> Faculdade</p>
                                             </div>
                                         </div> <!-- end col -->
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-7 col-form-label" for="name2">: {{$dados[0]->faculdade}}</label>
+                                                <label class="col-md-7 col-form-label">: {{$dados[0]->faculdade}}</label>
                                             </div>
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
                                     <div id="labelespaco" class="row">
                                         <div class="col-5">
                                             <div class="form-group row mb-3">
-                                                <p class="col-md-5 col-form-label" for="name2"> Departamento</p>
+                                                <p class="col-md-5 col-form-label"> Departamento</p>
                                             </div>
                                         </div>
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-7 col-form-label" for="name2">: <?php try{ echo $dados[0]->departamento; }Catch(Exception $e){} ?></label>
+                                                <label class="col-md-7 col-form-label">: <?php try{ echo $dados[0]->departamento; }Catch(Exception $e){} ?></label>
                                             </div>
                                         </div>                                   
                                     </div>
-                                    <div id="labelespaco" class="row">                                           
-                                        <?php if($dados[0]->tipo=='estudante'){ ?>
+                                    <?php if($dados[0]->tipo=='estudante'){ ?>                    
+                                        <div id="labelespaco" class="row">                                           
                                             <div class="col-5">
                                                 <div class="form-group row mb-3">
-                                                    <p class="col-md-5 col-form-label" for="name2"> Curso</p>
+                                                    <p class="col-md-5 col-form-label"> Curso</p>
                                                 </div>
                                             </div>     
                                             <div class="col-7">
                                                 <div class="form-group row mb-3">
-                                                    <label class="col-md-7 col-form-label" for="name2">: <?php try{ echo $dados[0]->curso; }Catch(Exception $e){} ?></label>
+                                                    <label class="col-md-7 col-form-label">: <?php try{ echo $dados[0]->curso; }Catch(Exception $e){} ?></label>
                                                 </div>
                                             </div>        
-                                        <?php } ?>
-                                    </div>
+                                        </div>
+                                    <?php } ?>
+                                    
                                     <div id="labelespaco" class="row">                                 
                                         <?php if($dados[0]->tipo=='funcionario'){ ?>
                                             <div class="col-5">
                                                 <div class="form-group row mb-3">
-                                                    <p class="col-md-5 col-form-label" for="name2"> Função</p>
+                                                    <p class="col-md-5 col-form-label"> Função</p>
                                                 </div>
                                             </div>     
                                             <div class="col-7">
                                                 <div class="form-group row mb-3">
-                                                    <label class="col-md-7 col-form-label" for="name2">: <?php try{ echo $dados[0]->funcao; }Catch(Exception $e){} ?></label>
+                                                    <label class="col-md-7 col-form-label">: <?php try{ echo $dados[0]->funcao; }Catch(Exception $e){} ?></label>
                                                 </div>
                                             </div>
                                         <?php } else if($dados[0]->tipo=='docente'){ ?>
                                             <div class="col-5">
                                                 <div class="form-group row mb-3">
-                                                    <p class="col-md-5 col-form-label" for="name2"> Nível Acadêmico</p>
+                                                    <p class="col-md-5 col-form-label"> Nível Acadêmico</p>
                                                 </div>
                                             </div>     
                                             <div class="col-7">
                                                 <div class="form-group row mb-3">
-                                                    <label class="col-md-7 col-form-label" for="name2">: <?php try{ echo $dados[0]->nivel_academico; }Catch(Exception $e){} ?></label>
+                                                    <label class="col-md-7 col-form-label">: <?php try{ echo $dados[0]->nivel_academico; }Catch(Exception $e){} ?></label>
                                                 </div>
                                             </div>        
                                         <?php } else if($dados[0]->tipo=='estudante'){ ?>
                                             <div class="col-5">
                                                 <div class="form-group row mb-3">
-                                                    <p class="col-md-5 col-form-label" for="name2"> Número Mecanográfico</p>
+                                                    <p class="col-md-5 col-form-label"> Número Mecanográfico</p>
                                                 </div>
                                             </div>     
                                             <div class="col-7">
                                                 <div class="form-group row mb-3">
-                                                    <label class="col-md-7 col-form-label" for="name2">: <?php try{ echo $dados[0]->numero_mecanografico; }Catch(Exception $e){} ?></label>
+                                                    <label class="col-md-7 col-form-label">: <?php try{ echo $dados[0]->numero_mecanografico; }Catch(Exception $e){} ?></label>
                                                 </div>
                                             </div>        
                                         <?php } ?>
                                     </div>                                    
                                 </div>
 
+                                
+
+                                <!-- Terceira ABA -->
                                 <div class="tab-pane fade" id="tab32">
                                     <div class="row">
                                         <div class="col-5">
                                             <div class="form-group row mb-3">
-                                                <p class="col-md-5 col-form-label" for="name2"> E-mail</p>
+                                                <p class="col-md-5 col-form-label"> E-mail</p>
                                             </div>
                                         </div> <!-- end col -->
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-7 col-form-label" for="name2">: {{$dados[0]->email}}</label>
+                                                <label class="col-md-7 col-form-label">: {{$dados[0]->email}}</label>
                                             </div>
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
                                     <div id="labelespaco" class="row">
                                         <div class="col-5">
                                             <div class="form-group row mb-3">
-                                                <p class="col-md-5 col-form-label" for="name2"> Telefone</p>
+                                                <p class="col-md-5 col-form-label"> Telefone</p>
                                             </div>
                                         </div> <!-- end col -->
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-7 col-form-label" for="name2">: {{$dados[0]->telefone}}</label>
+                                                <label class="col-md-7 col-form-label">: {{$dados[0]->telefone}}</label>
                                             </div>
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
                                     <div id="labelespaco" class="row">
                                         <div class="col-5">
                                             <div class="form-group row mb-3">
-                                                <p class="col-md-5 col-form-label" for="name2"> Pefil de conta</p>
+                                                <p class="col-md-5 col-form-label"> Pefil de conta</p>
                                             </div>
                                         </div> <!-- end col -->
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-7 col-form-label" for="name2">: Administrador</label>
+                                                <label class="col-md-7 col-form-label">: Administrador</label>
                                             </div>
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
