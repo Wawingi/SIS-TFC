@@ -29,7 +29,6 @@
                     @foreach($dados as $dado)
                     <div class="col-lg-4">
                         <div class="text-center card-box ribbon-box">
-                            <div class="ribbon-two ribbon-two-success"><span>Admin</span></div>
                             <div class="clearfix"></div>
                             <div class="pt-2 pb-2">
                                 <img src="{{ asset('images/users/user.jpg')}}" class="rounded-circle img-thumbnail avatar-xl" alt="profile-image">
@@ -75,7 +74,6 @@
                                             @foreach($dados as $dado)
                                             <div class="col-lg-4">
                                                 <div class="text-center card-box ribbon-box">
-                                                    <div class="ribbon-two ribbon-two-success"><span>Admin</span></div>
                                                     <div class="clearfix"></div>
                                                     <div class="pt-2 pb-2">
                                                         <img src="{{ asset('images/users/user.jpg')}}" class="rounded-circle img-thumbnail avatar-xl" alt="profile-image">
@@ -97,8 +95,7 @@
                                         <div class="row">
                                             @foreach($dadosEstudante as $dado)
                                                 <div class="col-lg-4">
-                                                    <div class="text-center card-box ribbon-box">
-                                                        <div class="ribbon-two ribbon-two-success"><span>Admin</span></div>
+                                                    <div class="text-center card-box ribbon-box">                 
                                                         <div class="clearfix"></div>
                                                         <div class="pt-2 pb-2">
                                                             <img src="{{ asset('images/users/user.jpg')}}" class="rounded-circle img-thumbnail avatar-xl" alt="profile-image">

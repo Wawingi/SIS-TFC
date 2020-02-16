@@ -217,7 +217,11 @@
                                         </div> <!-- end col -->
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-7 col-form-label">: Administrador</label>
+                                                <label style="color:#3bafda" class="col-md-7 col-form-label">: 
+                                                   @foreach($roles as $role)
+                                                        {{$role->nome}} | 
+                                                   @endforeach
+                                                </label>
                                             </div>
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
@@ -234,15 +238,6 @@
             </div>
         </div>
         <!--Fim do conteudo-->
-
-        <!-- VUE JS -->
-        <div id="app">
-            <div class="col-xl-12">
-                <dados_perfil></dados_perfil>
-            </div>
-        </div>
-        <!----------->
-
     </div> 
 </div>
 @stop

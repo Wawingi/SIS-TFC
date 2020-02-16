@@ -9,11 +9,13 @@ use App\Model\Estudante;
 use App\Model\Funcionario;
 use App\Model\Departamento;
 use App\Model\Curso;
+use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Gate;
 
 class UtilizadorController extends Controller
 {
@@ -22,12 +24,15 @@ class UtilizadorController extends Controller
         $this->middleware('auth');
     }
 
-    public function registarUtilizador(){        
+    public function registarUtilizador(){
+        if(Gate::denies('criar_user'))
+            return redirect()->back();        
         return view('perfil.RegistarUtilizador');
     }
 
 
     public function registarPessoa(Request $request){
+
         $validatedData = $request->validate([
             'nome' => ['required', 'string', 'max:255'],
             'bi' => ['required', 'string', 'max:15', 'unique:pessoa'],
@@ -95,15 +100,27 @@ class UtilizadorController extends Controller
             }
 
             //Regista o utilizador em função do ID gerado
-            $utilizador = new User;
+            /*$utilizador = new User;
             $utilizador->email = $request->input('email');
             $utilizador->password = Hash::make(654321);
             $utilizador->estado = 'activo';
             $utilizador->tipo = $tipoUtilizador;
             $utilizador->qtd_vezes = 0;
-            $utilizador->id_pessoa = $idPessoa;
+            $utilizador->id_pessoa = $idPessoa;*/
+
+            //Regista o utilizador e retorna o ID gerado
+            $idUser = DB::table('users')->insertGetId(
+                ['email' => $request->email,'password' =>Hash::make(654321),'estado' => 'activo','tipo' => $tipoUtilizador,'qtd_vezes' => 0,'id_pessoa' => $idPessoa]
+            );
             
-            if($utilizador->save()){         
+            if($idUser > 0){
+                if($tipoUtilizador=='estudante'){
+                    $role = Role::pegaRole();
+                    //Regista o perfil do utilizador estudante
+                    DB::table('role_user')->insert(
+                        ['user_id' => $idUser, 'role_id' => $role[0]->id]
+                    );
+                }         
                 return back()->with('info','Conta criada com sucesso.');
             };
         }

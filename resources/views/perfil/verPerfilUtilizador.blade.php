@@ -18,7 +18,21 @@
                 </div>
             </div>
         </div>
+        <!-- Alerta de sucesso -->
+        @if(session('info'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Sucesso!</strong>
+                    {{ session('info')}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
         <!--Inicio do conteudo-->
+        <!-- Importação da Modal Confirmação -->
+        @include('includes.modalconfirma')
+        <!-- Inclusão da Moda atribuir perfil -->
+        @include('includes.modaladicionarperfil')
         <br><br>    
         <div class="row">
             <div class="col-md-12">
@@ -27,10 +41,11 @@
                         <button type="button" class="btn btn-primary waves-effect waves-light">Menu</button>
                         <button type="button" class="btn btn-primary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-chevron-down"></i></button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#"><i class="fas fa-lock mr-2"></i>Desactivar conta</a>
+                            <a class="dropdown-item" href="#"  data-toggle="modal" data-target="#modalConfirma"><i class="fas fa-lock mr-2"></i>Activar conta  |  <i class="fas fa-unlock mr-2"></i>Desactivar conta</a>
+                            <div role="separator" class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#"><i class="fas fa-edit mr-2"></i>Editar perfil</a>
                             <div role="separator" class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#"><i class="far fa-address-card mr-2"></i>Adicionar Perfil</a>
+                            <a class="dropdown-item" href="#custom-modal" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="far fa-address-card mr-2"></i>Adicionar Perfil</a>
                         </div>
                     </div>
                 </div>
@@ -223,19 +238,65 @@
                                     <div class="form-group row mb-3">
                                         <p class="col-md-5 col-form-label" for="name2"> Pefil de conta</p>
                                     </div>
-                                </div> <!-- end col -->
-                                <div class="col-7">
-                                    <div class="form-group row mb-3">
-                                        <label class="col-md-7 col-form-label" for="name2">:</label>
-                                    </div>
-                                </div> <!-- end col -->
-                            </div> <!-- end row -->
-                    </div> <!-- end card-body-->
-                </div> <!-- end card-->
-            </div> <!-- end col-->
+                                </div> 
+                            </div> 
+                            <br>
+                            <div id="labelespaco" class="row">
+                                <div class="col-8">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Nome</th>
+                                                    <th>Descrição</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($roles as $role)
+                                                    <tr>
+                                                        <th scope="row">{{$loop->iteration}}</th>
+                                                        <td>{{$role->nome}}</td>
+                                                        <td>{{$role->desc}}</td>
+                                                        <td style="text-align:center">
+                                                            <a href='#' id="{{$role->id}}" class="eliminar btn btn-danger btn-sm"><i class='fa fa-trash-alt'></i></a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div> 
+                                </div> 
+                            </div> 
+                    </div> 
+                </div> 
+            </div> 
         </div> 
         <!--Fim do conteudo-->
     </div> 
 </div>
 
+<!-- Importação JQUERY -->
+<script src="{{ asset('js/jquery.js') }}"></script>
+<script>
+    $('.eliminar').click(function(){
+        var id = $(this).attr('id');
+        $.ajax({
+            type: 'GET',
+            url: 'eliminarRoleUser',
+            data: {
+                '_token': $('input[name=_token]').val(),
+                'id': id
+            },
+            success: function(data){
+               alert("Eliminado com sucesso");   
+            },
+			error: function(data)
+			{
+				alert('error');
+			}
+        });
+    });
+</script>
 @stop

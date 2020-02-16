@@ -44,15 +44,19 @@
         
 
         <!-- Importação das SCRIPTS-->
+        
         <script src="{{ asset('js/utilizador.js') }}"></script>
         <!-- Vendor js -->
         <script src="{{ asset('js/vendor.min.js') }}"></script>
         <!-- App js -->
         <script src="{{ asset('js/app.min.js') }}" difer></script>
+        
         <!-- Plugins js-->
         <script src="{{ asset('libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script>
         <script src="{{ asset('js/pages/form-wizard.init.js') }}"></script>
         <!-- Modal -->
-        <script src="{{ asset('libs/custombox/custombox.min.js') }}"></script>          
+        <script src="{{ asset('libs/custombox/custombox.min.js') }}"></script>
+
+               
     </body>
 </html>

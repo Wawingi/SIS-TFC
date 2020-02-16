@@ -177,27 +177,30 @@
                 </a>
             </div>
 
-            <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
-                <li class="dropdown d-none d-lg-block">
-                    <a class="nav-link dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                        Utilizadores
-                        <i class="mdi mdi-chevron-down"></i> 
-                    </a>
-                    <div class="dropdown-menu">
-                        <!-- item-->
-                        <a href="{{ url('registarUtilizador') }}" class="dropdown-item">
-                            <i class="fe-user mr-1"></i>
-                            <span>Criar Utilizador</span>
+            @can('criar_user')
+                <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
+                    <li class="dropdown d-none d-lg-block">
+                        <a class="nav-link dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                            Utilizadores
+                            <i class="mdi mdi-chevron-down"></i> 
                         </a>
+                        <div class="dropdown-menu">
+                            <!-- item-->
+                            <a href="{{ url('registarUtilizador') }}" class="dropdown-item">
+                                <i class="fe-user mr-1"></i>
+                                <span>Criar Utilizador</span>
+                            </a>
 
-                        <!-- item-->
-                        <a href="{{ url('listarUtilizadores') }}" class="dropdown-item">
-                            <i class="fe-users mr-1"></i>
-                            <span>Listar Utilizadores</span>
-                        </a>
-                    </div>
-                </li>
-            </ul>
+                            <!-- item-->
+                            <a href="{{ url('listarUtilizadores') }}" class="dropdown-item">
+                                <i class="fe-users mr-1"></i>
+                                <span>Listar Utilizadores</span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            @endcan
+
             <div class="clearfix"></div>
         </div>
     </div>
