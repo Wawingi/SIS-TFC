@@ -8,8 +8,13 @@ use Illuminate\Support\Facades\DB;
 class Role extends Model
 {
    protected $table = 'roles';
+    
+   //Função que pega roles
+    public static function pegaTodosRoles(){
+        return DB::table('roles')->select('id','nome','desc')->where('tipo',1)->get();
+    } 
 
-    //Função que pega role de um estande no acto do cadastro
+    //Função que pega role de um estudante no acto do cadastro
     public static function pegaRole(){
         return DB::table('roles')->select('id','nome')->where('tipo',3)->get();
     } 

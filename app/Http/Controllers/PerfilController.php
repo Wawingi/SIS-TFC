@@ -82,44 +82,8 @@ class PerfilController extends Controller
 
     //Ver perfil do utilizador pesquisado
     public function verPerfilUtilizador($id,$tipo=null){
-        $sessao = session('dados_logado');
-        if($tipo == 'estudante'){
-            $dados = DB::table('pessoa')
-                ->join('estudante', 'pessoa.id', '=', 'estudante.id_pessoa')
-                ->join('users', 'pessoa.id', '=', 'users.id_pessoa')
-                ->join('pessoa_departamento', 'pessoa.id', '=', 'pessoa_departamento.id_pessoa')
-                ->join('departamento', 'departamento.id', '=', 'pessoa_departamento.id_departamento')
-                ->join('faculdade', 'faculdade.id', '=', 'departamento.id_faculdade')
-                ->join('curso','curso.id','=','estudante.id_curso')
-                ->select('pessoa.nome','pessoa.data_nascimento','pessoa.telefone','pessoa.bi','pessoa.genero','estudante.numero_mecanografico','users.id','users.email','users.tipo','users.estado','faculdade.nome as faculdade','departamento.nome as departamento','curso.nome as curso')
-                ->where('pessoa.id','=',$id)
-                ->get();
-        }else if(Auth::user()->tipo == 'funcionario'){        
-            $dados = DB::table('pessoa')
-                ->join('funcionario', 'pessoa.id', '=', 'funcionario.id_pessoa')
-                ->join('users', 'pessoa.id', '=', 'users.id_pessoa')
-                ->join('pessoa_departamento', 'pessoa.id', '=', 'pessoa_departamento.id_pessoa')
-                ->join('departamento', 'departamento.id', '=', 'pessoa_departamento.id_departamento')
-                ->join('faculdade', 'faculdade.id', '=', 'departamento.id_faculdade')
-                ->select('pessoa.nome','pessoa.data_nascimento','pessoa.telefone','pessoa.bi','pessoa.genero','funcionario.funcao','users.id', 'users.email','users.tipo','users.estado','faculdade.nome as faculdade','departamento.nome as departamento')
-                ->where('users.id_pessoa','=',$id)
-                ->get();
-        }else if(Auth::user()->tipo == 'docente'){
-            $dados = DB::table('pessoa')
-                ->join('docente', 'pessoa.id', '=', 'docente.id_pessoa')
-                ->join('users', 'pessoa.id', '=', 'users.id_pessoa')
-                ->join('pessoa_departamento', 'pessoa.id', '=', 'pessoa_departamento.id_pessoa')
-                ->join('departamento', 'departamento.id', '=', 'pessoa_departamento.id_departamento')
-                ->join('faculdade', 'faculdade.id', '=', 'departamento.id_faculdade')
-                ->select('pessoa.nome','pessoa.data_nascimento','pessoa.telefone','pessoa.bi','pessoa.genero','docente.nivel_academico','users.id','users.email','users.tipo','users.estado','faculdade.nome as faculdade','departamento.nome as departamento')
-                ->where('pessoa.id','=',$id)
-                ->get();
-        }
-
-        //Função que pega as roles de um utilizador pesquisado
-        $roles = Role::pegaRoleUtilizador($id);
-        
-        return view('perfil.verPerfilUtilizador',compact('dados','roles'));
+        $dados = Pessoa::pegaDadosUtilizador($id,$tipo);     
+        return view('perfil.verPerfilUtilizador',compact('dados'));
     }
 
     //função para redefinir a senha do utilizador
@@ -183,10 +147,16 @@ class PerfilController extends Controller
     }
 
     //Função que remove a role ou perfil de um utilizador
-    public function eliminarRoleUser(Request $request){
-        dd($request);
-        if(DB::table('role_user')->where('id', '=', $request->id)->delete()){
+    public function eliminarRoleUser($id){
+        if(DB::table('role_user')->where('id', '=', $id)->delete()){
             return back()->with('info','Perfil removido com sucesso.');
         }
     }
+
+    public function pegaRoleUtilizador($id){
+        $roles = Role::pegaRoleUtilizador($id);
+        return view('perfil.rolesTable',compact('roles'));
+    }
+
+    
 }

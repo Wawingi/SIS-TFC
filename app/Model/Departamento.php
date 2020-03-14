@@ -10,17 +10,19 @@ class Departamento extends Model
     protected $table = 'departamento';
     
     
-    public function pegaDepartamentoId($nome){
+    public static function pegaDepartamentoId($nome){
         return DB::table('departamento')->select('id','nome')->where('nome',$nome)->get();
     }
 
-    public function listarDepartamentos(){
+    public static function listarDepartamentos(){
         $sessao = session('dados_logado');
         $dados = DB::table('departamento')
         ->join('faculdade', 'faculdade.id', '=', 'departamento.id_faculdade')
-        ->select('departamento.nome','departamento.chefe_departamento','departamento.email','departamento.telefone')    
+        ->select('departamento.id','departamento.nome','departamento.chefe_departamento','departamento.email','departamento.telefone')    
         ->where('departamento.id_faculdade','=',$sessao[0]->id_faculdade)
-        ->paginate(3);
+        //->paginate(3);
+        ->orderBy('nome')
+        ->get();
         return $dados;
     }
 }

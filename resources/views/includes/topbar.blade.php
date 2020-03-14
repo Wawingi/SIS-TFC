@@ -64,58 +64,7 @@
                                 <p class="notify-details">Doug Dukes commented on Admin Dashboard
                                     <small class="text-muted">1 min ago</small>
                                 </p>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon">
-                                    <img src="assets/images/users/avatar-2.jpg" class="img-fluid rounded-circle" alt="" /> </div>
-                                <p class="notify-details">Mario Drummond</p>
-                                <p class="text-muted mb-0 user-msg">
-                                    <small>Hi, How are you? What about our next meeting</small>
-                                </p>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon">
-                                    <img src="assets/images/users/avatar-4.jpg" class="img-fluid rounded-circle" alt="" /> </div>
-                                <p class="notify-details">Karen Robinson</p>
-                                <p class="text-muted mb-0 user-msg">
-                                    <small>Wow ! this admin looks good and awesome design</small>
-                                </p>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon bg-soft-warning text-warning">
-                                    <i class="mdi mdi-account-plus"></i>
-                                </div>
-                                <p class="notify-details">New user registered.
-                                    <small class="text-muted">5 hours ago</small>
-                                </p>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon bg-info">
-                                    <i class="mdi mdi-comment-account-outline"></i>
-                                </div>
-                                <p class="notify-details">Caleb Flakelar commented on Admin
-                                    <small class="text-muted">4 days ago</small>
-                                </p>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon bg-secondary">
-                                    <i class="mdi mdi-heart"></i>
-                                </div>
-                                <p class="notify-details">Carlos Crouch liked
-                                    <b>Admin</b>
-                                    <small class="text-muted">13 days ago</small>
-                                </p>
-                            </a>
+                            </a> 
                         </div>
 
                         <!-- All-->
@@ -219,19 +168,19 @@
                         </a>
                     </li>
 
+                    <!-- Inclusão da Modal -->
+                    @include('includes.departamento.modalPesquisarDepartamento')
+                    
                     <li class="has-submenu">
                         <a href="#">
                             <i class="remixicon-stack-line"></i>Gestão Departamental <div class="arrow-down"></div>
                         </a>
                         <ul class="submenu">
                             <li>
-                                <a href="#"><i class="fe-file-text mr-1"></i>Registar departamento</a>
-                            </li>
-                            <li>
                                 <a href="{{ url('listarDepartamentos')}}"><i class="fe-list mr-1"></i>Listar departamentos</a>
                             </li>
                             <li>
-                                <a href="#"><i class="fe-search mr-1"></i>Pesquisar departamento</a>
+                                <a href="{{ url('pesquisarDepartamento')}}"><i class="fe-search mr-1"></i> Pesquisar Departamento</a>
                             </li>
                             
                         </ul>

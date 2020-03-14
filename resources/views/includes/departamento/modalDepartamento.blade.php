@@ -1,10 +1,10 @@
-<div id="custom-modal" class="modal-demo">
+<div id="save-modal" class="modal-demo">
     <button type="button" class="close" onclick="Custombox.modal.close();">
         <span>&times;</span><span class="sr-only">Close</span>
     </button>
     <h4 class="custom-modal-title">Adicionar Departamento</h4>
     <div class="custom-modal-text text-left">
-        <form method="post" action="{{ url('registarDepartamento') }}">
+        <form id="formularioSalvar" method="post">
             @csrf
             <div class="form-group">
                 <label for="name">Departamento</label>
@@ -40,6 +40,7 @@
                 </div> 
             </div>
             <input type="hidden" class="form-control" value="{{$sessao[0]->id_faculdade}}" name="id_faculdade">
+            <hr>
             <div class="text-right">
                 <button type="submit" class="btn btn-primary waves-effect waves-light"><i class="mdi mdi-content-save mr-1"></i>Registar</button>
             </div>

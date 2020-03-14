@@ -26,8 +26,6 @@
                                         <p class="text-muted mb-4 mt-3">Informe o email e a senha para aceder a sua conta.</p>
                                     </div>
 
-                                    <form action="#">
-
                                         <div class="form-group mb-3">
                                             <label for="emailaddress">Email </label>
                                             <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" type="email" id="email" value="{{ old('email') }}" required autofocus placeholder="Informe o email">
@@ -60,8 +58,6 @@
                                         <div class="form-group mb-0 text-center">
                                             <button class="btn btn-primary btn-block" type="submit"> Log In </button>
                                         </div>
-
-                                    </form>
 
                                     <div class="text-center">
                                         <h5> <a href="#" class=" ml-1">Esqueceu a sua senha?</a></h5>

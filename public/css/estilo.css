@@ -19,3 +19,14 @@ hr {
     background-color:#3bafda;
     color:#ffffff;
 }
+
+#corLinkPesquisa{
+    color:black;
+}
+
+#card-view{
+    border: solid 1px #3bafda;
+}
+#card-view:hover{
+    box-shadow: 0 0 11px #3bafda;
+}

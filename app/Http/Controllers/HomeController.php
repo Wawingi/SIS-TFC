@@ -62,8 +62,8 @@ class HomeController extends Controller
             ->where('users.id','=',Auth::user()->id)
             ->get();
         }
+        
         session(['dados_logado' => $dados]);
-        //dd($dados);
             if($dados[0]->qtd_vezes == 0){
                 return view('perfil.AlterarSenha');
             } else {

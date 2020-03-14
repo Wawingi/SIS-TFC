@@ -44,14 +44,14 @@
                 </button>
             </div>
         @endif
-
+        
         <!--Inicio do conteudo formulario funcionario-->
         <?php if($dados[0]->tipo=='funcionario'){ ?>     
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="header-title">REGISTAR FUNCIONÁRIO</h4><hr>
+                            <h4 class="header-title">REGISTAR FUNCIONÁRIO<a href='{{ url("listarUtilizadores")}}' class="float-right btn btn-primary waves-effect waves-light" data-overlayColor="#38414a"><i class="fe-users mr-1"></i> Listar Utilizadores</a><br><br></h4><hr>
                             <form method="post" action="{{ url('registarPessoa') }}" class="needs-validation" novalidate>
                                 @csrf
                                 <!-- 1ª Linha -->

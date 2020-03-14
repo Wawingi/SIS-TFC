@@ -97,16 +97,7 @@ class UtilizadorController extends Controller
                 if($estudante->save()){
                     $tipoUtilizador = "estudante";
                 }
-            }
-
-            //Regista o utilizador em função do ID gerado
-            /*$utilizador = new User;
-            $utilizador->email = $request->input('email');
-            $utilizador->password = Hash::make(654321);
-            $utilizador->estado = 'activo';
-            $utilizador->tipo = $tipoUtilizador;
-            $utilizador->qtd_vezes = 0;
-            $utilizador->id_pessoa = $idPessoa;*/
+            }        
 
             //Regista o utilizador e retorna o ID gerado
             $idUser = DB::table('users')->insertGetId(
@@ -124,5 +115,67 @@ class UtilizadorController extends Controller
                 return back()->with('info','Conta criada com sucesso.');
             };
         }
+    }
+
+    public function editarPessoa(Request $request){
+        //Pega sessao
+        $dados=session('dados_logado');
+        
+        //Se utilizador for funcionário então pegamos o ID do seu departamento, senão então o departamento será sempre do logado 
+        if($request->input('tipo')=="Funcionario"){
+            $departamento = new Departamento;
+            $departamento = $departamento->pegaDepartamentoId($request->input('departamento'));
+            $id_departamento = $departamento[0]->id;
+        }else{
+            $id_departamento = $dados[0]->id_departamento;
+        }
+        
+
+        //Actualiza os dados da pessoa em função do ID
+        if(DB::table('pessoa')          
+                ->where('id','=',$request->pessoa_id)
+                ->update(['nome' => $request->nome,'data_nascimento' =>$request->data_nascimento,'telefone' => $request->telefone,'bi' => $request->bi,'genero' => $request->genero])){       
+            
+            //Actualizar o departamento
+            DB::table('pessoa_departamento')          
+                ->where([['id_pessoa','=',$request->pessoa_id],['tipo','=',$request->input('tipo')],])
+                ->update(['id_departamento' => $id_departamento]);
+            
+            //Actualizar o utilizador
+            DB::table('users')
+                    ->where('id_pessoa','=',$request->pessoa_id)
+                    ->update(['email' => $request->email]);
+            
+            //Registar cada tipo de pessoa
+            if(Auth::user()->tipo == "funcionario"){
+                DB::table('funcionario')
+                ->where('id_pessoa','=',$request->pessoa_id)
+                ->update(['funcao' => $request->funcao]);
+
+            }else if(Auth::user()->tipo == "docente" && $request->input('tipo')=="Docente"){
+                DB::table('docente')
+                ->where('id_pessoa','=',$request->pessoa_id)
+                ->update(['nivel_academico' => $request->nivel_academico]);
+
+            }else if(Auth::user()->tipo == "docente" && $request->input('tipo')=="Estudante"){
+                $curso = new Curso;
+                $curso = $curso->pegaCursoId($request->input('curso'));
+
+                DB::table('estudante')
+                ->where('id_pessoa','=',$request->pessoa_id)
+                ->update(['numero_mecanografico' => $request->numero_mecanografico,'periodo' => $request->periodo,'id_curso' => $curso[0]->id]);
+            }
+            return redirect()->action(
+                'PerfilController@verPerfilUtilizador', ['id' => $request->pessoa_id,'tipo' => $request->input('tipo')]
+            )->with('info','Actualizado com sucesso.');                               
+        }    
+    }
+
+    //função que pesquisa os dados do utilizador para ser editado
+    public function pegaUtilizador($id,$tipo=null){
+        $id = base64_decode($id);
+        $tipo = base64_decode($tipo);
+        $dados = Pessoa::pegaDadosUtilizador($id,$tipo);   
+        return view('perfil.editarUtilizador',compact('dados'));
     }
 }

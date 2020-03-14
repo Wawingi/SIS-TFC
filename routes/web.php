@@ -4,11 +4,11 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::post('/logar', 'Auth\LoginController@authenticate');
+Route::post('logar', 'Auth\LoginController@authenticate');
 
 Auth::routes(['register' => false]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('home', 'HomeController@index')->name('home');
 Route::get('alterarSenha', function(){
     return view('perfil.AlterarSenha');
 });
@@ -23,6 +23,7 @@ Route::name('pessoa_registo')->group(function () {
         return view('perfil.RegistarUtilizador');
     });
     Route::post('registarPessoa','UtilizadorController@registarPessoa');
+    Route::post('editarPessoa','UtilizadorController@editarPessoa');
 });
 
 //Rotas para Perfil do Utilizador
@@ -33,13 +34,33 @@ Route::name('utilizador')->group(function () {
     Route::post('redefinirSenha','PerfilController@redefinirSenha');
     Route::post('desactivarConta','PerfilController@desactivarConta');
     Route::post('atribuirPerfil','PerfilController@atribuirPerfil');
-    Route::get('eliminarRoleUser','PerfilController@eliminarRoleUser');
+    Route::get('eliminarRoleUser/{id}','PerfilController@eliminarRoleUser');
+    Route::get('pegaRoleUtilizador/{id}','PerfilController@pegaRoleUtilizador');
+    Route::get('pegaUtilizador/{id}/{tipo?}','UtilizadorController@pegaUtilizador');
 });
 
 //Rotas para Departamentos
 Route::name('departamento')->group(function () {
     Route::get('listarDepartamentos','DepartamentoController@index');
     Route::post('registarDepartamento','DepartamentoController@registarDepartamento');
+    Route::post('editarDepartamento','DepartamentoController@editarDepartamento');
+    Route::get('pegaDepartamentos','DepartamentoController@pegaDepartamentos');
+    Route::get('eliminarDepartamento/{id}','DepartamentoController@eliminarDepartamento');
+    Route::get('pegaDepartamento/{id}','DepartamentoController@pegaDepartamento');
+    Route::get('verDepartamento/{id}','DepartamentoController@verDepartamento');
+    Route::get('pesquisarDepartamento', function(){
+        return view('departamento.pesquisarDepartamento');
+    });
+    Route::post('pesquisarDepartamento','DepartamentoController@pesquisarDepartamento');
+});
+
+//Rotas para CUrsos
+Route::name('curso')->group(function () {
+    Route::get('pegaCursos/{id}','CursoController@pegaCursos');
+    Route::post('registarCurso','CursoController@registarCurso');
+    Route::get('eliminarCurso/{id}','CursoController@eliminarCurso');
+    Route::get('pegaCurso/{id}','CursoController@pegaCurso');
+    Route::post('editarCurso','CursoController@editarCurso');
 });
 
 Route::get('listarUsers', 'PerfilController@getUsers');

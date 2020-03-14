@@ -20,6 +20,19 @@
                 </div>
             </div>
         </div>
+
+        <!-- Alerta de sucesso -->
+        @if(session('info'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Sucesso!</strong>
+                    {{ session('info')}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+        <br><br>
+        
         <!--Inicio do conteudo-->
         <br><br>
         <div class="row">    

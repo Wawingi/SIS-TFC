@@ -21,13 +21,11 @@
         <link href="{{ asset('css/icons.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('css/app.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('css/estilo.css') }}" rel="stylesheet" type="text/css" />
-
-        <link href="{{ asset('libs/custombox/custombox.min.css') }}" rel="stylesheet" />
-      
-        
+        <link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('libs/custombox/custombox.min.css') }}" rel="stylesheet" />       
     </head>
-
     <body>
+        <script src="{{ asset('js/jquery-3.4.1.js') }}"></script>
         
         <!-- PAGINA INICIAL PARA USER LOGADO -->
         <!-- TopBar-->
@@ -45,7 +43,7 @@
 
         <!-- Importação das SCRIPTS-->
         
-        <script src="{{ asset('js/utilizador.js') }}"></script>
+        <!--<script src="{{ asset('js/utilizador.js') }}"></script>-->
         <!-- Vendor js -->
         <script src="{{ asset('js/vendor.min.js') }}"></script>
         <!-- App js -->
@@ -56,7 +54,9 @@
         <script src="{{ asset('js/pages/form-wizard.init.js') }}"></script>
         <!-- Modal -->
         <script src="{{ asset('libs/custombox/custombox.min.js') }}"></script>
-
-               
+        <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
+        
+        
+  
     </body>
 </html>

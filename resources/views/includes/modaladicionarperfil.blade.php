@@ -28,9 +28,8 @@
                                 foreach($roles as $role):
                         ?>
                                 <div class="custom-control custom-checkbox">
-                                    <input style="width:18px;height:18px" type="checkbox" value="{{$role->nome}}" name="roles[]"/> 
+                                    <input style="width:18px;height:18px" type="checkbox" value="{{$role->id}}" name="roles_id[]"/> 
                                     <label style="padding-left:10px">{{$role->nome}}</label>
-                                    <input type="hidden" value="{{$role->id}}" name="roles_id[]"/>
                                 </div>
                         <?php
                                 endforeach; 
@@ -39,9 +38,8 @@
                                 foreach($roles as $role): 
                         ?>
                                 <div class="custom-control custom-checkbox">
-                                    <input style="width:18px;height:18px" type="checkbox" value="{{$role->nome}}" name="roles[]"/> 
-                                    <label style="padding-left:10px">{{$role->nome}}</label>
-                                    <input type="hidden" value="{{$role->id}}" name="roles_id[]"/>
+                                    <input style="width:18px;height:18px" type="checkbox" value="{{$role->id}}" name="roles_id[]"/> 
+                                    <label style="padding-left:10px">{{$role->nome}}</label>                        
                                 </div>
                         <?php
                                 endforeach;

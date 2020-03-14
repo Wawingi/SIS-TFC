@@ -43,7 +43,7 @@
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="#"  data-toggle="modal" data-target="#modalConfirma"><i class="fas fa-lock mr-2"></i>Activar conta  |  <i class="fas fa-unlock mr-2"></i>Desactivar conta</a>
                             <div role="separator" class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#"><i class="fas fa-edit mr-2"></i>Editar perfil</a>
+                            <a class="dropdown-item" href='{{ url("pegaUtilizador/".base64_encode($dados[0]->pessoa_id)."/".base64_encode($dados[0]->tipo))}}'><i class="fas fa-edit mr-2"></i>Editar perfil</a>
                             <div role="separator" class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#custom-modal" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="far fa-address-card mr-2"></i>Adicionar Perfil</a>
                         </div>
@@ -58,6 +58,7 @@
                         <h4 class="header-title">DADOS PESSOAIS</h4><hr>
                             <!-- Dados pessoais -->
                             <div class="row">
+                                <input type="hidden" name="pessoa_id" id="pessoa_id" class="form-control" value="{{$dados[0]->pessoa_id}}">
                                 <div class="col-5">
                                     <div class="form-group row mb-3">
                                         <p class="col-md-5 col-form-label" for="name2"> Nome</p>
@@ -242,7 +243,7 @@
                             </div> 
                             <br>
                             <div id="labelespaco" class="row">
-                                <div class="col-8">
+                                <div class="col-12">
                                     <div class="table-responsive">
                                         <table class="table table-bordered mb-0">
                                             <thead>
@@ -253,17 +254,8 @@
                                                     <th></th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                @foreach($roles as $role)
-                                                    <tr>
-                                                        <th scope="row">{{$loop->iteration}}</th>
-                                                        <td>{{$role->nome}}</td>
-                                                        <td>{{$role->desc}}</td>
-                                                        <td style="text-align:center">
-                                                            <a href='#' id="{{$role->id}}" class="eliminar btn btn-danger btn-sm"><i class='fa fa-trash-alt'></i></a>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
+                                            <tbody id="dataTable">
+                                                
                                             </tbody>
                                         </table>
                                     </div> 
@@ -276,27 +268,59 @@
         <!--Fim do conteudo-->
     </div> 
 </div>
-
-<!-- Importação JQUERY -->
-<script src="{{ asset('js/jquery.js') }}"></script>
 <script>
-    $('.eliminar').click(function(){
-        var id = $(this).attr('id');
+    function carregarDataTable(){
+        var pessoa_id = $('#pessoa_id').val(); //id da pessoa dono da role
         $.ajax({
-            type: 'GET',
-            url: 'eliminarRoleUser',
-            data: {
-                '_token': $('input[name=_token]').val(),
-                'id': id
+            url: "{{ url('pegaRoleUtilizador') }}/"+pessoa_id,
+            success:function(data){
+                $('#dataTable').html(data);
             },
-            success: function(data){
-               alert("Eliminado com sucesso");   
-            },
-			error: function(data)
+            error: function(e)
 			{
-				alert('error');
+				alert(e);
 			}
-        });
+        })
+    }
+    carregarDataTable();
+
+    $(document).on('click','.eliminar',function(e){
+
+        Swal.fire({
+			  title: 'Deseja realmente remover o perfil?',
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: 'Remover',
+              cancelButtonText: 'Cancelar'
+			}).then((result) => {
+                if (result.value) {
+                    e.preventDefault();
+                    var id = $(this).attr('id');
+                    $.ajax({
+                        url: "{{ url('eliminarRoleUser') }}/"+id,
+                        type: "GET",
+                        success: function(data){
+                            carregarDataTable();
+                            Swal.fire(
+                            'Eliminado!',
+                            'Eliminado com Sucesso.',
+                            'success'
+                            )
+                        },
+                        error: function(e)
+                        {
+                            Swal.fire({
+                                text: 'Ocorreu um erro ao remover o perfil.',
+                                icon: 'error',
+                                confirmButtonText: 'Fechar'
+                            })
+                        }
+                    });
+                }
+		});
+        
     });
-</script>
+</script>    
 @stop
