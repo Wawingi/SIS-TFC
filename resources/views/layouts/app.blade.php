@@ -9,9 +9,6 @@
 
     <title>{{ config('app.name', 'SIS-TFC') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
@@ -20,13 +17,11 @@
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('css/icons.min.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('css/app.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/estilo.css') }}" rel="stylesheet" type="text/css" />
     <link href="//cdn.materialdesignicons.com/4.2.95/css/materialdesignicons.min.css"  rel="stylesheet"> 
 </head>
 <body style="background-image: url('images/fundologin.jpg')">
-    <div id="app">
-        <main class="py-4">
-            @yield('content')
-        </main>
-    </div>
+    <script src="{{ asset('js/jquery-3.4.1.js') }}"></script>   
+    @yield('content')
 </body>
 </html>

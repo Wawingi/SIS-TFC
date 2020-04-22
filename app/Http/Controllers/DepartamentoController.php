@@ -9,10 +9,6 @@ use Illuminate\Support\Facades\DB;
 class DepartamentoController extends Controller
 {
     public function index(){
-
-        //$departamento = new Departamento;
-        //$departamentos = $departamento->listarDepartamentos();
-
         return view('departamento.listarDepartamentos');
     }
 

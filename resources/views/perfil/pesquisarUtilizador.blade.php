@@ -9,8 +9,8 @@
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">SIS TFC</a></li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Departamentos</a></li>
-                            <li class="breadcrumb-item active">Pesquisar Departamento</li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Utilizadores</a></li>
+                            <li class="breadcrumb-item active">Pesquisar Utilizador</li>
                         </ol>
                     </div>
                 </div>
@@ -41,21 +41,20 @@
         <!--Inicio do conteudo-->
         <br><br>
         <div class="row">
-            <div class="col-12">           
+            <div class="col-12">
                 <div class="row">
                     <div class="col-lg-12">  
                         <div style="background-color:white;border:solid 1px #3bafda" class="modal-content">
                             <div style="background-color:#3bafda" class="modal-header">
-                                <h4 style="color:white" class="modal-title" id="myLargeModalLabel"><i class='fas fa-search'></i>   Pesquisar Departamento </h4>
+                                <h4 style="color:white" class="modal-title" id="myLargeModalLabel"><i class='fas fa-search'></i>   Pesquisar Utilizador </h4>
                             </div>
-                            <form method="post" action="{{ url('pesquisarDepartamento') }}"> 
+                            <form method="post" action="{{ url('pesquisarUtilizador') }}"> 
                                 <div class="modal-body">
                                     @csrf
                                     <div class="form-group">
-                                        <label for="name">Departamento</label>
-                                        <input required type="text" class="form-control" id="nome" name="nome" placeholder="Informe o departamento">
+                                        <label for="name">Número do BI</label>
+                                        <input required type="text" class="form-control" id="bi" name="bi" placeholder="Informe o número do bilhete">
                                     </div>
-                                    <input reuired type="hidden" class="form-control" id="id_curso"  name="id_curso">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-info waves-effect waves-light"><i class="mdi mdi-file-find mr-1"></i>Pesquisar</button>
@@ -63,7 +62,7 @@
                             </form> 
                         </div>     
                     </div>
-                </div>  
+                </div>                
             </div>
         </div>         
     </div> 

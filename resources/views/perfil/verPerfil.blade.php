@@ -1,3 +1,4 @@
+<!-- Ver meu perfil quando estou logado -->
 <?php 
     //sessão dos dados do utilizador logado
     $dados=session('dados_logado'); 
@@ -16,7 +17,6 @@
                             <li class="breadcrumb-item active">Ver Perfil</li>
                         </ol>
                     </div>
-                    <h4 class="page-title">{{ strtoupper(Auth::user()->tipo) }}</h4>
                 </div>
             </div>
         </div>
@@ -34,7 +34,6 @@
         <br><br>
         
         <!--Inicio do conteudo-->
-        <br><br>
         <div class="row">    
             <div class="col-xl-12">
                 <div class="card">
@@ -109,7 +108,7 @@
                                         </div> <!-- end col -->
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-7 col-form-label" for="name2">: {{$dados[0]->genero}}</label>
+                                                <label class="col-md-7 col-form-label" for="name2">: <?php if($dados[0]->genero==1){echo 'Masculino';}if($dados[0]->genero==2){echo 'Feminino';} ?></label>
                                             </div>
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
@@ -141,7 +140,7 @@
                                             </div>
                                         </div>                                   
                                     </div>
-                                    <?php if($dados[0]->tipo=='estudante'){ ?>                    
+                                    <?php if($dados[0]->tipo==3){ ?>                    
                                         <div id="labelespaco" class="row">                                           
                                             <div class="col-5">
                                                 <div class="form-group row mb-3">
@@ -157,7 +156,7 @@
                                     <?php } ?>
                                     
                                     <div id="labelespaco" class="row">                                 
-                                        <?php if($dados[0]->tipo=='funcionario'){ ?>
+                                        <?php if($dados[0]->tipo==1){ ?>
                                             <div class="col-5">
                                                 <div class="form-group row mb-3">
                                                     <p class="col-md-5 col-form-label"> Função</p>
@@ -168,7 +167,7 @@
                                                     <label class="col-md-7 col-form-label">: <?php try{ echo $dados[0]->funcao; }Catch(Exception $e){} ?></label>
                                                 </div>
                                             </div>
-                                        <?php } else if($dados[0]->tipo=='docente'){ ?>
+                                        <?php } else if($dados[0]->tipo==2){ ?>
                                             <div class="col-5">
                                                 <div class="form-group row mb-3">
                                                     <p class="col-md-5 col-form-label"> Nível Acadêmico</p>
@@ -179,7 +178,7 @@
                                                     <label class="col-md-7 col-form-label">: <?php try{ echo $dados[0]->nivel_academico; }Catch(Exception $e){} ?></label>
                                                 </div>
                                             </div>        
-                                        <?php } else if($dados[0]->tipo=='estudante'){ ?>
+                                        <?php } else if($dados[0]->tipo==3){ ?>
                                             <div class="col-5">
                                                 <div class="form-group row mb-3">
                                                     <p class="col-md-5 col-form-label"> Número Mecanográfico</p>
@@ -192,9 +191,7 @@
                                             </div>        
                                         <?php } ?>
                                     </div>                                    
-                                </div>
-
-                                
+                                </div>                               
 
                                 <!-- Terceira ABA -->
                                 <div class="tab-pane fade" id="tab32">
@@ -237,15 +234,13 @@
                                                 </label>
                                             </div>
                                         </div> <!-- end col -->
-                                    </div> <!-- end row -->
-                                    
-                                </div>
-                        
+                                    </div> <!-- end row -->                                   
+                                </div>                      
                                 <div class="clearfix"></div>
                                 <hr>
                             </div> <!-- tab-content -->
                         </div> <!-- end #btnwizard-->
-                        <button type="submit" class="btn btn-warning waves-effect waves-light"><i class="fas fa-user-edit mr-1"></i>Editar</button>
+                        <a href='{{ url("pegaUtilizador/".base64_encode($dados[0]->id_pessoa)."/".base64_encode($dados[0]->tipo))}}' class="btn btn-warning waves-effect waves-light"><i class="fas fa-user-edit mr-1"></i>Editar</a>
                     </div> <!-- end card-body -->
                 </div> <!-- end card-->
             </div>

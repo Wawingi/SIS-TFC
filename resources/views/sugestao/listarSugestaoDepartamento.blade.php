@@ -13,8 +13,8 @@
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">SIS TFC</a></li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Departamentos</a></li>
-                            <li class="breadcrumb-item active">Listar Departamentos</li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Temas</a></li>
+                            <li class="breadcrumb-item active">Sugestão do Departamento</li>
                         </ol>
                     </div>
                 </div>
@@ -42,22 +42,19 @@
             </div>
         @endif
 
+        <!-- Inclusão da Modal -->
+        @include('includes.sugestao.modalSugestao')
+        @include('includes.departamento.modalEditarDepartamento')
+
         <!--Inicio do conteudo-->
-        <br><br>
+        <br>           
             <div class="row">
-                <div class="col-12">
-                    <div class="card-box">
-                        <div class="row">
-                            <div class="col-lg-4">  
-                                <a href="#save-modal" class="btn btn-primary waves-effect waves-light" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1"></i> Adicionar Departamento</a>     
-                            </div><!-- end col-->
-                        </div> <!-- end row -->
-                    </div> <!-- end card-box -->
+                <div class="col-lg-12">  
+                    <a href="#save-modal" class="btn btn-primary waves-effect waves-light float-right" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1"></i> Adicionar Sugestão</a>     
                 </div><!-- end col-->
-            </div>
-            <!-- Inclusão da Modal -->
-            @include('includes.departamento.modalDepartamento')
-            @include('includes.departamento.modalEditarDepartamento')
+            </div> <!-- end row -->
+            <br>        
+            
             <a id="modalEditar" style="display:none" href="#edit-modal" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target=".bs-example-modal-lg"></a>
             
             <div class="row">
@@ -68,10 +65,9 @@
                             <thead id="cabecatabela">
                                 <tr>
                                     <th>#</th>
-                                    <th>Departamento</th>
-                                    <th>Chefe do Departamento</th>
-                                    <th>Email</th>
-                                    <th>Telefone</th>
+                                    <th>Tema</th>
+                                    <th>Área de Aplicação</th>
+                                    <th>Estado</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -90,7 +86,7 @@
 <script>
     function carregarDataTable(){
         $.ajax({
-            url: "{{ url('pegaDepartamentos') }}",
+            url: "{{ url('pegaSugestoesDPTO') }}",
             success:function(data){
                 $('#dataTable').html(data);
             },
@@ -105,9 +101,9 @@
     $('#formularioSalvar').submit(function(e){
         e.preventDefault();
         var request = new FormData(this);
-
+        
         $.ajax({
-            url:"{{ url('registarDepartamento') }}",
+            url:"{{ url('registarSugestao') }}",
             method: "POST",
             data: request,
             contentType: false,
@@ -117,24 +113,24 @@
                 if(data == "Sucesso"){
                     Custombox.modal.close();
                     Swal.fire({
-                        text: "Departamento registado com sucesso.",
+                        text: "Sugestão registada com sucesso.",
                         icon: 'success',
                         confirmButtonText: 'Fechar'
                     }),
                     $('#formularioSalvar')[0].reset();
-                    carregarDataTable();
+                    //carregarDataTable();
                 }            
             },
             error: function(e){
                 Swal.fire({
-                    text: 'Ocorreu um erro ao registar o departamento.',
+                    text: 'Ocorreu um erro ao registar a sugestão.',
                     icon: 'error',
                     confirmButtonText: 'Fechar'
                 })
             }
         });
     });
-
+    /*
     $(document).on('click','.pegar',function(e){
         e.preventDefault();
         var id = $(this).attr('id');
@@ -226,6 +222,6 @@
                     });
                 }
 		});
-    });
+    });*/
 </script>    
 @stop

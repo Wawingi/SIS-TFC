@@ -14,7 +14,6 @@
                             <li class="breadcrumb-item active">Ver Perfil Utilizador</li>
                         </ol>
                     </div>
-                    <h4 class="page-title">{{ strtoupper(Auth::user()->tipo) }}</h4>
                 </div>
             </div>
         </div>
@@ -102,7 +101,7 @@
                                 </div> <!-- end col -->
                                 <div class="col-7">
                                     <div class="form-group row mb-3">
-                                        <label class="col-md-7 col-form-label" for="name2">: {{$dados[0]->genero}}</label>
+                                        <label class="col-md-7 col-form-label" for="name2">: <?php if($dados[0]->genero==1){echo 'Masculino';}if($dados[0]->genero==2){echo 'Feminino';} ?></label>
                                     </div>
                                 </div> <!-- end col -->
                             </div> <!-- end row -->
@@ -132,7 +131,7 @@
                                     </div>
                                 </div> <!-- end col -->
                             </div> <!-- end row -->
-                            <?php if($dados[0]->tipo=='funcionario'){ ?>
+                            <?php if($dados[0]->tipo==1){ ?>
                                 <div id="labelespaco" class="row">
                                     <div class="col-5">
                                         <div class="form-group row mb-3">
@@ -145,7 +144,7 @@
                                         </div>
                                     </div> <!-- end col -->
                                 </div> <!-- end row -->
-                            <?php } else if($dados[0]->tipo=='docente'){ ?>
+                            <?php } else if($dados[0]->tipo==2){ ?>
                                 <div id="labelespaco" class="row">
                                     <div class="col-5">
                                         <div class="form-group row mb-3">
@@ -158,7 +157,7 @@
                                         </div>
                                     </div> <!-- end col -->
                                 </div> <!-- end row -->
-                            <?php } else if($dados[0]->tipo=='estudante'){ ?>
+                            <?php } else if($dados[0]->tipo==3){ ?>
                                 <div id="labelespaco" class="row">
                                     <div class="col-5">
                                         <div class="form-group row mb-3">
@@ -192,7 +191,7 @@
                                 </div> <!-- end col -->
                                 <div class="col-7">
                                     <div class="form-group row mb-3">
-                                        <label class="col-md-7 col-form-label" for="name2">: {{ strtoupper($dados[0]->tipo)}}</label>
+                                        <label class="col-md-7 col-form-label" for="name2">: <?php if($dados[0]->tipo==1){echo 'Funcionário';}if($dados[0]->tipo==2){echo 'Docente';}if($dados[0]->tipo==3){echo 'Estudante';} ?></label>
                                     </div>
                                 </div> <!-- end col -->
                             </div> <!-- end row -->
@@ -230,7 +229,7 @@
                                 </div> <!-- end col -->
                                 <div class="col-7">
                                     <div class="form-group row mb-3">
-                                        <label class="col-md-7 col-form-label" for="name2">: {{$dados[0]->estado}}</label>
+                                        <label class="col-md-7 col-form-label" for="name2">: <?php if($dados[0]->estado==1){ echo 'Activo';}else{ echo 'Desactivado';} ?></label>
                                     </div>
                                 </div> <!-- end col -->
                             </div> <!-- end row -->

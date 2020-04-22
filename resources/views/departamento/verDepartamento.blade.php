@@ -18,7 +18,6 @@
                             <li class="breadcrumb-item active">Ver Departamento</li>
                         </ol>
                     </div>
-                    <h4 class="page-title">{{ strtoupper(Auth::user()->tipo) }}</h4>
                 </div>
             </div>
         </div>
@@ -142,6 +141,35 @@
     </div> 
 </div> 
 <script>
+    $( "#formularioSalvar" ).validate( {
+		rules: {					
+			nome: {
+				required: true,
+			}
+		},
+		messages: {					
+			nome: {
+                required: "O nome do curso é obrigatório.",
+			}
+		},
+		errorElement: "em",
+		errorPlacement: function ( error, element ) {
+			// Add the `invalid-feedback` class to the error element
+			error.addClass( "invalid-feedback" );
+			if ( element.prop( "type" ) === "checkbox" ) {
+				error.insertAfter( element.next( "label" ) );
+			} else {
+				error.insertAfter( element );
+			}
+		},
+		highlight: function ( element, errorClass, validClass ) {
+			$( element ).addClass( "is-invalid" ).removeClass( "is-valid" );
+		},
+		unhighlight: function (element, errorClass, validClass) {
+			$( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
+		}
+    });
+    
     function carregarCursoTable(){
         var id = $('#id_departamento').val();
         $.ajax({

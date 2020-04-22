@@ -8,7 +8,7 @@
             @csrf
             <div class="form-group">
                 <label for="name">Nome</label>
-                <input required type="text" class="form-control" id="nome" name="nome" placeholder="ex: Ciências da Computação">
+                <input type="text" class="form-control" id="nome" name="nome" placeholder="ex: Ciências da Computação">
             </div>
   
             <input type="hidden" class="form-control" value="{{$departamento->id}}" id="id_departamento" name="id_departamento">

@@ -18,7 +18,6 @@
                             <li class="breadcrumb-item active">Editar Dados Utilizador</li>
                         </ol>
                     </div>
-                    <h4 class="page-title">{{ strtoupper(Auth::user()->tipo) }}</h4>
                 </div>
             </div>
         </div>
@@ -34,7 +33,7 @@
         @endif
         <br><br>
         <!--Inicio do conteudo formulario funcionario-->
-        <?php if($dados[0]->tipo=='funcionario'){ ?>     
+        <?php if($dados[0]->tipo==1){ ?>     
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
@@ -105,11 +104,11 @@
                                         <div class="form-group mb-3">
                                             <label for="genero">Genero</label><br>
                                             <div style="margin-left:7px;margin-top:10px" class="radio radio-info form-check-inline">
-                                                <input type="radio" id="inlineRadio1" value="M" name="genero" checked>
+                                                <input type="radio" id="inlineRadio1" value="1" name="genero" checked>
                                                 <label for="inlineRadio1"> Masculino </label>
                                             </div>
                                             <div class="radio form-check-inline">
-                                                <input type="radio" id="inlineRadio2" value="F" name="genero" checked>
+                                                <input type="radio" id="inlineRadio2" value="2" name="genero" checked>
                                                 <label for="inlineRadio2"> Feminino </label>
                                             </div>
                                         </div>
@@ -142,7 +141,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <input type="hidden" class="form-control" value="Funcionario" name="tipo">
+                                <input type="hidden" class="form-control" value="1" name="tipo">
                                 <input type="hidden" class="form-control" value="{{$dados[0]->pessoa_id}}" name="pessoa_id">
                                 <hr>
                                 <button class="btn btn-primary"><i class="far fa-save"> Editar</i></button>
@@ -152,7 +151,7 @@
                     </div> <!-- end card-->
                 </div> <!-- end col-->
             </div>
-        <?php } else if($dados[0]->tipo=='docente') { ?>
+        <?php } else if($dados[0]->tipo==2) { ?>
             <!--Inicio do conteudo formulario docente e estudante-->
             <div class="row">
                 <div class="col-lg-12">
@@ -197,11 +196,11 @@
                                         <div class="form-group mb-3">
                                             <label for="genero">Genero</label><br>
                                             <div style="margin-left:7px;margin-top:10px" class="radio radio-info form-check-inline">
-                                                <input type="radio" id="inlineRadio1" value="{{$dados[0]->genero}}" name="genero" checked>
+                                                <input type="radio" id="inlineRadio1" value="1" name="genero" checked>
                                                 <label for="inlineRadio1"> Masculino </label>
                                             </div>
                                             <div class="radio form-check-inline">
-                                                <input type="radio" id="inlineRadio2" value="{{$dados[0]->genero}}" name="genero" >
+                                                <input type="radio" id="inlineRadio2" value="2" name="genero" >
                                                 <label for="inlineRadio2"> Feminino </label>
                                             </div>
                                         </div>
@@ -256,7 +255,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <input type="hidden" class="form-control" value="Docente" name="tipo">
+                                <input type="hidden" class="form-control" value="2" name="tipo">
                                 <input type="hidden" class="form-control" value="{{$dados[0]->pessoa_id}}" name="pessoa_id">                                                      
                                 <hr>
                                 <button class="btn btn-primary"><i class="far fa-save"> Editar</i></button>
@@ -266,7 +265,7 @@
                     </div> 
                 </div> 
             </div>     
-        <?php } else if ($dados[0]->tipo=='estudante'){ ?>
+        <?php } else if ($dados[0]->tipo==3){ ?>
             <!-- conteudo do estudante-->
             <div class="row">
                 <div class="col-lg-12">
@@ -312,11 +311,11 @@
                                         <div class="form-group mb-3">
                                             <label for="genero">Genero</label><br>
                                             <div style="margin-left:7px;margin-top:10px" class="radio radio-info form-check-inline">
-                                                <input type="radio" id="inlineRadio1" value="M" name="genero" checked>
+                                                <input type="radio" id="inlineRadio1" value="1" name="genero" checked>
                                                 <label for="inlineRadio1"> Masculino </label>
                                             </div>
                                             <div class="radio form-check-inline">
-                                                <input type="radio" id="inlineRadio2" value="F" name="genero">
+                                                <input type="radio" id="inlineRadio2" value="2" name="genero">
                                                 <label for="inlineRadio2"> Feminino </label>
                                             </div>
                                         </div>
@@ -387,13 +386,13 @@
                                                 <label for="inlineRadio1"> Diurno </label>
                                             </div>
                                             <div class="radio form-check-inline">
-                                                <input type="radio" id="inlineRadio2" value="Nocturno" name="periodo" checked>
+                                                <input type="radio" id="inlineRadio2" value="Nocturno" name="periodo">
                                                 <label for="inlineRadio2"> Nocturno </label>
                                             </div>
                                         </div>
                                     </div>                                                                   
                                 </div>
-                                <input type="hidden" class="form-control" value="Estudante" name="tipo">
+                                <input type="hidden" class="form-control" value="3" name="tipo">
                                 <input type="hidden" class="form-control" value="{{$dados[0]->pessoa_id}}" name="pessoa_id">
                                 <hr>
                                 <button class="btn btn-primary"><i class="far fa-save"> Editar</i></button>

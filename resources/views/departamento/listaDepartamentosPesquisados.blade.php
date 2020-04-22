@@ -13,18 +13,12 @@
                             <li class="breadcrumb-item active">Pesquisar Departamento</li>
                         </ol>
                     </div>
-                    <h4 class="page-title">{{ strtoupper(Auth::user()->tipo) }}</h4>
                 </div>
             </div>
         </div>
 
         <!--Inicio do conteudo-->
         <br><br>
-
-        
-            
-       
-
         <div class="row">
             <div class="col-12">
                 <div class="card-box">

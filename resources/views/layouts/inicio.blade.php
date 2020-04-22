@@ -26,7 +26,9 @@
     </head>
     <body>
         <script src="{{ asset('js/jquery-3.4.1.js') }}"></script>
-        
+        <script src="{{ asset('js/jquery.validate.js') }}"></script>
+        <script src="{{ asset('js/additional-methods.js') }}"></script>
+         
         <!-- PAGINA INICIAL PARA USER LOGADO -->
         <!-- TopBar-->
             @include('includes.topbar')
@@ -55,8 +57,5 @@
         <!-- Modal -->
         <script src="{{ asset('libs/custombox/custombox.min.js') }}"></script>
         <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
-        
-        
-  
     </body>
 </html>

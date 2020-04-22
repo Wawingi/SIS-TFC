@@ -13,6 +13,8 @@ Route::get('alterarSenha', function(){
     return view('perfil.AlterarSenha');
 });
 
+Route::get('listarUsers', 'PerfilController@getUsers');
+
 //Rotas para Utilizador e Pessoa
 Route::name('pessoa_registo')->group(function () {
     //Route::get('registarUtilizador', 'UtilizadorController@registarUtilizador');
@@ -37,6 +39,10 @@ Route::name('utilizador')->group(function () {
     Route::get('eliminarRoleUser/{id}','PerfilController@eliminarRoleUser');
     Route::get('pegaRoleUtilizador/{id}','PerfilController@pegaRoleUtilizador');
     Route::get('pegaUtilizador/{id}/{tipo?}','UtilizadorController@pegaUtilizador');
+    Route::get('pesquisarUtilizador', function(){
+        return view('perfil.pesquisarUtilizador');
+    });
+    Route::post('pesquisarUtilizador','PerfilController@pesquisarUtilizador');
 });
 
 //Rotas para Departamentos
@@ -54,7 +60,7 @@ Route::name('departamento')->group(function () {
     Route::post('pesquisarDepartamento','DepartamentoController@pesquisarDepartamento');
 });
 
-//Rotas para CUrsos
+//Rotas para Cursos
 Route::name('curso')->group(function () {
     Route::get('pegaCursos/{id}','CursoController@pegaCursos');
     Route::post('registarCurso','CursoController@registarCurso');
@@ -63,4 +69,13 @@ Route::name('curso')->group(function () {
     Route::post('editarCurso','CursoController@editarCurso');
 });
 
-Route::get('listarUsers', 'PerfilController@getUsers');
+//Rotas para sugestões
+Route::name('sugestao')->group(function () {
+    Route::get('listarSugestaoDepartamento', function(){
+        return view('sugestao.listarSugestaoDepartamento');
+    });
+    Route::post('registarSugestao','SugestaoController@registarSugestao');
+    Route::get('pegaSugestoesDPTO','SugestaoController@pegaSugestoesDepartamento');
+});
+
+

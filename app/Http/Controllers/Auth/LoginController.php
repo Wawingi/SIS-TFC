@@ -46,10 +46,13 @@ class LoginController extends Controller
 
         $email = $credentials['email'];
         $password = $credentials['password'];
-        if (Auth::attempt(['email' => $email, 'password' => $password, 'estado' => 'activo'])) {
-            return redirect()->intended('home');
+        if (Auth::attempt(['email' => $email, 'password' => $password, 'estado' => 1])) {
+            //return redirect()->intended('home');
+            $info = 'Sucesso';
         }else{
-            return redirect()->intended('/');
+            //return redirect()->intended('/');
+            $info = 'Erro';
         }
+        echo $info;  
     }
 }

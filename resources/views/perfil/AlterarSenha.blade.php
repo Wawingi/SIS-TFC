@@ -28,8 +28,9 @@
     </head>
 
     <body>
+        <script src="{{ asset('js/jquery-3.4.1.js') }}"></script>
+        <script src="{{ asset('js/jquery.validate.js') }}"></script>
         <br>
-
         <div class="wrapper">
             <div class="container-fluid">
                 <!-- start page title -->
@@ -49,7 +50,6 @@
                                     <li class="breadcrumb-item active">Definir Senha</li>
                                 </ol>
                             </div>
-                            <h4 class="page-title"><?php echo strtoupper(Auth::user()->tipo) ?></h4><hr>
                         </div>
                     </div>
                 </div>
@@ -74,17 +74,14 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title">DEFINIR SENHA</h4><hr>
-                                <form method="post" action="{{ url('redefinirSenha') }}" class="needs-validation" novalidate>
+                                <form method="post" id="formularioAlterarSenha" action="{{ url('redefinirSenha') }}">
                                     @csrf
                                     <!-- 1ª Linha -->
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="form-group mb-3">
-                                                <label for="senha">Senha</label>
-                                                <input type="password" class="form-control" name="senha" id="senha" placeholder="Informe a senha" required>
-                                                <div class="valid-feedback">
-                                                    Valor fornecido!
-                                                </div>
+                                                <label for="senha">Nova Senha</label>
+                                                <input type="password" class="form-control" name="senha" id="senha" placeholder="Informe a senha">                                              
                                             </div>
                                         </div>
                                     </div>
@@ -92,11 +89,8 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="form-group mb-3">
-                                                <label for="confirmarsenha">Confirmar senha</label>
-                                                <input type="password" class="form-control" name="confirmarsenha" id="confirmarsenha" placeholder="Informe a nova senha" required>
-                                                <div class="valid-feedback">
-                                                    Valor fornecido!
-                                                </div>
+                                                <label for="confirmarsenha">Confirmar Nova Senha</label>
+                                                <input type="password" class="form-control" name="confirmarsenha" id="confirmarsenha" placeholder="Informe a nova senha">
                                             </div>
                                         </div>
                                     </div>
@@ -110,6 +104,48 @@
                 <!--Fim do conteudo-->
             </div> 
         </div>
+        <script>
+            $( "#formularioAlterarSenha" ).validate( {
+				rules: {					
+					senha: {
+						required: true,
+						minlength:6,
+					},
+					confirmarsenha: {
+						required: true,
+						minlength:6,
+						equalTo: "#senha"
+					}
+				},
+				messages: {					
+					senha: {
+                        required: "A senha deve ser fornecida.",
+						minlength:"Tamanho muito inferior, forneça valor com mais de 5 dígitos"
+					},
+					confirmarsenha: {
+                        required: "A senha deve ser fornecida.",
+						minlength:"Tamanho muito inferior, forneça valor com mais de 5 dígitos",
+						equalTo: "As senhas devem ser iguais"
+					}
+				},
+				errorElement: "em",
+				errorPlacement: function ( error, element ) {
+					// Add the `invalid-feedback` class to the error element
+					error.addClass( "invalid-feedback" );
+					if ( element.prop( "type" ) === "checkbox" ) {
+						error.insertAfter( element.next( "label" ) );
+					} else {
+						error.insertAfter( element );
+					}
+				},
+				highlight: function ( element, errorClass, validClass ) {
+					$( element ).addClass( "is-invalid" ).removeClass( "is-valid" );
+				},
+				unhighlight: function (element, errorClass, validClass) {
+					$( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
+				}
+            });
+        </script>
         <script src="{{ asset('js/vendor.min.js') }}"></script>
         <!-- App js -->
         <script src="{{ asset('js/app.min.js') }}" difer></script>

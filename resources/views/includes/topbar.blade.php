@@ -80,7 +80,7 @@
                     <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                         <img src="{{ url('images/users/user.jpg') }}" alt="user-image" class="rounded-circle">
                         <span class="pro-user-name ml-1">
-                        {{ $dados[0]->nome }} <i class="mdi mdi-chevron-down"></i> 
+                        {{ $dados[0]->nome }} || <?php if($dados[0]->tipo==1){echo 'Funcionário';}if($dados[0]->tipo==2){echo 'Docente';}if($dados[0]->tipo==3){echo 'Estudante';} ?> <i class="mdi mdi-chevron-down"></i><br> 
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
@@ -98,7 +98,7 @@
                         <div class="dropdown-divider"></div>
 
                         <!-- item-->
-                        <a class="dropdown-item notify-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                        <a class="dropdown-item notify-item" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                             <i class="remixicon-logout-box-line"></i>
                             <span>Sair</span>
                         </a>
@@ -139,11 +139,15 @@
                                 <i class="fe-user mr-1"></i>
                                 <span>Criar Utilizador</span>
                             </a>
-
                             <!-- item-->
                             <a href="{{ url('listarUtilizadores') }}" class="dropdown-item">
                                 <i class="fe-users mr-1"></i>
                                 <span>Listar Utilizadores</span>
+                            </a>
+                            <!-- item-->
+                            <a href="{{ url('pesquisarUtilizador') }}" class="dropdown-item">
+                                <i class="fe-search mr-1"></i>
+                                <span>Pesquisar Utilizador</span>
                             </a>
                         </div>
                     </li>
@@ -191,11 +195,19 @@
                             <i class="remixicon-book-open-fill"></i>Gestão de Temas <div class="arrow-down"></div>
                         </a>
                         <ul class="submenu">
-                            <li>
-                                <a href="#"><i class="fe-file-text mr-1"></i>Registar Tema</a>
+                            <li class="has-submenu">
+                                <a href="#"><i class="fe-file-text mr-1"></i>Sugestão de Temas<div class="arrow-down"></div></a>
+                                <ul class="submenu">
+                                    <li>
+                                        <a href="{{ url('listarSugestaoDepartamento')}}">Sugestões do Departamento</a>
+                                    </li>
+                                    <li>
+                                        <a href="admin-nestable.html">Sugestões de Estudantes</a>
+                                    </li>
+                                </ul>
                             </li>
                             <li class="has-submenu">
-                                <a href="#"><i class="fe-list mr-1"></i> Listar Temas <div class="arrow-down"></div></a>
+                                <a href="#"><i class="fe-list mr-1"></i>Listar Temas<div class="arrow-down"></div></a>
                                 <ul class="submenu">
                                     <li>
                                         <a href="admin-sweet-alert.html">Temas em Curso</a>

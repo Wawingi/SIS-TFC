@@ -34,7 +34,7 @@ class PerfilController extends Controller
     //Listar utilizadores em função ao tipo 
     public function listarUtilizadores(){
         $sessao = session('dados_logado');
-        if(Auth::user()->tipo == 'funcionario'){
+        if(Auth::user()->tipo == 1){
             //lista funcionários
             $dados = DB::table('pessoa')
                 ->join('funcionario', 'pessoa.id', '=', 'funcionario.id_pessoa')
@@ -42,31 +42,31 @@ class PerfilController extends Controller
                 ->join('pessoa_departamento', 'pessoa.id', '=', 'pessoa_departamento.id_pessoa')
                 ->join('departamento', 'departamento.id', '=', 'pessoa_departamento.id_departamento')
                 ->join('faculdade', 'faculdade.id', '=', 'departamento.id_faculdade')
-                ->select('pessoa.id','pessoa.nome', 'funcionario.funcao', 'users.email','faculdade.nome as faculdade')
+                ->select('pessoa.id','pessoa.nome', 'funcionario.funcao', 'pessoa.bi','faculdade.nome as faculdade')
                 ->where('faculdade.nome','=',$sessao[0]->faculdade)
                 ->where('pessoa.id','<>',$sessao[0]->id_pessoa)
-                ->get();
+                ->paginate(3);
                 return view('perfil.listarUtilizadores',compact('dados'));
-        }else if(Auth::user()->tipo == 'docente'){
+        }else if(Auth::user()->tipo == 2){
             //lista de docentes
             $dados = DB::table('pessoa')
                 ->join('docente', 'pessoa.id', '=', 'docente.id_pessoa')
                 ->join('users', 'pessoa.id', '=', 'users.id_pessoa')
                 ->join('pessoa_departamento', 'pessoa.id', '=', 'pessoa_departamento.id_pessoa')
                 ->join('departamento', 'departamento.id', '=', 'pessoa_departamento.id_departamento')
-                ->select('pessoa.id','pessoa.nome', 'users.email')
+                ->select('pessoa.id','pessoa.nome', 'pessoa.bi')
                 ->where('departamento.nome','=',$sessao[0]->departamento)
                 ->where('pessoa.id','<>',$sessao[0]->id_pessoa)
-                ->get();
+                ->paginate(3);
             //lista de estudantes
             $dadosEstudante = DB::table('pessoa')
                 ->join('estudante', 'pessoa.id', '=', 'estudante.id_pessoa')
                 ->join('users', 'pessoa.id', '=', 'users.id_pessoa')
                 ->join('pessoa_departamento', 'pessoa.id', '=', 'pessoa_departamento.id_pessoa')
                 ->join('departamento', 'departamento.id', '=', 'pessoa_departamento.id_departamento')
-                ->select('pessoa.id','pessoa.nome', 'users.email','users.tipo')
+                ->select('pessoa.id','pessoa.nome', 'pessoa.bi','users.tipo')
                 ->where('departamento.nome','=',$sessao[0]->departamento)
-                ->get();
+                ->paginate(3);
                 return view('perfil.listarUtilizadores',compact('dados','dadosEstudante'));
         }
     }
@@ -81,9 +81,23 @@ class PerfilController extends Controller
     }
 
     //Ver perfil do utilizador pesquisado
-    public function verPerfilUtilizador($id,$tipo=null){
-        $dados = Pessoa::pegaDadosUtilizador($id,$tipo);     
+    public function verPerfilUtilizador($id,$tipo=null){    
+        $id = base64_decode($id);
+        $tipo = base64_decode($tipo);
+        $dados = Pessoa::pegaDadosUtilizador($id,$tipo);  
         return view('perfil.verPerfilUtilizador',compact('dados'));
+    }
+
+    public function pesquisarUtilizador(Request $request){
+        $dados = Pessoa::pegaIdPessoaByBI($request->bi);
+
+        if(count($dados) > 0){
+            $dados = Pessoa::pegaDadosUtilizador($dados[0]->pessoa_id,$dados[0]->tipo); 
+        }else{     
+            return back()->with('info','Nenhum utilizador encontrado');    
+        }
+
+        return view('perfil.verPerfilUtilizador',compact('dados'));    
     }
 
     //função para redefinir a senha do utilizador
@@ -112,17 +126,17 @@ class PerfilController extends Controller
     //Função para activar e desactivar a conta de um utilizador
     public function desactivarConta(Request $request){
         if(is_array($request) || is_object($request)){      
-            if($request->opcao=='desactivar'){
+            if($request->opcao==2){
                 DB::table('users')      
-                    ->where('estado','activo')         
+                    ->where('estado',1)         
                     ->where('id','=',$request->idUtilizador)
-                    ->update(['estado' => 'desactivado']);
+                    ->update(['estado' => 2]);
                     return back()->with('info','Conta desactivada com sucesso.');
-            } else if ($request->opcao=='activar'){
+            } else if ($request->opcao==1){
                 DB::table('users')      
-                    ->where('estado','desactivado')         
+                    ->where('estado',2)         
                     ->where('id','=',$request->idUtilizador)
-                    ->update(['estado' => 'activo']);
+                    ->update(['estado' => 1]);
                     return back()->with('info','Conta activada com sucesso.');
             }
         }

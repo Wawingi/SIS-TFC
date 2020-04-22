@@ -13,7 +13,7 @@
                     <div class="form-group mb-3">
                         <label for="genero">Escolha o perfil para o utilizador: </label><br><br>
                         <?php 
-                            if ($dados[0]->tipo == 'funcionario'){ 
+                            if ($dados[0]->tipo == 1){ 
                                 $roles = App\Model\Role::where('tipo', '=', 1)->select('id','nome')->get();
                                 foreach($roles as $role):
                         ?>
@@ -23,7 +23,7 @@
                                 </div>
                         <?php
                                 endforeach; 
-                            } else if ($dados[0]->tipo == 'docente'){
+                            } else if ($dados[0]->tipo == 2){
                                 $roles = App\Model\Role::where('tipo', '=', 2)->select('id','nome')->get();
                                 foreach($roles as $role):
                         ?>
@@ -33,7 +33,7 @@
                                 </div>
                         <?php
                                 endforeach; 
-                            } else if ($dados[0]->tipo == 'estudante'){
+                            } else if ($dados[0]->tipo == 3){
                                 $roles = App\Model\Role::where('tipo', '=', 3)->select('id','nome')->get();
                                 foreach($roles as $role): 
                         ?>

@@ -13,7 +13,6 @@
                             <li class="breadcrumb-item active">Inicio</li>
                         </ol>
                     </div>
-                    <h4 class="page-title">{{ strtoupper(Auth::user()->tipo) }}</h4>
                 </div>
             </div>
         </div>
