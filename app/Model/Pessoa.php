@@ -54,5 +54,49 @@ class Pessoa extends Model
                     ->where('bi', $bi)
                     ->get();
     }
+
+    //Função que retorna o ID da pessoa em função do seu nome
+    /*public static function pegaIdPessoaByNome($nome){
+        return DB::table('pessoa')
+                    ->select('pessoa.id')
+                    ->where('nome', $nome)
+                    ->value('id');
+    }*/
+
+    //Função que retorna os docentes de um departamento
+    public static function getDocentes($id_departamento){
+        return DB::table('pessoa')
+                    ->join('users', 'pessoa.id', '=', 'users.id_pessoa')
+                    ->join('pessoa_departamento', 'pessoa.id', '=', 'pessoa_departamento.id_pessoa')
+                    ->join('departamento', 'departamento.id', '=', 'pessoa_departamento.id_departamento')
+                    ->select('pessoa.id as pessoa_id','pessoa.nome')
+                    ->where([['departamento.id', $id_departamento],['users.tipo',2]])
+                    ->get();
+    }
+
+    //Função que pega o ID da pessoa
+    public static function pegaIdPessoaByNome($nome){
+        return DB::table('pessoa')
+                    ->select('id')
+                    ->where('nome',$nome)                
+                    ->value('id');
+    }
+
+    //Função que retorna os estudantes de um curso
+    public static function pegaEstudantesFaculdade($faculdade,$idLogado){
+        return DB::table('pessoa')
+                    ->join('estudante', 'pessoa.id', '=', 'estudante.id_pessoa')
+                    ->join('pessoa_departamento', 'pessoa.id', '=', 'pessoa_departamento.id_pessoa')
+                    ->join('departamento', 'departamento.id', '=', 'pessoa_departamento.id_departamento')
+                    ->join('faculdade', 'faculdade.id', '=', 'departamento.id_faculdade')
+                    ->where('faculdade.nome', $faculdade)
+                    ->where('pessoa.id','<>', $idLogado)
+                    ->whereNotIn('pessoa.id', static function ($query) {
+                        $query->select('id_estudante')
+                        ->from((new EstudanteSugestao)->getTable());
+                    })
+                    ->select('pessoa.nome')
+                    ->get();
+    }
       
 }

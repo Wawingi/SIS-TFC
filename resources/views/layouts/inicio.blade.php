@@ -22,13 +22,17 @@
         <link href="{{ asset('css/app.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('css/estilo.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('libs/custombox/custombox.min.css') }}" rel="stylesheet" />       
+        <link href="{{ asset('css/datatables2.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('libs/custombox/custombox.min.css') }}" rel="stylesheet" />    
+        <link href="{{ asset('libs/switchery/switchery.min.css') }}" rel="stylesheet" />          
     </head>
     <body>
         <script src="{{ asset('js/jquery-3.4.1.js') }}"></script>
         <script src="{{ asset('js/jquery.validate.js') }}"></script>
         <script src="{{ asset('js/additional-methods.js') }}"></script>
-         
+        <script src="{{ asset('js/datatables2.min.js') }}" defer></script>
+        <script src="{{ asset('js/select2.min.js') }}" defer></script>
         <!-- PAGINA INICIAL PARA USER LOGADO -->
         <!-- TopBar-->
             @include('includes.topbar')
@@ -50,12 +54,13 @@
         <script src="{{ asset('js/vendor.min.js') }}"></script>
         <!-- App js -->
         <script src="{{ asset('js/app.min.js') }}" difer></script>
-        
+       
         <!-- Plugins js-->
         <script src="{{ asset('libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script>
         <script src="{{ asset('js/pages/form-wizard.init.js') }}"></script>
-        <!-- Modal -->
         <script src="{{ asset('libs/custombox/custombox.min.js') }}"></script>
         <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
+        <script src="{{ asset('libs/switchery/switchery.min.js') }}"></script>
+        <script src="{{ asset('js/pages/form-advanced.init.js') }}"></script>
     </body>
 </html>

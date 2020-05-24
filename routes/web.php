@@ -71,11 +71,33 @@ Route::name('curso')->group(function () {
 
 //Rotas para sugestões
 Route::name('sugestao')->group(function () {
+    Route::post('registarSugestao','SugestaoController@registarSugestao');
+    Route::post('trabalharSugestao','SugestaoController@trabalharSugestao');
     Route::get('listarSugestaoDepartamento', function(){
         return view('sugestao.listarSugestaoDepartamento');
     });
-    Route::post('registarSugestao','SugestaoController@registarSugestao');
     Route::get('pegaSugestoesDPTO','SugestaoController@pegaSugestoesDepartamento');
+    Route::get('verSugestao/{id}','SugestaoController@verSugestao');
+
+    Route::get('listarSugestaoEstudante', function(){
+        return view('sugestao.listarSugestaoEstudante');
+    });
+    Route::get('pegaSugestoesEstudante','SugestaoController@pegaSugestoesEstudante');
+    Route::get('verEnvolventes/{id}','SugestaoController@verEnvolventes');
+    Route::get('sairGrupo/{idsugestao}/{idpessoa}','SugestaoController@sairGrupo');
+    
+});
+
+//Rotas para configurações
+Route::name('configuracao')->group(function (){
+    Route::get('listarAreaAplicacao', function(){
+        return view('configuracao.listarAreaAplicacao');
+    });
+    Route::get('pegaAreasAplicacao','AreaController@pegaAreasAplicacao');
+    Route::post('registarArea','AreaController@registarArea');
+    Route::post('editarArea','AreaController@editarArea');
+    Route::get('eliminarArea/{id}','AreaController@softDeleteArea');
+    Route::get('restaurarArea/{id}','AreaController@restaurarArea');
 });
 
 

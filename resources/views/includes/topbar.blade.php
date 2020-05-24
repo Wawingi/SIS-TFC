@@ -167,7 +167,7 @@
                 <ul class="navigation-menu">
 
                     <li class="has-submenu">
-                        <a href="#">
+                        <a href="{{ url('home') }}">
                             <i class="remixicon-home-4-fill"></i>Inicio 
                         </a>
                     </li>
@@ -195,16 +195,11 @@
                             <i class="remixicon-book-open-fill"></i>Gestão de Temas <div class="arrow-down"></div>
                         </a>
                         <ul class="submenu">
-                            <li class="has-submenu">
-                                <a href="#"><i class="fe-file-text mr-1"></i>Sugestão de Temas<div class="arrow-down"></div></a>
-                                <ul class="submenu">
-                                    <li>
-                                        <a href="{{ url('listarSugestaoDepartamento')}}">Sugestões do Departamento</a>
-                                    </li>
-                                    <li>
-                                        <a href="admin-nestable.html">Sugestões de Estudantes</a>
-                                    </li>
-                                </ul>
+                            <li>
+                                <a href="{{ url('listarSugestaoEstudante')}}"><i class="fe-file-text mr-1"></i>Proposta de Estudante</a>     
+                            </li>
+                            <li>
+                                <a href="{{ url('listarSugestaoDepartamento')}}"><i class="fe-file-text mr-1"></i>Sugestão do Departamento</a>
                             </li>
                             <li class="has-submenu">
                                 <a href="#"><i class="fe-list mr-1"></i>Listar Temas<div class="arrow-down"></div></a>
@@ -227,6 +222,18 @@
                         <ul class="submenu">
                             <li>
                                 <a href="#"><i class="fe-file-text mr-1"></i>Registar Tema</a>
+                            </li>
+                            
+                        </ul>
+                    </li>
+
+                    <li class="has-submenu">
+                        <a href="#">
+                            <i class="remixicon-settings-3-fill"></i>Configurações <div class="arrow-down"></div>
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                <a href="{{ url('listarAreaAplicacao')}}"><i class="fe-file-text mr-1"></i>Linha de Investigação</a>
                             </li>
                             
                         </ul>

@@ -50,14 +50,12 @@ class UtilizadorController extends Controller
         $dados=session('dados_logado');
 
         //Se utilizador for funcionário então pegamos o ID do seu departamento, senão então o departamento será sempre do logado 
-        if($request->input('tipo')==1){
-            $departamento = new Departamento;
-            $departamento = $departamento->pegaDepartamentoId($request->input('departamento'));
-            $id_departamento = $departamento[0]->id;
+        if($request->input('tipo')==1 || ($request->input('tipo')==2 && Auth::user()->tipo == 1)){
+            $id_departamento = Departamento::pegaDepartamentoId($request->input('departamento'));
         }else{
             $id_departamento = $dados[0]->id_departamento;
         }
-        
+
         //Regista a pessoa e retorna o ID gerado
         $idPessoa = DB::table('pessoa')->insertGetId(
             ['nome' => $request->nome,'data_nascimento' =>$request->data_nascimento,'telefone' => $request->telefone,'bi' => $request->bi,'genero' => $request->genero]
@@ -70,11 +68,23 @@ class UtilizadorController extends Controller
             );
             
             if(Auth::user()->tipo == 1){
-                $funcionario = new Funcionario;
-                $funcionario->id_pessoa = $idPessoa;
-                $funcionario->funcao = $request->input('funcao');
-                if($funcionario->save()){
-                    $tipoUtilizador = 1;
+                switch($request->input('tipo')){
+                    case 1:
+                            $funcionario = new Funcionario;
+                            $funcionario->id_pessoa = $idPessoa;
+                            $funcionario->funcao = $request->input('funcao');
+                            if($funcionario->save()){
+                                $tipoUtilizador = 1;
+                            }
+                            break;    
+                    case 2:
+                            $docente = new Docente;
+                            $docente->id_pessoa = $idPessoa;
+                            $docente->nivel_academico = $request->input('nivel_academico');                           
+                            if($docente->save()){
+                                $tipoUtilizador = 2;
+                            }
+                            break;
                 }
             }else if(Auth::user()->tipo == 2 && $request->input('tipo')==2){
                 $docente = new Docente;

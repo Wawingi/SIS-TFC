@@ -46,7 +46,18 @@ class PerfilController extends Controller
                 ->where('faculdade.nome','=',$sessao[0]->faculdade)
                 ->where('pessoa.id','<>',$sessao[0]->id_pessoa)
                 ->paginate(3);
-                return view('perfil.listarUtilizadores',compact('dados'));
+                //lista CHEFE DEPARTAMENTO
+            $dadosChefeDepartamento = DB::table('pessoa')
+                ->join('docente', 'pessoa.id', '=', 'docente.id_pessoa')
+                ->join('users', 'pessoa.id', '=', 'users.id_pessoa')
+                ->join('pessoa_departamento', 'pessoa.id', '=', 'pessoa_departamento.id_pessoa')
+                ->join('departamento', 'departamento.id', '=', 'pessoa_departamento.id_departamento')
+                ->join('faculdade', 'faculdade.id', '=', 'departamento.id_faculdade')
+                ->select('pessoa.id','pessoa.nome', 'departamento.nome as departamento')
+                ->where('faculdade.nome','=',$sessao[0]->faculdade)
+                ->where('docente.privilegio','=',1)
+                ->paginate(13);
+                return view('perfil.listarUtilizadores',compact('dados','dadosChefeDepartamento'));
         }else if(Auth::user()->tipo == 2){
             //lista de docentes
             $dados = DB::table('pessoa')
@@ -116,7 +127,7 @@ class PerfilController extends Controller
 
         if($request->senha == $request->confirmarsenha){
             DB::table('users')
-                ->where('estado','activo')            
+                ->where('estado',1)            
                 ->where('id','=',Auth::user()->id)
                 ->update(['password' => Hash::make($request->senha),'qtd_vezes'=>1]);
                 return back()->with('info','Senha definida com sucesso, pode efectuar o login');

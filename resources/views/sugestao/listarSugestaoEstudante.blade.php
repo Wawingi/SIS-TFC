@@ -14,7 +14,7 @@
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">SIS TFC</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Temas</a></li>
-                            <li class="breadcrumb-item active">Sugestão do Departamento</li>
+                            <li class="breadcrumb-item active">Sugestão de Estudantes</li>
                         </ol>
                     </div>
                 </div>
@@ -44,15 +44,14 @@
 
         <!-- Inclusão da Modal -->
         @include('includes.sugestao.modalSugestao')
-        @include('includes.departamento.modalEditarDepartamento')
 
         <!--Inicio do conteudo-->
             <br>
-        @if($sessao[0]->tipo==2) 
+        @if($sessao[0]->tipo==3) 
             <div class="card-box">           
                 <div class="row">
-                    <div class="col-lg-12">             
-                        <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#exampleModalScrollable"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Sugestão</button>     
+                    <div class="col-lg-12">                  
+                        <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#exampleModalScrollable"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Proposta</button>
                     </div>
                 </div>
             </div>      
@@ -84,9 +83,42 @@
     </div> 
 </div>
 <script>
+
+
+    /*$('#envolventes').hide();
+    
+    $(document).ready(function(){
+        $('.switchery').click(function(){
+            if($(this).prop("checked") == true){
+                $('#envolventes').hide();
+            }else{
+                $('#envolventes').show();
+            }
+        });
+    });    
+
+    $(document).ready(function(){
+        $('input[type="checkbox"]').click(function(){
+            if($(this).prop("checked") == true){
+                $('#envolventes').show();
+            }else{
+                $('#envolventes').hide();
+            }
+        });
+    });*/
+
+    //Função para escolha multipla de nomes de envolventes
+    $(document).ready(function() {
+		$('.js-example-basic-multiple').select2({
+            tags: "true",
+            placeholder: "Selecione os envolventes",
+            allowClear: true
+        });
+	});
+
     function carregarDataTable(){
         $.ajax({
-            url: "{{ url('pegaSugestoesDPTO') }}",
+            url: "{{ url('pegaSugestoesEstudante') }}",
             success:function(data){
                 $('#dataTable').html(data);
                 $('#paginationFullNumbers').DataTable({

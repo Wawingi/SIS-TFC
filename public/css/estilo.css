@@ -37,3 +37,34 @@ hr {
     margin-left: 150px;
     display: none;
 }
+
+.descricaoSugestao{
+    margin-bottom: -30px;
+}
+
+
+.descricaoSugestao h5{
+    text-align: center;
+}
+
+.table-title{
+    text-align: center;
+    margin-top: -5px;
+    margin-bottom: 10px;
+    color:#3bafda;
+}
+
+#cabeca-modal{
+    background-color:#3bafda;
+}
+
+#cabeca-modal h4{
+   color:white;
+}
+
+.SairGrupo{
+    color:#fb4f4f;
+}
+.sairGrupo:hover{
+    box-shadow: 0 0 11px #3bafda;
+}

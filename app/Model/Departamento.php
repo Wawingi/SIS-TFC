@@ -11,7 +11,7 @@ class Departamento extends Model
     
     
     public static function pegaDepartamentoId($nome){
-        return DB::table('departamento')->select('id','nome')->where('nome',$nome)->get();
+        return DB::table('departamento')->select('id','nome')->where('nome',$nome)->value('id');
     }
 
     public static function listarDepartamentos(){
