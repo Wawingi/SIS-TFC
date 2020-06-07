@@ -72,18 +72,18 @@ class SugestaoController extends Controller
                         //Verifica se envolventes é um array não null, trazendo varios estudantes associados a uma sugestao
                         if($request->envolventes == null){
                             if(DB::table('estudante_sugestao')->insert(
-                                ['id_estudante' => $sessao[0]->id_pessoa, 'id_sugestao' => $idSugestao]
+                                ['id_estudante' => $sessao[0]->id_pessoa, 'id_sugestao' => $idSugestao, 'estado'=>1]
                             )){
                                 echo 'Sucesso';
                             };
                         } else {
                             DB::table('estudante_sugestao')->insert(
-                                ['id_estudante' => $sessao[0]->id_pessoa,'id_sugestao' => $idSugestao]
+                                ['id_estudante' => $sessao[0]->id_pessoa,'id_sugestao' => $idSugestao,'estado'=>1]
                             );
                             foreach($request->envolventes as $envolvente){
                                 $idPessoa=Pessoa::pegaIdPessoaByNome($envolvente);
                                 DB::table('estudante_sugestao')->insert(
-                                    ['id_estudante' => $idPessoa, 'id_sugestao' => $idSugestao]
+                                    ['id_estudante' => $idPessoa, 'id_sugestao' => $idSugestao,'estado'=>0]
                                 );
                             }                           
                             echo  'Sucesso';
@@ -93,10 +93,11 @@ class SugestaoController extends Controller
         }             
     }
 
-    public function verSugestao($id){
+    public function verSugestao($id,$notificacao=null){
         $id=base64_decode($id);
+        $notificacao=base64_decode($notificacao);
         $sugestao=Sugestao::verSugestao($id);
-        return view('sugestao.verSugestao',compact('sugestao'));
+        return view('sugestao.verSugestao',compact('sugestao','notificacao'));
     }
 
     //ver os envolventes de um tema proposto por estudantes
@@ -149,5 +150,20 @@ class SugestaoController extends Controller
             ->delete()){
             return back()->with('info','Departamento eliminado com sucesso.');
         }
+    }
+
+    //Função para aceitar a proposta na qual um estudante foi adicionada
+    public function aceitarProposta($idPessoa,$idSugestao){
+        //estado 0: pendente sobre aceitação em trabalhar
+        //estado 1: aceite trabalhar numa proposta
+        if(DB::table('estudante_sugestao')          
+                ->where('id_estudante','=',$idPessoa)
+                ->where('id_sugestao','=',$idSugestao)
+                ->update(['estado' => 1])){
+            $info = 'Sucesso';
+        } else {
+            $info = 'Erro';
+        }
+        echo $info;     
     }
 }

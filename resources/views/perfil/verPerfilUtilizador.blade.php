@@ -32,7 +32,7 @@
         @include('includes.modalconfirma')
         <!-- Inclusão da Moda atribuir perfil -->
         @include('includes.modaladicionarperfil')
-        <br><br>    
+        <br><br> 
         <div class="row">
             <div class="col-md-12">
                 <div class="card-box">

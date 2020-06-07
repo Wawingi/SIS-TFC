@@ -50,9 +50,21 @@
         @if($sessao[0]->tipo==3) 
             <div class="card-box">           
                 <div class="row">
-                    <div class="col-lg-12">                  
-                        <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#exampleModalScrollable"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Proposta</button>
-                    </div>
+                    <?php                   
+                        $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pessoa,1);
+                        if(count($jaSugestao) <= 0){
+                    ?> 
+                        <div class="col-lg-12">                  
+                            <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#exampleModalScrollable"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Proposta</button>
+                        </div>
+                    <?php }else{ ?>
+                        <div class="col-lg-6">                  
+                            <h5 class="SairGrupo"><i class="mdi mdi-file-lock"></i> JÁ POSSUI UMA PROPOSTA  ASSOCIADA.</h5>
+                        </div>
+                        <div class="col-lg-6">
+                            <a href='{{ url("verSugestao/".base64_encode($jaSugestao[0]->id_sugestao)) }}' class="btn-rounded btn btn-success btn-sm waves-effect waves-light float-right"><i class="fas fa-folder-open mr-1"></i>Visualizar Proposta</a>
+                        </div>
+                    <?php } ?>
                 </div>
             </div>      
         @endif

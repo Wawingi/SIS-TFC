@@ -1,4 +1,3 @@
-
 @extends('layouts.inicio')
 @section('content')
 <div class="wrapper">

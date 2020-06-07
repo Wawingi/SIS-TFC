@@ -25,7 +25,7 @@
                         <input type="checkbox">
                     </div>
                     <?php                   
-                        $envolventes = App\Model\Pessoa::pegaEstudantesCurso($sessao[0]->id_departamento,$sessao[0]->id_pessoa);
+                        $envolventes = App\Model\Pessoa::pegaEstudantesFaculdade($sessao[0]->faculdade,$sessao[0]->id_pessoa);
                     ?> 
                     <div id="envolventesp" class="form-group">
                         <label for="name">Envolventes</label>

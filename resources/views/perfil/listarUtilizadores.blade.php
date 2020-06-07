@@ -1,4 +1,3 @@
-
 @extends('layouts.inicio')
 @section('content')
 <?php 
@@ -47,56 +46,69 @@
                                 </ul>
                                 <hr>            
                                 <div class="tab-content mb-0 b-0">
-                                    <!-- Listagem de docentes-->
+                                    <!-- Listagem de funcionarios-->
                                     <div class="tab-pane fade" id="tab12">
                                         <div class="row">
-                                            @foreach($dados as $dado)
-                                            <div class="col-lg-4">
-                                                <div id="card-view" class="text-center card-box ribbon-box">
-                                                    <div class="clearfix"></div>
-                                                    <div class="pt-2 pb-2">
-                                                        <img src="{{ asset('images/users/user.jpg')}}" class="rounded-circle img-thumbnail avatar-xl" alt="profile-image">
-
-                                                        <h4 class="mt-3 font-17">{{$dado->nome}}</h4>
-                                                        <p class="text-muted"><?php try{ echo $dado->funcao; }Catch(Exception $e){} ?> <span> </p>
-                                                        <p class="text-muted"><span>{{$dado->bi}}</span></p>
-                                                        <hr>
-                                                        <a href='{{ url("verperfilUtilizador/".base64_encode($dado->id)) }}' class="btn btn-primary btn-sm waves-effect waves-light"><i class="mdi mdi-account-badge-horizontal mr-1"></i> Ver Perfil</a>
-                                                        <a href="" class="btn btn-danger btn-sm waves-effect"><i class=" mdi mdi-delete-forever mr-1"></i> Eliminar Conta</a>
-                                                    </div> <!-- end .padding -->
-                                                </div> <!-- end card-box-->
+                                            <div class="table-responsive">
+                                                <table id="paginationFuncionario" class="table table-centered mb-0">
+                                                    <thead class="font-13 bg-light text-muted">
+                                                        <tr>
+                                                            <th class="font-weight-medium"></th>
+                                                            <th class="font-weight-medium">Nome Completo</th>
+                                                            <th class="font-weight-medium">BI</th>
+                                                            <th class="font-weight-medium">Função</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($dados as $dado)
+                                                        <tr>
+                                                            <td >
+                                                                <img src="{{ url('images/users/user.jpg') }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle"> 
+                                                            </td>
+                                                            <td><a href='{{ url("verperfilUtilizador/".base64_encode($dado->id)) }}' class="btn btn-outline-secondary btn-sm waves-effect waves-light">{{$dado->nome}}</a></td>
+                                                            <td>{{$dado->bi}}</td>
+                                                            <td>{{$dado->funcao}}</td>
+                                                        </tr>
+                                                        @endforeach   
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                            @endforeach   
                                         </div> 
-                                        {{ $dados->links() }}
+                                        
                                     </div>
-                                    <!-- Listagem de estudantes-->                                
+                                    <!-- Listagem de chefes de departamento-->                                
                                     <div class="tab-pane fade" id="tab22">
                                         <div class="row">
-                                            @foreach($dadosChefeDepartamento as $dado)
-                                            <div class="col-lg-4">
-                                                <div id="card-view" class="text-center card-box ribbon-box">
-                                                    <div class="clearfix"></div>
-                                                    <div class="pt-2 pb-2">
-                                                        <img src="{{ asset('images/users/user.jpg')}}" class="rounded-circle img-thumbnail avatar-xl" alt="profile-image">
-
-                                                        <h4 class="mt-3 font-17">{{$dado->nome}}</h4>
-                                                        <p class="text-muted"><?php try{ echo $dado->funcao; }Catch(Exception $e){} ?> <span> </p>
-                                                        <p class="text-muted"><span>{{$dado->departamento}}</span></p>
-                                                        <hr>
-                                                        <a href='{{ url("verperfilUtilizador/".base64_encode($dado->id)) }}' class="btn btn-primary btn-sm waves-effect waves-light"><i class="mdi mdi-account-badge-horizontal mr-1"></i> Ver Perfil</a>
-                                                        <a href="" class="btn btn-danger btn-sm waves-effect"><i class=" mdi mdi-delete-forever mr-1"></i> Eliminar Conta</a>
-                                                    </div> <!-- end .padding -->
-                                                </div> <!-- end card-box-->
-                                            </div>
-                                            @endforeach      
-                                        </div> 
-                                        {{ $dados->links() }}                          
+                                            <div class="table-responsive">
+                                                <table id="paginationChefe" class="table table-centered mb-0">
+                                                    <thead class="font-13 bg-light text-muted">
+                                                        <tr>
+                                                            <th class="font-weight-medium"></th>
+                                                            <th class="font-weight-medium">Nome Completo</th>
+                                                            <th class="font-weight-medium">BI</th>
+                                                            <th class="font-weight-medium">Função</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($dadosChefeDepartamento as $dado)
+                                                        <tr>
+                                                            <td >
+                                                                <img src="{{ url('images/users/user.jpg') }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle"> 
+                                                            </td>
+                                                            <td><a href='{{ url("verperfilUtilizador/".base64_encode($dado->id)."/".base64_encode($dado->tipo)) }}' class="btn btn-outline-secondary btn-sm waves-effect waves-light">{{$dado->nome}}</a></td>
+                                                            <td>{{$dado->bi}}</td>
+                                                            <td>{{$dado->departamento}}</td>
+                                                        </tr>
+                                                        @endforeach   
+                                                    </tbody>
+                                                </table>
+                                            </div>                                                
+                                        </div>                       
                                     </div>
                                     <div class="clearfix"></div>
-                                </div> <!-- tab-content -->
-                            </div> <!-- end #btnwizard-->
-                        </div> <!-- end card-body -->
+                                </div> 
+                            </div> 
+                        </div> 
                     </div>
                 </div>
             </div>
@@ -128,48 +140,60 @@
                                     <!-- Listagem de docentes-->
                                     <div class="tab-pane fade" id="tab12">
                                         <div class="row">
-                                            @foreach($dados as $dado)
-                                            <div class="col-lg-4">
-                                                <div id="card-view" class="text-center card-box ribbon-box">
-                                                    <div class="clearfix"></div>
-                                                    <div class="pt-2 pb-2">
-                                                        <img src="{{ asset('images/users/user.jpg')}}" class="rounded-circle img-thumbnail avatar-xl" alt="profile-image">
-
-                                                        <h4 class="mt-3 font-17">{{$dado->nome}}</h4>
-                                                        <p class="text-muted"><?php try{ echo $dado->funcao; }Catch(Exception $e){} ?> <span> </p>
-                                                        <p class="text-muted"><span>{{$dado->bi}}</span></p>
-                                                        <hr>
-                                                        <a href='{{ url("verperfilUtilizador/".base64_encode($dado->id)) }}' class="btn btn-primary btn-sm waves-effect waves-light"><i class="mdi mdi-account-badge-horizontal mr-1"></i> Ver Perfil</a>
-                                                        <a href="" class="btn btn-danger btn-sm waves-effect"><i class=" mdi mdi-delete-forever mr-1"></i> Eliminar Conta</a>
-                                                    </div> <!-- end .padding -->
-                                                </div> <!-- end card-box-->
-                                            </div>
-                                            @endforeach      
+                                            <div class="table-responsive">
+                                                <table id="paginationChefe" class="table table-centered mb-0">
+                                                    <thead class="font-13 bg-light text-muted">
+                                                        <tr>
+                                                            <th class="font-weight-medium"></th>
+                                                            <th class="font-weight-medium">Nome Completo</th>
+                                                            <th class="font-weight-medium">BI</th>
+                                                            <th class="font-weight-medium">Email</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($dados as $dado)
+                                                        <tr>
+                                                            <td >
+                                                                <img src="{{ url('images/users/user.jpg') }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle"> 
+                                                            </td>
+                                                            <td><a href='{{ url("verperfilUtilizador/".base64_encode($dado->id)) }}' class="btn btn-outline-secondary btn-sm waves-effect waves-light">{{$dado->nome}}</a></td>
+                                                            <td>{{$dado->bi}}</td>
+                                                            <td>{{$dado->email}}</td>
+                                                        </tr>
+                                                        @endforeach   
+                                                    </tbody>
+                                                </table>
+                                            </div>     
                                         </div> 
-                                        {{ $dados->links() }}
                                     </div>
                                     <!-- Listagem de estudantes-->                                
                                     <div class="tab-pane fade" id="tab22">
                                         <div class="row">
-                                            @foreach($dadosEstudante as $dado)
-                                                <div class="col-lg-4">
-                                                    <div id="card-view" class="text-center card-box ribbon-box">                 
-                                                        <div class="clearfix"></div>
-                                                        <div class="pt-2 pb-2">
-                                                            <img src="{{ asset('images/users/user.jpg')}}" class="rounded-circle img-thumbnail avatar-xl" alt="profile-image">
-
-                                                            <h4 class="mt-3 font-17">{{$dado->nome}}</h4>
-                                                            <p class="text-muted"><?php try{ echo $dado->funcao; }Catch(Exception $e){} ?> <span> </p>
-                                                            <p class="text-muted"><span>{{$dado->bi}}</span></p>
-                                                            <hr>
-                                                            <a href='{{ url("verperfilUtilizador/".base64_encode($dado->id)."/".base64_encode($dado->tipo)) }}' class="btn btn-primary btn-sm waves-effect waves-light"><i class="mdi mdi-account-badge-horizontal mr-1"></i> Ver Perfil</a>
-                                                            <a href="" class="btn btn-danger btn-sm waves-effect"><i class=" mdi mdi-delete-forever mr-1"></i> Eliminar Conta</a>
-                                                        </div> <!-- end .padding -->
-                                                    </div> <!-- end card-box-->
-                                                </div>
-                                            @endforeach 
-                                        </div>
-                                        {{ $dadosEstudante->links() }}                         
+                                            <div class="table-responsive">
+                                                <table id="paginationEstudante" class="table table-centered mb-0">
+                                                    <thead class="font-13 bg-light text-muted">
+                                                        <tr>
+                                                            <th class="font-weight-medium"></th>
+                                                            <th class="font-weight-medium">Nome Completo</th>
+                                                            <th class="font-weight-medium">BI</th>
+                                                            <th class="font-weight-medium">Curso</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($dadosEstudante as $dado)
+                                                        <tr>
+                                                            <td >
+                                                                <img src="{{ url('images/users/user.jpg') }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle"> 
+                                                            </td>
+                                                            <td><a href='{{ url("verperfilUtilizador/".base64_encode($dado->id)."/".base64_encode($dado->tipo)) }}' class="btn btn-outline-secondary btn-sm waves-effect waves-light">{{$dado->nome}}</a></td>
+                                                            <td>{{$dado->bi}}</td>
+                                                            <td>{{$dado->email}}</td>
+                                                        </tr>
+                                                        @endforeach   
+                                                    </tbody>
+                                                </table>
+                                            </div>     
+                                        </div>                
                                     </div>
 
                                     <div class="clearfix"></div>
@@ -182,4 +206,20 @@
         <?php } ?>     
     </div> 
 </div>
+
+<script>
+	$(document).ready(function () {
+		//Pagination full Numbers
+		$('#paginationFuncionario').DataTable({
+			"pagingType": "full_numbers"
+		});
+        $('#paginationChefe').DataTable({
+			"pagingType": "full_numbers"
+		});
+        $('#paginationEstudante').DataTable({
+			"pagingType": "full_numbers"
+		});
+        
+	});
+</script>
 @stop

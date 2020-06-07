@@ -1,12 +1,22 @@
-<?php 
-    //sessão dos dados do utilizador logado
-    $dados=session('dados_logado'); 
-?>
 <header id="topnav">
     <!-- Inicio TopBar -->
     <div class="navbar-custom">
         <div class="container-fluid">
             
+            <!-- LOGO -->
+            <div class="logo-box">
+                <a href="{{ url('home') }}" class="logo text-center">
+                    <span class="logo-lg">
+                        <img src="{{ url('images/logo-light.png') }}" alt="" height="24">
+                        <!-- <span class="logo-lg-text-light">Xeria</span> -->
+                    </span>
+                    <span class="logo-sm">
+                        <!-- <span class="logo-sm-text-dark">X</span> -->
+                        <img src="{{ url('images/logo-light.png') }}" alt="" height="24">
+                    </span>
+                </a>
+            </div>
+
             <ul class="list-unstyled topnav-menu float-right mb-0">
 
                 <li class="dropdown notification-list">
@@ -35,6 +45,26 @@
                         </div>
                     </form>
                 </li>
+
+                <!-- verificar se o estudante foi escolhido numa sugestão -->
+                <?php             
+                    $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pessoa,0);
+                   
+                ?> 
+                @if(count($jaSugestao) > 0)
+                    <li class="dropdown notification-list">
+                        <a class="nav-link dropdown-toggle  waves-effect waves-light" href='{{ url("verSugestao/".base64_encode($jaSugestao[0]->id_sugestao)."/".base64_encode(1)) }}'>
+                            <i class=" fas fa-book-reader noti-icon"></i>
+                            <span class="badge badge-danger rounded-circle noti-icon-badge">{{count($jaSugestao)}}</span>
+                        </a>
+                    </li>
+                @else
+                    <li class="dropdown notification-list">
+                        <a class="nav-link dropdown-toggle  waves-effect waves-light" href='#'>
+                            <i class=" fas fa-book-reader noti-icon"></i>
+                        </a>
+                    </li>
+                @endif
 
                 <li class="dropdown notification-list">
                     <a class="nav-link dropdown-toggle  waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
@@ -80,7 +110,7 @@
                     <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                         <img src="{{ url('images/users/user.jpg') }}" alt="user-image" class="rounded-circle">
                         <span class="pro-user-name ml-1">
-                        {{ $dados[0]->nome }} || <?php if($dados[0]->tipo==1){echo 'Funcionário';}if($dados[0]->tipo==2){echo 'Docente';}if($dados[0]->tipo==3){echo 'Estudante';} ?> <i class="mdi mdi-chevron-down"></i><br> 
+                        {{ $sessao[0]->nome }} || <?php if($sessao[0]->tipo==1){echo 'Funcionário';}if($sessao[0]->tipo==2){echo 'Docente';}if($sessao[0]->tipo==3){echo 'Estudante';} ?> <i class="mdi mdi-chevron-down"></i><br> 
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
@@ -112,19 +142,7 @@
 
             </ul>
 
-            <!-- LOGO -->
-            <div class="logo-box">
-                <a href="{{ url('home') }}" class="logo text-center">
-                    <span class="logo-lg">
-                        <img src="{{ url('images/logo-light.png') }}" alt="" height="24">
-                        <!-- <span class="logo-lg-text-light">Xeria</span> -->
-                    </span>
-                    <span class="logo-sm">
-                        <!-- <span class="logo-sm-text-dark">X</span> -->
-                        <img src="{{ url('images/logo-light.png') }}" alt="" height="24">
-                    </span>
-                </a>
-            </div>
+           
 
             @can('criar_user')
                 <ul class="list-unstyled topnav-menu topnav-menu-left m-0">

@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    
-<!-- Mirrored from coderthemes.com/minton/layouts/horizontal/blue/pages-starter.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 06 Jun 2019 10:21:44 GMT -->
     <head>
         <meta charset="utf-8" />
         
@@ -33,6 +31,10 @@
         <script src="{{ asset('js/additional-methods.js') }}"></script>
         <script src="{{ asset('js/datatables2.min.js') }}" defer></script>
         <script src="{{ asset('js/select2.min.js') }}" defer></script>
+        <?php 
+            //sessão dos dados do utilizador logado
+            $sessao=session('dados_logado'); 
+        ?>
         <!-- PAGINA INICIAL PARA USER LOGADO -->
         <!-- TopBar-->
             @include('includes.topbar')

@@ -45,7 +45,7 @@ class PerfilController extends Controller
                 ->select('pessoa.id','pessoa.nome', 'funcionario.funcao', 'pessoa.bi','faculdade.nome as faculdade')
                 ->where('faculdade.nome','=',$sessao[0]->faculdade)
                 ->where('pessoa.id','<>',$sessao[0]->id_pessoa)
-                ->paginate(3);
+                ->get();
                 //lista CHEFE DEPARTAMENTO
             $dadosChefeDepartamento = DB::table('pessoa')
                 ->join('docente', 'pessoa.id', '=', 'docente.id_pessoa')
@@ -53,10 +53,10 @@ class PerfilController extends Controller
                 ->join('pessoa_departamento', 'pessoa.id', '=', 'pessoa_departamento.id_pessoa')
                 ->join('departamento', 'departamento.id', '=', 'pessoa_departamento.id_departamento')
                 ->join('faculdade', 'faculdade.id', '=', 'departamento.id_faculdade')
-                ->select('pessoa.id','pessoa.nome', 'departamento.nome as departamento')
+                ->select('pessoa.id','pessoa.nome','pessoa.bi','users.tipo','departamento.nome as departamento')
                 ->where('faculdade.nome','=',$sessao[0]->faculdade)
                 ->where('docente.privilegio','=',1)
-                ->paginate(13);
+                ->get();
                 return view('perfil.listarUtilizadores',compact('dados','dadosChefeDepartamento'));
         }else if(Auth::user()->tipo == 2){
             //lista de docentes
@@ -65,19 +65,19 @@ class PerfilController extends Controller
                 ->join('users', 'pessoa.id', '=', 'users.id_pessoa')
                 ->join('pessoa_departamento', 'pessoa.id', '=', 'pessoa_departamento.id_pessoa')
                 ->join('departamento', 'departamento.id', '=', 'pessoa_departamento.id_departamento')
-                ->select('pessoa.id','pessoa.nome', 'pessoa.bi')
+                ->select('pessoa.id','pessoa.nome', 'pessoa.bi','users.email')
                 ->where('departamento.nome','=',$sessao[0]->departamento)
                 ->where('pessoa.id','<>',$sessao[0]->id_pessoa)
-                ->paginate(3);
+                ->get();
             //lista de estudantes
             $dadosEstudante = DB::table('pessoa')
                 ->join('estudante', 'pessoa.id', '=', 'estudante.id_pessoa')
                 ->join('users', 'pessoa.id', '=', 'users.id_pessoa')
                 ->join('pessoa_departamento', 'pessoa.id', '=', 'pessoa_departamento.id_pessoa')
                 ->join('departamento', 'departamento.id', '=', 'pessoa_departamento.id_departamento')
-                ->select('pessoa.id','pessoa.nome', 'pessoa.bi','users.tipo')
+                ->select('pessoa.id','pessoa.nome', 'pessoa.bi','users.tipo','users.email')
                 ->where('departamento.nome','=',$sessao[0]->departamento)
-                ->paginate(3);
+                ->get();
                 return view('perfil.listarUtilizadores',compact('dados','dadosEstudante'));
         }
     }
@@ -95,20 +95,27 @@ class PerfilController extends Controller
     public function verPerfilUtilizador($id,$tipo=null){    
         $id = base64_decode($id);
         $tipo = base64_decode($tipo);
-        $dados = Pessoa::pegaDadosUtilizador($id,$tipo);  
+        $dados = Pessoa::pegaDadosUtilizador($id,$tipo);
         return view('perfil.verPerfilUtilizador',compact('dados'));
     }
 
     public function pesquisarUtilizador(Request $request){
+        $sessao = session('dados_logado');
         $dados = Pessoa::pegaIdPessoaByBI($request->bi);
 
         if(count($dados) > 0){
-            $dados = Pessoa::pegaDadosUtilizador($dados[0]->pessoa_id,$dados[0]->tipo); 
+            $dados = Pessoa::pegaDadosUtilizadorPesquisado($dados[0]->pessoa_id,$dados[0]->tipo,$sessao[0]->tipo,$sessao[0]->id_faculdade);
+            if($dados != null){
+                if(count($dados)==0){
+                    return back()->with('info','Nenhum utilizador encontrado'); 
+                }
+                return view('perfil.verPerfilUtilizador',compact('dados'));    
+            }else{
+                return back()->with('info','Nenhum utilizador encontrado');   
+            }
         }else{     
             return back()->with('info','Nenhum utilizador encontrado');    
         }
-
-        return view('perfil.verPerfilUtilizador',compact('dados'));    
     }
 
     //função para redefinir a senha do utilizador

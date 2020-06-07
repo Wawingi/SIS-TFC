@@ -44,8 +44,16 @@
 
         <!-- Inclusão da Modal -->
         @include('includes.sugestao.modalTrabalharSugestao')
-       
         <!--Inicio do conteudo-->
+        @if($notificacao==1)
+            <div class="alert alert-warning" role="alert">
+                <i class="mdi mdi-alert-outline mr-2"></i><strong class="SairGrupo">Foste selecionado a fazer parte deste grupo para desenvolver o tema abaixo</strong> 
+                <div class="button-list">
+                    <a style="bottom:32px" href="#" class="NegarProposta btn btn-danger btn-rounded btn-sm waves-effect waves-light float-right"><i class="mdi mdi-cancel mr-1"></i>Negar Proposta</a>
+                    <a style="bottom:32px" href="#" idPessoa="{{$sessao[0]->id_pessoa}}" idSugestao="{{$sugestao[0]->id}}" class="AceitarProposta btn btn-success btn-rounded btn-sm waves-effect waves-light float-right"><i class="mdi mdi-checkbox-marked-circle-outline mr-1"></i>Aceitar Proposta</a>
+                </div>
+            </div>
+        @endif
             <br>
             <div class="card-box">           
                 <div class="row">
@@ -272,6 +280,79 @@
                 }
 		});
     });
+
+    
+    $(document).on('click','.AceitarProposta',function(e){
+        Swal.fire({
+			  title: 'Deseja realmente sair deste grupo?',
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: 'Sair',
+              cancelButtonText: 'Cancelar'
+			}).then((result) => {
+                if (result.value) {
+                    e.preventDefault();
+
+                    var idPessoa = $(this).attr('idPessoa');
+                    var idSugestao = $(this).attr('idSugestao');
+
+                    $.ajax({
+                        url: "{{ url('aceitarProposta') }}/"+idPessoa+"/"+idSugestao,
+                        type: "GET",
+                        success: function(data){
+                            carregarDataTable();
+                            Swal.fire(
+                            'Sucesso!',
+                            'Sugestão abandonada com Sucesso.',
+                            'success'
+                            )
+                        },
+                        error: function(e)
+                        {
+                            Swal.fire({
+                                text: 'Ocorreu um erro ao remover o perfil.',
+                                icon: 'error',
+                                confirmButtonText: 'Fechar'
+                            })
+                        }
+                    });
+                }
+		});
+    });
+
+
+    /*$(document).on('click','.AceitarProposta',function(e){
+        //e.preventDefault();
+        var idPessoa = $(this).attr('idPessoa');
+        var idSugestao = $(this).attr('idSugestao');
+
+        alert(idPessoa);
+
+        $.ajax({
+            url:"{{ url('aceitarProposta') }}/"+idPessoa+"/"+idSugestao,
+            type: "GET",
+            success:function(data){
+                if(data == "Sucesso"){
+                    Swal.fire({
+                        text: "sucesso.",
+                        icon: 'success',
+                        confirmButtonText: 'Fechar'
+                    }),
+                }            
+            },
+            error: function(e){
+                Swal.fire({
+                    text: 'Ocorreu um erro.',
+                    icon: 'error',
+                    confirmButtonText: 'Fechar'
+                })
+            }
+        });
+    });*/
+
+    
 
 </script>    
 @stop

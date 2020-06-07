@@ -38,6 +38,7 @@ class Sugestao extends Model
         ->join('curso','curso.id','=','estudante.id_curso')
         ->select('pessoa.id as id_pessoa','pessoa.nome','pessoa.bi','curso.nome as nome_curso')    
         ->where('sugestao.id','=',$idSugestao)
+        ->where('estudante_sugestao.estado','=',1)
         ->get();
     }
 }

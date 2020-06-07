@@ -77,7 +77,7 @@ Route::name('sugestao')->group(function () {
         return view('sugestao.listarSugestaoDepartamento');
     });
     Route::get('pegaSugestoesDPTO','SugestaoController@pegaSugestoesDepartamento');
-    Route::get('verSugestao/{id}','SugestaoController@verSugestao');
+    Route::get('verSugestao/{id}/{notificacao?}','SugestaoController@verSugestao');
 
     Route::get('listarSugestaoEstudante', function(){
         return view('sugestao.listarSugestaoEstudante');
@@ -85,6 +85,7 @@ Route::name('sugestao')->group(function () {
     Route::get('pegaSugestoesEstudante','SugestaoController@pegaSugestoesEstudante');
     Route::get('verEnvolventes/{id}','SugestaoController@verEnvolventes');
     Route::get('sairGrupo/{idsugestao}/{idpessoa}','SugestaoController@sairGrupo');
+    Route::get('aceitarProposta/{idPessoa}/{idSugestao}','SugestaoController@aceitarProposta');
     
 });
 
