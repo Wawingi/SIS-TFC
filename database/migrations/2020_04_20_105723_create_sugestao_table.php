@@ -17,6 +17,7 @@ class CreateSugestaoTable extends Migration
             $table->increments('id');
             $table->string('tema');
             $table->longText('descricao');
+            $table->integer('proveniencia');
             $table->integer('estado');
             $table->integer('visibilidade');
             $table->unsignedInteger('id_area');

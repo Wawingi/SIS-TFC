@@ -8,7 +8,7 @@
             @csrf
             <div class="form-group">
                 <label for="name">Nome</label>
-                <input required type="text" class="form-control" name="nome" placeholder="ex: Inovação Tecnológica">
+                <input type="text" class="form-control" name="nome" placeholder="ex: Inovação Tecnológica">
             </div>     
             <hr>
             <div class="text-right">

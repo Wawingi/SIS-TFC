@@ -16,7 +16,7 @@ class CreatePessoaDepartamentoTable extends Migration
         Schema::create('pessoa_departamento', function (Blueprint $table) {
             $table->unsignedInteger('id_pessoa');
             $table->unsignedInteger('id_departamento');
-            $table->int('tipo',1);
+            $table->integer('tipo');
             $table->foreign('id_pessoa')->references('id')->on('pessoa')->onDelete('cascade');           
             $table->foreign('id_departamento')->references('id')->on('departamento')->onDelete('cascade');
             $table->timestamps();

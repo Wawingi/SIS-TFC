@@ -50,7 +50,7 @@
                                 <div class="form-group">
                                     <label for="position">Activar trabalho em grupo</label>
                                     <br><input type="checkbox" data-plugin="switchery" data-color="#3bafda" data-size="small"/>
-                                    <input type="checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customSwitch1">
                                 </div>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                                     <option>{{$envolvente->nome}}</option>
                                 <?php endforeach ?>
                             </select>
-                        </div>
+                        </div>                   
                         
                     @endif
                     

@@ -101,8 +101,73 @@
     }
 
     carregarDataTable();
+
+            $( "#formularioSalvar" ).validate( {
+				rules: {					
+					nome: {
+						required: true,
+						minlength:6,
+					}
+				},
+				messages: {					
+					nome: {
+                        required: "Forneça a linha de investigação.",
+						minlength:"Tamanho muito inferior, forneça valor com mais de 5 dígitos"
+					}
+				},
+				errorElement: "em",
+				errorPlacement: function ( error, element ) {
+					// Add the `invalid-feedback` class to the error element
+					error.addClass( "invalid-feedback" );
+					if ( element.prop( "type" ) === "checkbox" ) {
+						error.insertAfter( element.next( "label" ) );
+					} else {
+						error.insertAfter( element );
+					}
+				},
+				highlight: function ( element, errorClass, validClass ) {
+					$( element ).addClass( "is-invalid" ).removeClass( "is-valid" );
+				},
+				unhighlight: function (element, errorClass, validClass) {
+					$( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
+				},
+
+                submitHandler: function(formularioSalvar){
+                    //e.preventDefault();
+                    var request = new FormData(this);
+        
+                    $.ajax({
+                        url:"{{ url('registarArea') }}",
+                        method: "POST",
+                        data: request,
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success:function(data){
+                            if(data == "Sucesso"){
+                                Custombox.modal.close();
+                                Swal.fire({
+                                    text: "Área registada com sucesso.",
+                                    icon: 'success',
+                                    confirmButtonText: 'Fechar',
+                                    timer: 1500
+                                }),
+                                $('#formularioSalvar')[0].reset();
+                                //carregarDataTable();
+                            }            
+                        },
+                        error: function(e){
+                            Swal.fire({
+                                text: 'Ocorreu um erro ao registar a área.',
+                                icon: 'error',
+                                confirmButtonText: 'Fechar'
+                            })
+                        }
+                    });
+                }
+            });
     
-    $('#formularioSalvar').submit(function(e){
+    $('#formularioSalvarrr').submit(function(e){
         e.preventDefault();
         var request = new FormData(this);
         

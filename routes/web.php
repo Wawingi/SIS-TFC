@@ -84,7 +84,7 @@ Route::name('sugestao')->group(function () {
     });
     Route::get('pegaSugestoesEstudante','SugestaoController@pegaSugestoesEstudante');
     Route::get('verEnvolventes/{id}','SugestaoController@verEnvolventes');
-    Route::get('sairGrupo/{idsugestao}/{idpessoa}','SugestaoController@sairGrupo');
+    Route::get('sairGrupo/{idsugestao}/{idpessoa}/{proveniencia}','SugestaoController@sairGrupo');
     Route::get('aceitarProposta/{idPessoa}/{idSugestao}','SugestaoController@aceitarProposta');
     
 });

@@ -52,7 +52,7 @@
             <div class="card-box">           
                 <div class="row">
                     <div class="col-lg-12">             
-                        <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#exampleModalScrollable"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Sugestão</button>     
+                        <button type="button" class="btn btn-rounded btn-primary waves-effect waves-light" data-toggle="modal" data-target="#exampleModalScrollable"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Sugestão</button>     
                     </div>
                 </div>
             </div>      

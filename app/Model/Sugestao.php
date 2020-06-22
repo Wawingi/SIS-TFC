@@ -41,4 +41,6 @@ class Sugestao extends Model
         ->where('estudante_sugestao.estado','=',1)
         ->get();
     }
+
+    
 }

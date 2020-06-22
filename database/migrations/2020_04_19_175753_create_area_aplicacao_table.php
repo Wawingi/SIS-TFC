@@ -16,10 +16,11 @@ class CreateAreaAplicacaoTable extends Migration
         Schema::create('area_aplicacao', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nome');
-            $table->integer('visibilidade',1);
-            $table->unsignedInteger('id_faculdade');          
-            $table->foreign('id_faculdade')->references('id')->on('faculdade')->onDelete('cascade');   
+            $table->integer('visibilidade');
+            $table->unsignedInteger('id_departamento');          
+            $table->foreign('id_departamento')->references('id')->on('departamento')->onDelete('cascade');   
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -47,9 +47,9 @@
         <!--Inicio do conteudo-->
         @if($notificacao==1)
             <div class="alert alert-warning" role="alert">
-                <i class="mdi mdi-alert-outline mr-2"></i><strong class="SairGrupo">Foste selecionado a fazer parte deste grupo para desenvolver o tema abaixo</strong> 
+                <i class="mdi mdi-alert-outline mr-2"></i><strong>Foste selecionado a fazer parte deste grupo para desenvolver o tema abaixo</strong> 
                 <div class="button-list">
-                    <a style="bottom:32px" href="#" class="NegarProposta btn btn-danger btn-rounded btn-sm waves-effect waves-light float-right"><i class="mdi mdi-cancel mr-1"></i>Negar Proposta</a>
+                    <a style="bottom:32px" href="#" idPessoa="{{$sessao[0]->id_pessoa}}" idSugestao="{{$sugestao[0]->id}}" class="NegarProposta btn btn-danger btn-rounded btn-sm waves-effect waves-light float-right"><i class="mdi mdi-cancel mr-1"></i>Negar Proposta</a>
                     <a style="bottom:32px" href="#" idPessoa="{{$sessao[0]->id_pessoa}}" idSugestao="{{$sugestao[0]->id}}" class="AceitarProposta btn btn-success btn-rounded btn-sm waves-effect waves-light float-right"><i class="mdi mdi-checkbox-marked-circle-outline mr-1"></i>Aceitar Proposta</a>
                 </div>
             </div>
@@ -71,6 +71,7 @@
                             <li id="task1" class="task-low">
                                 <br>
                                 <input type="hidden" name="sugestao_id" id="sugestao_id" class="form-control" value="{{$sugestao[0]->id}}">
+                                <input type="hidden" name="sugestao_proveniencia" id="sugestao_proveniencia" class="form-control" value="{{$sugestao[0]->proveniencia}}">
                                 <div id="labelespaco" class="row">
                                     <div class="col-5">
                                         <div class="form-group row mb-3">
@@ -147,9 +148,14 @@
                                 </div>
                             </li>                               
                         </ul><br>
-                        @if($sessao[0]->tipo==3 && $sugestao[0]->estado==1 && $sugestao[0]->proveniencia==1)
-                            <a href="#save-modal" class="btn btn-success btn-sm  waves-effect waves-light" data-toggle="modal" data-target="#modalTrabalharSugestao"><i class="mdi mdi-worker mr-1"></i> Trabalhar na Sugestão</a>
-                        @endif                      
+                        <?php                   
+                            $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pessoa,1);
+                        ?> 
+                        @if($sessao[0]->tipo==3 && $sugestao[0]->estado==1 && $sugestao[0]->proveniencia==1 && count($jaSugestao)<=0)
+                            <a href="#save-modal" class="btn btn-success btn-sm btn-rounded  waves-effect waves-light" data-toggle="modal" data-target="#modalTrabalharSugestao"><i class="mdi mdi-worker mr-1"></i> Trabalhar na Sugestão</a>
+                        @elseif($sessao[0]->tipo==3 && $sugestao[0]->estado==1 && $sugestao[0]->proveniencia==1 && count($jaSugestao)>=0)
+                            <h5 class="SairGrupo"><i class="mdi mdi-file-lock"></i> JÁ POSSUI UMA PROPOSTA  ASSOCIADA.</h5>                    
+                        @endif                     
                     </div>
                 </div>
             </div>      
@@ -255,18 +261,24 @@
                 if (result.value) {
                     e.preventDefault();
                     var sugestao_id = $('#sugestao_id').val(); //id da sugestão selecionada
+                    var sugestao_proveniencia = $('#sugestao_proveniencia').val();//proveniencia da sugestao
                     var idPessoa = $(this).attr('idPessoa');  //id da pessoa logada
 
                     $.ajax({
-                        url: "{{ url('sairGrupo') }}/"+sugestao_id+"/"+idPessoa,
+                        url: "{{ url('sairGrupo') }}/"+sugestao_id+"/"+idPessoa+"/"+sugestao_proveniencia,
                         type: "GET",
-                        success: function(data){
+                        success: function(data){         
+                            Swal.fire({
+                                text: 'Sugestão abandonada com Sucesso.',
+                                icon: 'success',
+                                confirmButtonText: 'Fechar',
+                                timer: 3500
+                            });
+                            if(data == 'Sucesso_Estudante'){
+                                location.href="{{ url('listarSugestaoEstudante') }}";
+                            }
                             carregarDataTable();
-                            Swal.fire(
-                            'Sucesso!',
-                            'Sugestão abandonada com Sucesso.',
-                            'success'
-                            )
+
                         },
                         error: function(e)
                         {
@@ -284,12 +296,12 @@
     
     $(document).on('click','.AceitarProposta',function(e){
         Swal.fire({
-			  title: 'Deseja realmente sair deste grupo?',
+			  title: 'Se aceitares não poderás propôr outro tema ou adicionado à outro grupo.',
 			  icon: 'warning',
 			  showCancelButton: true,
 			  confirmButtonColor: '#3085d6',
 			  cancelButtonColor: '#d33',
-			  confirmButtonText: 'Sair',
+			  confirmButtonText: 'Aceitar',
               cancelButtonText: 'Cancelar'
 			}).then((result) => {
                 if (result.value) {
@@ -303,16 +315,60 @@
                         type: "GET",
                         success: function(data){
                             carregarDataTable();
-                            Swal.fire(
-                            'Sucesso!',
-                            'Sugestão abandonada com Sucesso.',
-                            'success'
-                            )
+                            location.href=btoa(0);
+                            Swal.fire({
+                                text: "Adicionado na proposta.",
+                                icon: 'success',
+                                confirmButtonText: 'Fechar',
+                                timer: 1500
+                            })
                         },
                         error: function(e)
                         {
                             Swal.fire({
-                                text: 'Ocorreu um erro ao remover o perfil.',
+                                text: 'Erro ao abandonar a proposta.',
+                                icon: 'error',
+                                confirmButtonText: 'Fechar'
+                            })
+                        }
+                    });
+                }
+		});
+    });
+
+    $(document).on('click','.NegarProposta',function(e){
+        Swal.fire({
+			  title: 'Deseja realmente rejeitar esta proposta?',
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: 'Sair',
+              cancelButtonText: 'Cancelar'
+			}).then((result) => {
+                if (result.value) {
+                    e.preventDefault();
+                    var idPessoa = $(this).attr('idPessoa');
+                    var idSugestao = $(this).attr('idSugestao');
+
+                    $.ajax({
+                        url: "{{ url('sairGrupo') }}/"+idSugestao+"/"+idPessoa,
+                        type: "GET",
+                        success: function(data){
+                            carregarDataTable();
+                            
+                            Swal.fire({
+                                text: 'Proposta rejeitada com Sucesso.',
+                                icon: 'success',
+                                confirmButtonText: 'Fechar',
+                                timer: 1500
+                            });
+                            location.href=btoa(0);
+                        },
+                        error: function(e)
+                        {
+                            Swal.fire({
+                                text: 'Ocorreu um erro ao abandonar a proposta.',
                                 icon: 'error',
                                 confirmButtonText: 'Fechar'
                             })

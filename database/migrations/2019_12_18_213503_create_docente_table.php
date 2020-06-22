@@ -15,7 +15,8 @@ class CreateDocenteTable extends Migration
     {
         Schema::create('docente', function (Blueprint $table) {
             $table->unsignedInteger('id_pessoa');
-            $table->string('nivel_academico');          
+            $table->string('nivel_academico');
+            $table->integer('privilegio');          
             $table->foreign('id_pessoa')->references('id')->on('pessoa')->onDelete('cascade');      
             $table->timestamps();
         });
