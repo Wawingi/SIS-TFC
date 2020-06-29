@@ -13,104 +13,75 @@
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">SIS TFC</a></li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Departamentos</a></li>
-                            <li class="breadcrumb-item active">Listar Departamentos</li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Propostas & Sugestões</a></li>
+                            <li class="breadcrumb-item active">Meus Tutorandos</li>
                         </ol>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- mensagens de validação de erros -->
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-        <!-- fim de mensagens de validação de erros -->
-        <!-- Alerta de inserção sucesso -->
-        @if(session('info'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Sucesso!</strong>
-                    {{ session('info')}}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
-
-        <!--Inicio do conteudo-->
-        <br><br>
-            <div class="row">
-                <div class="col-12">
-                    <div class="card-box">
-                        <div class="row">
-                            <div class="col-lg-4">  
-                                <a href="#save-modal" class="btn btn-primary btn-rounded waves-effect waves-light" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1"></i> Adicionar Departamento</a>     
-                            </div><!-- end col-->
-                        </div> <!-- end row -->
-                    </div> <!-- end card-box -->
-                </div><!-- end col-->
-            </div>
-            <!-- Inclusão da Modal -->
-            @include('includes.departamento.modalDepartamento')
-            @include('includes.departamento.modalEditarDepartamento')
-            <a id="modalEditar" style="display:none" href="#edit-modal" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target=".bs-example-modal-lg"></a>
+        </div>       
+        <!--Inicio do conteudo-->      
+            <br>        
             
+            <div class="card-box">           
+                <div class="row">
+                    <div class="col-lg-12">             
+                        <a href='{{ url("listarSugestaoDepartamento")}}' class=" waves-effect waves-light"><i class="mdi mdi-subdirectory-arrow-left mr-1"></i>Ir para Geral Sugestões</a>     
+                    </div>
+                </div>
+            </div>      
+
+
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
                         <div class="table-responsive">
-                        <table id="paginationFullNumbers" class="table mb-0">
+                        <table id="paginationFullNumbers" class="table table-bordered" cellspacing="0" width="100%">
                             <thead id="cabecatabela">
                                 <tr>
                                     <th>#</th>
-                                    <th>Departamento</th>
-                                    <th>Chefe do Departamento</th>
-                                    <th>Email</th>
-                                    
-                                    <th></th>
+                                    <th>Tema</th>
+                                    <th>Área de Aplicação</th>
+                                    <th>Estado</th>
                                 </tr>
                             </thead>
                             <tbody id="dataTable">
-                           
+                                                           
                             </tbody>
                         </table>
-                        <hr>
-                        <!-- $departamentos->links() -->
                         </div>
                     </div> 
                 </div>
-            </div>
+            </div>       
+        <!-- FIm do conteudo -->
     </div> 
 </div>
 <script>
+
     function carregarDataTable(){
         $.ajax({
-            url: "{{ url('pegaDepartamentos') }}",
+            url: "{{ url('pegaSugestoesOrientador') }}",
             success:function(data){
                 $('#dataTable').html(data);
                 $('#paginationFullNumbers').DataTable({
                     "pagingType": "full_numbers"
-                }); 
+                });              
             },
             error: function(e)
 			{
-				alert(e);
+				alert("erro ao carregar dados");
 			}
         })
     }
+
     carregarDataTable();
 
     $('#formularioSalvar').submit(function(e){
         e.preventDefault();
         var request = new FormData(this);
-
+        
         $.ajax({
-            url:"{{ url('registarDepartamento') }}",
+            url:"{{ url('registarSugestao') }}",
             method: "POST",
             data: request,
             contentType: false,
@@ -118,26 +89,27 @@
             processData: false,
             success:function(data){
                 if(data == "Sucesso"){
-                    Custombox.modal.close();
+                    $('#modalClose').click();
                     Swal.fire({
-                        text: "Departamento registado com sucesso.",
+                        text: "Sugestão registada com sucesso.",
                         icon: 'success',
-                        confirmButtonText: 'Fechar'
+                        confirmButtonText: 'Fechar',
+                        timer: 1500
                     }),
                     $('#formularioSalvar')[0].reset();
-                    carregarDataTable();
+                    //carregarDataTable();
                 }            
             },
             error: function(e){
                 Swal.fire({
-                    text: 'Ocorreu um erro ao registar o departamento.',
+                    text: 'Ocorreu um erro ao registar a sugestão.',
                     icon: 'error',
                     confirmButtonText: 'Fechar'
                 })
             }
         });
     });
-
+    /*
     $(document).on('click','.pegar',function(e){
         e.preventDefault();
         var id = $(this).attr('id');
@@ -229,6 +201,6 @@
                     });
                 }
 		});
-    });
+    });*/
 </script>    
 @stop

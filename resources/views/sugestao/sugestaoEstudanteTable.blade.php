@@ -5,6 +5,7 @@
 			<a href='{{ url("verSugestao/".base64_encode($sugestao->id)) }}'>{{$sugestao->tema}} <i class="fas fa-folder-open"></i></a>
 		</td>
         <td>{{$sugestao->nome}}</td>
+		<td>{{$sugestao->orientador}}</td>
         <td>
 			@if($sugestao->estado==1) 
 				<div class="progress mb-1 progress-xl">

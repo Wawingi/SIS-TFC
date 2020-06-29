@@ -43,6 +43,11 @@ Route::name('utilizador')->group(function () {
         return view('perfil.pesquisarUtilizador');
     });
     Route::post('pesquisarUtilizador','PerfilController@pesquisarUtilizador');
+    Route::get('resetarSenha/{id}','PerfilController@resetarSenha');
+    Route::get('trocarSenha', function(){
+        return view('perfil.trocarSenha');
+    });
+    Route::post('trocarSenha','PerfilController@trocarSenha');
 });
 
 //Rotas para Departamentos
@@ -86,7 +91,13 @@ Route::name('sugestao')->group(function () {
     Route::get('verEnvolventes/{id}','SugestaoController@verEnvolventes');
     Route::get('sairGrupo/{idsugestao}/{idpessoa}/{proveniencia}','SugestaoController@sairGrupo');
     Route::get('aceitarProposta/{idPessoa}/{idSugestao}','SugestaoController@aceitarProposta');
-    
+    Route::get('meusTutorandos', function(){
+        return view('sugestao.meusTutorandos');
+    });
+    Route::get('pegaSugestoesOrientador','SugestaoController@pegaSugestoesOrientador');
+    Route::get('contSugestoesOrientador','SugestaoController@contSugestoesOrientador');
+    Route::post('rejeitarProposta','SugestaoController@rejeitarProposta');
+    Route::get('verMotivoRejeicao/{idSugestao}','SugestaoController@verMotivoRejeicao');
 });
 
 //Rotas para configurações

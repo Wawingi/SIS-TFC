@@ -46,7 +46,7 @@
                     <div class="col-lg-12">  
                         <div style="background-color:white;border:solid 1px #3bafda" class="modal-content">
                             <div style="background-color:#3bafda" class="modal-header">
-                                <h4 style="color:white" class="modal-title" id="myLargeModalLabel"><i class='fas fa-search'></i>   Pesquisar Utilizador </h4>
+                                <h4 style="color:white" class="modal-title" id="myLargeModalLabel"><i class='fas fa-search mr-1'></i>   Pesquisar Utilizador </h4>
                             </div>
                             <form method="post" action="{{ url('pesquisarUtilizador') }}"> 
                                 <div class="modal-body">
@@ -57,7 +57,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-info waves-effect waves-light"><i class="mdi mdi-file-find mr-1"></i>Pesquisar</button>
+                                    <button type="submit" class="btn btn-info btn-rounded waves-effect waves-light"><i class="mdi mdi-file-find mr-1"></i>Pesquisar</button>
                                 </div>
                             </form> 
                         </div>     

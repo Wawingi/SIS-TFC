@@ -58,7 +58,7 @@
                                     <input reuired type="hidden" class="form-control" id="id_curso"  name="id_curso">
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-info waves-effect waves-light"><i class="mdi mdi-file-find mr-1"></i>Pesquisar</button>
+                                    <button type="submit" class="btn btn-info btn-rounded waves-effect waves-light"><i class="mdi mdi-file-find mr-1"></i>Pesquisar</button>
                                 </div>
                             </form> 
                         </div>     

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Model\Area;
+use App\Model\AvaliacaoProposta;
 use App\Model\Departamento;
 use App\Model\Sugestao;
 use App\Model\Pessoa;
@@ -27,6 +28,17 @@ class SugestaoController extends Controller
         return view('sugestao.sugestaoEstudanteTable',compact('sugestoes'));
     }
 
+    public function pegaSugestoesOrientador(){
+        $sessao=session('dados_logado');
+        $sugestoes = Sugestao::getSugestoesOrientador($sessao[0]->id_pessoa);
+        return view('sugestao.meusTutorandosTable',compact('sugestoes'));
+    }
+
+    public function contSugestoesOrientador(){
+        $sessao=session('dados_logado');
+        $cont = count(Sugestao::getSugestoesOrientador($sessao[0]->id_pessoa));
+        echo $cont;
+    }
 
     public function registarSugestao(Request $request){
         $validatedData = $request->validate([
@@ -54,6 +66,8 @@ class SugestaoController extends Controller
                     $sugestao->id_departamento = $sessao[0]->id_departamento;
                     $sugestao->proveniencia = 1;   //DPTO=1; Estudante=2
                     $sugestao->id_docente = $sessao[0]->id_pessoa;
+                    $sugestao->avaliacao = 3;   //0=Rejeitado; 1=Aprovado; 3=Padrão
+                
                     if($sugestao->save()){
                         $info = 'Sucesso';
                     };
@@ -185,5 +199,23 @@ class SugestaoController extends Controller
             $info = 'Erro';
         }
         echo $info;     
+    }
+
+    public function rejeitarProposta(Request $request){
+        if(DB::table('sugestao')          
+                ->where('id','=',$request->idSugestao)
+                ->update(['estado' => 4,'avaliacao' => 0]))
+        {
+            $avaliacao = new AvaliacaoProposta;
+            $avaliacao->descricao = $request->descricao;
+            $avaliacao->id_sugestao = $request->idSugestao;
+            $avaliacao->save();
+        }
+    }
+
+    public function verMotivoRejeicao($idSugestao){
+        return DB::table('avaliacao_sugestao')
+        ->where('id_sugestao','=',$idSugestao)
+        ->value('descricao');
     }
 }

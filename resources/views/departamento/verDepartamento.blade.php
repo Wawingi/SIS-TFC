@@ -124,7 +124,7 @@
                                 <tr>
                                     <th style="text-align:center">#</th>
                                     <th style="text-align:center">Curso</th>
-                                    <th  class="float-right"><a href="#curso-modal" class="btn btn-primary waves-effect waves-light" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1"></i> Adicionar Curso</i></a></th>
+                                    <th  class="float-right"><a href="#curso-modal" class="btn btn-primary btn-rounded waves-effect waves-light" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1"></i> Adicionar Curso</i></a></th>
                                 </tr>
                             </thead>
                             <tbody  id="cursoTable">

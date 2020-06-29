@@ -162,8 +162,8 @@
                                                             <input type="hidden" class="form-control" value="1" name="tipo">
                                                             <hr>
 
-                                                            <button class="btn btn-primary"><i class="far fa-save"> Registar</i></button>
-                                                            <a href="{{ url('listarUtilizadores') }}" class="btn btn-warning"><i class="far fa-window-close"> Cancelar</i></a>
+                                                            <button class="btn btn-primary btn-rounded"><i class="far fa-save"> Registar</i></button>
+                                                            <a href="{{ url('listarUtilizadores') }}" class="btn btn-warning btn-rounded"><i class="far fa-window-close"> Cancelar</i></a>
                                                         </form>
                                                     </div> 
                                                 </div>
@@ -269,8 +269,8 @@
                                                             </div>
                                                             <input type="hidden" class="form-control" value="2" name="tipo">                                                      
                                                             <hr>
-                                                            <button class="btn btn-primary"><i class="far fa-save"> Registar</i></button>
-                                                            <a href="{{ url('listarUtilizadores') }}" class="btn btn-warning"><i class="far fa-window-close"> Cancelar</i></a>
+                                                            <button class="btn btn-primary btn-rounded"><i class="far fa-save"> Registar</i></button>
+                                                            <a href="{{ url('listarUtilizadores') }}" class="btn btn-warning btn-rounded"><i class="far fa-window-close"> Cancelar</i></a>
                                                         </form>
                                                     </div> 
                                                 </div> 
@@ -401,8 +401,8 @@
                                                             </div>
                                                             <input type="hidden" class="form-control" value="2" name="tipo">                                                      
                                                             <hr>
-                                                            <button class="btn btn-primary"><i class="far fa-save"> Registar</i></button>
-                                                            <a href="{{ url('listarUtilizadores') }}" class="btn btn-warning"><i class="far fa-window-close"> Cancelar</i></a>
+                                                            <button class="btn btn-primary btn-rounded"><i class="far fa-save"> Registar</i></button>
+                                                            <a href="{{ url('listarUtilizadores') }}" class="btn btn-warning btn-rounded"><i class="far fa-window-close"> Cancelar</i></a>
                                                         </form>
                                                     </div> <!-- end card-body-->
                                                 </div> <!-- end card-->
@@ -526,8 +526,8 @@
                                                             </div>
                                                             <input type="hidden" class="form-control" value="3" name="tipo">
                                                             <hr>
-                                                            <button class="btn btn-primary"><i class="far fa-save"> Registar</i></button>
-                                                            <a href="{{ url('listarUtilizadores') }}" class="btn btn-warning"><i class="far fa-window-close"> Cancelar</i></a>
+                                                            <button class="btn btn-primary btn-rounded"><i class="far fa-save"> Registar</i></button>
+                                                            <a href="{{ url('listarUtilizadores') }}" class="btn btn-warning btn-rounded"><i class="far fa-window-close"> Cancelar</i></a>
                                                         </form>
                                                     </div> <!-- end card-body-->
                                                 </div> <!-- end card-->

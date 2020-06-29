@@ -18,9 +18,8 @@ class Departamento extends Model
         $sessao = session('dados_logado');
         $dados = DB::table('departamento')
         ->join('faculdade', 'faculdade.id', '=', 'departamento.id_faculdade')
-        ->select('departamento.id','departamento.nome','departamento.chefe_departamento','departamento.email','departamento.telefone')    
+        ->select('departamento.id','departamento.nome','departamento.chefe_departamento','departamento.email')    
         ->where('departamento.id_faculdade','=',$sessao[0]->id_faculdade)
-        //->paginate(3);
         ->orderBy('nome')
         ->get();
         return $dados;

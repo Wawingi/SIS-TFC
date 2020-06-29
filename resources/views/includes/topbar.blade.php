@@ -46,25 +46,36 @@
                     </form>
                 </li>
 
-                <!-- verificar se o estudante foi escolhido numa sugestão -->
-                <?php             
-                    $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pessoa,0);
-                   
-                ?> 
-                @if(count($jaSugestao) > 0)
+                @can('visualizar_tutorandos')
+                    <!-- tutorandos de um orientador -->
                     <li class="dropdown notification-list">
-                        <a class="nav-link dropdown-toggle  waves-effect waves-light" href='{{ url("verSugestao/".base64_encode($jaSugestao[0]->id_sugestao)."/".base64_encode(1)) }}'>
-                            <i class=" fas fa-book-reader noti-icon"></i>
-                            <span class="badge badge-danger rounded-circle noti-icon-badge">{{count($jaSugestao)}}</span>
+                        <a title="Meus tutorandos" class="nav-link dropdown-toggle  waves-effect waves-light" href='{{ url("meusTutorandos")}}'>
+                            <i class="fas fa-user-graduate noti-icon"></i>
+                            <span id="qtdTutorandos" class="badge badge-danger rounded-circle noti-icon-badge"></span>
                         </a>
                     </li>
-                @else
-                    <li class="dropdown notification-list">
-                        <a class="nav-link dropdown-toggle  waves-effect waves-light" href='#'>
-                            <i class=" fas fa-book-reader noti-icon"></i>
-                        </a>
-                    </li>
-                @endif
+                @endcan
+
+                @can('visualizar_convite')
+                    <!-- verificar se o estudante foi escolhido numa sugestão -->
+                    <?php             
+                        $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pessoa,0);                  
+                    ?> 
+                    @if(count($jaSugestao) > 0)
+                        <li class="dropdown notification-list">
+                            <a title="Convite para trabalhar no tema" class="nav-link dropdown-toggle  waves-effect waves-light" href='{{ url("verSugestao/".base64_encode($jaSugestao[0]->id_sugestao)."/".base64_encode(1)) }}'>
+                                <i class=" fas fa-book-reader noti-icon"></i>
+                                <span class="badge badge-danger rounded-circle noti-icon-badge">{{count($jaSugestao)}}</span>
+                            </a>
+                        </li>
+                    @else
+                        <li class="dropdown notification-list">
+                            <a title="Convite para trabalhar no tema" class="nav-link dropdown-toggle  waves-effect waves-light" href='#'>
+                                <i class=" fas fa-book-reader noti-icon"></i>
+                            </a>
+                        </li>
+                    @endif
+                @endcan
 
                 <li class="dropdown notification-list">
                     <a class="nav-link dropdown-toggle  waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
@@ -123,6 +134,12 @@
                         <a href="{{ url('verperfil') }}" class="dropdown-item notify-item">
                             <i class="remixicon-account-circle-line"></i>
                             <span>Meu Perfil</span>
+                        </a>
+
+                        <!-- item-->
+                        <a href="{{ url('trocarSenha') }}" class="dropdown-item notify-item">
+                            <i class="remixicon-lock-unlock-line"></i>
+                            <span>Alterar Senha</span>
                         </a>
 
                         <div class="dropdown-divider"></div>
@@ -193,31 +210,49 @@
                     <!-- Inclusão da Modal -->
                     @include('includes.departamento.modalPesquisarDepartamento')
                     
-                    <li class="has-submenu">
-                        <a href="#">
-                            <i class="remixicon-stack-line"></i>Gestão Departamental <div class="arrow-down"></div>
-                        </a>
-                        <ul class="submenu">
-                            <li>
-                                <a href="{{ url('listarDepartamentos')}}"><i class="fe-list mr-1"></i>Listar departamentos</a>
-                            </li>
-                            <li>
-                                <a href="{{ url('pesquisarDepartamento')}}"><i class="fe-search mr-1"></i> Pesquisar Departamento</a>
-                            </li>
-                            
-                        </ul>
-                    </li>
+                    @can('visualizar_departamento')
+                        <li class="has-submenu">
+                            <a href="#">
+                                <i class="remixicon-stack-line"></i>Gestão Departamental <div class="arrow-down"></div>
+                            </a>
+                            <ul class="submenu">
+                                <li>
+                                    <a href="{{ url('listarDepartamentos')}}"><i class="fe-list mr-1"></i>Listar departamentos</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('pesquisarDepartamento')}}"><i class="fe-search mr-1"></i> Pesquisar Departamento</a>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                    @endcan
+
+                    @can('visualizar_proposta')
+                        <li class="has-submenu">
+                            <a href="#">
+                                <i class="remixicon-book-open-fill"></i>Propostas & Sugestões <div class="arrow-down"></div>
+                            </a>
+                            <ul class="submenu">
+                                <li>
+                                    <a href="{{ url('listarSugestaoEstudante')}}"><i class="fe-file-text mr-1"></i>Proposta de Estudante</a>     
+                                </li>
+                                <li>
+                                    <a href="{{ url('listarSugestaoDepartamento')}}"><i class="fe-file-text mr-1"></i>Sugestão do Departamento</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('meusTutorandos')}}"><i class="fas fa-user-graduate noti-icon mr-1"></i>Meus Tutorandos</a>
+                                </li>                          
+                            </ul>
+                        </li>
+                    @endcan
 
                     <li class="has-submenu">
                         <a href="#">
-                            <i class="remixicon-book-open-fill"></i>Gestão de Temas <div class="arrow-down"></div>
+                            <i class="remixicon-book-2-fill"></i>Gestão de Temas <div class="arrow-down"></div>
                         </a>
                         <ul class="submenu">
                             <li>
-                                <a href="{{ url('listarSugestaoEstudante')}}"><i class="fe-file-text mr-1"></i>Proposta de Estudante</a>     
-                            </li>
-                            <li>
-                                <a href="{{ url('listarSugestaoDepartamento')}}"><i class="fe-file-text mr-1"></i>Sugestão do Departamento</a>
+                                <a href="#"><i class="fe-file-text mr-1"></i>Sugestão do Departamento</a>
                             </li>
                             <li class="has-submenu">
                                 <a href="#"><i class="fe-list mr-1"></i>Listar Temas<div class="arrow-down"></div></a>
@@ -268,3 +303,18 @@
     </div>
     <!-- Fim MenuBar -->
 </header>
+<script>
+    function contTutorandos(){
+        $.ajax({
+            url: "{{ url('contSugestoesOrientador') }}",
+            success:function(data){
+                $('#qtdTutorandos').html(data);               
+            },
+            error: function(e)
+			{
+				alert("erro ao carregar dados");
+			}
+        })
+    }
+    contTutorandos();
+</script>

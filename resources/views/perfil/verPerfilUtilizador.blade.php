@@ -32,7 +32,7 @@
         @include('includes.modalconfirma')
         <!-- Inclusão da Moda atribuir perfil -->
         @include('includes.modaladicionarperfil')
-        <br><br> 
+        <br><br>
         <div class="row">
             <div class="col-md-12">
                 <div class="card-box">
@@ -45,6 +45,8 @@
                             <a class="dropdown-item" href='{{ url("pegaUtilizador/".base64_encode($dados[0]->pessoa_id)."/".base64_encode($dados[0]->tipo))}}'><i class="fas fa-edit mr-2"></i>Editar perfil</a>
                             <div role="separator" class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#custom-modal" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="far fa-address-card mr-2"></i>Adicionar Perfil</a>
+                            <div role="separator" class="dropdown-divider"></div>
+                            <a class="RedefinirSenha dropdown-item" idPessoa='{{$dados[0]->pessoa_id}}' href="#" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="fas fa-user-lock mr-2"></i>Redefinir Senha</a>
                         </div>
                     </div>
                 </div>
@@ -320,6 +322,43 @@
                 }
 		});
         
+    });
+
+    $(document).on('click','.RedefinirSenha',function(e){
+        Swal.fire({
+            title: 'A senha será redefinida para padrão. Deseja continuar?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Redefinir',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+                if (result.value) {
+                    e.preventDefault();
+                    var id = $(this).attr('idPessoa');
+                    $.ajax({
+                        url: "{{ url('resetarSenha') }}/"+id,
+                        type: "GET",
+                        success: function(data){
+                            carregarDataTable();
+                            Swal.fire(
+                            'Redefinida!',
+                            'Senha redefinida com Sucesso.',
+                            'success'
+                            )
+                        },
+                        error: function(e)
+                        {
+                            Swal.fire({
+                                text: 'Ocorreu um erro ao redefinir senha.',
+                                icon: 'error',
+                                confirmButtonText: 'Fechar'
+                            })
+                        }
+                    });
+                }
+        });
     });
 </script>    
 @stop

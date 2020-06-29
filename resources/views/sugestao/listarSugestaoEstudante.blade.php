@@ -80,6 +80,7 @@
                                     <th>#</th>
                                     <th>Tema</th>
                                     <th>Área de Aplicação</th>
+                                    <th>Orientador</th>
                                     <th>Estado</th>
                                 </tr>
                             </thead>

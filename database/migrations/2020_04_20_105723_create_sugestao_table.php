@@ -22,7 +22,8 @@ class CreateSugestaoTable extends Migration
             $table->integer('visibilidade');
             $table->unsignedInteger('id_area');
             $table->unsignedInteger('id_departamento'); 
-            $table->unsignedInteger('id_docente');                   
+            $table->unsignedInteger('id_docente');
+            $table->integer('avaliacao');                   
             $table->foreign('id_area')->references('id')->on('area_aplicacao')->onDelete('cascade');
             $table->foreign('id_departamento')->references('id')->on('departamento')->onDelete('cascade'); 
             $table->foreign('id_docente')->references('id_pessoa')->on('docente')->onDelete('cascade');    

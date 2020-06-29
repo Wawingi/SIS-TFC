@@ -44,6 +44,8 @@
 
         <!-- Inclusão da Modal -->
         @include('includes.sugestao.modalTrabalharSugestao')
+        @include('includes.sugestao.modalAvaliarSugestao')
+
         <!--Inicio do conteudo-->
         @if($notificacao==1)
             <div class="alert alert-warning" role="alert">
@@ -54,111 +56,179 @@
                 </div>
             </div>
         @endif
-            <br>
-            <div class="card-box">           
+                <br>
+
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="dropdown float-right">
-                            <a href="#" class="dropdown-toggle arrow-none" data-toggle="dropdown" aria-expanded="false">
-                                <i class="mdi mdi-dots-vertical m-0 text-muted h3"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#"><i class='fa fa-pencil-alt'></i> Editar</a>
+                        <div class="card-box">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <ul class="nav nav-tabs">
+                                        <li class="nav-item">
+                                            <a href="#dados" data-toggle="tab" aria-expanded="true" class="nav-link active">
+                                                <span class="d-inline-block d-sm-none"><i class="fas fa-home"></i></span>
+                                                <span class="d-none d-sm-inline-block">Dados</span>   
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#descricao" data-toggle="tab" aria-expanded="false" class="nav-link ">
+                                                <span class="d-inline-block d-sm-none"><i class="far fa-user"></i></span>
+                                                <span class="d-none d-sm-inline-block">Descrição</span> 
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#avaliacao" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                                <span class="d-inline-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                                <span class="d-none d-sm-inline-block">Avaliação Técnica</span>  
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                @can('aprovar_rejeitar_proposta')
+                                    <div class="co-lg-8">
+                                        <div style="margin-left:450px;margin-top:25px" class="button-list">
+                                            <a style="bottom:32px" href="#save-modal" class="<?php if($sugestao[0]->avaliacao==0){echo 'disabled';} ?> RejeitarTema btn btn-danger btn-rounded btn-sm waves-effect waves-light float-right" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="mdi mdi-cancel mr-1"></i>Rejeitar Proposta</a>
+                                            <a style="bottom:32px" href="#" class="<?php if($sugestao[0]->avaliacao==0){echo 'disabled';} ?> AceitarProposta btn btn-success btn-rounded btn-sm waves-effect waves-light float-right"><i class="mdi mdi-checkbox-marked-circle-outline mr-1"></i>Aprovar Proposta</a>
+                                        </div>
+                                    </div>
+                                @endcan
                             </div>
-                        </div>                     
-                       <br><br>
-                        <ul class="sortable-list tasklist list-unstyled" id="upcoming">
-                            <li id="task1" class="task-low">
-                                <br>
-                                <input type="hidden" name="sugestao_id" id="sugestao_id" class="form-control" value="{{$sugestao[0]->id}}">
-                                <input type="hidden" name="sugestao_proveniencia" id="sugestao_proveniencia" class="form-control" value="{{$sugestao[0]->proveniencia}}">
-                                <div id="labelespaco" class="row">
-                                    <div class="col-5">
-                                        <div class="form-group row mb-3">
-                                            <p class="col-md-5 col-form-label"> Tema</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-7">
-                                        <div class="form-group row mb-3">
-                                            <label class="col-md-7 col-form-label">: {{$sugestao[0]->tema}}</label>
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="dados">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <ul class="sortable-list tasklist list-unstyled" id="upcoming">
+                                                <li id="task1" class="<?php if($sugestao[0]->estado==4){echo 'task-high';}else{echo 'task-low';} ?>">
+                                                    <br>
+                                                    <input type="hidden" name="sugestao_id" id="sugestao_id" class="form-control" value="{{$sugestao[0]->id}}">
+                                                    <input type="hidden" name="sugestao_proveniencia" id="sugestao_proveniencia" class="form-control" value="{{$sugestao[0]->proveniencia}}">
+                                                    <div id="labelespaco" class="row">
+                                                        <div class="col-5">
+                                                            <div class="form-group row mb-3">
+                                                                <p class="col-md-5 col-form-label"> Tema</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-7">
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-md-7 col-form-label">: {{$sugestao[0]->tema}}</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="labelespaco" class="row">
+                                                        <div class="col-5">
+                                                            <div class="form-group row mb-3">
+                                                                <p class="col-md-5 col-form-label"> Área de aplicação</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-7">
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-md-7 col-form-label">: {{$sugestao[0]->area}}</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="labelespaco" class="row">
+                                                        <div class="col-5">
+                                                            <div class="form-group row mb-3">
+                                                                <p class="col-md-5 col-form-label"> Orientador</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-7">
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-md-7 col-form-label">: {{$sugestao[0]->docente}}</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="labelespaco" class="row">
+                                                        <div class="col-5">
+                                                            <div class="form-group row mb-3">
+                                                                <p class="col-md-5 col-form-label"> Estado</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-7">
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-md-5 col-form-label">:                              
+                                                                    @if($sugestao[0]->estado==1) 
+                                                                        Publicado
+                                                                    @elseif($sugestao[0]->estado==2)
+                                                                        Selecionado
+                                                                    @elseif($sugestao[0]->estado==3)
+                                                                        Em desenvolvimento
+                                                                    @elseif($sugestao[0]->estado==4)
+                                                                        Rejeitado 
+                                                                    @endif
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>                   
+                                                </li>                               
+                                            </ul>              
                                         </div>
                                     </div>
                                 </div>
-                                <div id="labelespaco" class="row">
-                                    <div class="col-5">
-                                        <div class="form-group row mb-3">
-                                            <p class="col-md-5 col-form-label"> Área de aplicação</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-7">
-                                        <div class="form-group row mb-3">
-                                            <label class="col-md-7 col-form-label">: {{$sugestao[0]->area}}</label>
-                                        </div>
-                                    </div>
+
+                                <div class="tab-pane fade" id="descricao">             
+                                    <div id="card-view" class="card-body">
+                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                    </div>                                                                                                                                   
                                 </div>
-                                <div id="labelespaco" class="row">
-                                    <div class="col-5">
-                                        <div class="form-group row mb-3">
-                                            <p class="col-md-5 col-form-label"> Orientador</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-7">
-                                        <div class="form-group row mb-3">
-                                            <label class="col-md-7 col-form-label">: {{$sugestao[0]->docente}}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="labelespaco" class="row">
-                                    <div class="col-5">
-                                        <div class="form-group row mb-3">
-                                            <p class="col-md-5 col-form-label"> Estado</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-7">
-                                        <div class="form-group row mb-3">
-                                            <label class="col-md-5 col-form-label">:                              
-                                                @if($sugestao[0]->estado==1) 
-                                                    Publicado
-                                                @elseif($sugestao[0]->estado==2)
-                                                    Selecionado 
-                                                @endif
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>                   
-                                <div id="labelespaco" class="row descricaoSugestao">
-                                    <div class="col-lg-12">
-                                        <div class="accordion mb-3" id="accordionExample">
-                                            <div class="card mb-1">
-                                                <div class="card-header" id="headingOne">
-                                                    <h5 class="my-0">
-                                                        <a class="text-primary" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                            <i class="fas fa-info-circle"></i> Descrição do tema
-                                                        </a>
-                                                    </h2>
-                                                </div>                                            
-                                                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                                    <div class="card-body">
-                                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                <div class="tab-pane fade" id="avaliacao">
+                                    <div id="card-view" class="card-body">
+                                    @if($sugestao[0]->estado==4)
+                                        <div id="rejeitado">
+                                            <div class="row">
+                                                <div id="icone_resultado_proposta" class="col-12">
+                                                    <br>
+                                                    <img width="100px" heigth="100px" src="{{ url('images/rejeitar.png') }}"/>
+                                                    <p class="proposta-rejeitada">PROPOSTA REJEITADA</p>                       
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row descricaoSugestao">
+                                                <div class="col-lg-12">
+                                                    <div class="accordion mb-3" id="accordionExample">
+                                                        <div class="card mb-1">
+                                                            <div class="card-header" id="headingOne">
+                                                                <h5 class="my-0">
+                                                                    <a class="text-primary" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                        <i class="fas fa-info-circle"></i> Motivo da Rejeição
+                                                                    </a>
+                                                                </h2>
+                                                            </div>                                            
+                                                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                                                <div class="card-body">
+                                                                    <p id="motivorejeicao"></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>                                                                                    
                                                     </div>
                                                 </div>
-                                            </div>                                                                                    
+                                            </div>   
                                         </div>
+                                    @elseif($sugestao[0]->estado==3)  
+                                        <div class="row">
+                                            <div id="icone_resultado_proposta" class="col-12">
+                                                <br>
+                                                <img width="100px" heigth="100px" src="{{ url('images/check.png') }}"/>
+                                                <p class="proposta-aceite">PROPOSTA APROVADA COM SUCESSO.</p>                       
+                                            </div>
+                                        </div>
+                                    @endif    
                                     </div>
                                 </div>
-                            </li>                               
-                        </ul><br>
-                        <?php                   
-                            $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pessoa,1);
-                        ?> 
-                        @if($sessao[0]->tipo==3 && $sugestao[0]->estado==1 && $sugestao[0]->proveniencia==1 && count($jaSugestao)<=0)
-                            <a href="#save-modal" class="btn btn-success btn-sm btn-rounded  waves-effect waves-light" data-toggle="modal" data-target="#modalTrabalharSugestao"><i class="mdi mdi-worker mr-1"></i> Trabalhar na Sugestão</a>
-                        @elseif($sessao[0]->tipo==3 && $sugestao[0]->estado==1 && $sugestao[0]->proveniencia==1 && count($jaSugestao)>=0)
-                            <h5 class="SairGrupo"><i class="mdi mdi-file-lock"></i> JÁ POSSUI UMA PROPOSTA  ASSOCIADA.</h5>                    
-                        @endif                     
+        
+                            </div>
+                                <br>
+                                <?php                   
+                                    $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pessoa,1);
+                                ?> 
+                                @if($sessao[0]->tipo==3 && $sugestao[0]->estado==1 && $sugestao[0]->proveniencia==1 && count($jaSugestao)<=0)
+                                    <a href="#save-modal" class="btn btn-success btn-sm btn-rounded  waves-effect waves-light" data-toggle="modal" data-target="#modalTrabalharSugestao"><i class="mdi mdi-worker mr-1"></i> Trabalhar na Sugestão</a>
+                                @elseif($sessao[0]->tipo==3 && $sugestao[0]->estado==1 && $sugestao[0]->proveniencia==1 && count($jaSugestao)>=0)
+                                    <h5 class="SairGrupo"><i class="mdi mdi-file-lock"></i> JÁ POSSUI UMA PROPOSTA  ASSOCIADA.</h5>                    
+                                @endif   
+                        </div>
                     </div>
-                </div>
-            </div>      
+                </div>    
             <br>        
             
             @if($sugestao[0]->proveniencia==2) <!--Tema vindo de estudante(s)-->
@@ -336,6 +406,7 @@
 		});
     });
 
+    //Rek=jeição da proposta de um convite por parte de um estudante
     $(document).on('click','.NegarProposta',function(e){
         Swal.fire({
 			  title: 'Deseja realmente rejeitar esta proposta?',
@@ -378,7 +449,20 @@
 		});
     });
 
-
+    function getMotivoRejeicao(){
+        var idSugestao = $('#sugestao_id').val(); //id da sugestão selecionada
+        $.ajax({
+            url: "{{ url('verMotivoRejeicao') }}/"+idSugestao,
+            success:function(data){
+                $('#motivorejeicao').html(data);               
+            },
+            error: function(e)
+			{
+				alert("erro ao carregar dados");
+			}
+        })
+    }
+    getMotivoRejeicao();
     /*$(document).on('click','.AceitarProposta',function(e){
         //e.preventDefault();
         var idPessoa = $(this).attr('idPessoa');

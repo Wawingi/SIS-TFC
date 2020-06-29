@@ -118,7 +118,7 @@ class PerfilController extends Controller
         }
     }
 
-    //função para redefinir a senha do utilizador
+    //função para redefinir a senha do utilizador no primeiro acesso
     public function redefinirSenha(Request $request){
         $validatedData = $request->validate([
             'senha' => ['required', 'string','min:6'],
@@ -139,6 +139,52 @@ class PerfilController extends Controller
                 ->update(['password' => Hash::make($request->senha),'qtd_vezes'=>1]);
                 return back()->with('info','Senha definida com sucesso, pode efectuar o login');
         }
+    }
+
+    //Resetar a senha para padrão
+    public function resetarSenha($idPessoa){
+        if($idPessoa > 0){
+            DB::table('users')
+                ->where('estado',1)            
+                ->where('id_pessoa','=',$idPessoa)
+                ->update(['password' => Hash::make(654321),'qtd_vezes'=>0]);
+        }
+    }
+
+    //Trocar a senha do utilizador logado
+    public function trocarSenha(Request $request){
+        $validatedData = $request->validate([
+            'senhaactual' => ['required', 'string','min:6'],
+            'novasenha' => ['required', 'string','min:6'],
+            'confirmarsenha' => ['required', 'string','min:6','same:novasenha'],
+        ],[
+            //Mensagens de validação de erros
+            'senhaactual.required'=>'A senha actual deve ser fornecida.',
+            'novasenha.required'=>'A nova senha deve ser fornecida',
+            'confirmarsenha.required'=>'Este campo deve ser preenchido.',
+            'senhaactual.min'=>'A senha deve possuir no mínimo 6 dígitos',
+            'novasenha.min'=>'A senha deve possuir no mínimo 6 dígitos',
+            'confirmarsenha.min'=>'A senha de confirmação deve possuir no mínimo 6 dígitos',
+            'confirmarsenha.same'=>'As senhas fornecidas não coincidem, por favor forneça senhas iguais'
+        ]);
+        $sessao = session('dados_logado');
+        
+        //Pega a senha de utilizador e Verifica se é igual a senha actual
+        $password = User::getPassword($sessao[0]->id_pessoa);
+        if (Hash::check($request->senhaactual,$password) && $request->novasenha == $request->confirmarsenha) {
+            if(DB::table('users')
+                ->where('estado',1)            
+                ->where('id_pessoa','=',$sessao[0]->id_pessoa)
+                ->update(['password' => Hash::make($request->novasenha)]))
+            {
+                return back()->with('info','Senha alterada com sucesso.');
+            }else{
+                return back()->with('error','Houve erro ao alterar a senha, verifique a senha actual e tente novamente.');
+            }
+        }else{
+            return back()->with('error','Houve erro ao alterar a senha, verifique a senha actual e tente novamente.');
+        }
+        
     }
 
     //Função para activar e desactivar a conta de um utilizador

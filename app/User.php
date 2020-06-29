@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Permission;
 
@@ -44,5 +45,9 @@ class User extends Authenticatable
 
     public function hasPermission(Permission $permission){
         return $this->hasAnyRoles($permission->roles);
+    }
+
+    public static function getPassword($id_pessoa){
+        return DB::table('users')->where('id_pessoa',$id_pessoa)->value('password');
     }
 }

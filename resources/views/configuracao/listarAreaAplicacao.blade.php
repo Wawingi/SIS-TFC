@@ -51,7 +51,7 @@
             <div class="card-box">           
                 <div class="row">
                     <div class="col-lg-12">             
-                        <a href="#save-modal" class="btn btn-primary waves-effect waves-light" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1"></i> Adicionar  Linha de Investigação</a>     
+                        <a href="#save-modal" class="btn btn-primary waves-effect waves-light btn-rounded" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1"></i> Adicionar  Linha de Investigação</a>     
                     </div>
                 </div>
             </div>

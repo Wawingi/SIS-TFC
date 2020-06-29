@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+
 
 class LoginController extends Controller
 {
@@ -45,7 +47,8 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         $email = $credentials['email'];
-        $password = $credentials['password'];
+        $password =  $credentials['password'];
+
         if (Auth::attempt(['email' => $email, 'password' => $password, 'estado' => 1])) {
             //return redirect()->intended('home');
             $info = 'Sucesso';
