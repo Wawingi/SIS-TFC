@@ -14,10 +14,10 @@
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">SIS TFC</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Configurações</a></li>
-                            <li class="breadcrumb-item active">Área de aplicação</li>
+                            <li class="breadcrumb-item active">Perfil de Utilizador</li>
                         </ol>
-                    </div>
-                    <h4 class="page-title">Área de aplicação</h4>
+                    </div>                   
+                    <h4 class="page-title">Perfil do Utilizador</h4>
                 </div>
             </div>
         </div>
@@ -42,13 +42,16 @@
                 </button>
             </div>
         @endif
-
         <!-- Inclusão da Modal -->
-        @include('includes.configuracao.modalEditarArea')
+        @include('includes.configuracao.modalEditarPerfil')
 
-        <!--Inicio do conteudo-->
-            <br><br>  
 
+        <?php                 
+            //dd(App\Role::pegaPerfilUtilizador(5));
+        ?>
+
+        <!--Inicio do conteudo-->          
+            <br><br>
             <div class="card-box">
                 <div class="row">                            
                     <div class="col-4">
@@ -57,8 +60,29 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="name">Nome</label>
-                                    <input type="text" class="form-control" name="nome" placeholder="ex: Investigação Científica">
-                                </div>       
+                                    <input type="text" class="form-control" name="nome" placeholder="ex: Administrador">
+                                </div>    
+                                <div class="form-group">
+                                    <label for="name">Descrição</label>
+                                    <input type="text" class="form-control" name="descricao" placeholder="ex: Administrador funcionário">
+                                </div> 
+                                @if($sessao[0]->tipo==2)   
+                                    <div class="form-group">
+                                        <label for="name">Tipo</label><br>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="tipo" id="tipo" value="2"> Docente
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="tipo" id="tipo" value="3"> Estudante
+                                            </label>
+                                        </div>
+                                    </div>
+                                @elseif($sessao[0]->tipo==1)
+                                    <input class="form-check-input" type="hidden" name="tipo" id="tipo" value="1">
+                                @endif     
                                 <hr>
                                 <div class="text-right">
                                     <button type="submit" class="btn btn-primary waves-effect waves-light"><i class="mdi mdi-content-save mr-1"></i>Registar</button>
@@ -71,14 +95,15 @@
                             <table id="paginationFullNumbers" class="table table-bordered" width="100%">
                                 <thead id="cabecatabela">
                                     <tr>
-                                        <th>Nome</th>
-                                        <th style="width:15%">Acções</th>
+                                        <th>Perfil</th>
+                                        <th>Descrição</th>
+                                        <th class="text-center" style="width: 125px">Acções</th>
                                     </tr>
                                 </thead>
                                 <tbody id="dataTable">
-                                                                                             
+                                                            
                                 </tbody>
-                            </table> 
+                            </table>
                             <hr style="margin-top:-15px">
                         
                             <div class="row">
@@ -88,7 +113,7 @@
                                             <div id="headingOne">
                                                 <h5 class="my-0">
                                                     <a class="text-primary btn btn-warning btn-sm waves-effect waves-light btn-rounded" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                        <i class="far fa-trash-alt mr-1 AcordeonLixeira"></i><h7 class="AcordeonLixeira">Linhas de Investigação Eliminadas</h7>
+                                                        <i class="far fa-trash-alt mr-1 AcordeonLixeira"></i><h7 class="AcordeonLixeira">Perfis Eliminados</h7>
                                                     </a>
                                                 </h2>
                                             </div>
@@ -97,7 +122,8 @@
                                                 <table id="paginationFullNumbers2" class="table table-bordered" width="100%">
                                                     <thead id="cabecatabela">
                                                         <tr>
-                                                            <th>Nome</th>
+                                                            <th>Perfil</th>
+                                                            <th>Descrição</th>
                                                             <th class="text-center" style="width: 125px">Acções</th>
                                                         </tr>
                                                     </thead>
@@ -109,11 +135,12 @@
                                         </div>                                                                                    
                                     </div>
                                 </div>
-                            </div>    
+                            </div>   
                         </div>
                     </div>
                 </div>
-            </div>              
+            </div> 
+                  
         <!-- FIm do conteudo -->
     </div> 
 </div>
@@ -121,7 +148,7 @@
     function carregarDataTable(){
         var isDeleted=0;
         $.ajax({
-            url: "{{ url('pegaAreasAplicacao') }}/"+isDeleted,
+            url: "{{ url('pegaPerfilUtilizador') }}/"+isDeleted,
             success:function(data){
                 $('#dataTable').html(data);
                 $('#paginationFullNumbers').DataTable({
@@ -134,12 +161,13 @@
 			}
         })
     }
+
     carregarDataTable();
 
     function carregarDataTableLixeira(){
         var isDeleted=1;
         $.ajax({
-            url: "{{ url('pegaAreasAplicacao') }}/"+isDeleted,
+            url: "{{ url('pegaPerfilUtilizador') }}/"+isDeleted,
             success:function(data){
                 $('#dataTableLixeira').html(data);
                 $('#paginationFullNumbers2').DataTable({
@@ -148,85 +176,18 @@
             },
             error: function(e)
 			{
-				alert("erro ao carregar dados");
+				alert("Erro ao carregar dados");
 			}
         })
     }
+
     carregarDataTableLixeira();
 
-
-
-            $( "#formularioSalvarrr" ).validate( {
-				rules: {					
-					nome: {
-						required: true,
-						minlength:6,
-					}
-				},
-				messages: {					
-					nome: {
-                        required: "Forneça a linha de investigação.",
-						minlength:"Tamanho muito inferior, forneça valor com mais de 5 dígitos"
-					}
-				},
-				errorElement: "em",
-				errorPlacement: function ( error, element ) {
-					// Add the `invalid-feedback` class to the error element
-					error.addClass( "invalid-feedback" );
-					if ( element.prop( "type" ) === "checkbox" ) {
-						error.insertAfter( element.next( "label" ) );
-					} else {
-						error.insertAfter( element );
-					}
-				},
-				highlight: function ( element, errorClass, validClass ) {
-					$( element ).addClass( "is-invalid" ).removeClass( "is-valid" );
-				},
-				unhighlight: function (element, errorClass, validClass) {
-					$( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
-				},
-
-                submitHandler: function(formularioSalvar){
-                    //e.preventDefault();
-                    var request = new FormData(this);
-        
-                    $.ajax({
-                        url:"{{ url('registarArea') }}",
-                        method: "POST",
-                        data: request,
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-                        success:function(data){
-                            if(data == "Sucesso"){
-                                Custombox.modal.close();
-                                Swal.fire({
-                                    text: "Área registada com sucesso.",
-                                    icon: 'success',
-                                    confirmButtonText: 'Fechar',
-                                    timer: 1500
-                                }),
-                                $('#formularioSalvar')[0].reset();
-                                //carregarDataTable();
-                            }            
-                        },
-                        error: function(e){
-                            Swal.fire({
-                                text: 'Ocorreu um erro ao registar a área.',
-                                icon: 'error',
-                                confirmButtonText: 'Fechar'
-                            })
-                        }
-                    });
-                }
-            });
-    
     $('#formularioSalvar').submit(function(e){
         e.preventDefault();
         var request = new FormData(this);
-        
         $.ajax({
-            url:"{{ url('registarArea') }}",
+            url:"{{ url('registarPerfil') }}",
             method: "POST",
             data: request,
             contentType: false,
@@ -234,47 +195,47 @@
             processData: false,
             success:function(data){
                 if(data == "Sucesso"){
-                    //Custombox.modal.close();
                     Swal.fire({
-                        text: "Área registada com sucesso.",
+                        text: "Perfil registado com sucesso.",
                         icon: 'success',
                         confirmButtonText: 'Fechar',
                         timer: 1500
-                    }),
-                    $('#formularioSalvar')[0].reset();
+                    })             
                     carregarDataTable();
+                    $('#formularioSalvar')[0].reset();
                 }            
             },
             error: function(e){
                 $('#formularioSalvar')[0].reset();
                 Swal.fire({
-                    text: 'Ocorreu um erro ao registar a área.',
+                    text: 'Ocorreu um erro ao registar o perfil.',
                     icon: 'error',
                     confirmButtonText: 'Fechar'
                 })
             }
         });
     });
-    
+
     $(document).on('click','.pegar',function(e){
         e.preventDefault();
         var id = $(this).attr('id');
         var nome = $(this).attr('nome');
+        var descricao = $(this).attr('desc');
 
         $('.editar').modal('show');
 
         $('#nome_edit').val(nome);
         $('#id_edit').val(id);
+        $('#desc_edit').val(descricao);
     });
 
-   
     $('#formularioEditar').submit(function(e){
         e.preventDefault();
 
         var request = new FormData(this);
 
         $.ajax({
-            url:"{{ url('editarArea') }}",
+            url:"{{ url('editarPerfil') }}",
             method: "POST",
             data: request,
             contentType: false,
@@ -284,7 +245,7 @@
                 if(data == "Sucesso"){
                     $('#modalEditarClose').click();
                     Swal.fire({
-                        text: "Área Actualizada com sucesso.",
+                        text: "Perfil Actualizado com sucesso.",
                         icon: 'success',
                         confirmButtonText: 'Fechar'
                     }),
@@ -294,7 +255,7 @@
             },
             error: function(e){
                 Swal.fire({
-                    text: 'Ocorreu um erro ao actualizar a área.',
+                    text: 'Ocorreu um erro ao actualizar o perfil.',
                     icon: 'error',
                     confirmButtonText: 'Fechar'
                 })
@@ -304,7 +265,7 @@
 
     $(document).on('click','.eliminar',function(e){
         Swal.fire({
-			  title: 'Deseja realmente eliminar a linha de investigação? OBS: Poderá restaurá-lo.',
+			  title: 'Deseja realmente eliminar o perfil? OBS: Poderá restaurá-lo.',
 			  icon: 'warning',
 			  showCancelButton: true,
 			  confirmButtonColor: '#3085d6',
@@ -316,7 +277,7 @@
                     e.preventDefault();
                     var id = $(this).attr('id');
                     $.ajax({
-                        url: "{{ url('eliminarArea') }}/"+id,
+                        url: "{{ url('eliminarPerfil') }}/"+id,
                         type: "GET",
                         success: function(data){
                             carregarDataTable();
@@ -330,7 +291,7 @@
                         error: function(e)
                         {
                             Swal.fire({
-                                text: 'Ocorreu um erro ao remover a área.',
+                                text: 'Ocorreu um erro ao remover o perfil.',
                                 icon: 'error',
                                 confirmButtonText: 'Fechar'
                             })
@@ -342,7 +303,7 @@
 
     $(document).on('click','.restaurar',function(e){
         Swal.fire({
-			  title: 'Deseja recuperar a linha de investigação?',
+			  title: 'Deseja restaurar o perfil?',
 			  icon: 'warning',
 			  showCancelButton: true,
 			  confirmButtonColor: '#3085d6',
@@ -354,7 +315,7 @@
                     e.preventDefault();
                     var id = $(this).attr('id');
                     $.ajax({
-                        url: "{{ url('restaurarArea') }}/"+id,
+                        url: "{{ url('restaurarPerfil') }}/"+id,
                         type: "GET",
                         success: function(data){
                             carregarDataTable();
@@ -368,7 +329,7 @@
                         error: function(e)
                         {
                             Swal.fire({
-                                text: 'Ocorreu um erro ao restaurar a linha.',
+                                text: 'Ocorreu um erro ao restaurar o perfil.',
                                 icon: 'error',
                                 confirmButtonText: 'Fechar'
                             })

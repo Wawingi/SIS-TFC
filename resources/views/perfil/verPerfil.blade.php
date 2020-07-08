@@ -14,9 +14,10 @@
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">SIS TFC</a></li>
-                            <li class="breadcrumb-item active">Ver Perfil</li>
+                            <li class="breadcrumb-item active">Meu Perfil</li>
                         </ol>
                     </div>
+                    <h4 class="page-title">Meu perfil</h4>
                 </div>
             </div>
         </div>
@@ -32,6 +33,9 @@
             </div>
         @endif
         <br><br>
+
+        <!-- Inclusão da Modal -->
+        @include('includes.perfil.modalTrocarSenha')
         
         <!--Inicio do conteudo-->
         <div class="row">    
@@ -49,7 +53,7 @@
                                 <li class="nav-item">
                                     <a href="#tab22" data-toggle="tab" class="nav-link pt-2 pb-2">
                                         <i class="mdi mdi-settings mr-1"></i>
-                                        <span class="d-none d-sm-inline">Dados Profissionais</span>
+                                        <span class="d-none d-sm-inline">Dados Acadêmicos</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -233,19 +237,77 @@
                                                    @endforeach
                                                 </label>
                                             </div>
-                                        </div> <!-- end col -->
-                                    </div> <!-- end row -->                                   
+                                        </div> 
+                                    </div> 
+                                    <div id="labelespaco" class="row">
+                                        <div class="col-5">
+                                            <div class="form-group row mb-3">
+                                                <p class="col-md-5 col-form-label"> Alterar Senha</p>
+                                            </div>
+                                        </div> 
+                                        <div class="col-7">
+                                            <div class="form-group row mb-3">
+                                                <label class="col-md-7 col-form-label">: 
+                                                    <a href="#save-modal" class="btn btn-warning btn-rounded btn-sm waves-effect waves-light" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="fas fa-user-lock mr-1"></i>Alterar Senha</a>
+                                                </label>
+                                            </div>
+                                        </div> 
+                                    </div>                                   
                                 </div>                      
                                 <div class="clearfix"></div>
-                                <hr>
-                            </div> <!-- tab-content -->
-                        </div> <!-- end #btnwizard-->
-                        <a href='{{ url("pegaUtilizador/".base64_encode($dados[0]->id_pessoa)."/".base64_encode($dados[0]->tipo))}}' class="btn btn-warning waves-effect waves-light"><i class="fas fa-user-edit mr-1"></i>Editar</a>
-                    </div> <!-- end card-body -->
-                </div> <!-- end card-->
+                            </div>
+                        </div> 
+                        <!--<a href='{{ url("pegaUtilizador/".base64_encode($dados[0]->id_pessoa)."/".base64_encode($dados[0]->tipo))}}' class="btn btn-warning waves-effect waves-light"><i class="fas fa-user-edit mr-1"></i>Editar</a>-->
+                    </div> 
+                </div>
             </div>
         </div>
         <!--Fim do conteudo-->
     </div> 
 </div>
+<script>
+    $('#trocarSenha').submit(function(e){
+        e.preventDefault();
+        var request = new FormData(this);
+        if($('#novasenha').val() === $('#confirmarsenha').val()){       
+            $.ajax({
+                url:"{{ url('trocarSenha') }}",
+                method: "POST",
+                data: request,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success:function(data){
+                    if(data == "Sucesso"){            
+                        Custombox.modal.close();
+                        Swal.fire({
+                            text: "Senha alterada com sucesso.",
+                            icon: 'success',
+                            confirmButtonText: 'Fechar',
+                            timer: 1500
+                        }),
+                        $('#formularioSalvar')[0].reset();
+                    }            
+                },
+                error: function(e){
+                    $('#trocarSenha')[0].reset();
+                    Custombox.modal.close();
+                    Swal.fire({
+                        text: 'Ocorreu um erro ao alterar a senha.',
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
+                    })
+                }
+            });
+        }else{
+            $('#trocarSenha')[0].reset();
+            Custombox.modal.close();
+            Swal.fire({
+                text: 'A nova senha e a senha de confirmação devem ser iguais.',
+                icon: 'error',
+                confirmButtonText: 'Fechar'
+            })
+        }
+    });
+</script>
 @stop

@@ -48,9 +48,7 @@
             @include('includes.rodape')
         <!-- Footer Fim -->
         
-
         <!-- Importação das SCRIPTS-->
-        
         <!--<script src="{{ asset('js/utilizador.js') }}"></script>-->
         <!-- Vendor js -->
         <script src="{{ asset('js/vendor.min.js') }}"></script>

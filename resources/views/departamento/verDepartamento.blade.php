@@ -112,6 +112,7 @@
         <!-- Inclusão da Modal -->
         @include('includes.curso.modalCurso')
         @include('includes.curso.modalEditarCurso')
+
         <a id="modalEditar" style="display:none" href="#edit-modal" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target=".bs-example-modal-lg"></a>
             
         <?php if($departamento->tipo == 2){ ?>
@@ -141,7 +142,7 @@
     </div> 
 </div> 
 <script>
-    $( "#formularioSalvar" ).validate( {
+    $( "#formularioSalvarr" ).validate( {
 		rules: {					
 			nome: {
 				required: true,

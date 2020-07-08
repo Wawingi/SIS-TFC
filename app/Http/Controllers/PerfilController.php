@@ -168,6 +168,7 @@ class PerfilController extends Controller
             'confirmarsenha.same'=>'As senhas fornecidas não coincidem, por favor forneça senhas iguais'
         ]);
         $sessao = session('dados_logado');
+        $info = null;
         
         //Pega a senha de utilizador e Verifica se é igual a senha actual
         $password = User::getPassword($sessao[0]->id_pessoa);
@@ -177,14 +178,14 @@ class PerfilController extends Controller
                 ->where('id_pessoa','=',$sessao[0]->id_pessoa)
                 ->update(['password' => Hash::make($request->novasenha)]))
             {
-                return back()->with('info','Senha alterada com sucesso.');
+                $info = 'Sucesso';
             }else{
-                return back()->with('error','Houve erro ao alterar a senha, verifique a senha actual e tente novamente.');
+                $info = 'Erro';
             }
         }else{
-            return back()->with('error','Houve erro ao alterar a senha, verifique a senha actual e tente novamente.');
+            $info = 'Erro';
         }
-        
+        echo $info;
     }
 
     //Função para activar e desactivar a conta de um utilizador
@@ -236,5 +237,155 @@ class PerfilController extends Controller
         return view('perfil.rolesTable',compact('roles'));
     }
 
-    
+    //Registar perfil de utilizador
+    public function registarPerfil(Request $request){
+        $validatedData = $request->validate([
+            'nome' => ['required', 'string', 'max:255'],
+            'descricao' => ['required', 'string', 'max:255'],
+            'tipo' => ['required', 'string', 'max:1'],
+        ],[
+            //Mensagens de validação de erros
+            'nome.required'=>'O nome é necessário',
+            'descricao.required'=>'A descrição é necessário',
+            'tipo.required'=>'O tipo é necessário',
+        ]);
+        
+        $info = null;
+
+        $role = new Role;
+        $role->nome = $request->nome;
+        $role->desc = $request->descricao;    
+        $role->tipo = $request->tipo;
+        
+        if($role->save()){
+            $info = 'Sucesso';
+        }
+        echo $info;        
+    }
+
+    //Listar perfis de utilizador
+    public function pegaPerfilUtilizador($isDeleted){
+        //Dados da sessão
+        $sessao=session('dados_logado');
+        $tipo = $sessao[0]->tipo;
+
+        if($isDeleted==0){
+            if($tipo==1){
+                $roles = DB::table('roles')
+                ->select('id','nome','desc','tipo','deleted_at')    
+                ->where('tipo','=',$tipo)
+                ->where('deleted_at','=',null)
+                ->get();
+            }else if($tipo==2){
+                $roles = DB::table('roles')
+                ->select('id','nome','desc','tipo','deleted_at') 
+                ->whereNull('deleted_at')
+                ->where(function ($query) {
+                    $query->where('tipo','=',2)
+                          ->orWhere('tipo','=', 3);
+                })                                                                                                     
+                ->get();
+            }
+        }else if($isDeleted==1){
+            if($tipo==1){
+                $roles = DB::table('roles')
+                ->select('id','nome','desc','tipo','deleted_at')    
+                ->where('tipo','=',$tipo)
+                ->where('deleted_at','<>',null)
+                ->get();
+            }else if($tipo==2){
+                $roles = DB::table('roles')
+                ->select('id','nome','desc','tipo','deleted_at') 
+                ->whereNotNull('deleted_at')
+                ->where(function ($query) {
+                    $query->where('tipo','=',2)
+                          ->orWhere('tipo','=', 3);
+                })              
+                ->get();
+            }
+        }      
+        return view('configuracao.perfilTable',compact('roles','isDeleted'));
+    }
+
+    //Editar perfil de utilizador
+    public function editarPerfil(Request $request){
+        $info = null;
+        if(DB::table('roles')          
+                ->where('id','=',$request->id_edit)
+                ->update(['nome' => $request->nome_edit,'desc'=>$request->desc_edit])){
+            $info = 'Sucesso';
+        }    
+        echo $info;     
+    }
+
+    //Função que remove o perfil com softdelete (não permanente)
+    public function softDeletePerfil($id){
+        $info = null;
+        if(Role::destroy($id)){
+            $info = 'Sucesso';
+        }
+        echo $info;
+    }
+
+    //Função que restaura o perfil eliminado com softdelete
+    public function restaurarPerfil($id){
+        $info = null;
+        if(Role::withTrashed()
+                ->where('id', $id)
+                ->restore())
+        {
+            $info = 'Sucesso';
+        }
+        echo $info;
+    }
+
+    //Função que permite ver um determinado perfil
+    public function verRole($id,$nome,$descricao,$tipo){
+        $id = base64_decode($id);
+        $nome = base64_decode($nome);
+        $descricao = base64_decode($descricao);
+        $tipo = base64_decode($tipo);
+
+        $perfil = new Role;
+        $perfil->id = $id;
+        $perfil->nome = $nome;
+        $perfil->descricao = $descricao;
+        $perfil->tipo = $tipo;
+
+        $permissions = Role::pegaPermissionsRole($id);
+
+        return view('configuracao.verPerfilUtilizador',compact('perfil','permissions'));
+    }
+
+    //Remover a permissão associada a um perfil
+    public function removerPermissao($idPermission,$idRole){
+        $info = null;
+        if(DB::table('permission_role')      
+            ->where('permission_id',$idPermission)         
+            ->where('role_id',$idRole)
+            ->delete())
+        {
+            $info ='Sucesso';
+        }
+        echo $info;
+    }
+
+    //associar permissão a um perfil
+    public function associarPermission(Request $request){
+        $info = null;
+        if((is_array($request->permission_id) || is_object($request->permission_id)) && count($request->permission_id) > 0 && $request->idRole){
+            foreach($request->permission_id as $idPermission):
+                if(DB::table('permission_role')->insert(
+                    ['permission_id' => $idPermission, 'role_id' => $request->idRole]
+                )){
+                    $retorno = true;
+                }
+            endforeach;
+            $info = 'Sucesso';
+        }else{
+            $info ='Erro';
+        }
+        echo $info;
+    }
+
 }

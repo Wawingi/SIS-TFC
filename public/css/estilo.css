@@ -56,6 +56,10 @@ hr {
     color:#3bafda;
 }
 
+.tabelaClicked:hover{
+    background: #c8d9e8;
+}
+
 #cabeca-modal{
     background-color:#3bafda;
 }
@@ -76,14 +80,21 @@ hr {
     color:#fb4f4f;
     font-size: 16px;
     margin-top: 10px;
-    margin-left: -25px;
+    margin-left: -15px;
 }
 
 .proposta-aceite{
     color:#007c00;
     font-size: 16px;
     margin-top: 10px;
-    margin-left: -25px;
+    margin-left: -15px;
+}
+
+.proposta-espera{
+    color:#3bafda;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-left: -15px;
 }
 
 #icone_resultado_proposta{
@@ -92,4 +103,12 @@ hr {
 
 #motivorejeicao{
     font-size: medium;
+}
+
+#entrada{
+    background: #ebfaff;
+}
+
+.AcordeonLixeira{
+    color:white;
 }

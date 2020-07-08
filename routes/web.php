@@ -8,7 +8,7 @@ Route::post('logar', 'Auth\LoginController@authenticate');
 
 Auth::routes(['register' => false]);
 
-Route::get('home', 'HomeController@index')->name('home');
+Route::get('home', 'HomeController@index');
 Route::get('alterarSenha', function(){
     return view('perfil.AlterarSenha');
 });
@@ -44,9 +44,9 @@ Route::name('utilizador')->group(function () {
     });
     Route::post('pesquisarUtilizador','PerfilController@pesquisarUtilizador');
     Route::get('resetarSenha/{id}','PerfilController@resetarSenha');
-    Route::get('trocarSenha', function(){
+    /*Route::get('trocarSenha', function(){
         return view('perfil.trocarSenha');
-    });
+    });*/
     Route::post('trocarSenha','PerfilController@trocarSenha');
 });
 
@@ -91,6 +91,7 @@ Route::name('sugestao')->group(function () {
     Route::get('verEnvolventes/{id}','SugestaoController@verEnvolventes');
     Route::get('sairGrupo/{idsugestao}/{idpessoa}/{proveniencia}','SugestaoController@sairGrupo');
     Route::get('aceitarProposta/{idPessoa}/{idSugestao}','SugestaoController@aceitarProposta');
+    Route::get('negarProposta/{idsugestao}/{idpessoa}/{proveniencia}','SugestaoController@negarProposta');
     Route::get('meusTutorandos', function(){
         return view('sugestao.meusTutorandos');
     });
@@ -98,6 +99,8 @@ Route::name('sugestao')->group(function () {
     Route::get('contSugestoesOrientador','SugestaoController@contSugestoesOrientador');
     Route::post('rejeitarProposta','SugestaoController@rejeitarProposta');
     Route::get('verMotivoRejeicao/{idSugestao}','SugestaoController@verMotivoRejeicao');
+    Route::get('aprovarProposta/{idSugestao}','SugestaoController@aprovarProposta');
+    Route::post('adicionarEstudante','SugestaoController@adicionarEstudante');
 });
 
 //Rotas para configurações
@@ -105,11 +108,22 @@ Route::name('configuracao')->group(function (){
     Route::get('listarAreaAplicacao', function(){
         return view('configuracao.listarAreaAplicacao');
     });
-    Route::get('pegaAreasAplicacao','AreaController@pegaAreasAplicacao');
+    Route::get('pegaAreasAplicacao/{isDeleted}','AreaController@pegaAreasAplicacao');
     Route::post('registarArea','AreaController@registarArea');
     Route::post('editarArea','AreaController@editarArea');
     Route::get('eliminarArea/{id}','AreaController@softDeleteArea');
     Route::get('restaurarArea/{id}','AreaController@restaurarArea');
+    Route::get('listarPerfilUtilizador', function(){
+        return view('configuracao.listarPerfilUtilizador');
+    });
+    Route::post('registarPerfil','PerfilController@registarPerfil');
+    Route::get('pegaPerfilUtilizador/{isDeleted}','PerfilController@pegaPerfilUtilizador');
+    Route::post('editarPerfil','PerfilController@editarPerfil');
+    Route::get('eliminarPerfil/{id}','PerfilController@softDeletePerfil');
+    Route::get('restaurarPerfil/{id}','PerfilController@restaurarPerfil');
+    Route::get('verRole/{id}/{nome}/{desc}/{tipo}','PerfilController@verRole');
+    Route::get('removerPermissao/{idPermission}/{idRole}','PerfilController@removerPermissao');
+    Route::post('associarPermission','PerfilController@associarPermission');
 });
 
 

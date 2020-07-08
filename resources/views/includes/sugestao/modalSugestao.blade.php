@@ -2,13 +2,13 @@
     <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">    
         <div class="modal-content">
             <div id="cabeca-modal" class="modal-header">
-                <h4 class="modal-title" id="exampleModalScrollableTitle">Adicionar Sugestão</h4>
+                <h4 class="modal-title" id="exampleModalScrollableTitle"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Sugestão</h4>
                 <button id="modalClose" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="formularioSalvar" method="post">
+                <form id="formularioSalvar" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label for="name">Tema</label>
@@ -16,8 +16,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="descricao">Descrição</label>
-                        <textarea class="form-control" name="descricao" rows="3"></textarea>
+                        <label for="descricao">Anexar Ficheiro em Pdf</label>
+                        <input type="file" class="form-control" name="descricao">
                     </div>
                     <!--Buscar area de aplicação na BD e preencher a combobox -->
                     <?php 
@@ -48,22 +48,26 @@
                             </div>
                             <div class="col-5">
                                 <div class="form-group">
-                                    <label for="position">Activar trabalho em grupo</label>
-                                    <br><input type="checkbox" data-plugin="switchery" data-color="#3bafda" data-size="small"/>
-                                    <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                                    <label for="position">Escolha a modalidade</label>
+                                    <select name="modalidade" id="modalidade" class="custom-select">       
+                                        <option>Individual</option>
+                                        <option>Colectivo</option>
+                                    </select>   
                                 </div>
                             </div>
                         </div>
-                        <?php                   
-                            $envolventes = App\Model\Pessoa::pegaEstudantesFaculdade($sessao[0]->faculdade,$sessao[0]->id_pessoa);
-                        ?> 
-                        <div id="envolventesp" class="form-group">
-                            <label for="name">Envolventes</label>
-                            <select class="js-example-basic-multiple custom-select" name="envolventes[]" multiple="multiple">
-                                <?php foreach($envolventes as $envolvente): ?>
-                                    <option>{{$envolvente->nome}}</option>
-                                <?php endforeach ?>
-                            </select>
+                        <div id="envolventes" style="display:none">
+                            <?php                   
+                                $envolventes = App\Model\Pessoa::pegaEstudantesFaculdade($sessao[0]->faculdade,$sessao[0]->id_pessoa);
+                            ?> 
+                            <div class="form-group">
+                                <label for="name">Envolventes</label>
+                                <select class="js-example-basic-multiple custom-select" name="envolventes[]" multiple="multiple">
+                                    <?php foreach($envolventes as $envolvente): ?>
+                                        <option>{{$envolvente->nome}}</option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
                         </div>                   
                         
                     @endif

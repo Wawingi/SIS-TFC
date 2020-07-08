@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\Area;
+use App\Model\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,17 +15,27 @@ class AreaController extends Controller
         $this->middleware('auth');
     }
 
-    public function pegaAreasAplicacao(){
+    public function pegaAreasAplicacao($isDeleted){
         //Dados da sessão
         $sessao=session('dados_logado');
 
-        $areas = DB::table('area_aplicacao')
-        ->select('id','nome','deleted_at')    
-        ->where('id_departamento','=',$sessao[0]->id_departamento)
-        ->orderBy('nome')
-        ->get();
+        if($isDeleted==0){
+            $areas = DB::table('area_aplicacao')
+            ->select('id','nome','deleted_at')    
+            ->where('id_departamento','=',$sessao[0]->id_departamento)
+            ->whereNull('deleted_at')
+            ->orderBy('nome')
+            ->get();
+        }else if($isDeleted==1){
+            $areas = DB::table('area_aplicacao')
+            ->select('id','nome','deleted_at')    
+            ->where('id_departamento','=',$sessao[0]->id_departamento)
+            ->whereNotNull('deleted_at')
+            ->orderBy('nome')
+            ->get();
+        }
 
-        return view('configuracao.areaTable',compact('areas'));
+        return view('configuracao.areaTable',compact('areas','isDeleted'));
     }
 
     public function registarArea(Request $request){
@@ -78,8 +89,8 @@ class AreaController extends Controller
         echo $info;
     }
 
-      //Função que restaura a area eliminada com softdelete
-      public function restaurarArea($id){
+    //Função que restaura a area eliminada com softdelete
+    public function restaurarArea($id){
         if(Area::withTrashed()
                 ->where('id', $id)
                 ->restore())
@@ -89,5 +100,4 @@ class AreaController extends Controller
         echo $info;
     }
 
-    
 }

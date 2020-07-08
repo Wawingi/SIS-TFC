@@ -43,15 +43,19 @@ class SugestaoController extends Controller
     public function registarSugestao(Request $request){
         $validatedData = $request->validate([
             'tema' => ['required', 'string', 'max:255'],
-            'descricao' => ['required', 'string'],
+            'descricao' => ['required'],
         ],[
             //Mensagens de validação de erros
             'tema.required'=>'O tema é necessário',
             'descricao.required'=>'A descrição é necessária',
-        ]);
-
+        ]);       
         //Pega sessao
         $sessao=session('dados_logado');
+
+        $anexo = $request->file('descricao');
+        $originalName = $anexo->getClientOriginalName();
+        $anexo->move(public_path('pdf/propostas/'),$originalName);
+
         //Pega área de aplicação do tema em causa
         $id_area=Area::pegaAreaId($request->area,$sessao[0]->id_departamento);       
         switch($sessao[0]->tipo){
@@ -59,7 +63,7 @@ class SugestaoController extends Controller
             case 2:
                     $sugestao = new Sugestao;
                     $sugestao->tema = $request->tema;
-                    $sugestao->descricao = $request->descricao;       
+                    $sugestao->descricao = $originalName;       
                     $sugestao->estado = 1;         //Publicado=1; Selecionado=2; Em desenvolvimento=3; Rejeitado=4, 
                     $sugestao->visibilidade = 1;    //Visivel=1; Invisivel=2
                     $sugestao->id_area = $id_area;
@@ -77,9 +81,9 @@ class SugestaoController extends Controller
             case 3:
                     $id_docente = Pessoa::pegaIdPessoaByNome($request->docente);
 
-                    //Regista a pessoa e retorna o ID gerado
+                    //Regista a sugestao e retorna o ID gerado
                     $idSugestao = DB::table('sugestao')->insertGetId(
-                        ['tema'=>$request->tema,'descricao'=>$request->descricao,'estado'=>1,'visibilidade'=>1,'id_area'=>$id_area,'id_departamento'=>$sessao[0]->id_departamento,'proveniencia'=>2,'id_docente'=>$id_docente]
+                        ['tema'=>$request->tema,'descricao'=>$originalName,'estado'=>1,'visibilidade'=>1,'id_area'=>$id_area,'id_departamento'=>$sessao[0]->id_departamento,'proveniencia'=>2,'id_docente'=>$id_docente,'avaliacao'=>3,'created_at'=>date('Y-m-d H:i:s',strtotime('today')),'updated_at'=>date('Y-m-d H:i:s',strtotime('today'))]
                     );
 
                     if($id_docente>0 && $idSugestao>0){
@@ -201,7 +205,21 @@ class SugestaoController extends Controller
         echo $info;     
     }
 
+     //FUnção para negar o convite para trabalhar num tema
+     public function negarProposta($idSugestao,$idPessoa){
+        $info = null;    
+        if(DB::table('estudante_sugestao')
+            ->where('id_sugestao', '=', $idSugestao)        
+            ->where('id_estudante', '=', $idPessoa)
+            ->delete())
+        {
+            $info='Sucesso';
+        }
+        echo $info;
+    }
+
     public function rejeitarProposta(Request $request){
+        $info=null;
         if(DB::table('sugestao')          
                 ->where('id','=',$request->idSugestao)
                 ->update(['estado' => 4,'avaliacao' => 0]))
@@ -209,13 +227,41 @@ class SugestaoController extends Controller
             $avaliacao = new AvaliacaoProposta;
             $avaliacao->descricao = $request->descricao;
             $avaliacao->id_sugestao = $request->idSugestao;
-            $avaliacao->save();
+            if($avaliacao->save()){
+                Sugestao::mudarEstadoSugestao($request->proveniencia,$request->idSugestao);
+                $info = 'Sucesso';
+            }
         }
+        echo $info;
     }
 
     public function verMotivoRejeicao($idSugestao){
         return DB::table('avaliacao_sugestao')
         ->where('id_sugestao','=',$idSugestao)
         ->value('descricao');
+    }
+
+    //Aprovar a proposta por parte do conselho cientifico do departamento
+    public function aprovarProposta($idSugestao){
+        $info=null;
+        if(DB::table('sugestao')          
+                ->where('id','=',$idSugestao)
+                ->update(['estado' => 3,'avaliacao' => 1]))
+        {
+            $info = 'Sucesso';
+        }
+        echo $info;
+    }
+
+    //Adicionar novo estudante a uma sugestão ou proposta
+    public function adicionarEstudante(Request $request){
+        $info = null;
+        $idPessoa=Pessoa::pegaIdPessoaByNome($request->envolventes[0]);
+        if(DB::table('estudante_sugestao')->insert(
+            ['id_estudante' => $idPessoa, 'id_sugestao' => $request->sugestao_id,'estado'=>0]
+        )){
+            $info = 'Sucesso';
+        }
+        echo $info;
     }
 }

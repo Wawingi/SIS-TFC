@@ -17,6 +17,7 @@ class CreatePermissionsTable extends Migration
             $table->increments('id');
             $table->string('nome',50);
             $table->string('desc',100);
+            $table->integer('tipo');
             $table->timestamps();
         });
 

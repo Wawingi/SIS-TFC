@@ -23,11 +23,11 @@
                                 <hr>
                                 <p class="text-muted mb-4 mt-3">Informe o email e a senha para aceder a sua conta.</p>
                             </div>
+                                <img  id="logando" src="{{ url('images/loader.gif') }}"/>
                                 <div class="form-group mb-3">
                                     <label for="emailaddress">Email </label>
                                     <input class="form-control" name="email" type="email" id="email" required autofocus placeholder="Informe o email">
                                 </div>
-                                <img  id="logando" src="{{ url('images/loader.gif') }}"/>
                                 <div class="form-group mb-3">
                                     <label for="password">Senha</label>
                                     <input class="form-control" name="password" type="password" required id="senha" placeholder="Informe a senha">

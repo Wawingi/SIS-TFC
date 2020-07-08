@@ -54,5 +54,20 @@ class Sugestao extends Model
         ->get();
     }
 
+    //Actualizar estado quando rejeitado ou aprovado a sugestão
+    public static function mudarEstadoSugestao($proveniencia,$id_sugestao){
+        if($proveniencia > 0 && $id_sugestao > 0){
+            if(DB::table('estudante_sugestao')
+                ->where('id_sugestao', '=', $id_sugestao)              
+                ->delete())
+            {
+                if($proveniencia == 1){
+                    DB::table('sugestao')          
+                        ->where('id','=',$id_sugestao)
+                        ->update(['estado' => 1,'avaliacao' => 3]);  
+                }
+            }                        
+        }
+    }
     
 }

@@ -49,7 +49,6 @@
             <div class="row">
                 <div class="col-xl-12">
                     <div class="card">
-                        <a href='{{ url("listarUtilizadores")}}' class="btn btn-outline-secondary waves-effect waves-light" data-overlayColor="#38414a"><i class="fe-users mr-1"></i> Listar Utilizadores</a></h4><br>
                         <div class="card-body">
                             <div id="btnwizard">
                                 <ul class="nav nav-pills nav-justified form-wizard-header mb-4">
@@ -163,7 +162,7 @@
                                                             <hr>
 
                                                             <button class="btn btn-primary btn-rounded"><i class="far fa-save"> Registar</i></button>
-                                                            <a href="{{ url('listarUtilizadores') }}" class="btn btn-warning btn-rounded"><i class="far fa-window-close"> Cancelar</i></a>
+                                                            <a href="{{ url('listarUtilizadores') }}" class="btn btn-warning btn-rounded"><i class="far fa-window-close"> Limpar</i></a>
                                                         </form>
                                                     </div> 
                                                 </div>
@@ -270,7 +269,7 @@
                                                             <input type="hidden" class="form-control" value="2" name="tipo">                                                      
                                                             <hr>
                                                             <button class="btn btn-primary btn-rounded"><i class="far fa-save"> Registar</i></button>
-                                                            <a href="{{ url('listarUtilizadores') }}" class="btn btn-warning btn-rounded"><i class="far fa-window-close"> Cancelar</i></a>
+                                                            <a href="{{ url('listarUtilizadores') }}" class="btn btn-warning btn-rounded"><i class="far fa-window-close"> Limpar</i></a>
                                                         </form>
                                                     </div> 
                                                 </div> 

@@ -104,6 +104,7 @@
     carregarDataTable();
 
     $('#formularioSalvar').submit(function(e){
+        alert('HERE');
         e.preventDefault();
         var request = new FormData(this);
         

@@ -136,12 +136,6 @@
                             <span>Meu Perfil</span>
                         </a>
 
-                        <!-- item-->
-                        <a href="{{ url('trocarSenha') }}" class="dropdown-item notify-item">
-                            <i class="remixicon-lock-unlock-line"></i>
-                            <span>Alterar Senha</span>
-                        </a>
-
                         <div class="dropdown-divider"></div>
 
                         <!-- item-->
@@ -179,11 +173,6 @@
                                 <i class="fe-users mr-1"></i>
                                 <span>Listar Utilizadores</span>
                             </a>
-                            <!-- item-->
-                            <a href="{{ url('pesquisarUtilizador') }}" class="dropdown-item">
-                                <i class="fe-search mr-1"></i>
-                                <span>Pesquisar Utilizador</span>
-                            </a>
                         </div>
                     </li>
                 </ul>
@@ -218,11 +207,7 @@
                             <ul class="submenu">
                                 <li>
                                     <a href="{{ url('listarDepartamentos')}}"><i class="fe-list mr-1"></i>Listar departamentos</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('pesquisarDepartamento')}}"><i class="fe-search mr-1"></i> Pesquisar Departamento</a>
-                                </li>
-                                
+                                </li>                         
                             </ul>
                         </li>
                     @endcan
@@ -288,8 +273,16 @@
                             <li>
                                 <a href="{{ url('listarAreaAplicacao')}}"><i class="fe-file-text mr-1"></i>Linha de Investigação</a>
                             </li>
-                            
+                            <li>
+                                <a href="{{ url('listarPerfilUtilizador')}}"><i class="fas fa-users-cog mr-1"></i>Perfil de Utilizador</a>
+                            </li>
                         </ul>
+                    </li>
+
+                    <li class="has-submenu float-right">
+                        <a href="#" onclick="window.history.back();">
+                            <i class="fas fa-arrow-left"></i>Voltar
+                        </a>
                     </li>
 
                 </ul>
