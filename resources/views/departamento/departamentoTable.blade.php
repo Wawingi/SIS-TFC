@@ -1,13 +1,29 @@
-@foreach($departamentos as $departamento)
-    <tr>
-        <td>{{$loop->iteration}}</td>
-        <td>{{$departamento->nome}}</td>
-        <td>{{$departamento->chefe_departamento}}</td>
-        <td>{{$departamento->email}}</td>
-        <td class="float-right">
-            <a href='{{ url("verDepartamento/".base64_encode($departamento->id)) }}'  class="btn btn-primary btn-sm" title="Ver departamento"><i class='fa fa-eye'></i></a>
-            <a href="#" id="{{$departamento->id}}" class="pegar btn btn-warning btn-sm" title="Editar departamento"><i class='fa fa-pencil-alt'></i></a>
-            <a href="#" id="{{$departamento->id}}" class="eliminar btn btn-danger btn-sm" title="Eliminar departamento"><i class='fa fa-trash-alt'></i></a>
-        </td>
-    </tr>
-@endforeach 
+@if($isDeleted==0)
+    @foreach($departamentos as $departamento)
+        <tr title="Clique para ver o departamento" class="tabelaClicked clickable-row" data-href='{{ url("verDepartamento/".base64_encode($departamento->id)) }}'>
+            <td>{{$departamento->nome}}</td>
+            <td>{{$departamento->email}}</td>
+            <td class="text-center">
+                <a href="#" id="{{$departamento->id}}" nome="{{$departamento->nome}}" email="{{$departamento->email}}" telefone="{{$departamento->telefone}}" class="pegar mr-3" title="Editar departamento"><i class='fa fa-pencil-alt'></i></a>
+                <a href="#" id="{{$departamento->id}}" class="eliminar" title="Eliminar departamento"><i class='fa fa-trash-alt'></i></a>
+            </td>
+        </tr>
+    @endforeach
+@elseif($isDeleted==1)
+    @foreach($departamentos as $departamento)
+        <tr>
+            <td>{{$departamento->nome}}</td>
+            <td>{{$departamento->email}}</td>
+            <td class="text-center">
+                <a href="#" id="{{$departamento->id}}" class="restaurar" title="Recuperar departamento"><i class='fa fa-trash-restore'></i></a>
+            </td>
+        </tr>
+    @endforeach 
+@endif
+<script>
+  jQuery().ready(function(){
+    $(".clickable-row").click(function(){
+        window.location = $(this).data("href");
+    });
+  });
+</script>

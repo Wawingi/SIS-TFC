@@ -18,6 +18,7 @@
                             <li class="breadcrumb-item active">Ver Departamento</li>
                         </ol>
                     </div>
+                    <h4 class="page-title">Ver Departamento</h4>
                 </div>
             </div>
         </div>
@@ -67,9 +68,15 @@
                     </div>
                 </div>
                 <div class="col-7">
-                    <div class="form-group row mb-3">
-                        <label class="col-md-7 col-form-label" for="name2">: {{$departamento->chefe_departamento}}</label>
-                    </div>
+                    @if($chefe_departamento==null)
+                        <div class="form-group row mb-3">
+                            <label style="color:#3bafda" class="col-md-7 col-form-label">: Departamento sem Chefe</label>
+                        </div>
+                    @else
+                        <div class="form-group row mb-3">
+                            <label class="col-md-7 col-form-label" for="name2">: {{$chefe_departamento}}</label>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div id="labelespaco" class="row">
@@ -110,30 +117,75 @@
             </div>
         </div>              
         <!-- Inclusão da Modal -->
-        @include('includes.curso.modalCurso')
         @include('includes.curso.modalEditarCurso')
 
         <a id="modalEditar" style="display:none" href="#edit-modal" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target=".bs-example-modal-lg"></a>
             
         <?php if($departamento->tipo == 2){ ?>
-            <div class="row">
-                <div class="col-12">
-                    <div class="card-box">
-                        <div class="table-responsive">
-                        <table class="table mb-0">
-                            <thead id="cabecatabela">
-                                <tr>
-                                    <th style="text-align:center">#</th>
-                                    <th style="text-align:center">Curso</th>
-                                    <th  class="float-right"><a href="#curso-modal" class="btn btn-primary btn-rounded waves-effect waves-light" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1"></i> Adicionar Curso</i></a></th>
-                                </tr>
-                            </thead>
-                            <tbody  id="cursoTable">
-                            
-                            </tbody>
-                        </table>
-                        <hr>
-                        <!-- $departamentos->links() -->
+            <div class="card-box">
+                <div class="row">                            
+                    <div class="col-4">
+                        <div class="card-box">
+                            <form id="formularioSalvar" method="post">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="name">Curso</label>
+                                    <input required type="text" class="form-control" name="nome" placeholder="ex: Ciências da Computação">
+                                </div>  
+                                <input type="hidden" class="form-control" value="{{$departamento->id}}" id="id_departamento" name="id_departamento">                         
+                                <hr>
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light"><i class="mdi mdi-content-save mr-1"></i>Registar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="card-box">
+                            <table id="paginationFullNumbers" class="table table-bordered" width="100%">
+                                <thead id="cabecatabela">
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th>Curso</th>
+                                        <th style="width:15%">Acções</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cursoTable">
+                                                                                             
+                                </tbody>
+                            </table> 
+                            <hr style="margin-top:-15px">
+                        
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="accordion mb-3" id="accordionExample">
+                                        <div class="mb-1">
+                                            <div id="headingOne">
+                                                <h5 class="my-0">
+                                                    <a class="text-primary btn btn-warning btn-sm waves-effect waves-light btn-rounded" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                        <i class="far fa-trash-alt mr-1 AcordeonLixeira"></i><h7 class="AcordeonLixeira">Cursos Eliminados</h7>
+                                                    </a>
+                                                </h2>
+                                            </div>
+                                            <br>                                            
+                                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">                                              
+                                                <table id="paginationFullNumbers2" class="table table-bordered" width="100%">
+                                                    <thead id="cabecatabela">
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Curso</th>
+                                                            <th class="text-center" style="width: 125px">Acções</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="dataTableLixeira">
+                                                                                
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>                                                                                    
+                                    </div>
+                                </div>
+                            </div>  
                         </div>
                     </div>
                 </div>
@@ -173,10 +225,14 @@
     
     function carregarCursoTable(){
         var id = $('#id_departamento').val();
+        var isDeleted=0;
         $.ajax({
-            url: "{{ url('pegaCursos') }}/"+id,
+            url: "{{ url('pegaCursos') }}/"+id+"/"+isDeleted,
             success:function(data){
                 $('#cursoTable').html(data);
+                $('#paginationFullNumbers').DataTable({
+                    "pagingType": "full_numbers"
+                }); 
             },
             error: function(e)
 			{
@@ -184,8 +240,26 @@
 			}
         })
     }
-
     carregarCursoTable();
+
+    function carregarCursoTableLixeira(){
+        var id = $('#id_departamento').val();
+        var isDeleted=1;
+        $.ajax({
+            url: "{{ url('pegaCursos') }}/"+id+"/"+isDeleted,
+            success:function(data){
+                $('#dataTableLixeira').html(data);
+                $('#paginationFullNumbers2').DataTable({
+                    "pagingType": "full_numbers"
+                }); 
+            },
+            error: function(e)
+			{
+				alert(e);
+			}
+        })
+    }
+    carregarCursoTableLixeira();
 
     $('#formularioSalvar').submit(function(e){
         e.preventDefault();
@@ -200,7 +274,6 @@
             processData: false,
             success:function(data){
                 if(data == "Sucesso"){
-                    Custombox.modal.close();
                     Swal.fire({
                         text: "Curso registado com sucesso.",
                         icon: 'success',
@@ -218,6 +291,16 @@
                 })
             }
         });
+    });
+
+    $(document).on('click','.pegar',function(e){
+        e.preventDefault();
+        var id = $(this).attr('id');
+        var nome = $(this).attr('nome');
+                    
+        $('#modalEditar').click();
+        $('#nome_edit').val(nome);
+        $('#id_curso').val(id);
     });
 
     $('#formularioEditar').submit(function(e){
@@ -240,42 +323,25 @@
                         icon: 'success',
                         confirmButtonText: 'Fechar'
                     }),
-                    $('#formularioSalvar')[0].reset();
+                    $('#formularioEditar')[0].reset();
                     carregarCursoTable();
                 }            
             },
             error: function(e){
+                $('#modalEditarClose').click();
                 Swal.fire({
                     text: 'Ocorreu um erro ao actualizar o curso.',
                     icon: 'error',
                     confirmButtonText: 'Fechar'
-                })
-            }
-        });
-    });
-
-    $(document).on('click','.pegar',function(e){
-        e.preventDefault();
-        var id = $(this).attr('id');
-        $.ajax({
-            url: "{{ url('pegaCurso') }}/"+id,
-            method: "GET",
-            dataType: "JSON",
-            success: function(data){                
-                $('#modalEditar').click();
-                $('#nome_edit').val(data.nome);
-                $('#id_curso').val(data.id);
-            },
-            error: function(e)
-            {
-                
+                }),
+                $('#formularioEditar')[0].reset();
             }
         });
     });
 
     $(document).on('click','.eliminar',function(e){
         Swal.fire({
-			  title: 'Deseja realmente eliminar o curso?',
+			  title: 'Deseja realmente eliminar o curso? Poderá restaurá-lo.',
 			  icon: 'warning',
 			  showCancelButton: true,
 			  confirmButtonColor: '#3085d6',
@@ -291,6 +357,7 @@
                         type: "GET",
                         success: function(data){
                             carregarCursoTable();
+                            carregarCursoTableLixeira();
                             Swal.fire(
                             'Eliminado!',
                             'Eliminado com Sucesso.',
@@ -301,6 +368,45 @@
                         {
                             Swal.fire({
                                 text: 'Ocorreu um erro ao eliminar o curso.',
+                                icon: 'error',
+                                confirmButtonText: 'Fechar'
+                            })
+                        }
+                    });
+                }
+		});
+    });
+
+
+    $(document).on('click','.restaurar',function(e){
+        Swal.fire({
+			  title: 'Deseja recuperar o curso?',
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: 'Restaurar',
+              cancelButtonText: 'Cancelar'
+			}).then((result) => {
+                if (result.value) {
+                    e.preventDefault();
+                    var id = $(this).attr('id');
+                    $.ajax({
+                        url: "{{ url('restaurarCurso') }}/"+id,
+                        type: "GET",
+                        success: function(data){
+                            Swal.fire(
+                                'Recuperado!',
+                                'Recuperado com Sucesso.',
+                                'success'
+                            ),
+                            carregarCursoTable();
+                            carregarDataTableLixeira();
+                        },
+                        error: function(e)
+                        {
+                            Swal.fire({
+                                text: 'Ocorreu um erro ao recuperar o curso.',
                                 icon: 'error',
                                 confirmButtonText: 'Fechar'
                             })

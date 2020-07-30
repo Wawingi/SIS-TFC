@@ -48,6 +48,15 @@ Route::name('utilizador')->group(function () {
         return view('perfil.trocarSenha');
     });*/
     Route::post('trocarSenha','PerfilController@trocarSenha');
+    Route::post('editarPessoa','UtilizadorController@editarPessoa');
+    Route::post('editarNome','UtilizadorController@editarPessoa');
+    Route::post('editarTelefone','UtilizadorController@editarPessoa');
+    Route::post('editarUtilizador','UtilizadorController@editarUtilizador');
+    Route::post('editarFuncionario','UtilizadorController@editarFuncionario');
+    Route::post('editarEstudante','UtilizadorController@editarEstudante');
+    Route::post('editarCursoEstudante','UtilizadorController@editarCursoEstudante');
+    Route::post('editarNivelAcademico','UtilizadorController@editarNivelAcademico');
+    Route::post('editarDepartamentoFuncionario','UtilizadorController@editarDepartamentoFuncionario');
 });
 
 //Rotas para Departamentos
@@ -55,8 +64,9 @@ Route::name('departamento')->group(function () {
     Route::get('listarDepartamentos','DepartamentoController@index');
     Route::post('registarDepartamento','DepartamentoController@registarDepartamento');
     Route::post('editarDepartamento','DepartamentoController@editarDepartamento');
-    Route::get('pegaDepartamentos','DepartamentoController@pegaDepartamentos');
+    Route::get('pegaDepartamentos/{isDeleted}','DepartamentoController@pegaDepartamentos');
     Route::get('eliminarDepartamento/{id}','DepartamentoController@eliminarDepartamento');
+    Route::get('restaurarDepartamento/{id}','DepartamentoController@restaurarDepartamento');
     Route::get('pegaDepartamento/{id}','DepartamentoController@pegaDepartamento');
     Route::get('verDepartamento/{id}','DepartamentoController@verDepartamento');
     Route::get('pesquisarDepartamento', function(){
@@ -67,10 +77,11 @@ Route::name('departamento')->group(function () {
 
 //Rotas para Cursos
 Route::name('curso')->group(function () {
-    Route::get('pegaCursos/{id}','CursoController@pegaCursos');
+    Route::get('pegaCursos/{id}/{isDeleted}','CursoController@pegaCursos');
     Route::post('registarCurso','CursoController@registarCurso');
     Route::get('eliminarCurso/{id}','CursoController@eliminarCurso');
-    Route::get('pegaCurso/{id}','CursoController@pegaCurso');
+    Route::get('restaurarCurso/{id}','CursoController@restaurarCurso');
+    //Route::get('pegaCurso/{id}','CursoController@pegaCurso');
     Route::post('editarCurso','CursoController@editarCurso');
 });
 

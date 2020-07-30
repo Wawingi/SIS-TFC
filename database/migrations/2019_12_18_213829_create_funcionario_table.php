@@ -15,7 +15,8 @@ class CreateFuncionarioTable extends Migration
     {
         Schema::create('funcionario', function (Blueprint $table) {
             $table->unsignedInteger('id_pessoa');
-            $table->string('funcao');          
+            $table->string('funcao');  
+            $table->integer('privilegio');         
             $table->foreign('id_pessoa')->references('id')->on('pessoa')->onDelete('cascade'); 
             $table->timestamps();
         });

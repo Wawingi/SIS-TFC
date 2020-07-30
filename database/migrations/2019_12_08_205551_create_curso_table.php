@@ -17,6 +17,7 @@ class CreateCursoTable extends Migration
             $table->increments('id');
             $table->string('nome')->unique();
             $table->unsignedInteger('id_departamento');
+            $table->softDeletes();
             $table->foreign('id_departamento')->references('id')->on('departamento')->onDelete('cascade');
             $table->timestamps();
         });

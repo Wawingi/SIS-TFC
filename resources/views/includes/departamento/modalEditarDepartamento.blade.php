@@ -1,4 +1,4 @@
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+<div class="modal fade editar bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div style="background-color:#37cde6" class="modal-header">
@@ -11,10 +11,6 @@
                     <div class="form-group">
                         <label for="name">Departamento</label>
                         <input required type="text" class="form-control" id="nome_edit" name="nome_edit" placeholder="Informe o departamento">
-                    </div>
-                    <div class="form-group">
-                        <label for="position">Chefe do Departamento</label>
-                        <input required type="text" class="form-control" id="chefe_departamento" name="chefe_departamento" placeholder="Informe o chefe do departamento">
                     </div>
                     <div class="form-group">
                         <label for="company">E-mail</label>
@@ -31,11 +27,11 @@
                             <div class="form-group mb-3">
                                 <label for="genero">Tipo</label><br>
                                 <div style="margin-left:7px;margin-top:10px" class="radio radio-info form-check-inline">
-                                    <input type="radio" value="Administrativo" name="tipo" checked>
+                                    <input type="radio" value="1" id="tipo" name="tipo">
                                     <label for="tipo"> Administrativo </label>
                                 </div>
                                 <div class="radio form-check-inline">
-                                    <input type="radio" value="Estudantil" name="tipo">
+                                    <input type="radio" value="2" id="tipo" name="tipo">
                                     <label for="tipo"> Estudantil </label>
                                 </div>
                             </div>

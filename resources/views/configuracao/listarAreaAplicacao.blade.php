@@ -125,6 +125,7 @@
             success:function(data){
                 $('#dataTable').html(data);
                 $('#paginationFullNumbers').DataTable({
+                   
                     "pagingType": "full_numbers"
                 });
             },

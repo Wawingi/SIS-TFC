@@ -112,3 +112,8 @@ hr {
 .AcordeonLixeira{
     color:white;
 }
+
+.nao_edit{
+    color:black;
+    font-weight: bold;
+}

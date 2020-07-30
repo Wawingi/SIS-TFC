@@ -28,16 +28,30 @@ class CursoController extends Controller
         echo $info;        
     }
 
-    public function pegaCursos($id){
-        $cursos = Curso::pegaCursoDepartamento($id);
+    public function pegaCursos($id,$isDeleted){
+        $cursos = Curso::pegaCursoDepartamento($id,$isDeleted);
 
-        return view('departamento.cursoTable',compact('cursos'));
+        return view('departamento.cursoTable',compact('cursos','isDeleted'));
     }
 
     public function eliminarCurso($id){
-        if(DB::table('curso')->where('id', '=', $id)->delete()){
-            echo 'Sucesso';
+        $info = null;
+        if(Curso::destroy($id)){
+            $info = 'Sucesso';
         }
+        echo $info;
+    }
+
+     //Função que restaura o curso eliminado com softdelete
+     public function restaurarCurso($id){
+        $info = null;
+        if(Curso::withTrashed()
+                ->where('id', $id)
+                ->restore())
+        {
+            $info = 'Sucesso';
+        }
+        echo $info;
     }
 
     //Função que pega um determinado curso

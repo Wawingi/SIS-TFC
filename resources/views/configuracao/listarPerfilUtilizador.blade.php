@@ -45,11 +45,6 @@
         <!-- Inclusão da Modal -->
         @include('includes.configuracao.modalEditarPerfil')
 
-
-        <?php                 
-            //dd(App\Role::pegaPerfilUtilizador(5));
-        ?>
-
         <!--Inicio do conteudo-->          
             <br><br>
             <div class="card-box">

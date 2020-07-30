@@ -1,10 +1,22 @@
-@foreach($cursos as $curso)
-    <tr>
-        <td style="text-align:center">{{$loop->iteration}}</td>
-        <td style="text-align:center">{{$curso->nome}}</td>
-        <td class="float-right">
-            <a href="#" id="{{$curso->id}}" class="pegar btn btn-warning btn-sm"><i class='fa fa-pencil-alt'></i></a>
-            <a href="#" id="{{$curso->id}}" class="eliminar btn btn-danger btn-sm"><i class='fa fa-trash-alt'></i></a>
-        </td>
-    </tr>
-@endforeach
+@if($isDeleted==0)
+    @foreach($cursos as $curso)
+        <tr>
+            <td class="text-center"><i class="fas fa-book-reader"></i></td>
+            <td>{{$curso->nome}}</td>
+            <td class="text-center">
+                <a title="Editar curso" href="#" id="{{$curso->id}}" nome="{{$curso->nome}}" class="pegar mr-3"><i class='fa fa-pencil-alt'></i></a>
+                <a title="Eliminar curso" href="#" id="{{$curso->id}}" class="eliminar"><i class='fa fa-trash-alt'></i></a>
+            </td>
+        </tr>
+    @endforeach
+@elseif($isDeleted==1)
+    @foreach($cursos as $curso)
+        <tr>
+            <td class="text-center"><i class="fas fa-book-reader"></i></td>
+            <td>{{$curso->nome}}</td>
+            <td class="text-center">
+                <a title="Recuperar curso" href="#" id="{{$curso->id}}" class="restaurar"><i class='fa fa-trash-restore'></i></a>
+            </td>
+        </tr>
+    @endforeach
+@endif

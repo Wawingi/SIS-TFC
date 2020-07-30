@@ -4,7 +4,8 @@
             <div class="modal-body">            
                 <form method="post" action="{{ url('/desactivarConta')}}" >
                     @csrf
-                    <?php if($dados[0]->estado==1){ ?>     
+                    
+                    <?php if($dados->estado==1){ ?>     
                         <h4><p style="text-align:center">Deseja realmente desactivar este utilizador ?</p></h4>
                         <input  type="hidden" class="form-control" value="2" required name="opcao">
                     <?php } else{ ?>
@@ -12,7 +13,7 @@
                         <input  type="hidden" class="form-control" value="1" required name="opcao">
                     <?php } ?>
 
-                    <input  type="hidden" class="form-control" value="{{$dados[0]->id}}" required name="idUtilizador">
+                    <input  type="hidden" class="form-control" value="{{$dados->id}}" required name="idUtilizador">
                                         
                     <div class="modal-footer">
                         <button type="button" class="btn btn-warning waves-effect" data-dismiss="modal">Não</button>

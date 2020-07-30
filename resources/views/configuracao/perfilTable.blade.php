@@ -1,6 +1,6 @@
 @if($isDeleted==0)
     @foreach($roles as $role)
-        <tr class="tabelaClicked clickable-row" data-href='{{ url("verRole/".base64_encode($role->id)."/".base64_encode($role->nome)."/".base64_encode($role->desc)."/".base64_encode($role->tipo)) }}'>
+        <tr title="Clique para ver o perfil" class="tabelaClicked clickable-row" data-href='{{ url("verRole/".base64_encode($role->id)."/".base64_encode($role->nome)."/".base64_encode($role->desc)."/".base64_encode($role->tipo)) }}'>
             <td>{{$role->nome}}</td>
             <td>{{$role->desc}}</td>
             <td class="text-center" style="width: 125px">

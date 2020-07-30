@@ -29,6 +29,7 @@ class Role extends Model
         ->join('roles', 'roles.id', '=', 'role_user.role_id')
         ->select('role_user.id','roles.nome','roles.desc')
         ->where('pessoa.id','=',$id)
+        ->orderBy('roles.nome')
         ->get();
 
         return $roles;

@@ -34,80 +34,89 @@ class UtilizadorController extends Controller
     public function registarPessoa(Request $request){        
         $validatedData = $request->validate([
             'nome' => ['required', 'string', 'max:255'],
-            'bi' => ['required', 'string', 'max:15', 'unique:pessoa'],
+            //'bi' => ['required', 'string', 'max:15', 'unique:pessoa'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'telefone' => ['required','min:8', 'max:11', 'unique:pessoa'],
         ],[
             //Mensagens de validação de erros
+            'email.unique'=>'O email já foi associado a outra conta',
             'telefone.min'=>'A quantidade de digítos telefonicos é inferior',
             'telefone.max'=>'A quantidade de digítos telefonicos é superior',
         ]);
 
-        //Variavel para armazenar tipo
+        //Variaveis globais
         $tipoUtilizador;
-
+        $id_departamento;
+        
+        if($request->tipo_documento==1){
+            $bi=$request->bi;
+        }else{
+            $bi=$request->outro_doc;
+        }
+        //dd($request);
         //Pega sessao
         $dados=session('dados_logado');
 
-        //Se utilizador for funcionário então pegamos o ID do seu departamento, senão então o departamento será sempre do logado 
-        if($request->input('tipo')==1 || ($request->input('tipo')==2 && Auth::user()->tipo == 1)){
-            $id_departamento = Departamento::pegaDepartamentoId($request->input('departamento'));
-        }else{
-            $id_departamento = $dados[0]->id_departamento;
+        //Ver o tipo de utilizador e atribuir o id do departamento ideal
+        if($request->tipo_registar==1){
+            $id_departamento = $request->departamento_direcao;
+        }else if($request->tipo_registar==2){
+            $id_departamento = $request->departamento_estudantil;
+        }else if($request->tipo_registar==3){
+            $id_departamento = $request->departamento_estudantil;
         }
 
         //Regista a pessoa e retorna o ID gerado
         $idPessoa = DB::table('pessoa')->insertGetId(
-            ['nome' => $request->nome,'data_nascimento' =>$request->data_nascimento,'telefone' => $request->telefone,'bi' => $request->bi,'genero' => $request->genero]
+            ['nome' => $request->nome,'data_nascimento' =>$request->data_nascimento,'telefone' => $request->telefone,'bi' => $bi,'genero' => $request->genero]
         );
         
         if($idPessoa>0){
             //Regista o departamento do utilizador
-            DB::table('pessoa_departamento')->insert(
-                ['id_pessoa' => $idPessoa, 'id_departamento' => $id_departamento, 'tipo' => $request->tipo]
-            );
-            
-            if(Auth::user()->tipo == 1){
-                switch($request->input('tipo')){
+            if(DB::table('pessoa_departamento')->insert(
+                ['id_pessoa' => $idPessoa, 'id_departamento' => $id_departamento, 'tipo' => $request->tipo_registar]
+            )){
+                switch($request->tipo_registar){
                     case 1:
-                            $funcionario = new Funcionario;
-                            $funcionario->id_pessoa = $idPessoa;
-                            $funcionario->funcao = $request->input('funcao');
-                            if($funcionario->save()){
-                                $tipoUtilizador = 1;
-                            }
-                            break;    
+                        $funcionario = new Funcionario;
+                        $funcionario->id_pessoa = $idPessoa;
+                        if($request->funcao_escolher==1){
+                            $funcionario->privilegio = 1;
+                            $funcionario->funcao = "Chefe do Departamento";
+                        }else if($request->funcao_escolher==2){
+                            $funcionario->privilegio = 0;
+                            $funcionario->funcao = $request->funcao;
+                        }            
+                        if($funcionario->save()){
+                            $tipoUtilizador = 1;
+                        }
+                        break;    
                     case 2:
-                            $docente = new Docente;
-                            $docente->id_pessoa = $idPessoa;
-                            $docente->nivel_academico = $request->input('nivel_academico');                           
-                            if($docente->save()){
-                                $tipoUtilizador = 2;
-                            }
-                            break;
-                }
-            }else if(Auth::user()->tipo == 2 && $request->input('tipo')==2){
-                $docente = new Docente;
-                $docente->id_pessoa = $idPessoa;
-                $docente->nivel_academico = $request->input('nivel_academico');                           
-                if($docente->save()){
-                    $tipoUtilizador = 2;
-                }
-            }else if(Auth::user()->tipo == 2 && $request->input('tipo')==3){
-                //Pegar ID do curso em função do nome
-                $curso = new Curso;
-                $curso = $curso->pegaCursoId($request->input('curso'));
-
-                $estudante = new Estudante;
-                $estudante->id_pessoa = $idPessoa;  
-                $estudante->numero_mecanografico = $request->input('numero_mecanografico');
-                $estudante->periodo = $request->input('periodo');
-                $estudante->id_curso = $curso[0]->id;
-                if($estudante->save()){
-                    $tipoUtilizador = 3;
-                }
-            }        
-
+                        $docente = new Docente;
+                        $docente->id_pessoa = $idPessoa;
+                        if($request->funcao_escolher==1){
+                            $docente->privilegio = 1;
+                        }else{
+                            $docente->privilegio = 0;
+                        }
+                        $docente->nivel_academico = $request->nivel_academico;                           
+                        if($docente->save()){
+                            $tipoUtilizador = 2;
+                        }
+                        break;
+                    case 3:
+                        $estudante = new Estudante;
+                        $estudante->id_pessoa = $idPessoa;  
+                        $estudante->numero_mecanografico = $request->numero_mecanografico;
+                        $estudante->periodo = $request->periodo;
+                        $estudante->id_curso = $request->curso;
+                        if($estudante->save()){
+                            $tipoUtilizador = 3;
+                        }
+                    break;
+                }    
+            }
+                  
             //Regista o utilizador e retorna o ID gerado
             $idUser = DB::table('users')->insertGetId(
                 ['email' => $request->email,'password' =>Hash::make(654321),'estado' => 1,'tipo' => $tipoUtilizador,'qtd_vezes' => 0,'id_pessoa' => $idPessoa]
@@ -127,55 +136,81 @@ class UtilizadorController extends Controller
     }
 
     public function editarPessoa(Request $request){
-        //Pega sessao
-        $dados=session('dados_logado');
-        
-        //Se utilizador for funcionário então pegamos o ID do seu departamento, senão então o departamento será sempre do logado 
-        if($request->input('tipo')==1){
-            $departamento = new Departamento;
-            $departamento = $departamento->pegaDepartamentoId($request->input('departamento'));
-            $id_departamento = $departamento[0]->id;
-        }else{
-            $id_departamento = $dados[0]->id_departamento;
-        }
+        $status=null;
+        if(DB::table('pessoa')          
+            ->where('id','=',$request->pk)
+            ->update([$request->name => $request->value]))
+        {
+            $status='sucesso';
+        }      
+        echo $status;               
+    }
 
-        //Actualiza os dados da pessoa em função do ID
-            DB::table('pessoa')          
-                ->where('id','=',$request->pessoa_id)
-                ->update(['nome' => $request->nome,'data_nascimento' =>$request->data_nascimento,'telefone' => $request->telefone,'bi' => $request->bi,'genero' => $request->genero]);      
-                
-            //Actualizar o departamento
-            /*DB::table('pessoa_departamento')          
-                ->where([['id_pessoa','=',$request->pessoa_id],['tipo','=',$request->input('tipo')]])
-                ->update(['id_departamento' => $id_departamento]);*/
-                
-            //Actualizar o utilizador
-            DB::table('users')
-                    ->where('id_pessoa','=',$request->pessoa_id)
-                    ->update(['email' => $request->email]);
-           
-            //Registar cada tipo de pessoa
-            if(Auth::user()->tipo == 1){
-                DB::table('funcionario')
-                ->where('id_pessoa','=',$request->pessoa_id)
-                ->update(['funcao' => $request->funcao]);
+    public function editarUtilizador(Request $request){
+        $status=null;
+        if(DB::table('users')          
+            ->where('id_pessoa','=',$request->pk)
+            ->update([$request->name => $request->value]))
+        {
+            $status='sucesso';
+        }      
+        echo $status;               
+    }
 
-            }else if(Auth::user()->tipo == 2 && $request->input('tipo')==2){
-                DB::table('docente')
-                ->where('id_pessoa','=',$request->pessoa_id)
-                ->update(['nivel_academico' => $request->nivel_academico]);
+    public function editarFuncionario(Request $request){
+        $status=null;
+        if(DB::table('funcionario')          
+            ->where('id_pessoa','=',$request->pk)
+            ->update([$request->name => $request->value]))
+        {
+            $status='sucesso';
+        }      
+        echo $status;               
+    }
 
-            }else if(Auth::user()->tipo == 2 && $request->input('tipo')==3){
-                $curso = new Curso;
-                $curso = $curso->pegaCursoId($request->input('curso'));
+    public function editarEstudante(Request $request){
+        $status=null;
+        if(DB::table('estudante')          
+            ->where('id_pessoa','=',$request->pk)
+            ->update([$request->name => $request->value]))
+        {
+            $status='sucesso';
+        }      
+        echo $status;               
+    }
 
-                DB::table('estudante')
-                ->where('id_pessoa','=',$request->pessoa_id)
-                ->update(['numero_mecanografico' => $request->numero_mecanografico,'periodo' => $request->periodo,'id_curso' => $curso[0]->id]);
-            }
-            return redirect()->action(
-                'PerfilController@verPerfilUtilizador', ['id' => base64_encode($request->pessoa_id),'tipo' => base64_encode($request->input('tipo'))]
-            )->with('info','Actualizado com sucesso.');                                  
+    public function editarCursoEstudante(Request $request){
+        $status=null;
+        if(DB::table('estudante')          
+            ->where('id_pessoa','=',$request->id_pessoa)
+            ->update(['id_curso' => $request->curso]))
+        {
+            $status='Sucesso';
+        }      
+        echo $status;               
+    }
+
+    public function editarNivelAcademico(Request $request){
+        $status=null;
+        if(DB::table('docente')          
+            ->where('id_pessoa','=',$request->pk)
+            ->update([$request->name => $request->value]))
+        {
+            $status='sucesso';
+        }      
+        echo $status;               
+    }
+
+    public function editarDepartamentoFuncionario(Request $request){
+        $status=null;
+        if(DB::table('pessoa_departamento')          
+                ->where('id_pessoa','=',$request->id_pessoa)
+                //->where('id_departamento','=',$request->departamento)
+                ->update(['id_departamento' => $request->departamento]))
+        {
+            $status='Sucesso';
+        }   
+        echo $status;               
     }
 
     //função que pesquisa os dados do utilizador para ser editado

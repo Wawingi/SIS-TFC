@@ -34,30 +34,35 @@ class PerfilController extends Controller
     //Listar utilizadores em função ao tipo 
     public function listarUtilizadores(){
         $sessao = session('dados_logado');
+        
         if(Auth::user()->tipo == 1){
-            //lista funcionários
-            $dados = DB::table('pessoa')
+            //lista funcionários e chefes de departamento
+            $select = DB::table('pessoa')
                 ->join('funcionario', 'pessoa.id', '=', 'funcionario.id_pessoa')
                 ->join('users', 'pessoa.id', '=', 'users.id_pessoa')
                 ->join('pessoa_departamento', 'pessoa.id', '=', 'pessoa_departamento.id_pessoa')
                 ->join('departamento', 'departamento.id', '=', 'pessoa_departamento.id_departamento')
                 ->join('faculdade', 'faculdade.id', '=', 'departamento.id_faculdade')
-                ->select('pessoa.id','pessoa.nome', 'funcionario.funcao', 'pessoa.bi','faculdade.nome as faculdade')
-                ->where('faculdade.nome','=',$sessao[0]->faculdade)
+                ->where('faculdade.id','=',$sessao[0]->id_faculdade)
                 ->where('pessoa.id','<>',$sessao[0]->id_pessoa)
-                ->get();
-                //lista CHEFE DEPARTAMENTO
-            $dadosChefeDepartamento = DB::table('pessoa')
+                ->where('funcionario.privilegio','=',1)
+                ->select('pessoa.id','pessoa.nome', 'pessoa.bi','departamento.nome as departamento','users.tipo')
+                ->orderBy('pessoa.nome');
+            
+            $dados = DB::table('pessoa')
                 ->join('docente', 'pessoa.id', '=', 'docente.id_pessoa')
                 ->join('users', 'pessoa.id', '=', 'users.id_pessoa')
                 ->join('pessoa_departamento', 'pessoa.id', '=', 'pessoa_departamento.id_pessoa')
                 ->join('departamento', 'departamento.id', '=', 'pessoa_departamento.id_departamento')
                 ->join('faculdade', 'faculdade.id', '=', 'departamento.id_faculdade')
-                ->select('pessoa.id','pessoa.nome','pessoa.bi','users.tipo','departamento.nome as departamento')
-                ->where('faculdade.nome','=',$sessao[0]->faculdade)
+                ->where('faculdade.id','=',$sessao[0]->id_faculdade)
+                ->where('pessoa.id','<>',$sessao[0]->id_pessoa)
                 ->where('docente.privilegio','=',1)
-                ->get();
-                return view('perfil.listarUtilizadores',compact('dados','dadosChefeDepartamento'));
+                ->select('pessoa.id','pessoa.nome', 'pessoa.bi','departamento.nome as departamento','users.tipo')
+                ->orderBy('pessoa.nome')
+                ->union($select)
+                ->get();   
+                return view('perfil.listarUtilizadores',compact('dados'));
         }else if(Auth::user()->tipo == 2){
             //lista de docentes
             $dados = DB::table('pessoa')
@@ -68,6 +73,7 @@ class PerfilController extends Controller
                 ->select('pessoa.id','pessoa.nome', 'pessoa.bi','users.email')
                 ->where('departamento.nome','=',$sessao[0]->departamento)
                 ->where('pessoa.id','<>',$sessao[0]->id_pessoa)
+                ->orderBy('pessoa.nome')
                 ->get();
             //lista de estudantes
             $dadosEstudante = DB::table('pessoa')
@@ -77,6 +83,7 @@ class PerfilController extends Controller
                 ->join('departamento', 'departamento.id', '=', 'pessoa_departamento.id_departamento')
                 ->select('pessoa.id','pessoa.nome', 'pessoa.bi','users.tipo','users.email')
                 ->where('departamento.nome','=',$sessao[0]->departamento)
+                ->orderBy('pessoa.nome')
                 ->get();
                 return view('perfil.listarUtilizadores',compact('dados','dadosEstudante'));
         }
@@ -96,6 +103,7 @@ class PerfilController extends Controller
         $id = base64_decode($id);
         $tipo = base64_decode($tipo);
         $dados = Pessoa::pegaDadosUtilizador($id,$tipo);
+        //dd($dados);
         return view('perfil.verPerfilUtilizador',compact('dados'));
     }
 

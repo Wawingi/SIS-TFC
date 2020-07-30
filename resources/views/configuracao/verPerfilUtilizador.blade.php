@@ -51,7 +51,7 @@
             <br><br>          
             <div class="row float-right">
                 <div class="col-lg-12">             
-                    <a href="#" class="btn btn-sm btn-warning waves-effect waves-light btn-rounded" data-toggle="modal" data-target="#modalSave"><i class="mdi mdi-plus-circle mr-1"></i> Associar Permissão</a>     
+                    <a href="#" class="btn btn-sm btn-warning waves-effect waves-light btn-rounded" data-toggle="modal" data-target="#modalSave" data-backdrop="static" data-keyboard="false"><i class="mdi mdi-plus-circle mr-1"></i> Associar Permissão</a>     
                 </div>
             </div>
             <br><br>

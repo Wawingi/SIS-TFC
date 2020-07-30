@@ -1,7 +1,7 @@
 <!-- Ver meu perfil quando estou logado -->
 <?php 
     //sessão dos dados do utilizador logado
-    $dados=session('dados_logado'); 
+    $dados=session('dados_logado');
 ?>
 @extends('layouts.inicio')
 @section('content')
@@ -76,7 +76,7 @@
                                         </div> <!-- end col -->
                                         <div class="col-7">
                                             <div class="form-group row mb-3">                       
-                                                <label class="col-md-7 col-form-label" for="name2">: {{$dados[0]->nome}}</label>
+                                                <a href="#" class="nome_edit" data-name="nome" data-type="text" data-placeholder="Preenchimento obrigatório" data-pk="{{$dados[0]->id_pessoa}}" data-title="Informe o nome">{{$dados[0]->nome}}</a>
                                             </div>
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
@@ -88,7 +88,7 @@
                                         </div> <!-- end col -->
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-7 col-form-label" for="name2">: {{$dados[0]->data_nascimento}}</label>
+                                                <a href="#" class="pessoa_edit" data-name="data_nascimento" data-type="combodate" data-value="{{$dados[0]->data_nascimento}}" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="D / MMM / YYYY" data-pk="{{$dados[0]->id_pessoa}}"  data-title="Select Date of birth"></a>      
                                             </div>
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
@@ -100,7 +100,7 @@
                                         </div> <!-- end col -->
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-7 col-form-label" for="name2">: {{$dados[0]->bi}}</label>
+                                                <a href="#" class="pessoa_edit" data-name="bi" data-type="text" data-placeholder="Preenchimento obrigatório" data-pk="{{$dados[0]->id_pessoa}}" data-title="Informe o nº do documento">{{$dados[0]->bi}}</a>
                                             </div>
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
@@ -112,7 +112,7 @@
                                         </div> <!-- end col -->
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-7 col-form-label" for="name2">: <?php if($dados[0]->genero==1){echo 'Masculino';}if($dados[0]->genero==2){echo 'Feminino';} ?></label>
+                                                <a href="#" class="genero_edit" data-name="genero" data-type="select" data-placeholder="Preenchimento obrigatório" data-pk="{{$dados[0]->id_pessoa}}" data-title="Informe o genero">@if($dados[0]->genero==1)Masculino @else Feminino @endif</a>
                                             </div>
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
@@ -128,7 +128,7 @@
                                         </div> <!-- end col -->
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-7 col-form-label">: {{$dados[0]->faculdade}}</label>
+                                                <a class="nao_edit">{{$dados[0]->faculdade}}</a>
                                             </div>
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
@@ -140,7 +140,7 @@
                                         </div>
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-7 col-form-label">: <?php try{ echo $dados[0]->departamento; }Catch(Exception $e){} ?></label>
+                                                <a class="nao_edit"><?php try{ echo $dados[0]->departamento; }Catch(Exception $e){} ?></a>
                                             </div>
                                         </div>                                   
                                     </div>
@@ -153,7 +153,7 @@
                                             </div>     
                                             <div class="col-7">
                                                 <div class="form-group row mb-3">
-                                                    <label class="col-md-7 col-form-label">: <?php try{ echo $dados[0]->curso; }Catch(Exception $e){} ?></label>
+                                                    <a class="nao_edit">: <?php try{ echo $dados[0]->curso; }Catch(Exception $e){} ?></a>
                                                 </div>
                                             </div>        
                                         </div>
@@ -168,7 +168,7 @@
                                             </div>     
                                             <div class="col-7">
                                                 <div class="form-group row mb-3">
-                                                    <label class="col-md-7 col-form-label">: <?php try{ echo $dados[0]->funcao; }Catch(Exception $e){} ?></label>
+                                                    <a class="nao_edit"><?php try{ echo $dados[0]->funcao; }Catch(Exception $e){} ?></a>
                                                 </div>
                                             </div>
                                         <?php } else if($dados[0]->tipo==2){ ?>
@@ -179,7 +179,7 @@
                                             </div>     
                                             <div class="col-7">
                                                 <div class="form-group row mb-3">
-                                                    <label class="col-md-7 col-form-label">: <?php try{ echo $dados[0]->nivel_academico; }Catch(Exception $e){} ?></label>
+                                                    <a class="nao_edit"><?php try{ echo $dados[0]->nivel_academico; }Catch(Exception $e){} ?></a>
                                                 </div>
                                             </div>        
                                         <?php } else if($dados[0]->tipo==3){ ?>
@@ -207,7 +207,7 @@
                                         </div> <!-- end col -->
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-7 col-form-label">: {{$dados[0]->email}}</label>
+                                                <a class="nao_edit">{{$dados[0]->email}}</a>
                                             </div>
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
@@ -219,7 +219,7 @@
                                         </div> <!-- end col -->
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <label class="col-md-7 col-form-label">: {{$dados[0]->telefone}}</label>
+                                                <a href="#" class="telefone_edit" data-name="telefone" data-type="number" data-placeholder="Preenchimento obrigatório" data-pk="{{$dados[0]->id_pessoa}}" data-title="Informe o número de telefone">{{$dados[0]->telefone}}</a>
                                             </div>
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
@@ -231,11 +231,11 @@
                                         </div> <!-- end col -->
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <label style="color:#3bafda" class="col-md-7 col-form-label">: 
-                                                   @foreach($roles as $role)
-                                                        {{$role->nome}} | 
-                                                   @endforeach
-                                                </label>
+                                                <a class="nao_edit">     
+                                                   @for($i=0; $i<count($roles); $i++)
+                                                        {{$roles[$i]->nome}} @if($i+1!=count($roles))|@endif
+                                                   @endfor
+                                                </a>
                                             </div>
                                         </div> 
                                     </div> 
@@ -246,10 +246,8 @@
                                             </div>
                                         </div> 
                                         <div class="col-7">
-                                            <div class="form-group row mb-3">
-                                                <label class="col-md-7 col-form-label">: 
-                                                    <a href="#save-modal" class="btn btn-warning btn-rounded btn-sm waves-effect waves-light" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="fas fa-user-lock mr-1"></i>Alterar Senha</a>
-                                                </label>
+                                            <div class="form-group row mb-3"> 
+                                                <a href="#save-modal" class="btn btn-warning btn-rounded btn-sm waves-effect waves-light" data-backdrop="static" data-keyboard="false" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="fas fa-user-lock mr-1"></i>Alterar Senha</a>
                                             </div>
                                         </div> 
                                     </div>                                   
@@ -309,5 +307,120 @@
             })
         }
     });
+
+    $(document).ready(function (){
+        $.fn.editableform.buttons='<button type="submit" class="btn btn-primary editable-submit btn-sm waves-effect waves-light"><i class="mdi mdi-check"></i></button><button type="button" class="btn btn-danger editable-cancel btn-sm waves-effect"><i class="mdi mdi-close"></i></button>',
+        $.ajaxSetup({
+            headers:{
+                'X-CSRF-TOKEN':'{{csrf_token()}}'
+            }
+        });
+
+        $(".pessoa_edit").editable({
+            validate:function(e){
+                if(""==$.trim(e))
+                    return "Este campo é de preenchimento obrigatório"
+            },
+            url:'{{url("editarPessoa")}}',
+            mode:"inline",
+            inputclass:"form-control-sm",
+            success: function(response, newValue){
+                if(response=='sucesso'){
+                    Swal.fire({
+                        text: 'Actualizado com sucesso.',
+                        icon: 'success',
+                        confirmButtonText: 'Fechar'
+                    })
+                }else{
+                    Swal.fire({
+                        text: 'Ocorreu um erro ao actualizar.',
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
+                    })
+                }
+            }
+        });
+
+        $(".nome_edit").editable({
+            validate:function(e){
+                if(""==$.trim(e))
+                    return "Este campo é de preenchimento obrigatório";
+                if(!e.match(/^[a-zA-ZáÁàÀçÇéÉèÈõÕóÓãÃúÚ\s]+$/))
+                    return "Nome inválido.";
+            },
+            url:'{{url("editarNome")}}',
+            mode:"inline",
+            inputclass:"form-control-sm",
+            success: function(response, newValue){
+                if(response=='sucesso'){
+                    Swal.fire({
+                        text: 'Actualizado com sucesso.',
+                        icon: 'success',
+                        confirmButtonText: 'Fechar'
+                    })
+                }else{
+                    Swal.fire({
+                        text: 'Ocorreu um erro ao actualizar.',
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
+                    })
+                }
+            }
+        });
+
+        $(".telefone_edit").editable({
+            validate:function(e){
+                if(""==$.trim(e))
+                    return "Este campo é de preenchimento obrigatório";
+                if(!e.match(/^[0-9]{9}$/))
+                    return "Número inválido.";
+            },
+            url:'{{url("editarTelefone")}}',
+            mode:"inline",
+            inputclass:"form-control-sm",
+            success: function(response){
+                if(response=='sucesso'){
+                    Swal.fire({
+                        text: 'Actualizado com sucesso.',
+                        icon: 'success',
+                        confirmButtonText: 'Fechar'
+                    })
+                }else{
+                    Swal.fire({
+                        text: 'Ocorreu um erro ao actualizar.',
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
+                    })
+                }
+            }
+        });
+
+        $(".genero_edit").editable({
+            mode:"inline",
+            inputclass:"form-control-sm",
+            source:[{value:1,text:"Masculino"},{value:2,text:"Feminino"}],
+            display:function(t,e){
+                var n=$.grep(e,function(e){return e.value==t});
+                n.length?$(this).text(n[0].text):$(this).empty()
+            },
+            url:'{{url("editarPessoa")}}',
+            success: function(response){
+                if(response=='sucesso'){
+                    Swal.fire({
+                        text: 'Actualizado com sucesso.',
+                        icon: 'success',
+                        confirmButtonText: 'Fechar'
+                    })
+                }else{
+                    Swal.fire({
+                        text: 'Ocorreu um erro ao actualizar.',
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
+                    })
+                }
+            }
+        });
+    });
+
 </script>
 @stop

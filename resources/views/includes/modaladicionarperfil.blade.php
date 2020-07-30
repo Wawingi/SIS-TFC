@@ -13,7 +13,7 @@
                     <div class="form-group mb-3">
                         <label for="genero">Escolha o perfil para o utilizador: </label><br><br>
                         <?php 
-                            if ($dados[0]->tipo == 1){ 
+                            if ($dados->tipo == 1){ 
                                 $roles = App\Model\Role::where('tipo', '=', 1)->select('id','nome')->get();
                                 foreach($roles as $role):
                         ?>
@@ -23,7 +23,7 @@
                                 </div>
                         <?php
                                 endforeach; 
-                            } else if ($dados[0]->tipo == 2){
+                            } else if ($dados->tipo == 2){
                                 $roles = App\Model\Role::where('tipo', '=', 2)->select('id','nome')->get();
                                 foreach($roles as $role):
                         ?>
@@ -33,7 +33,7 @@
                                 </div>
                         <?php
                                 endforeach; 
-                            } else if ($dados[0]->tipo == 3){
+                            } else if ($dados->tipo == 3){
                                 $roles = App\Model\Role::where('tipo', '=', 3)->select('id','nome')->get();
                                 foreach($roles as $role): 
                         ?>
@@ -48,7 +48,7 @@
                     </div>
                 </div> 
             </div>
-            <input type="hidden" class="form-control" value="{{$dados[0]->id}}" name="idUtilizador">
+            <input type="hidden" class="form-control" value="{{$dados->id}}" name="idUtilizador">
             <hr>
             <div class="text-right">
                 <button type="submit" class="btn btn-primary waves-effect waves-light"><i class="mdi mdi-content-save mr-1"></i>Atribuir</button>

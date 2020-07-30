@@ -17,6 +17,7 @@
                             <li class="breadcrumb-item active">Listar Departamentos</li>
                         </ol>
                     </div>
+                    <h4 class="page-title">Listar Departamentos</h4>
                 </div>
             </div>
         </div>
@@ -44,53 +45,106 @@
 
         <!--Inicio do conteudo-->
         <br><br>
-            <div class="row">
-                <div class="col-12">
-                    <div class="card-box">
-                        <div class="row">
-                            <div class="col-lg-4">  
-                                <a href="#save-modal" class="btn btn-primary btn-rounded waves-effect waves-light" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1"></i> Adicionar Departamento</a>     
-                            </div><!-- end col-->
-                        </div> <!-- end row -->
-                    </div> <!-- end card-box -->
-                </div><!-- end col-->
-            </div>
             <!-- Inclusão da Modal -->
-            @include('includes.departamento.modalDepartamento')
             @include('includes.departamento.modalEditarDepartamento')
             <a id="modalEditar" style="display:none" href="#edit-modal" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target=".bs-example-modal-lg"></a>
             
-            <div class="row">
-                <div class="col-12">
-                    <div class="card-box">
-                        <div class="table-responsive">
-                        <table id="paginationFullNumbers" class="table mb-0">
-                            <thead id="cabecatabela">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Departamento</th>
-                                    <th>Chefe do Departamento</th>
-                                    <th>Email</th>
-                                    
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody id="dataTable">
-                           
-                            </tbody>
-                        </table>
-                        <hr>
-                        <!-- $departamentos->links() -->
+            <div class="card-box">
+                <div class="row">                            
+                    <div class="col-4">
+                        <div class="card-box">
+                            <form id="formularioSalvar" method="post">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="name">Departamento</label>
+                                    <input required type="text" class="form-control" name="nome" placeholder="ex: Ciências da Computação">
+                                </div>
+                                <div class="form-group">
+                                    <label for="company">E-mail</label>
+                                    <input required type="email" class="form-control" name="email" placeholder="Informe o email">
+                                </div>
+                                      
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Telefone</label>
+                                    <input required type="number" class="form-control" name="telefone" placeholder="Informe o contacto telefónico" min="0">
+                                </div>
+                                          
+                                <div class="form-group mb-3">
+                                    <label for="genero">Tipo</label><br>
+                                    <div style="margin-left:7px;margin-top:10px" class="radio radio-info form-check-inline">
+                                        <input type="radio" value="1" name="tipo" checked>
+                                        <label for="tipo"> Administrativo </label>
+                                    </div>
+                                    <div class="radio form-check-inline">
+                                        <input type="radio" value="2" name="tipo" checked>
+                                        <label for="tipo"> Estudantil </label>
+                                    </div>
+                                </div>                            
+                                <input type="hidden" class="form-control" value="{{$sessao[0]->id_faculdade}}" name="id_faculdade">
+                                <hr>
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light"><i class="mdi mdi-content-save mr-1"></i>Registar</button>
+                                </div>
+                            </form>
                         </div>
-                    </div> 
+                    </div>
+                    <div class="col-8">
+                        <div class="card-box">
+                            <table id="paginationFullNumbers" class="table table-bordered" width="100%">
+                                <thead id="cabecatabela">
+                                    <tr>
+                                        <th>Departamento</th>
+                                        <th>Email</th>
+                                        <th style="width:15%">Acções</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dataTable">
+                                                                                             
+                                </tbody>
+                            </table> 
+                            <hr style="margin-top:-15px">
+                        
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="accordion mb-3" id="accordionExample">
+                                        <div class="mb-1">
+                                            <div id="headingOne">
+                                                <h5 class="my-0">
+                                                    <a class="text-primary btn btn-warning btn-sm waves-effect waves-light btn-rounded" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                        <i class="far fa-trash-alt mr-1 AcordeonLixeira"></i><h7 class="AcordeonLixeira">Departamentos Eliminado</h7>
+                                                    </a>
+                                                </h2>
+                                            </div>
+                                            <br>                                            
+                                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">                                              
+                                                <table id="paginationFullNumbers2" class="table table-bordered" width="100%">
+                                                    <thead id="cabecatabela">
+                                                        <tr>
+                                                            <th>Departamento</th>
+                                                            <th>Email</th>
+                                                            <th class="text-center" style="width: 125px">Acções</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="dataTableLixeira">
+                                                                                
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>                                                                                    
+                                    </div>
+                                </div>
+                            </div>   
+                        </div>
+                    </div>
                 </div>
             </div>
     </div> 
 </div>
 <script>
     function carregarDataTable(){
+        var isDeleted=0;
         $.ajax({
-            url: "{{ url('pegaDepartamentos') }}",
+            url: "{{ url('pegaDepartamentos') }}/"+isDeleted,
             success:function(data){
                 $('#dataTable').html(data);
                 $('#paginationFullNumbers').DataTable({
@@ -105,6 +159,24 @@
     }
     carregarDataTable();
 
+    function carregarDataTableLixeira(){
+        var isDeleted=1;
+        $.ajax({
+            url: "{{ url('pegaDepartamentos') }}/"+isDeleted,
+            success:function(data){
+                $('#dataTableLixeira').html(data);
+                $('#paginationFullNumbers2').DataTable({
+                    "pagingType": "full_numbers"
+                }); 
+            },
+            error: function(e)
+			{
+				alert(e);
+			}
+        })
+    }
+    carregarDataTableLixeira();
+
     $('#formularioSalvar').submit(function(e){
         e.preventDefault();
         var request = new FormData(this);
@@ -118,7 +190,6 @@
             processData: false,
             success:function(data){
                 if(data == "Sucesso"){
-                    Custombox.modal.close();
                     Swal.fire({
                         text: "Departamento registado com sucesso.",
                         icon: 'success',
@@ -141,23 +212,16 @@
     $(document).on('click','.pegar',function(e){
         e.preventDefault();
         var id = $(this).attr('id');
-        $.ajax({
-            url: "{{ url('pegaDepartamento') }}/"+id,
-            method: "GET",
-            dataType: "JSON",
-            success: function(data){                
-                $('#modalEditar').click();
-                $('#nome_edit').val(data.nome);
-                $('#chefe_departamento').val(data.chefe_departamento);
-                $('#email').val(data.email);
-                $('#telefone').val(data.telefone);
-                $('#id_departamento').val(data.id);
-            },
-            error: function(e)
-            {
-                
-            }
-        });
+        var nome = $(this).attr('nome');
+        var email = $(this).attr('email');
+        var telefone = $(this).attr('telefone');
+
+        $('.editar').modal('show');
+
+        $('#nome_edit').val(nome);
+        $('#email').val(email);
+        $('#telefone').val(telefone);
+        $('#id_departamento').val(id);
     });
 
     $('#formularioEditar').submit(function(e){
@@ -182,6 +246,14 @@
                     }),
                     $('#formularioSalvar')[0].reset();
                     carregarDataTable();
+                }else{
+                    $('#modalEditarClose').click();
+                    Swal.fire({
+                        text: 'Ocorreu um erro ao actualizar o departamento, verifique os dados e tente novamente.',
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
+                    }),
+                    $('#formularioSalvar')[0].reset();
                 }            
             },
             error: function(e){
@@ -196,7 +268,7 @@
 
     $(document).on('click','.eliminar',function(e){
         Swal.fire({
-			  title: 'Deseja realmente eliminar o departamento?',
+			  title: 'Deseja realmente eliminar o departamento? Poderá recuperá-lo.',
 			  icon: 'warning',
 			  showCancelButton: true,
 			  confirmButtonColor: '#3085d6',
@@ -212,6 +284,7 @@
                         type: "GET",
                         success: function(data){
                             carregarDataTable();
+                            carregarDataTableLixeira();
                             Swal.fire(
                             'Eliminado!',
                             'Eliminado com Sucesso.',
@@ -222,6 +295,44 @@
                         {
                             Swal.fire({
                                 text: 'Ocorreu um erro ao remover o perfil.',
+                                icon: 'error',
+                                confirmButtonText: 'Fechar'
+                            })
+                        }
+                    });
+                }
+		});
+    });
+
+    $(document).on('click','.restaurar',function(e){
+        Swal.fire({
+			  title: 'Deseja restaurar o departamento?',
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: 'Restaurar',
+              cancelButtonText: 'Cancelar'
+			}).then((result) => {
+                if (result.value) {
+                    e.preventDefault();
+                    var id = $(this).attr('id');
+                    $.ajax({
+                        url: "{{ url('restaurarDepartamento') }}/"+id,
+                        type: "GET",
+                        success: function(data){
+                            carregarDataTable();
+                            carregarDataTableLixeira();
+                            Swal.fire(
+                            'Restaurado!',
+                            'Restaurado com Sucesso.',
+                            'success'
+                            )
+                        },
+                        error: function(e)
+                        {
+                            Swal.fire({
+                                text: 'Ocorreu um erro ao restaurar o departamento.',
                                 icon: 'error',
                                 confirmButtonText: 'Fechar'
                             })

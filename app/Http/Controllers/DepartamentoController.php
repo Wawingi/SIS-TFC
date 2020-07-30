@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Model\Departamento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Exception;
 
 class DepartamentoController extends Controller
 {
@@ -12,40 +13,32 @@ class DepartamentoController extends Controller
         return view('departamento.listarDepartamentos');
     }
 
-    public function pegaDepartamentos(){
-        $departamentos = Departamento::listarDepartamentos();
+    public function pegaDepartamentos($isDeleted){
+        $departamentos = Departamento::listarDepartamentos($isDeleted);
 
-        return view('departamento.departamentoTable',compact('departamentos'));
+        return view('departamento.departamentoTable',compact('departamentos','isDeleted'));
     }
 
     public function registarDepartamento(Request $request){
         $validatedData = $request->validate([
             'nome' => ['required', 'string', 'max:200', 'unique:departamento'],
-            'chefe_departamento' => ['required', 'string', 'max:200'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:departamento'],
             'telefone' => ['required','min:9', 'max:9', 'unique:departamento'],
+            'tipo' => ['required'],
         ],[
             //Mensagens de validação de erros
             'nome.required'=>'Por favor, informe o nome do departamento',
-            'chefe_departamento.required'=>'Por favor, informe o nome do chefe do departamento',
             'email.required'=>'Por favor, informe o email',
             'telefone.required'=>'Por favor, informe o contacto telefónico',
             'telefone.min'=>'A quantidade de digítos telefonicos é inferior',
             'telefone.max'=>'A quantidade de digítos telefonicos é superior',
         ]);
         
-        if($request->input('tipo')=='Administrativo'){
-            $tipo = 1;
-        }else if($request->input('tipo')=='Estudantil'){
-            $tipo = 2;
-        }
-        
         $departamento = new Departamento;
         $departamento->nome = $request->input('nome'); 
-        $departamento->chefe_departamento = $request->input('chefe_departamento');
         $departamento->email = $request->input('email');
         $departamento->telefone = $request->input('telefone');
-        $departamento->tipo = $tipo;
+        $departamento->tipo = $request->input('tipo');
         $departamento->id_faculdade = $request->input('id_faculdade');
         if($departamento->save()){
             $info = 'Sucesso';
@@ -57,9 +50,23 @@ class DepartamentoController extends Controller
 
     //Função que remove o departamento
     public function eliminarDepartamento($id){
-        if(DB::table('departamento')->where('id', '=', $id)->delete()){
-            return back()->with('info','Departamento eliminado com sucesso.');
+        $info = null;
+        if(Departamento::destroy($id)){
+            $info = 'Sucesso';
         }
+        echo $info;
+    }
+
+    //Função que restaura o departamento eliminado com softdelete
+    public function restaurarDepartamento($id){
+        $info = null;
+        if(Departamento::withTrashed()
+                ->where('id', $id)
+                ->restore())
+        {
+            $info = 'Sucesso';
+        }
+        echo $info;
     }
 
     //Função que pega um determinado departamento
@@ -69,43 +76,42 @@ class DepartamentoController extends Controller
     }
 
     public function editarDepartamento(Request $request){
-        /*$validatedData = $request->validate([
-            'nome' => ['required', 'string', 'max:200', 'unique:departamento'],
-            'chefe_departamento' => ['required', 'string', 'max:200'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:departamento'],
-            'telefone' => ['required','min:9', 'max:9', 'unique:departamento'],
+        $validatedData = $request->validate([
+            //'nome' => ['required', 'string', 'max:200', 'unique:departamento'],
+            //'email' => ['required', 'string', 'email', 'max:255', 'unique:departamento'],
+            //'telefone' => ['required','min:9', 'max:9', 'unique:departamento'],
+            'tipo' => ['required'],
         ],[
             //Mensagens de validação de erros
             'nome.required'=>'Por favor, informe o nome do departamento',
-            'chefe_departamento.required'=>'Por favor, informe o nome do chefe do departamento',
             'email.required'=>'Por favor, informe o email',
             'telefone.required'=>'Por favor, informe o contacto telefónico',
             'telefone.min'=>'A quantidade de digítos telefonicos é inferior',
             'telefone.max'=>'A quantidade de digítos telefonicos é superior',
-        ]);*/
-        
-        if($request->input('tipo')=='Administrativo'){
-            $tipo = 1;
-        }else if($request->input('tipo')=='Estudantil'){
-            $tipo = 2;
-        }
+            'tipo.required'=>'O tipo do departamento deve ser informado',
+        ]);
 
-        if(DB::table('departamento')          
-                ->where('id','=',$request->id_departamento)
-                ->update(['nome' => $request->input('nome_edit'),'chefe_departamento'=>$request->input('chefe_departamento'),'email'=>$request->input('email'),'telefone'=>$request->input('telefone'),'tipo'=>$tipo])){
-            $info = 'Sucesso';
-        } else {
-            $info = 'Erro';
-        }
-               
+        $info = 'Erro';
 
-        echo $info;        
+        try{
+            if(DB::table('departamento')          
+                    ->where('id','=',$request->id_departamento)
+                    ->update(['nome' => $request->input('nome_edit'),'email'=>$request->input('email'),'telefone'=>$request->input('telefone'),'tipo'=>$request->input('tipo')])){
+                $info = 'Sucesso';
+            } else {
+                $info = 'Erro';
+            }  
+            echo $info;       
+        }catch(Exception $e){
+            echo $info;
+        }        
     }
 
     //Visualizar o departamento
     public function verDepartamento($id){
         $departamento = Departamento::find(base64_decode($id));
-        return view('departamento.verDepartamento',compact('departamento'));
+        $chefe_departamento = Departamento::pegaChefeDepartamento(base64_decode($id));
+        return view('departamento.verDepartamento',compact('departamento','chefe_departamento'));
     }
 
     public function pesquisarDepartamento(Request $request){
