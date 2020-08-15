@@ -1,7 +1,7 @@
 <!-- Ver meu perfil quando estou logado -->
 <?php 
     //sessão dos dados do utilizador logado
-    $dados=session('dados_logado');
+    //$dados=session('dados_logado');
 ?>
 @extends('layouts.inicio')
 @section('content')
@@ -76,7 +76,7 @@
                                         </div> <!-- end col -->
                                         <div class="col-7">
                                             <div class="form-group row mb-3">                       
-                                                <a href="#" class="nome_edit" data-name="nome" data-type="text" data-placeholder="Preenchimento obrigatório" data-pk="{{$dados[0]->id_pessoa}}" data-title="Informe o nome">{{$dados[0]->nome}}</a>
+                                                <a href="#" class="nome_edit" data-name="nome" data-type="text" data-placeholder="Preenchimento obrigatório" data-pk="{{$dados->pessoa_id}}" data-title="Informe o nome">{{$dados->nome}}</a>
                                             </div>
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
@@ -88,7 +88,7 @@
                                         </div> <!-- end col -->
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <a href="#" class="pessoa_edit" data-name="data_nascimento" data-type="combodate" data-value="{{$dados[0]->data_nascimento}}" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="D / MMM / YYYY" data-pk="{{$dados[0]->id_pessoa}}"  data-title="Select Date of birth"></a>      
+                                                <a href="#" class="pessoa_edit" data-name="data_nascimento" data-type="combodate" data-value="{{$dados->data_nascimento}}" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="D / MMM / YYYY" data-pk="{{$dados->pessoa_id}}"  data-title="Select Date of birth"></a>      
                                             </div>
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
@@ -100,7 +100,7 @@
                                         </div> <!-- end col -->
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <a href="#" class="pessoa_edit" data-name="bi" data-type="text" data-placeholder="Preenchimento obrigatório" data-pk="{{$dados[0]->id_pessoa}}" data-title="Informe o nº do documento">{{$dados[0]->bi}}</a>
+                                                <a href="#" class="pessoa_edit" data-name="bi" data-type="text" data-placeholder="Preenchimento obrigatório" data-pk="{{$dados->pessoa_id}}" data-title="Informe o nº do documento">{{$dados->bi}}</a>
                                             </div>
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
@@ -112,7 +112,7 @@
                                         </div> <!-- end col -->
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <a href="#" class="genero_edit" data-name="genero" data-type="select" data-placeholder="Preenchimento obrigatório" data-pk="{{$dados[0]->id_pessoa}}" data-title="Informe o genero">@if($dados[0]->genero==1)Masculino @else Feminino @endif</a>
+                                                <a href="#" class="genero_edit" data-name="genero" data-type="select" data-placeholder="Preenchimento obrigatório" data-pk="{{$dados->pessoa_id}}" data-title="Informe o genero">@if($dados->genero==1)Masculino @else Feminino @endif</a>
                                             </div>
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
@@ -128,7 +128,7 @@
                                         </div> <!-- end col -->
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <a class="nao_edit">{{$dados[0]->faculdade}}</a>
+                                                <a class="nao_edit">{{$dados->faculdade}}</a>
                                             </div>
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
@@ -140,11 +140,11 @@
                                         </div>
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <a class="nao_edit"><?php try{ echo $dados[0]->departamento; }Catch(Exception $e){} ?></a>
+                                                <a class="nao_edit"><?php try{ echo $dados->departamento; }Catch(Exception $e){} ?></a>
                                             </div>
                                         </div>                                   
                                     </div>
-                                    <?php if($dados[0]->tipo==3){ ?>                    
+                                    <?php if($dados->tipo==3){ ?>                    
                                         <div id="labelespaco" class="row">                                           
                                             <div class="col-5">
                                                 <div class="form-group row mb-3">
@@ -153,14 +153,14 @@
                                             </div>     
                                             <div class="col-7">
                                                 <div class="form-group row mb-3">
-                                                    <a class="nao_edit">: <?php try{ echo $dados[0]->curso; }Catch(Exception $e){} ?></a>
+                                                    <a class="nao_edit"><?php try{ echo $dados->curso; }Catch(Exception $e){} ?></a>
                                                 </div>
                                             </div>        
                                         </div>
                                     <?php } ?>
                                     
                                     <div id="labelespaco" class="row">                                 
-                                        <?php if($dados[0]->tipo==1){ ?>
+                                        <?php if($dados->tipo==1){ ?>
                                             <div class="col-5">
                                                 <div class="form-group row mb-3">
                                                     <p class="col-md-5 col-form-label"> Função</p>
@@ -168,10 +168,10 @@
                                             </div>     
                                             <div class="col-7">
                                                 <div class="form-group row mb-3">
-                                                    <a class="nao_edit"><?php try{ echo $dados[0]->funcao; }Catch(Exception $e){} ?></a>
+                                                    <a class="nao_edit"><?php try{ echo $dados->funcao; }Catch(Exception $e){} ?></a>
                                                 </div>
                                             </div>
-                                        <?php } else if($dados[0]->tipo==2){ ?>
+                                        <?php } else if($dados->tipo==2){ ?>
                                             <div class="col-5">
                                                 <div class="form-group row mb-3">
                                                     <p class="col-md-5 col-form-label"> Nível Acadêmico</p>
@@ -179,10 +179,10 @@
                                             </div>     
                                             <div class="col-7">
                                                 <div class="form-group row mb-3">
-                                                    <a class="nao_edit"><?php try{ echo $dados[0]->nivel_academico; }Catch(Exception $e){} ?></a>
+                                                    <a class="nao_edit"><?php try{ echo $dados->nivel_academico; }Catch(Exception $e){} ?></a>
                                                 </div>
                                             </div>        
-                                        <?php } else if($dados[0]->tipo==3){ ?>
+                                        <?php } else if($dados->tipo==3){ ?>
                                             <div class="col-5">
                                                 <div class="form-group row mb-3">
                                                     <p class="col-md-5 col-form-label"> Número Mecanográfico</p>
@@ -190,7 +190,7 @@
                                             </div>     
                                             <div class="col-7">
                                                 <div class="form-group row mb-3">
-                                                    <label class="col-md-7 col-form-label">: <?php try{ echo $dados[0]->numero_mecanografico; }Catch(Exception $e){} ?></label>
+                                                    <a class="nao_edit"><?php try{ echo $dados->numero_mecanografico; }Catch(Exception $e){} ?></a>
                                                 </div>
                                             </div>        
                                         <?php } ?>
@@ -207,7 +207,7 @@
                                         </div> <!-- end col -->
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <a class="nao_edit">{{$dados[0]->email}}</a>
+                                                <a class="nao_edit">{{$dados->email}}</a>
                                             </div>
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
@@ -219,7 +219,7 @@
                                         </div> <!-- end col -->
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <a href="#" class="telefone_edit" data-name="telefone" data-type="number" data-placeholder="Preenchimento obrigatório" data-pk="{{$dados[0]->id_pessoa}}" data-title="Informe o número de telefone">{{$dados[0]->telefone}}</a>
+                                                <a href="#" class="telefone_edit" data-name="telefone" data-type="number" data-placeholder="Preenchimento obrigatório" data-pk="{{$dados->pessoa_id}}" data-title="Informe o número de telefone">{{$dados->telefone}}</a>
                                             </div>
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
@@ -246,8 +246,8 @@
                                             </div>
                                         </div> 
                                         <div class="col-7">
-                                            <div class="form-group row mb-3"> 
-                                                <a href="#save-modal" class="btn btn-warning btn-rounded btn-sm waves-effect waves-light" data-backdrop="static" data-keyboard="false" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="fas fa-user-lock mr-1"></i>Alterar Senha</a>
+                                            <div class="form-group row mb-3">
+                                                <a href="#" class="btn btn-sm btn-warning btn-rounded waves-effect waves-light btn-rounded" data-toggle="modal" data-target="#modalAlterar" data-backdrop="static" data-keyboard="false"><i class="fas fa-user-lock mr-1"></i>Alterar Senha</a> 
                                             </div>
                                         </div> 
                                     </div>                                   
@@ -255,7 +255,6 @@
                                 <div class="clearfix"></div>
                             </div>
                         </div> 
-                        <!--<a href='{{ url("pegaUtilizador/".base64_encode($dados[0]->id_pessoa)."/".base64_encode($dados[0]->tipo))}}' class="btn btn-warning waves-effect waves-light"><i class="fas fa-user-edit mr-1"></i>Editar</a>-->
                     </div> 
                 </div>
             </div>
@@ -277,19 +276,27 @@
                 processData: false,
                 success:function(data){
                     if(data == "Sucesso"){            
-                        Custombox.modal.close();
+                        $('#modalCloseAlterar').click();
                         Swal.fire({
                             text: "Senha alterada com sucesso.",
                             icon: 'success',
                             confirmButtonText: 'Fechar',
                             timer: 1500
                         }),
-                        $('#formularioSalvar')[0].reset();
+                        $('#trocarSenha')[0].reset();
+                    }else{
+                        $('#modalCloseAlterar').click();
+                        $('#trocarSenha')[0].reset();
+                        Swal.fire({
+                            text: 'Ocorreu um erro ao alterar a senha.',
+                            icon: 'error',
+                            confirmButtonText: 'Fechar'
+                        })
                     }            
                 },
                 error: function(e){
+                    $('#modalCloseAlterar').click();
                     $('#trocarSenha')[0].reset();
-                    Custombox.modal.close();
                     Swal.fire({
                         text: 'Ocorreu um erro ao alterar a senha.',
                         icon: 'error',
@@ -299,12 +306,12 @@
             });
         }else{
             $('#trocarSenha')[0].reset();
-            Custombox.modal.close();
             Swal.fire({
                 text: 'A nova senha e a senha de confirmação devem ser iguais.',
                 icon: 'error',
                 confirmButtonText: 'Fechar'
-            })
+            }),
+            $('#modalCloseAlterar').click();
         }
     });
 

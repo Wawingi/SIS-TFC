@@ -144,6 +144,7 @@
                                 </div> <!-- end col -->
                             </div> <!-- end row -->
                             <?php if($dados->tipo==1){ ?>
+                                @include('includes.perfil.modalTrocaFuncao')
                                 <div id="labelespaco" class="row">
                                     <div class="col-5">
                                         <div class="form-group row mb-3">
@@ -152,7 +153,7 @@
                                     </div> <!-- end col -->
                                     <div class="col-7">
                                         <div class="form-group row mb-3">
-                                            <a href="#" class="funcao_edit" data-name="funcao" data-type="text" data-placeholder="Preenchimento obrigatório" data-pk="{{$dados->pessoa_id}}" data-title="Informe o nº do documento"><?php try{ echo $dados->funcao;}catch(Exception $e){} ?></a>
+                                            <a href="#" class="pessoa_edit" data-backdrop="static" data-toggle="modal" data-target="#modalTrocaFuncao"><?php try{ echo $dados->funcao;}catch(Exception $e){} ?></a>
                                         </div>
                                     </div> <!-- end col -->
                                 </div> <!-- end row -->
@@ -403,6 +404,38 @@
         });
     });
 
+    $('#formularioEditarFuncao').submit(function(e){
+        e.preventDefault();
+        var request = new FormData(this);
+        $.ajax({
+            url:"{{ url('editarFuncao') }}",
+            method: "POST",
+            data: request,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success:function(data){
+                if(data == "Sucesso"){
+                    $('#modalEditarFuncaoClose').click();
+                    Swal.fire({
+                        text: "Actualizado com sucesso.",
+                        icon: 'success',
+                        confirmButtonText: 'Fechar'
+                    }),
+                    location.reload();
+                }            
+            },
+            error: function(e){
+                $('#modalEditarFuncaoClose').click();
+                Swal.fire({
+                    text: 'Ocorreu um erro ao actualizar.',
+                    icon: 'error',
+                    confirmButtonText: 'Fechar'
+                })
+            }
+        });
+    });
+
     $('#formularioEditarDepartamentoFuncionario').submit(function(e){
         e.preventDefault();
         var request = new FormData(this);
@@ -504,31 +537,6 @@
             mode:"inline",
             inputclass:"form-control-sm",
             success: function(response, newValue){
-                if(response=='sucesso'){
-                    Swal.fire({
-                        text: 'Actualizado com sucesso.',
-                        icon: 'success',
-                        confirmButtonText: 'Fechar'
-                    })
-                }else{
-                    Swal.fire({
-                        text: 'Ocorreu um erro ao actualizar.',
-                        icon: 'error',
-                        confirmButtonText: 'Fechar'
-                    })
-                }
-            }
-        });
-
-        $(".funcao_edit").editable({
-            validate:function(e){
-                if(""==$.trim(e))
-                    return "Este campo é de preenchimento obrigatório"
-            },
-            url:'{{url("editarFuncionario")}}',
-            mode:"inline",
-            inputclass:"form-control-sm",
-            success: function(response){
                 if(response=='sucesso'){
                     Swal.fire({
                         text: 'Actualizado com sucesso.',
@@ -661,6 +669,21 @@
             }
         });
     });
+
+    //ocultar e mostrar a função do funcionario ao editar
+    $(document).ready(function(){
+        //validação da escolha do funcionario (Direcção ou Departamento Estudantil)
+        document.getElementById("tipo_funcao").onchange = function() {
+            var dado = document.getElementById("tipo_funcao");
+            var itemSelecionado = dado.options[dado.selectedIndex].value;
+                if (itemSelecionado==="1") {
+                    document.getElementById("mostra_outro").style.display = 'none';
+                }else {
+                    document.getElementById("mostra_outro").style.display = 'block';
+                }
+        };
+    });
+
     
 </script>    
 @stop

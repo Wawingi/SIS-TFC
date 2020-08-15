@@ -17,7 +17,7 @@
 
                     <div class="form-group">
                         <label for="descricao">Anexar Ficheiro em Pdf</label>
-                        <input type="file" class="form-control" name="descricao">
+                        <input type="file" class="form-control" accept="application/pdf" name="descricao">
                     </div>
                     <!--Buscar area de aplicação na BD e preencher a combobox -->
                     <?php 
@@ -25,7 +25,7 @@
                     ?>    
                     <div class="form-group">
                         <label for="position">Área de Aplicação</label>
-                        <select name="area" class="custom-select">
+                        <select name="area" class="selectpicker" data-live-search="true" data-style="btn-light">
                             <?php foreach($areas as $area): ?>
                                 <option>{{$area->nome}}</option>
                             <?php endforeach ?>
@@ -39,7 +39,7 @@
                             <div class="col-7">
                                 <div class="form-group">
                                     <label for="position">Orientador Desejado</label>
-                                    <select name="docente" class="custom-select">
+                                    <select name="docente" class="selectpicker" data-live-search="true" data-style="btn-light">
                                         <?php foreach($docentes as $docente): ?>
                                             <option>{{$docente->nome}}</option>
                                         <?php endforeach ?>

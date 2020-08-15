@@ -225,7 +225,7 @@
                                     <a href="{{ url('listarSugestaoDepartamento')}}"><i class="fe-file-text mr-1"></i>Sugestão do Departamento</a>
                                 </li>
                                 <li>
-                                    <a href="{{ url('meusTutorandos')}}"><i class="fas fa-user-graduate noti-icon mr-1"></i>Meus Tutorandos</a>
+                                    <a href="{{ url('meusTutorandos')}}"><i class="fas fa-user-graduate noti-icon mr-1"></i>Minhas Propostas & Sugestões</a>
                                 </li>                          
                             </ul>
                         </li>

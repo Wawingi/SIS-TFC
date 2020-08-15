@@ -46,4 +46,12 @@ class Permission extends Model
                 ->where('role_id',$idRole)
                 ->count();
     }
+
+    //Função que mostra se o utilizador possui este perfil
+    public static function isDefinedRole($idUser,$idRole){
+        return DB::table('role_user')
+                ->where('user_id',$idUser)
+                ->where('role_id',$idRole)
+                ->count();
+    }
 }

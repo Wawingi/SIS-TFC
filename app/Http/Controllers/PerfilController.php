@@ -45,7 +45,7 @@ class PerfilController extends Controller
                 ->join('faculdade', 'faculdade.id', '=', 'departamento.id_faculdade')
                 ->where('faculdade.id','=',$sessao[0]->id_faculdade)
                 ->where('pessoa.id','<>',$sessao[0]->id_pessoa)
-                ->where('funcionario.privilegio','=',1)
+                //->where('funcionario.privilegio','=',1)
                 ->select('pessoa.id','pessoa.nome', 'pessoa.bi','departamento.nome as departamento','users.tipo')
                 ->orderBy('pessoa.nome');
             
@@ -92,10 +92,11 @@ class PerfilController extends Controller
     //Ver perfil do utilizador autenticado
     public function verPerfil(){
         $sessao = session('dados_logado');
+        $dados = Pessoa::pegaDadosUtilizador($sessao[0]->id_pessoa,$sessao[0]->tipo);
         //Função que pega as roles do utilizador logado
         $roles = Role::pegaRoleUtilizador($sessao[0]->id_pessoa);
-
-        return view('perfil.verPerfil',compact('roles'));
+        //dd($dados);
+        return view('perfil.verPerfil',compact('roles','dados'));
     }
 
     //Ver perfil do utilizador pesquisado

@@ -17,6 +17,7 @@
                             <li class="breadcrumb-item active">Ver Sugestão</li>
                         </ol>
                     </div>
+                    <h4 class="page-title">Ver Sugestão</h4>
                 </div>
             </div>
         </div>
@@ -46,6 +47,7 @@
         @include('includes.sugestao.modalTrabalharSugestao')
         @include('includes.sugestao.modalAvaliarSugestao')
         @include('includes.sugestao.modalNovoEstudante')
+        @include('includes.sugestao.modalNovoTutor')
                             
         <!--Inicio do conteudo-->
         @if($notificacao==1)
@@ -96,7 +98,7 @@
                                     @else
                                         <div class="co-lg-8">
                                             <div style="margin-left:450px;margin-top:25px" class="button-list">
-                                                <a style="bottom:32px" href="#rejeicao-modal" class="btn btn-danger btn-rounded btn-sm waves-effect waves-light float-right" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="mdi mdi-cancel mr-1"></i>Rejeitar Proposta</a>
+                                                <a style="bottom:32px" href="#" data-toggle="modal" data-target="#modalRejeitar" data-backdrop="static" data-keyboard="false" class="btn btn-danger btn-rounded btn-sm waves-effect waves-light float-right"><i class="mdi mdi-cancel mr-1"></i>Rejeitar Proposta</a>
                                                 <a style="bottom:32px" href="#" class="AprovarProposta btn btn-success btn-rounded btn-sm waves-effect waves-light float-right" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="mdi mdi-checkbox-marked-circle-outline mr-1"></i>Aprovar Proposta</a>
                                             </div>
                                         </div>
@@ -111,6 +113,7 @@
                                                 <li id="task1" class="<?php if($sugestao[0]->estado==4){echo 'task-high';}else{echo 'task-low';} ?>">
                                                     <br>
                                                     <input type="hidden" name="sugestao_id" id="sugestao_id" class="form-control" value="{{$sugestao[0]->id}}">
+                                                    <input type="hidden" name="sugestao_descricao" id="sugestao_descricao" class="form-control" value="{{$sugestao[0]->descricao}}">
                                                     <input type="hidden" name="sugestao_proveniencia" id="sugestao_proveniencia" class="form-control" value="{{$sugestao[0]->proveniencia}}">
                                                     <div id="labelespaco" class="row">
                                                         <div class="col-5">
@@ -158,7 +161,7 @@
                                                             <div class="form-group row mb-3">
                                                                 <label class="col-md-5 col-form-label">:                              
                                                                     @if($sugestao[0]->estado==1) 
-                                                                        Publicado
+                                                                        Registado
                                                                     @elseif($sugestao[0]->estado==2)
                                                                         Selecionado
                                                                     @elseif($sugestao[0]->estado==3)
@@ -249,18 +252,22 @@
                                             <h5 class="SairGrupo"><i class="mdi mdi-file-lock"></i> JÁ POSSUI UMA PROPOSTA  ASSOCIADA.</h5>                    
                                         @endif
                                 </div>
-                                <div class="col-2">
-                                    <div class="float-right btn-group dropdown mt-1">
-                                        <button type="button" class="btn-sm btn btn-primary waves-effect waves-light">Menu</button>
-                                        <button type="button" class="btn-sm btn btn-primary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-chevron-down"></i></button>
-                                        <div class="dropdown-menu">
-                                            @if($sugestao[0]->estado==2 || ($sugestao[0]->estado==1 && $sugestao[0]->proveniencia==2))
-                                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#novoestudanteModal"><i class="fas fa-user-graduate noti-icon mr-2"></i>Adicionar estudante</a>
-                                            @endif
-                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#xxxx"><i class="fas fa-user-graduate noti-icon mr-2"></i>Editar</a>
-                                        </div>
-                                    </div>                              
-                                </div>
+                                @can('menu_sugestao')
+                                    <div class="col-2">
+                                        <div class="float-right btn-group dropdown mt-1">
+                                            <button type="button" class="btn-sm btn btn-primary waves-effect waves-light">Menu</button>
+                                            <button type="button" class="btn-sm btn btn-primary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-chevron-down"></i></button>
+                                            <div class="dropdown-menu">
+                                                @if($sugestao[0]->estado==2 || ($sugestao[0]->estado==1 && $sugestao[0]->proveniencia==2))
+                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#novoestudanteModal" data-backdrop="static" data-keyboard="false"><i class="fas fa-user-graduate noti-icon mr-2"></i>Adicionar estudante</a>
+                                                @endif
+                                                @if($sugestao[0]->estado==1 || $sugestao[0]->estado==2)
+                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#novotutor" data-backdrop="static" data-keyboard="false"><i class="fas fa-chalkboard-teacher noti-icon mr-2"></i>Trocar Orientador</a>
+                                                @endif
+                                            </div>
+                                        </div>                              
+                                    </div>
+                                @endcan
                             </div>   
                         </div>
                     </div>
@@ -361,7 +368,7 @@
             processData: false,
             success:function(data){
                 if(data == "Sucesso"){
-                    Custombox.modal.close();
+                    $("#modalRejeitarClose").click();
                     $('#formularioSalvar')[0].reset();
                     Swal.fire({
                         text: "Rejeitado com sucesso.",
@@ -372,8 +379,10 @@
                 }            
             },
             error: function(e){
+                $("#modalRejeitarClose").click();
+                $('#formularioSalvar')[0].reset();
                 Swal.fire({
-                    text: 'Ocorreu um erro.',
+                    text: 'Ocorreu um erro ao registar.',
                     icon: 'error',
                     confirmButtonText: 'Fechar'
                 })
@@ -428,9 +437,10 @@
                     var sugestao_id = $('#sugestao_id').val(); //id da sugestão selecionada
                     var sugestao_proveniencia = $('#sugestao_proveniencia').val();//proveniencia da sugestao
                     var idPessoa = $(this).attr('idPessoa');  //id da pessoa logada
+                    var descricao = $('#sugestao_descricao').val(); //Descricao ou nome do anexo
 
                     $.ajax({
-                        url: "{{ url('sairGrupo') }}/"+sugestao_id+"/"+idPessoa+"/"+sugestao_proveniencia,
+                        url: "{{ url('sairGrupo') }}/"+sugestao_id+"/"+idPessoa+"/"+sugestao_proveniencia+"/"+descricao,
                         type: "GET",
                         success: function(data){         
                             Swal.fire({
@@ -573,6 +583,39 @@
             error: function(e){
                 Swal.fire({
                     text: 'Ocorreu um erro ao adicionar o estudante.',
+                    icon: 'error',
+                    confirmButtonText: 'Fechar'
+                })
+            }
+        });
+    });
+
+    //Trocar o orientador de uma determinada sugestão ou proposta
+    $('#formularioNovoTutor').submit(function(e){
+        e.preventDefault();
+        var request = new FormData(this);
+
+        $.ajax({
+            url:"{{ url('trocarTutor') }}",
+            type: "POST",
+            data: request,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success:function(data){
+                if(data == "Sucesso"){
+                    $('#modalNovoTutorClose').click();
+                    Swal.fire({
+                        text: "Alterado com sucesso.",
+                        icon: 'success',
+                        confirmButtonText: 'Fechar'
+                    });
+                    location.reload();
+                }            
+            },
+            error: function(e){
+                Swal.fire({
+                    text: 'Ocorreu um erro.',
                     icon: 'error',
                     confirmButtonText: 'Fechar'
                 })

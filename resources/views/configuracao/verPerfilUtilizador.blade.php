@@ -79,7 +79,7 @@
                             <table id="paginationFullNumbers" class="table table-bordered" width="100%">
                                 <thead id="cabecatabela">
                                     <tr>
-                                        <th>Perfil</th>
+                                        <th>Permissão</th>
                                         <th>Descrição</th>
                                         <th class="text-center" style="width: 125px">Acções</th>
                                     </tr>

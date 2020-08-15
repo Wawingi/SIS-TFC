@@ -117,3 +117,8 @@ hr {
     color:black;
     font-weight: bold;
 }
+
+.span{
+    color:red;
+    font-size: 12px;
+}

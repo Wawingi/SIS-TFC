@@ -24,7 +24,8 @@
         <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('libs/custombox/custombox.min.css') }}" rel="stylesheet" />    
         <link href="{{ asset('libs/switchery/switchery.min.css') }}" rel="stylesheet" />
-        <link href="{{ asset('libs/x-editable/bootstrap-editable.css') }}" rel="stylesheet" />                 
+        <link href="{{ asset('libs/x-editable/bootstrap-editable.css') }}" rel="stylesheet" />
+        <link href="{{ asset('libs/bootstrap-select/bootstrap-select.min.css') }}" rel="stylesheet" />                    
     </head>
     <body>
         <script src="{{ asset('js/jquery-3.4.1.js') }}"></script>
@@ -65,5 +66,6 @@
         <script src="{{ asset('js/pages/form-advanced.init.js') }}"></script>
         <script src="{{ asset('libs/moment/moment.min.js') }}"></script>
         <script src="{{ asset('libs/x-editable/bootstrap-editable.min.js') }}"></script>
+        <script src="{{ asset('libs/bootstrap-select/bootstrap-select.min.js') }}"></script>
     </body>
 </html>

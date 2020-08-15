@@ -18,7 +18,7 @@
                                 foreach($roles as $role):
                         ?>
                                 <div class="custom-control custom-checkbox">
-                                    <input style="width:18px;height:18px" type="checkbox" value="{{$role->id}}" name="roles_id[]"/> 
+                                    <input <?php if(App\Permission::isDefinedRole($dados->id,$role->id)==1){ echo 'disabled';} ?> style="width:18px;height:18px" type="checkbox" value="{{$role->id}}" name="roles_id[]"/> 
                                     <label style="padding-left:10px">{{$role->nome}}</label>
                                 </div>
                         <?php
@@ -28,7 +28,7 @@
                                 foreach($roles as $role):
                         ?>
                                 <div class="custom-control custom-checkbox">
-                                    <input style="width:18px;height:18px" type="checkbox" value="{{$role->id}}" name="roles_id[]"/> 
+                                    <input <?php if(App\Permission::isDefinedRole($dados->id,$role->id)==1){ echo 'disabled';} ?> style="width:18px;height:18px" type="checkbox" value="{{$role->id}}" name="roles_id[]"/> 
                                     <label style="padding-left:10px">{{$role->nome}}</label>
                                 </div>
                         <?php
@@ -38,7 +38,7 @@
                                 foreach($roles as $role): 
                         ?>
                                 <div class="custom-control custom-checkbox">
-                                    <input style="width:18px;height:18px" type="checkbox" value="{{$role->id}}" name="roles_id[]"/> 
+                                    <input <?php if(App\Permission::isDefinedRole($dados->id,$role->id)==1){ echo 'disabled';} ?> style="width:18px;height:18px" type="checkbox" value="{{$role->id}}" name="roles_id[]"/> 
                                     <label style="padding-left:10px">{{$role->nome}}</label>                        
                                 </div>
                         <?php

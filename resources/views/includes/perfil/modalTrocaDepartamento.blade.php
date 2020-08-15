@@ -18,7 +18,7 @@
                             <div class="form-group mb-3">
                                 <select name="departamento" class="custom-select">
                                     @foreach($departamentos as $departamento)
-                                        <option value="{{$departamento->id}}">{{$departamento->nome}}</option>
+                                        <option value="{{$departamento->id}}" <?php if(App\Model\Departamento::pegaChefeDepartamento($departamento->id)){ echo "disabled";} ?>>{{$departamento->nome}}</option>
                                     @endforeach
                                 </select>                                        
                             </div>

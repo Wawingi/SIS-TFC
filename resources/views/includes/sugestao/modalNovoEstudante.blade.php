@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">    
         <div class="modal-content">
             <div id="cabeca-modal" class="modal-header">
-                <h4 class="modal-title" id="exampleModalScrollableTitle">Adicionar Novo Estudante</h4>
+                <h4 class="modal-title" id="exampleModalScrollableTitle"><i class="fas fa-user-graduate noti-icon mr-2"></i>Adicionar Novo Estudante</h4>
                 <button id="modalCloseNovo" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Model\Area;
 use App\Model\AvaliacaoProposta;
 use App\Model\Departamento;
+use App\Model\Helper;
 use App\Model\Sugestao;
 use App\Model\Pessoa;
 use Illuminate\Support\Facades\DB;
@@ -51,64 +52,62 @@ class SugestaoController extends Controller
         ]);       
         //Pega sessao
         $sessao=session('dados_logado');
-
-        $anexo = $request->file('descricao');
-        $originalName = $anexo->getClientOriginalName();
-        $anexo->move(public_path('pdf/propostas/'),$originalName);
-
-        //Pega área de aplicação do tema em causa
-        $id_area=Area::pegaAreaId($request->area,$sessao[0]->id_departamento);       
-        switch($sessao[0]->tipo){
-            //Se tipo for docente entao cadastre a sua sugestão
-            case 2:
-                    $sugestao = new Sugestao;
-                    $sugestao->tema = $request->tema;
-                    $sugestao->descricao = $originalName;       
-                    $sugestao->estado = 1;         //Publicado=1; Selecionado=2; Em desenvolvimento=3; Rejeitado=4, 
-                    $sugestao->visibilidade = 1;    //Visivel=1; Invisivel=2
-                    $sugestao->id_area = $id_area;
-                    $sugestao->id_departamento = $sessao[0]->id_departamento;
-                    $sugestao->proveniencia = 1;   //DPTO=1; Estudante=2
-                    $sugestao->id_docente = $sessao[0]->id_pessoa;
-                    $sugestao->avaliacao = 3;   //0=Rejeitado; 1=Aprovado; 3=Padrão
-                
-                    if($sugestao->save()){
-                        $info = 'Sucesso';
-                    };
-                    echo $info;  
-                    break;           
-            //se tipo for estudante entao cadastre a sua sugestão
-            case 3:
-                    $id_docente = Pessoa::pegaIdPessoaByNome($request->docente);
-
+          
+        //Verificar a extensão e o tamanho do ficheiro a anexar
+        if(Helper::getFileSize($request->descricao)<=2 && Helper::getFileExtension($request->descricao)){
+            //Pega área de aplicação do tema em causa
+            $id_area=Area::pegaAreaId($request->area,$sessao[0]->id_departamento);       
+            switch($sessao[0]->tipo){
+                //Se tipo for docente entao cadastre a sua sugestão
+                case 2:             
+                    //Registado=1; Selecionado=2; Em desenvolvimento=3; Rejeitado=4,  //DPTO=1; Estudante=2 //0=Rejeitado; 1=Aprovado; 3=Padrão
+                    $novoFicheiro = Helper::moverFicheiro($request->file('descricao'),$request->tema,$sessao[0]->id_pessoa,'propostas');    //Função que move o ficheiro anexado
                     //Regista a sugestao e retorna o ID gerado
                     $idSugestao = DB::table('sugestao')->insertGetId(
-                        ['tema'=>$request->tema,'descricao'=>$originalName,'estado'=>1,'visibilidade'=>1,'id_area'=>$id_area,'id_departamento'=>$sessao[0]->id_departamento,'proveniencia'=>2,'id_docente'=>$id_docente,'avaliacao'=>3,'created_at'=>date('Y-m-d H:i:s',strtotime('today')),'updated_at'=>date('Y-m-d H:i:s',strtotime('today'))]
+                        ['tema'=>strtoupper($request->tema),'descricao'=>$novoFicheiro,'estado'=>1,'visibilidade'=>1,'id_area'=>$id_area,'id_departamento'=>$sessao[0]->id_departamento,'proveniencia'=>1,'id_docente'=>$sessao[0]->id_pessoa,'avaliacao'=>3,'created_at'=>date('Y-m-d H:i:s',strtotime('today')),'updated_at'=>date('Y-m-d H:i:s',strtotime('today'))]
                     );
 
-                    if($id_docente>0 && $idSugestao>0){
-                        //Verifica se envolventes é um array não null, trazendo varios estudantes associados a uma sugestao
-                        if($request->envolventes == null){
-                            if(DB::table('estudante_sugestao')->insert(
-                                ['id_estudante' => $sessao[0]->id_pessoa, 'id_sugestao' => $idSugestao, 'estado'=>1]
-                            )){
-                                echo 'Sucesso';
-                            };
-                        } else {
-                            DB::table('estudante_sugestao')->insert(
-                                ['id_estudante' => $sessao[0]->id_pessoa,'id_sugestao' => $idSugestao,'estado'=>1]
-                            );
-                            foreach($request->envolventes as $envolvente){
-                                $idPessoa=Pessoa::pegaIdPessoaByNome($envolvente);
+                    if($idSugestao>0){
+                        echo 'Sucesso';
+                    }  
+                    break;           
+                //se tipo for estudante entao cadastre a sua sugestão
+                case 3:
+                        $id_docente = Pessoa::pegaIdPessoaByNome($request->docente);
+                        $novoFicheiro = Helper::moverFicheiro($request->file('descricao'),$request->tema,$sessao[0]->id_pessoa,'propostas');    //Função que move o ficheiro anexado
+                        //Regista a sugestao e retorna o ID gerado
+                        $idSugestao = DB::table('sugestao')->insertGetId(
+                            ['tema'=>strtoupper($request->tema),'descricao'=>$novoFicheiro,'estado'=>1,'visibilidade'=>1,'id_area'=>$id_area,'id_departamento'=>$sessao[0]->id_departamento,'proveniencia'=>2,'id_docente'=>$id_docente,'avaliacao'=>3,'created_at'=>date('Y-m-d H:i:s',strtotime('today')),'updated_at'=>date('Y-m-d H:i:s',strtotime('today'))]
+                        );
+
+                        if($id_docente>0 && $idSugestao>0){
+                            //Verifica se envolventes é um array não null, trazendo varios estudantes associados a uma sugestao
+                            if($request->envolventes == null){
+                                if(DB::table('estudante_sugestao')->insert(
+                                    ['id_estudante' => $sessao[0]->id_pessoa, 'id_sugestao' => $idSugestao, 'estado'=>1]
+                                )){
+                                    echo 'Sucesso';
+                                };
+                            } else {
                                 DB::table('estudante_sugestao')->insert(
-                                    ['id_estudante' => $idPessoa, 'id_sugestao' => $idSugestao,'estado'=>0]
+                                    ['id_estudante' => $sessao[0]->id_pessoa,'id_sugestao' => $idSugestao,'estado'=>1]
                                 );
-                            }                           
-                            echo  'Sucesso';
+                                foreach($request->envolventes as $envolvente){
+                                    $idPessoa=Pessoa::pegaIdPessoaByNome($envolvente);
+                                    DB::table('estudante_sugestao')->insert(
+                                        ['id_estudante' => $idPessoa, 'id_sugestao' => $idSugestao,'estado'=>0]
+                                    );
+                                }                           
+                                echo  'Sucesso';
+                            }
                         }
-                    }
                     break;
-        }             
+            }
+        }else{
+            echo 'Erro';
+        }
+        
+                     
     }
 
     public function verSugestao($id,$notificacao=null){
@@ -163,15 +162,19 @@ class SugestaoController extends Controller
     }
 
     //FUnção para abandonar o grupo de um determinado tema proposto
-    public function sairGrupo($idSugestao,$idPessoa,$proveniencia){
+    public function sairGrupo($idSugestao,$idPessoa,$proveniencia,$descricao){
         $info = null;
         $contEnvolventes = count(Sugestao::verEnvolventes($idSugestao));
         if($contEnvolventes == 1){ //mudar o estado para 1 (publicado) caso o tema esteja associado a um aluno
             if($proveniencia == 2){
-                DB::table('sugestao')
-                ->where('id', '=', $idSugestao)        
-                ->where('proveniencia', '=', $proveniencia)        
-                ->delete();
+                if(Helper::eliminarFicheiro($descricao,'propostas')){
+                    DB::table('sugestao')
+                        ->where('id', '=', $idSugestao)        
+                        ->where('proveniencia', '=', $proveniencia)        
+                        ->delete();
+                }else{
+
+                }
             } else if($proveniencia == 1){
                 DB::table('sugestao')          
                 ->where('id','=',$idSugestao)
@@ -219,6 +222,12 @@ class SugestaoController extends Controller
     }
 
     public function rejeitarProposta(Request $request){
+        $validatedData = $request->validate([
+            'descricao' => ['required'],
+        ],[
+            //Mensagens de validação de erros
+            'descricao.required'=>'A descrição é necessária',
+        ]);     
         $info=null;
         if(DB::table('sugestao')          
                 ->where('id','=',$request->idSugestao)
@@ -260,6 +269,18 @@ class SugestaoController extends Controller
         if(DB::table('estudante_sugestao')->insert(
             ['id_estudante' => $idPessoa, 'id_sugestao' => $request->sugestao_id,'estado'=>0]
         )){
+            $info = 'Sucesso';
+        }
+        echo $info;
+    }
+
+    //Trocar o orientador de um determinado tema
+    public function trocarTutor(Request $request){
+        $info=null;
+        if(DB::table('sugestao')          
+                ->where('id','=',$request->sugestao_id)
+                ->update(['id_docente' => $request->orientador]))
+        {
             $info = 'Sucesso';
         }
         echo $info;

@@ -55,7 +55,7 @@
                     if(count($jaSugestao) <= 0){
                 ?> 
                     <div class="col-lg-12">                  
-                        <button type="button" class="btn btn-primary btn-rounded btn-sm waves-effect waves-light" data-toggle="modal" data-target="#exampleModalScrollable"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Proposta</button>
+                        <button type="button" class="btn btn-primary btn-rounded btn-sm waves-effect waves-light" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#exampleModalScrollable"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Proposta</button>
                     </div>
                 <?php }else{ ?>
                     <div class="col-lg-6">                  
@@ -67,7 +67,7 @@
                 <?php } ?>
             </div>   
         @endif
-            <br><br>        
+            <br>       
             
             <div class="row">
                 <div class="col-12">

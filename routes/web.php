@@ -53,6 +53,7 @@ Route::name('utilizador')->group(function () {
     Route::post('editarTelefone','UtilizadorController@editarPessoa');
     Route::post('editarUtilizador','UtilizadorController@editarUtilizador');
     Route::post('editarFuncionario','UtilizadorController@editarFuncionario');
+    Route::post('editarFuncao','UtilizadorController@editarFuncao');
     Route::post('editarEstudante','UtilizadorController@editarEstudante');
     Route::post('editarCursoEstudante','UtilizadorController@editarCursoEstudante');
     Route::post('editarNivelAcademico','UtilizadorController@editarNivelAcademico');
@@ -100,7 +101,7 @@ Route::name('sugestao')->group(function () {
     });
     Route::get('pegaSugestoesEstudante','SugestaoController@pegaSugestoesEstudante');
     Route::get('verEnvolventes/{id}','SugestaoController@verEnvolventes');
-    Route::get('sairGrupo/{idsugestao}/{idpessoa}/{proveniencia}','SugestaoController@sairGrupo');
+    Route::get('sairGrupo/{idsugestao}/{idpessoa}/{proveniencia}/{descricao}','SugestaoController@sairGrupo');
     Route::get('aceitarProposta/{idPessoa}/{idSugestao}','SugestaoController@aceitarProposta');
     Route::get('negarProposta/{idsugestao}/{idpessoa}/{proveniencia}','SugestaoController@negarProposta');
     Route::get('meusTutorandos', function(){
@@ -112,6 +113,7 @@ Route::name('sugestao')->group(function () {
     Route::get('verMotivoRejeicao/{idSugestao}','SugestaoController@verMotivoRejeicao');
     Route::get('aprovarProposta/{idSugestao}','SugestaoController@aprovarProposta');
     Route::post('adicionarEstudante','SugestaoController@adicionarEstudante');
+    Route::post('trocarTutor','SugestaoController@trocarTutor');
 });
 
 //Rotas para configurações

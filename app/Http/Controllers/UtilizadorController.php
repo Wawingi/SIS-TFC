@@ -190,6 +190,27 @@ class UtilizadorController extends Controller
         echo $status;               
     }
 
+    public function editarFuncao(Request $request){
+        //dd($request);
+        $status=null;
+        if($request->tipo_funcao==1){
+            if(DB::table('funcionario')          
+            ->where('id_pessoa','=',$request->id_pessoa)
+            ->update(['funcao' => 'Chefe de Deparamento','privilegio' => 1]))
+            {
+                $status='Sucesso';
+            }      
+        }else{
+            if(DB::table('funcionario')          
+            ->where('id_pessoa','=',$request->id_pessoa)
+            ->update(['funcao' => $request->funcao,'privilegio' => 0]))
+            {
+                $status='Sucesso';
+            }    
+        }   
+        echo $status;               
+    }
+
     public function editarNivelAcademico(Request $request){
         $status=null;
         if(DB::table('docente')          
