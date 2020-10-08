@@ -69,10 +69,11 @@
                     document.getElementById("email").style.border = "1px solid red";
                     document.getElementById("senha").style.border = "1px solid red";
                     document.getElementById("errorLogar").innerHTML = "Erro ao efectuar o login, verifique o email ou a senha.";
-                }            
+                }
             },
             error: function(e){
-                alert("Erro ao logar");
+                $('#logando').hide();
+                alert('Erro ao logar');
             }
         });
     });

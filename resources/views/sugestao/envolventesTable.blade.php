@@ -1,6 +1,6 @@
-<?php 
-    //sessão dos dados do utilizador logado
-    $sessao=session('dados_logado'); 
+<?php
+//sessão dos dados do utilizador logado
+$sessao = session('dados_logado');
 ?>
 @foreach($envolventes as $envolvente)
     <tr>

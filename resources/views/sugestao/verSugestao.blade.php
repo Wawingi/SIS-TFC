@@ -1,6 +1,6 @@
-<?php 
-    //sessão dos dados do utilizador logado
-    $sessao=session('dados_logado'); 
+<?php
+//sessão dos dados do utilizador logado
+$sessao = session('dados_logado');
 ?>
 @extends('layouts.inicio')
 @section('content')
@@ -48,11 +48,11 @@
         @include('includes.sugestao.modalAvaliarSugestao')
         @include('includes.sugestao.modalNovoEstudante')
         @include('includes.sugestao.modalNovoTutor')
-                            
+
         <!--Inicio do conteudo-->
         @if($notificacao==1)
             <div class="alert alert-warning" role="alert">
-                <i class="mdi mdi-alert-outline mr-2"></i><strong>Foste selecionado a fazer parte deste grupo para desenvolver o tema abaixo</strong> 
+                <i class="mdi mdi-alert-outline mr-2"></i><strong>Foste selecionado a fazer parte deste grupo para desenvolver o tema abaixo</strong>
                 <div class="button-list">
                     <a style="bottom:32px" href="#" idPessoa="{{$sessao[0]->id_pessoa}}" idSugestao="{{$sugestao[0]->id}}" class="NegarProposta btn btn-danger btn-rounded btn-sm waves-effect waves-light float-right"><i class="mdi mdi-cancel mr-1"></i>Negar Proposta</a>
                     <a style="bottom:32px" href="#" idPessoa="{{$sessao[0]->id_pessoa}}" idSugestao="{{$sugestao[0]->id}}" class="AceitarProposta btn btn-success btn-rounded btn-sm waves-effect waves-light float-right"><i class="mdi mdi-checkbox-marked-circle-outline mr-1"></i>Aceitar Proposta</a>
@@ -60,7 +60,10 @@
             </div>
         @endif
                 <br>
-    
+
+                <a href='{{url("aprovarProposta/133")}}' class="btn btn-success btn-rounded btn-sm waves-effect waves-light float-right"><i class="mdi mdi-checkbox-marked-circle-outline mr-1"></i>TESTE</a>
+
+
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card-box">
@@ -70,19 +73,19 @@
                                         <li class="nav-item">
                                             <a href="#dados" data-toggle="tab" aria-expanded="true" class="nav-link active">
                                                 <span class="d-inline-block d-sm-none"><i class="fas fa-home"></i></span>
-                                                <span class="d-none d-sm-inline-block">Dados</span>   
+                                                <span class="d-none d-sm-inline-block">Dados</span>
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a href="#descricao" data-toggle="tab" aria-expanded="false" class="nav-link ">
                                                 <span class="d-inline-block d-sm-none"><i class="far fa-user"></i></span>
-                                                <span class="d-none d-sm-inline-block">Descrição</span> 
+                                                <span class="d-none d-sm-inline-block">Descrição</span>
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a href="#avaliacao" data-toggle="tab" aria-expanded="false" class="nav-link">
                                                 <span class="d-inline-block d-sm-none"><i class="far fa-envelope"></i></span>
-                                                <span class="d-none d-sm-inline-block">Avaliação Técnica</span>  
+                                                <span class="d-none d-sm-inline-block">Avaliação Técnica</span>
                                             </a>
                                         </li>
                                     </ul>
@@ -110,7 +113,7 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <ul class="sortable-list tasklist list-unstyled" id="upcoming">
-                                                <li id="task1" class="<?php if($sugestao[0]->estado==4){echo 'task-high';}else{echo 'task-low';} ?>">
+                                                <li id="task1" class="<?php if ($sugestao[0]->estado == 4) {echo 'task-high';} else {echo 'task-low';}?>">
                                                     <br>
                                                     <input type="hidden" name="sugestao_id" id="sugestao_id" class="form-control" value="{{$sugestao[0]->id}}">
                                                     <input type="hidden" name="sugestao_descricao" id="sugestao_descricao" class="form-control" value="{{$sugestao[0]->descricao}}">
@@ -159,29 +162,29 @@
                                                         </div>
                                                         <div class="col-7">
                                                             <div class="form-group row mb-3">
-                                                                <label class="col-md-5 col-form-label">:                              
-                                                                    @if($sugestao[0]->estado==1) 
+                                                                <label class="col-md-5 col-form-label">:
+                                                                    @if($sugestao[0]->estado==1)
                                                                         Registado
                                                                     @elseif($sugestao[0]->estado==2)
                                                                         Selecionado
                                                                     @elseif($sugestao[0]->estado==3)
                                                                         Em desenvolvimento
                                                                     @elseif($sugestao[0]->estado==4)
-                                                                        Rejeitado 
+                                                                        Rejeitado
                                                                     @endif
                                                                 </label>
                                                             </div>
                                                         </div>
-                                                    </div>                   
-                                                </li>                               
-                                            </ul>              
+                                                    </div>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
-                                                                       
-                                <div class="tab-pane fade" id="descricao">                                                                             
+
+                                <div class="tab-pane fade" id="descricao">
                                     <iframe
-                                        src="{{ url('pdf/propostas/'.$sugestao[0]->descricao) }}"
+                                        src='{{ url("/storage/propostas/{$sugestao[0]->descricao}") }}'
                                         type="applicatios/pdf"
                                         height="700px"
                                         width="100%">
@@ -195,7 +198,7 @@
                                                 <div id="icone_resultado_proposta" class="col-12">
                                                     <br>
                                                     <img width="100px" heigth="100px" src="{{ url('images/rejeitar.png') }}"/>
-                                                    <p class="proposta-rejeitada">PROPOSTA REJEITADA</p>                       
+                                                    <p class="proposta-rejeitada">PROPOSTA REJEITADA</p>
                                                 </div>
                                             </div>
                                             <br>
@@ -209,23 +212,23 @@
                                                                         <i class="fas fa-info-circle"></i> Motivo da Rejeição
                                                                     </a>
                                                                 </h2>
-                                                            </div>                                            
+                                                            </div>
                                                             <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                                                                 <div class="card-body">
                                                                     <p id="motivorejeicao"></p>
                                                                 </div>
                                                             </div>
-                                                        </div>                                                                                    
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>   
+                                            </div>
                                         </div>
-                                    @elseif($sugestao[0]->estado==3)  
+                                    @elseif($sugestao[0]->estado==3)
                                         <div class="row">
                                             <div id="icone_resultado_proposta" class="col-12">
                                                 <br>
                                                 <img width="100px" heigth="100px" src="{{ url('images/check.png') }}"/>
-                                                <p class="proposta-aceite">PROPOSTA APROVADA COM SUCESSO.</p>                       
+                                                <p class="proposta-aceite">PROPOSTA APROVADA COM SUCESSO.</p>
                                             </div>
                                         </div>
                                     @else
@@ -233,23 +236,23 @@
                                             <div id="icone_resultado_proposta" class="col-12">
                                                 <br>
                                                 <img width="100px" heigth="100px" src="{{ url('images/aguardando.png') }}"/>
-                                                <p class="proposta-espera">AGUARDANDO APROVAÇÃO.</p>                       
+                                                <p class="proposta-espera">AGUARDANDO APROVAÇÃO.</p>
                                             </div>
-                                        </div>                                                  
-                                    @endif    
+                                        </div>
+                                    @endif
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-10">                                        
+                                <div class="col-10">
                                         <br>
-                                        <?php                   
-                                            $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pessoa,1);
-                                        ?> 
+                                        <?php
+$jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pessoa, 1);
+?>
                                         @if($sessao[0]->tipo==3 && $sugestao[0]->estado==1 && $sugestao[0]->proveniencia==1 && count($jaSugestao)<=0)
                                             <a href="#save-modal" class="btn btn-success btn-sm btn-rounded  waves-effect waves-light" data-toggle="modal" data-target="#modalTrabalharSugestao"><i class="mdi mdi-worker mr-1"></i> Trabalhar na Sugestão</a>
                                         @elseif($sessao[0]->tipo==3 && $sugestao[0]->estado==1 && $sugestao[0]->proveniencia==1 && count($jaSugestao)>=0)
-                                            <h5 class="SairGrupo"><i class="mdi mdi-file-lock"></i> JÁ POSSUI UMA PROPOSTA  ASSOCIADA.</h5>                    
+                                            <h5 class="SairGrupo"><i class="mdi mdi-file-lock"></i> JÁ POSSUI UMA PROPOSTA  ASSOCIADA.</h5>
                                         @endif
                                 </div>
                                 @can('menu_sugestao')
@@ -265,28 +268,28 @@
                                                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#novotutor" data-backdrop="static" data-keyboard="false"><i class="fas fa-chalkboard-teacher noti-icon mr-2"></i>Trocar Orientador</a>
                                                 @endif
                                             </div>
-                                        </div>                              
+                                        </div>
                                     </div>
                                 @endcan
-                            </div>   
+                            </div>
                         </div>
                     </div>
-                </div>    
-            <br>        
-            
+                </div>
+            <br>
+
             @if($sugestao[0]->proveniencia==2) <!--Tema vindo de estudante(s)-->
                 <div class="row">
                     <div class="col-12">
                         <div class="card-box">
                             <h5 class="table-title"><i class="fas fa-users mr-1"></i>ENVOLVENTES DO TEMA</h5><hr>
                             <div class="table-responsive">
-                                <table class="table table-borderless mb-0">                                   
+                                <table class="table table-borderless mb-0">
                                     <tbody id="dataTable">
-                                        
+
                                     </tbody>
                                 </table>
                             </div>
-                        </div> 
+                        </div>
                     </div>
                 </div>
             @elseif($sugestao[0]->proveniencia==1) <!--Tema vindo do departamento-->
@@ -296,21 +299,29 @@
                             <div class=row>
                                 <div class="col-12">
                                     <h5 style="margin-top:8px" class="table-title"><i class="fas fa-users mr-1"></i>ENVOLVENTES DO TEMA</h5>
-                                </div>                               
+                                </div>
                             </div><hr>
                             <div class="table-responsive">
                                 <table class="table table-borderless mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Nome</th>
+                                            <th>BI Nº</th>
+                                            <th>Curso</th>
+                                        </tr>
+                                    </thead>
                                     <tbody id="dataTable">
-                                        
+
                                     </tbody>
                                 </table>
                             </div>
-                        </div> 
+                        </div>
                     </div>
-                </div> 
-            @endif      
+                </div>
+            @endif
         <!-- FIm do conteudo -->
-    </div> 
+    </div>
 </div>
 <script>
     //validação da escolha da modalidade da sugestão(individual ou colectiva)
@@ -376,7 +387,7 @@
                         confirmButtonText: 'Fechar'
                     });
                     location.reload();
-                }            
+                }
             },
             error: function(e){
                 $("#modalRejeitarClose").click();
@@ -398,8 +409,8 @@
         $.ajax({
             url: "{{ url('aprovarProposta') }}/"+idSugestao,
             type: "GET",
-            success: function(data){    
-                if(data == "Sucesso"){     
+            success: function(data){
+                if(data == "Sucesso"){
                     Swal.fire({
                         text: 'Sugestão abandonada com Sucesso.',
                         icon: 'success',
@@ -442,14 +453,14 @@
                     $.ajax({
                         url: "{{ url('sairGrupo') }}/"+sugestao_id+"/"+idPessoa+"/"+sugestao_proveniencia+"/"+descricao,
                         type: "GET",
-                        success: function(data){         
+                        success: function(data){
                             Swal.fire({
                                 text: 'Sugestão abandonada com Sucesso.',
                                 icon: 'success',
                                 confirmButtonText: 'Fechar',
                                 timer: 3500
                             });
- 
+
                             if(data == 'Sucesso_Estudante'){
                                 location.href='{{ url("listarSugestaoEstudante") }}';
                                 exit;
@@ -469,7 +480,7 @@
 		});
     });
 
-    
+
     $(document).on('click','.AceitarProposta',function(e){
         Swal.fire({
 			  title: 'Se aceitares não poderás propôr outro tema ou adicionado à outro grupo.',
@@ -533,7 +544,7 @@
                         url: "{{ url('negarProposta') }}/"+idSugestao+"/"+idPessoa+"/"+sugestao_proveniencia,
                         type: "GET",
                         success: function(data){
-                            carregarDataTable();                         
+                            carregarDataTable();
                             Swal.fire({
                                 text: 'Proposta negada com Sucesso.',
                                 icon: 'success',
@@ -559,7 +570,7 @@
     $('#formularioSalvarNovoEstudante').submit(function(e){
         e.preventDefault();
         var request = new FormData(this);
-        
+
         $.ajax({
             url:"{{ url('adicionarEstudante') }}",
             method: "POST",
@@ -578,7 +589,7 @@
                     }),
                     $('#formularioSalvarNovoEstudante')[0].reset();
                     carregarDataTable();
-                }            
+                }
             },
             error: function(e){
                 Swal.fire({
@@ -611,7 +622,7 @@
                         confirmButtonText: 'Fechar'
                     });
                     location.reload();
-                }            
+                }
             },
             error: function(e){
                 Swal.fire({
@@ -628,7 +639,7 @@
         $.ajax({
             url: "{{ url('verMotivoRejeicao') }}/"+idSugestao,
             success:function(data){
-                $('#motivorejeicao').html(data);               
+                $('#motivorejeicao').html(data);
             },
             error: function(e)
 			{
@@ -638,5 +649,5 @@
     }
     getMotivoRejeicao();
 
-</script>    
+</script>
 @stop

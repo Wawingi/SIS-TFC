@@ -1,6 +1,6 @@
-<?php 
-    //sessão dos dados do utilizador logado
-    $sessao=session('dados_logado'); 
+<?php
+//sessão dos dados do utilizador logado
+$sessao = session('dados_logado');
 ?>
 @extends('layouts.inicio')
 @section('content')
@@ -19,23 +19,22 @@
                     </div>
                 </div>
             </div>
-        </div>       
-        <!--Inicio do conteudo-->      
-            <br>        
-            
-            <div class="card-box">           
+        </div>
+        <!--Inicio do conteudo-->
+            <br>
+
+            <div class="card-box">
                 <div class="row">
-                    <div class="col-lg-12">             
-                        <a href='{{ url("listarSugestaoDepartamento")}}' class=" waves-effect waves-light"><i class="mdi mdi-subdirectory-arrow-left mr-1"></i>Ir para Geral Sugestões</a>     
+                    <div class="col-lg-12">
+                        <a href='{{ url("listarSugestaoDepartamento")}}' class=" waves-effect waves-light"><i class="mdi mdi-subdirectory-arrow-left mr-1"></i>Ir para Geral Sugestões</a>
                     </div>
                 </div>
-            </div>      
+            </div>
 
 
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
-                        <div class="table-responsive">
                         <table id="paginationFullNumbers" class="table table-bordered" cellspacing="0" width="100%">
                             <thead id="cabecatabela">
                                 <tr>
@@ -46,15 +45,15 @@
                                 </tr>
                             </thead>
                             <tbody id="dataTable">
-                                                           
+
                             </tbody>
                         </table>
                         </div>
-                    </div> 
+                    </div>
                 </div>
-            </div>       
+            </div>
         <!-- FIm do conteudo -->
-    </div> 
+    </div>
 </div>
 <script>
 
@@ -65,7 +64,7 @@
                 $('#dataTable').html(data);
                 $('#paginationFullNumbers').DataTable({
                     "pagingType": "full_numbers"
-                });              
+                });
             },
             error: function(e)
 			{
@@ -79,7 +78,7 @@
     $('#formularioSalvar').submit(function(e){
         e.preventDefault();
         var request = new FormData(this);
-        
+
         $.ajax({
             url:"{{ url('registarSugestao') }}",
             method: "POST",
@@ -98,7 +97,7 @@
                     }),
                     $('#formularioSalvar')[0].reset();
                     //carregarDataTable();
-                }            
+                }
             },
             error: function(e){
                 Swal.fire({
@@ -117,7 +116,7 @@
             url: "{{ url('pegaDepartamento') }}/"+id,
             method: "GET",
             dataType: "JSON",
-            success: function(data){                
+            success: function(data){
                 $('#modalEditar').click();
                 $('#nome_edit').val(data.nome);
                 $('#chefe_departamento').val(data.chefe_departamento);
@@ -127,7 +126,7 @@
             },
             error: function(e)
             {
-                
+
             }
         });
     });
@@ -154,7 +153,7 @@
                     }),
                     $('#formularioSalvar')[0].reset();
                     carregarDataTable();
-                }            
+                }
             },
             error: function(e){
                 Swal.fire({
@@ -202,5 +201,5 @@
                 }
 		});
     });*/
-</script>    
+</script>
 @stop

@@ -2,7 +2,7 @@
     <!-- Inicio TopBar -->
     <div class="navbar-custom">
         <div class="container-fluid">
-            
+
             <!-- LOGO -->
             <div class="logo-box">
                 <a href="{{ url('home') }}" class="logo text-center">
@@ -58,12 +58,13 @@
 
                 @can('visualizar_convite')
                     <!-- verificar se o estudante foi escolhido numa sugestão -->
-                    <?php             
-                        $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pessoa,0);                  
-                    ?> 
+                    <?php
+$jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pessoa, 0);
+?>
                     @if(count($jaSugestao) > 0)
                         <li class="dropdown notification-list">
-                            <a title="Convite para trabalhar no tema" class="nav-link dropdown-toggle  waves-effect waves-light" href='{{ url("verSugestao/".base64_encode($jaSugestao[0]->id_sugestao)."/".base64_encode(1)) }}'>
+                        <!--<a title="Convite para trabalhar no tema" class="nav-link dropdown-toggle  waves-effect waves-light" href='{{ url("verSugestao/".base64_encode($jaSugestao[0]->id_sugestao)."/".base64_encode(1)) }}'>-->
+                            <a title="Convite para trabalhar no tema" class="nav-link dropdown-toggle  waves-effect waves-light" href='{{ url("listarConvitesSugestao") }}'>
                                 <i class=" fas fa-book-reader noti-icon"></i>
                                 <span class="badge badge-danger rounded-circle noti-icon-badge">{{count($jaSugestao)}}</span>
                             </a>
@@ -105,7 +106,7 @@
                                 <p class="notify-details">Doug Dukes commented on Admin Dashboard
                                     <small class="text-muted">1 min ago</small>
                                 </p>
-                            </a> 
+                            </a>
                         </div>
 
                         <!-- All-->
@@ -121,7 +122,7 @@
                     <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                         <img src="{{ url('images/users/user.jpg') }}" alt="user-image" class="rounded-circle">
                         <span class="pro-user-name ml-1">
-                        {{ $sessao[0]->nome }} || <?php if($sessao[0]->tipo==1){echo 'Funcionário';}if($sessao[0]->tipo==2){echo 'Docente';}if($sessao[0]->tipo==3){echo 'Estudante';} ?> <i class="mdi mdi-chevron-down"></i><br> 
+                        {{ $sessao[0]->nome }} || <?php if ($sessao[0]->tipo == 1) {echo 'Funcionário';}if ($sessao[0]->tipo == 2) {echo 'Docente';}if ($sessao[0]->tipo == 3) {echo 'Estudante';}?> <i class="mdi mdi-chevron-down"></i><br>
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
@@ -149,18 +150,18 @@
                         </form>
 
                     </div>
-                </li>            
+                </li>
 
             </ul>
 
-           
+
 
             @can('criar_user')
                 <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
                     <li class="dropdown d-none d-lg-block">
                         <a class="nav-link dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                             Utilizadores
-                            <i class="mdi mdi-chevron-down"></i> 
+                            <i class="mdi mdi-chevron-down"></i>
                         </a>
                         <div class="dropdown-menu">
                             <!-- item-->
@@ -182,7 +183,7 @@
         </div>
     </div>
     <!-- Fim Topbar -->
-    
+
     <!-- Inicio MenuBar -->
     <div class="topbar-menu">
         <div class="container-fluid">
@@ -192,13 +193,13 @@
 
                     <li class="has-submenu">
                         <a href="{{ url('home') }}">
-                            <i class="remixicon-home-4-fill"></i>Inicio 
+                            <i class="remixicon-home-4-fill"></i>Inicio
                         </a>
                     </li>
 
                     <!-- Inclusão da Modal -->
                     @include('includes.departamento.modalPesquisarDepartamento')
-                    
+
                     @can('visualizar_departamento')
                         <li class="has-submenu">
                             <a href="#">
@@ -207,7 +208,7 @@
                             <ul class="submenu">
                                 <li>
                                     <a href="{{ url('listarDepartamentos')}}"><i class="fe-list mr-1"></i>Listar departamentos</a>
-                                </li>                         
+                                </li>
                             </ul>
                         </li>
                     @endcan
@@ -219,14 +220,14 @@
                             </a>
                             <ul class="submenu">
                                 <li>
-                                    <a href="{{ url('listarSugestaoEstudante')}}"><i class="fe-file-text mr-1"></i>Proposta de Estudante</a>     
+                                    <a href="{{ url('listarSugestaoEstudante')}}"><i class="fe-file-text mr-1"></i>Proposta de Estudante</a>
                                 </li>
                                 <li>
                                     <a href="{{ url('listarSugestaoDepartamento')}}"><i class="fe-file-text mr-1"></i>Sugestão do Departamento</a>
                                 </li>
                                 <li>
                                     <a href="{{ url('meusTutorandos')}}"><i class="fas fa-user-graduate noti-icon mr-1"></i>Minhas Propostas & Sugestões</a>
-                                </li>                          
+                                </li>
                             </ul>
                         </li>
                     @endcan
@@ -236,9 +237,6 @@
                             <i class="remixicon-book-2-fill"></i>Gestão de Temas <div class="arrow-down"></div>
                         </a>
                         <ul class="submenu">
-                            <li>
-                                <a href="#"><i class="fe-file-text mr-1"></i>Sugestão do Departamento</a>
-                            </li>
                             <li class="has-submenu">
                                 <a href="#"><i class="fe-list mr-1"></i>Listar Temas<div class="arrow-down"></div></a>
                                 <ul class="submenu">
@@ -249,6 +247,12 @@
                                         <a href="admin-nestable.html">Temas Defendidos</a>
                                     </li>
                                 </ul>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fe-file-text mr-1"></i>Meu Trabalho</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fas fa-user-graduate noti-icon mr-1"></i>Meus Tutorandos</a>
                             </li>
                         </ul>
                     </li>
@@ -261,7 +265,7 @@
                             <li>
                                 <a href="#"><i class="fe-file-text mr-1"></i>Registar Tema</a>
                             </li>
-                            
+
                         </ul>
                     </li>
 
@@ -301,7 +305,7 @@
         $.ajax({
             url: "{{ url('contSugestoesOrientador') }}",
             success:function(data){
-                $('#qtdTutorandos').html(data);               
+                $('#qtdTutorandos').html(data);
             },
             error: function(e)
 			{

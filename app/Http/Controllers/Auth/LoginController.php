@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -20,7 +18,7 @@ class LoginController extends Controller
     | redirecting them to your home screen. The controller uses a trait
     | to conveniently provide its functionality to your applications.
     |
-    */
+     */
 
     use AuthenticatesUsers;
 
@@ -47,15 +45,15 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         $email = $credentials['email'];
-        $password =  $credentials['password'];
+        $password = $credentials['password'];
 
         if (Auth::attempt(['email' => $email, 'password' => $password, 'estado' => 1])) {
             //return redirect()->intended('home');
             $info = 'Sucesso';
-        }else{
+        } else {
             //return redirect()->intended('/');
             $info = 'Erro';
         }
-        echo $info;  
+        echo $info;
     }
 }

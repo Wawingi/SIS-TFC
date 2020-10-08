@@ -1,6 +1,6 @@
-<?php 
-    //sessão dos dados do utilizador logado
-    $sessao=session('dados_logado'); 
+<?php
+//sessão dos dados do utilizador logado
+$sessao = session('dados_logado');
 ?>
 @extends('layouts.inicio')
 @section('content')
@@ -49,14 +49,14 @@
 
         <!--Inicio do conteudo-->
         <br><br>
-        @if($sessao[0]->tipo==2)       
+        @if($sessao[0]->tipo==2)
             <div class="row float-right">
-                <div class="col-lg-12">             
-                    <button type="button" class="btn btn-rounded btn-sm btn-primary waves-effect waves-light" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#exampleModalScrollable"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Sugestão</button>     
+                <div class="col-lg-12">
+                    <button type="button" class="btn btn-rounded btn-sm btn-primary waves-effect waves-light" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#exampleModalScrollable"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Sugestão</button>
                 </div>
-            </div>   
+            </div>
         @endif
-            <br><br>       
+            <br><br>
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
@@ -71,14 +71,14 @@
                                 </tr>
                             </thead>
                             <tbody id="dataTable">
-                                                           
+
                             </tbody>
                         </table>
-                    </div> 
+                    </div>
                 </div>
-            </div>       
+            </div>
         <!-- FIm do conteudo -->
-    </div> 
+    </div>
 </div>
 <script>
     function carregarDataTable(){
@@ -102,7 +102,7 @@
     $('#formularioSalvar').submit(function(e){
         e.preventDefault();
         var request = new FormData(this);
-        
+
         $.ajax({
             url:"{{ url('registarSugestao') }}",
             method: "POST",
@@ -125,22 +125,22 @@
                     $('#formularioSalvar')[0].reset();
                     $('#modalClose').click();
                     Swal.fire({
-                        text: 'Ocorreu um erro ao registar a sugestão.',
+                        text: 'Ocorreu um erro ao registar a sugestão. Verifique a extensão ou o tamanho do seu ficheiro.',
                         icon: 'error',
                         confirmButtonText: 'Fechar'
                     })
-                }            
+                }
             },
             error: function(e){
                 $('#formularioSalvar')[0].reset();
                 $('#modalClose').click();
                 Swal.fire({
-                    text: 'Ocorreu um erro ao registar a sugestão.',
+                    text: 'Ocorreu um erro ao registar a sugestão. Verifique a extensão ou o tamanho do seu ficheiro.',
                     icon: 'error',
                     confirmButtonText: 'Fechar'
                 })
             }
         });
     });
-</script>    
+</script>
 @stop

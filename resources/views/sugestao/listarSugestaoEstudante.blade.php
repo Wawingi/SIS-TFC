@@ -1,6 +1,6 @@
-<?php 
-    //sessão dos dados do utilizador logado
-    $sessao=session('dados_logado'); 
+<?php
+//sessão dos dados do utilizador logado
+$sessao = session('dados_logado');
 ?>
 @extends('layouts.inicio')
 @section('content')
@@ -48,27 +48,27 @@
 
         <!--Inicio do conteudo-->
         <br><br>
-        @if($sessao[0]->tipo==3)           
+        @if($sessao[0]->tipo==3)
             <div class="row">
-                <?php                   
-                    $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pessoa,1);
-                    if(count($jaSugestao) <= 0){
-                ?> 
-                    <div class="col-lg-12">                  
+                <?php
+$jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pessoa, 1);
+if (count($jaSugestao) <= 0) {
+    ?>
+                    <div class="col-lg-12">
                         <button type="button" class="btn btn-primary btn-rounded btn-sm waves-effect waves-light" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#exampleModalScrollable"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Proposta</button>
                     </div>
-                <?php }else{ ?>
-                    <div class="col-lg-6">                  
+                <?php } else {?>
+                    <div class="col-lg-6">
                         <h5 class="SairGrupo"><i class="mdi mdi-file-lock"></i> JÁ POSSUI UMA PROPOSTA  ASSOCIADA.</h5>
                     </div>
                     <div class="col-lg-6">
                         <a href='{{ url("verSugestao/".base64_encode($jaSugestao[0]->id_sugestao)) }}' class="btn-rounded btn btn-success btn-sm waves-effect waves-light float-right"><i class="fas fa-folder-open mr-1"></i>Visualizar Proposta</a>
                     </div>
-                <?php } ?>
-            </div>   
+                <?php }?>
+            </div>
         @endif
-            <br>       
-            
+            <br>
+
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
@@ -83,25 +83,27 @@
                                 </tr>
                             </thead>
                             <tbody id="dataTable">
-                                                           
+
                             </tbody>
                         </table>
                         </div>
-                    </div> 
+                    </div>
                 </div>
-            </div>       
+            </div>
         <!-- FIm do conteudo -->
-    </div> 
+    </div>
 </div>
 <script>
-  
+
 
     //Função para escolha multipla de nomes de envolventes
     $(document).ready(function() {
 		$('.js-example-basic-multiple').select2({
             tags: "true",
             placeholder: "Selecione os envolventes",
-            allowClear: true
+            allowClear: true,
+            maximumSelectionLength:1,
+            minimumSelectionLength:1
         });
 	});
 
@@ -126,7 +128,7 @@
     $('#formularioSalvar').submit(function(e){
         e.preventDefault();
         var request = new FormData(this);
-        
+
         $.ajax({
             url:"{{ url('registarSugestao') }}",
             method: "POST",
@@ -145,11 +147,12 @@
                     }),
                     $('#formularioSalvar')[0].reset();
                     carregarDataTable();
-                }            
+                }
             },
             error: function(e){
+                $('#modalClose').click();
                 Swal.fire({
-                    text: 'Ocorreu um erro ao registar a sugestão.',
+                    text: 'Ocorreu um erro ao registar a sugestão. Verifique a extensão ou o tamanho do seu ficheiro.',
                     icon: 'error',
                     confirmButtonText: 'Fechar'
                 })
@@ -170,5 +173,5 @@
                 document.getElementById("envolventes").style.display = 'block';
             }
     }
-</script>    
+</script>
 @stop
