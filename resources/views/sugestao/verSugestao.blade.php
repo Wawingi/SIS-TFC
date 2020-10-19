@@ -305,10 +305,10 @@ $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pes
                                 <table class="table table-borderless mb-0">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
                                             <th>Nome</th>
                                             <th>BI Nº</th>
                                             <th>Curso</th>
+                                            <th>Estado</th>
                                         </tr>
                                     </thead>
                                     <tbody id="dataTable">

@@ -122,3 +122,15 @@ hr {
     color:red;
     font-size: 12px;
 }
+
+.error{
+    color:#fb4f4f;
+}
+
+.check{
+    color:#007c00;
+}
+
+.waiting{
+    color:orange;
+}
