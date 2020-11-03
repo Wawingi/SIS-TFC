@@ -303,15 +303,32 @@ class SugestaoController extends Controller
     public function criarTrabalho($idSugestao)
     {
         $sugestao = DB::table('sugestao')
-            ->select('sugestao.id', 'sugestao.tema', 'sugestao.descricao', 'sugestao.proveniencia', 'sugestao.id_departamento', 'sugestao.id_area', 'sugestao.id_docente')
+            ->select('sugestao.id', 'sugestao.tema', 'sugestao.descricao', 'sugestao.proveniencia', 'sugestao.id_area', 'sugestao.id_docente')
             ->where('sugestao.id', '=', $idSugestao)
             ->first();
-        dd($sugestao);
-        //estado 1: Em desenvolvimento, 2:concluído
+
+        $id_departamentos = DB::table('estudante_sugestao')
+            ->join('estudante', 'estudante_sugestao.id_estudante', '=', 'estudante.id_pessoa')
+            ->join('curso', 'estudante.id_curso', '=', 'curso.id')
+            ->join('departamento', 'curso.id_departamento', '=', 'departamento.id')
+            ->select('departamento.id', 'departamento.nome')
+            ->where('estudante_sugestao.id_sugestao', '=', $idSugestao)
+            ->where('estudante_sugestao.estado', '=', 1)
+            ->get();
+
         if (is_object($sugestao)) {
-            if (DB::table('trabalho')->insert(
-                ['id' => $sugestao->id, 'tema' => $sugestao->tema, 'descricao' => $sugestao->descricao, 'proveniencia' => $sugestao->proveniencia, 'estado' => 1, 'id_area' => $sugestao->id_area, 'id_docente' => $sugestao->id_docente, 'created_at' => date('Y-m-d H:i:s', strtotime('today')), 'updated_at' => date('Y-m-d H:i:s', strtotime('today'))]
-            ));
+            //estado 1: Em desenvolvimento, 2:concluído
+            $idTrabalho = DB::table('trabalho')->insertGetId(
+                ['tema' => $sugestao->tema, 'descricao' => $sugestao->descricao, 'proveniencia' => $sugestao->proveniencia, 'estado' => 1, 'id_area' => $sugestao->id_area, 'id_docente' => $sugestao->id_docente, 'created_at' => date('Y-m-d H:i:s', strtotime('today')), 'updated_at' => date('Y-m-d H:i:s', strtotime('today'))]
+            );
+            if ($idTrabalho > 0) {
+                foreach ($id_departamentos as $id_departamento) {
+                    DB::table('trabalho_departamento')->insert(
+                        ['id_trabalho' => $idTrabalho, 'id_departamento' => $id_departamento->id]
+                    );
+                }
+                return true;
+            }
         } else {
             return;
         }
@@ -320,12 +337,20 @@ class SugestaoController extends Controller
     //Aprovar a proposta por parte do conselho cientifico do departamento
     public function aprovarProposta($idSugestao)
     {
-        $this->criarTrabalho($idSugestao);
         $info = null;
-        if (DB::table('sugestao')
-            ->where('id', '=', $idSugestao)
-            ->update(['estado' => 3, 'avaliacao' => 1])) {
-            $info = 'Sucesso';
+        if ($this->criarTrabalho($idSugestao)) {
+            if (DB::table('sugestao')
+                ->where('id', '=', $idSugestao)
+                ->update(['estado' => 3, 'avaliacao' => 1])) {
+                $info = 'Sucesso';
+            } else { $info = null;}
+
+            if (DB::table('estudante_sugestao')
+                ->where('id_sugestao', '=', $idSugestao)
+                ->where('estado', '=', 0)
+                ->delete()) {
+                $info = 'Sucesso';
+            } else { $info = null;}
         }
         echo $info;
     }

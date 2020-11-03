@@ -241,7 +241,7 @@ $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pes
                                 <a href="#"><i class="fe-list mr-1"></i>Listar Temas<div class="arrow-down"></div></a>
                                 <ul class="submenu">
                                     <li>
-                                        <a href="admin-sweet-alert.html">Temas em Curso</a>
+                                        <a href="{{url('trabalhoEmCurso')}}">Temas em Curso</a>
                                     </li>
                                     <li>
                                         <a href="admin-nestable.html">Temas Defendidos</a>

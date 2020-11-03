@@ -4,10 +4,6 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::post('logar', 'Auth\LoginController@authenticate');
-
-Auth::routes(['register' => false]);
-
 //Rotas para Utilizador e Pessoa
 Route::middleware(['auth'])->group(function () {
     //Route::get('registarUtilizador', 'UtilizadorController@registarUtilizador');
@@ -115,6 +111,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('listarConvitesSugestao', 'SugestaoController@listarConvitesSugestao');
 });
 
+//Rotas para temas
+Route::middleware(['auth'])->group(function () {
+    Route::get('trabalhoEmCurso', function () {
+        return view('tema.listarTrabalhoEmCurso');
+    });
+    Route::get('pegaTemas', 'TemaController@pegaTemas');
+});
+
 //Rotas para configurações
 Route::middleware(['auth'])->group(function () {
     Route::get('listarAreaAplicacao', function () {
@@ -137,3 +141,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('removerPermissao/{idPermission}/{idRole}', 'PerfilController@removerPermissao');
     Route::post('associarPermission', 'PerfilController@associarPermission');
 });
+
+Route::post('logar', 'Auth\LoginController@authenticate');
+
+Auth::routes(['register' => false]);
