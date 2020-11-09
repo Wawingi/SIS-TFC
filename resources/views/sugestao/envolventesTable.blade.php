@@ -16,7 +16,7 @@ $sessao = session('dados_logado');
         </td>
         <td>
             @if($sessao[0]->id_pessoa==$envolvente->id_pessoa)
-                <a href="#" idPessoa="{{$envolvente->id_pessoa}}" class="SairGrupo float-right"><i class='fas fa-times'></i> Sair do Grupo </a>
+                <a href="#" idPessoa="{{$envolvente->id_pessoa}}" class="SairGrupo float-right"><i class='fas fa-times'></i> Abandonar </a>
             @endif
         </td>
     </tr>

@@ -62,10 +62,10 @@ $sessao = session('dados_logado');
                 <br>
 
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-12">
                         <div class="card-box">
                             <div class="row">
-                                <div class="col-lg-4">
+                                <div class="col-4">
                                     <ul class="nav nav-tabs">
                                         <li class="nav-item">
                                             <a href="#dados" data-toggle="tab" aria-expanded="true" class="nav-link active">
@@ -87,23 +87,25 @@ $sessao = session('dados_logado');
                                         </li>
                                     </ul>
                                 </div>
+                                <div class="col-8 ">
                                 @can('aprovar_rejeitar_proposta')
                                     @if($sugestao[0]->avaliacao==0 || $sugestao[0]->avaliacao==1 || ($sugestao[0]->estado==1 && $sugestao[0]->proveniencia==1))
-                                        <div class="co-lg-8">
-                                            <div style="margin-left:450px;margin-top:25px" class="button-list">
+                                        <div class="float-right">
+                                            <div style="margin-top:25px" class="button-list">
                                                 <a style="bottom:32px" href="#rejeicao-modal" class="disabled btn btn-danger btn-rounded btn-sm waves-effect waves-light float-right" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="mdi mdi-cancel mr-1"></i>Rejeitar Proposta</a>
                                                 <a style="bottom:32px" href="#" class="disabled AprovarProposta btn btn-success btn-rounded btn-sm waves-effect waves-light float-right" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="mdi mdi-checkbox-marked-circle-outline mr-1"></i>Aprovar Proposta</a>
                                             </div>
                                         </div>
                                     @else
-                                        <div class="co-lg-8">
-                                            <div style="margin-left:450px;margin-top:25px" class="button-list">
+                                        <div class="float-right">
+                                            <div style="margin-top:25px" class="button-list">
                                                 <a style="bottom:32px" href="#" data-toggle="modal" data-target="#modalRejeitar" data-backdrop="static" data-keyboard="false" class="btn btn-danger btn-rounded btn-sm waves-effect waves-light float-right"><i class="mdi mdi-cancel mr-1"></i>Rejeitar Proposta</a>
                                                 <a style="bottom:32px" href='{{ url("aprovarProposta/{$sugestao[0]->id}") }}' class="AprovarPropostaaa btn btn-success btn-rounded btn-sm waves-effect waves-light float-right"><i class="mdi mdi-checkbox-marked-circle-outline mr-1"></i>Aprovar Proposta</a>
                                             </div>
                                         </div>
                                     @endif
                                 @endcan
+                                </div>
                             </div>
                             <div class="tab-content">
                                 <div class="tab-pane fade show active" id="dados">

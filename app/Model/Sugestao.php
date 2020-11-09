@@ -10,14 +10,17 @@ class Sugestao extends Model
     protected $table = 'sugestao';
 
     //retorna as sugestões registadas
-    public static function getSugestoes($id)
+    public static function getSugestoes($id, $id_departamento)
     {
         return DB::table('sugestao')
             ->join('area_aplicacao', 'area_aplicacao.id', '=', 'sugestao.id_area')
             ->join('docente', 'docente.id_pessoa', '=', 'sugestao.id_docente')
             ->join('pessoa', 'pessoa.id', '=', 'docente.id_pessoa')
+            ->join('sugestao_departamento', 'sugestao_departamento.id_sugestao', '=', 'sugestao.id')
+            ->join('departamento', 'departamento.id', '=', 'sugestao_departamento.id_departamento')
             ->select('sugestao.id', 'sugestao.tema', 'area_aplicacao.nome', 'sugestao.estado', 'pessoa.nome as orientador')
             ->where('proveniencia', '=', $id)
+            ->where('departamento.id', '=', $id_departamento)
             ->orderBy('area_aplicacao.nome')
             ->get();
     }
@@ -52,7 +55,7 @@ class Sugestao extends Model
             ->join('sugestao', 'estudante_sugestao.id_sugestao', '=', 'sugestao.id')
             ->join('pessoa', 'pessoa.id', '=', 'estudante.id_pessoa')
             ->join('curso', 'curso.id', '=', 'estudante.id_curso')
-            ->select('pessoa.id as id_pessoa', 'pessoa.nome', 'pessoa.bi', 'curso.nome as nome_curso','estudante_sugestao.estado')
+            ->select('pessoa.id as id_pessoa', 'pessoa.nome', 'pessoa.bi', 'curso.nome as nome_curso', 'estudante_sugestao.estado')
             ->where('sugestao.id', '=', $idSugestao)
         //->where('estudante_sugestao.estado', '=', 1)
             ->get();

@@ -120,7 +120,7 @@ $sessao = session('dados_logado');
                         timer: 1500
                     }),
                     $('#formularioSalvar')[0].reset();
-                    //carregarDataTable();
+                    carregarDataTable();
                 }else{
                     $('#formularioSalvar')[0].reset();
                     $('#modalClose').click();

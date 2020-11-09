@@ -13,20 +13,24 @@ use Illuminate\Support\Facades\DB;
 
 class SugestaoController extends Controller
 {
+    //protected $s;
+
     public function __construct()
     {
-        //$this->middleware('auth');
+        //$this->$s = $s;
     }
 
     public function pegaSugestoesDepartamento()
     {
-        $sugestoes = Sugestao::getSugestoes(1);
+        $sessao = session('dados_logado');
+        $sugestoes = Sugestao::getSugestoes(1, $sessao[0]->id_departamento);
         return view('sugestao.sugestaoDepartamentoTable', compact('sugestoes'));
     }
 
     public function pegaSugestoesEstudante()
     {
-        $sugestoes = Sugestao::getSugestoes(2);
+        $sessao = session('dados_logado');
+        $sugestoes = Sugestao::getSugestoes(2, $sessao[0]->id_departamento);
         return view('sugestao.sugestaoEstudanteTable', compact('sugestoes'));
     }
 
@@ -73,7 +77,13 @@ class SugestaoController extends Controller
                     );
 
                     if ($idSugestao > 0) {
-                        echo 'Sucesso';
+                        if (DB::table('sugestao_departamento')->insert(
+                            ['id_sugestao' => $idSugestao, 'id_departamento' => $sessao[0]->id_departamento]
+                        )) {
+                            echo 'Sucesso';
+                        } else {
+                            return;
+                        }
                     }
                     break;
                 //se tipo for estudante entao cadastre a sua sugestão
@@ -111,9 +121,12 @@ class SugestaoController extends Controller
 
                                 foreach ($request->envolventes as $envolvente) {
                                     $idDepartamento = Departamento::pegaDepartamentoPessoa($envolvente);
-                                    DB::table('sugestao_departamento')->insert(
-                                        ['id_sugestao' => $idSugestao, 'id_departamento' => $idDepartamento]
-                                    );
+                                    //Ver se já tem a sugestão_d e departamento_id registado
+                                    if (DB::table('sugestao_departamento')->where('id_sugestao', $idSugestao)->where('id_departamento', $idDepartamento)->count() < 1) {
+                                        DB::table('sugestao_departamento')->insert(
+                                            ['id_sugestao' => $idSugestao, 'id_departamento' => $idDepartamento]
+                                        );
+                                    }
 
                                     DB::table('estudante_sugestao')->insert(
                                         ['id_estudante' => $envolvente, 'id_sugestao' => $idSugestao, 'estado' => 0]
@@ -269,6 +282,7 @@ class SugestaoController extends Controller
         echo $info;
     }
 
+    //Rejeitar proposta pelo corpo científico
     public function rejeitarProposta(Request $request)
     {
         $validatedData = $request->validate([
