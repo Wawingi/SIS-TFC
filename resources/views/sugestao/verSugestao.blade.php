@@ -100,7 +100,7 @@ $sessao = session('dados_logado');
                                         <div class="float-right">
                                             <div style="margin-top:25px" class="button-list">
                                                 <a style="bottom:32px" href="#" data-toggle="modal" data-target="#modalRejeitar" data-backdrop="static" data-keyboard="false" class="btn btn-danger btn-rounded btn-sm waves-effect waves-light float-right"><i class="mdi mdi-cancel mr-1"></i>Rejeitar Proposta</a>
-                                                <a style="bottom:32px" href='{{ url("aprovarProposta/{$sugestao[0]->id}") }}' class="AprovarPropostaaa btn btn-success btn-rounded btn-sm waves-effect waves-light float-right"><i class="mdi mdi-checkbox-marked-circle-outline mr-1"></i>Aprovar Proposta</a>
+                                                <a style="bottom:32px" href='#' class="AprovarProposta btn btn-success btn-rounded btn-sm waves-effect waves-light float-right"><i class="mdi mdi-checkbox-marked-circle-outline mr-1"></i>Aprovar Proposta</a>
                                             </div>
                                         </div>
                                     @endif
@@ -112,64 +112,77 @@ $sessao = session('dados_logado');
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <ul class="sortable-list tasklist list-unstyled" id="upcoming">
-                                                <li id="task1" class="<?php if ($sugestao[0]->estado == 4) {echo 'task-high';} else {echo 'task-low';}?>">
+                                                <li style="background:#fff;height:180px" id="task1" class="<?php if ($sugestao[0]->estado == 4) {echo 'task-high';} else {echo 'task-low';}?>">
                                                     <br>
                                                     <input type="hidden" name="sugestao_id" id="sugestao_id" class="form-control" value="{{$sugestao[0]->id}}">
+                                                    <input type="hidden" name="sugestao_estado" id="sugestao_estado" class="form-control" value="{{$sugestao[0]->estado}}">
                                                     <input type="hidden" name="sugestao_descricao" id="sugestao_descricao" class="form-control" value="{{$sugestao[0]->descricao}}">
                                                     <input type="hidden" name="sugestao_proveniencia" id="sugestao_proveniencia" class="form-control" value="{{$sugestao[0]->proveniencia}}">
                                                     <div id="labelespaco" class="row">
-                                                        <div class="col-5">
+                                                        <div class="col-4">
                                                             <div class="form-group row mb-3">
                                                                 <p class="col-md-5 col-form-label"> Tema</p>
                                                             </div>
                                                         </div>
-                                                        <div class="col-7">
+                                                        <div class="col-8">
                                                             <div class="form-group row mb-3">
                                                                 <label class="col-md-7 col-form-label">: {{$sugestao[0]->tema}}</label>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div id="labelespaco" class="row">
-                                                        <div class="col-5">
+                                                        <div class="col-4">
                                                             <div class="form-group row mb-3">
                                                                 <p class="col-md-5 col-form-label"> Área de aplicação</p>
                                                             </div>
                                                         </div>
-                                                        <div class="col-7">
+                                                        <div class="col-8">
                                                             <div class="form-group row mb-3">
                                                                 <label class="col-md-7 col-form-label">: {{$sugestao[0]->area}}</label>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div id="labelespaco" class="row">
-                                                        <div class="col-5">
+                                                        <div class="col-4">
+                                                            <div class="form-group row mb-3">
+                                                                <p class="col-md-5 col-form-label"> Data de Inscrição</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-8">
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-md-7 col-form-label">: {{ date('d/m/Y',strtotime($sugestao[0]->created_at)) }}</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="labelespaco" class="row">
+                                                        <div class="col-4">
                                                             <div class="form-group row mb-3">
                                                                 <p class="col-md-5 col-form-label"> Orientador</p>
                                                             </div>
                                                         </div>
-                                                        <div class="col-7">
+                                                        <div class="col-8">
                                                             <div class="form-group row mb-3">
                                                                 <label class="col-md-7 col-form-label">: {{$sugestao[0]->docente}}</label>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div id="labelespaco" class="row">
-                                                        <div class="col-5">
+                                                        <div class="col-4">
                                                             <div class="form-group row mb-3">
                                                                 <p class="col-md-5 col-form-label"> Estado</p>
                                                             </div>
                                                         </div>
-                                                        <div class="col-7">
+                                                        <div class="col-8">
                                                             <div class="form-group row mb-3">
-                                                                <label class="col-md-5 col-form-label">:
+                                                                <label class="col-md-7 col-form-label">:
                                                                     @if($sugestao[0]->estado==1)
-                                                                        Registado
+                                                                        <span class="waiting">Registado</span> <i class='waiting fas fa-clock'></i>
                                                                     @elseif($sugestao[0]->estado==2)
                                                                         Selecionado
                                                                     @elseif($sugestao[0]->estado==3)
-                                                                        Em desenvolvimento
+                                                                        <span class="check">Em desenvolvimento</span> <i style="color:#007c00" class='fas fa-check-circle mr-3'></i>
                                                                     @elseif($sugestao[0]->estado==4)
-                                                                        Rejeitado
+                                                                        <span class="error">Rejeitado</span> <i class='error fas fa-times'></i>
                                                                     @endif
                                                                 </label>
                                                             </div>
@@ -230,6 +243,53 @@ $sessao = session('dados_logado');
                                                 <p class="proposta-aceite">PROPOSTA APROVADA COM SUCESSO.</p>
                                             </div>
                                         </div>
+                                    @elseif(($sugestao[0]->estado==1 || $sugestao[0]->estado==2) && $sugestao[0]->proveniencia==1)
+                                        <div class="row">
+                                            <div id="icone_resultado_proposta" class="col-12">
+                                                <br>
+                                                <img width="100px" heigth="100px" src="{{ url('images/aguardando.png') }}"/>
+                                                <p class="proposta-espera">AGUARDANDO APROVAÇÃO.</p>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row descricaoSugestao">
+                                            <div class="col-lg-12">
+                                                <div class="accordion mb-3" id="accordionExample">
+                                                    <div class="card mb-1">
+                                                        <div class="card-header" id="headingOne">
+                                                            <h5 class="my-0">
+                                                                <a class="text-primary" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                    <i class="fas fa-info-circle"></i> Histórico de Rejeição
+                                                                </a>
+                                                            </h2>
+                                                        </div>
+                                                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                                            <div class="card-body">
+                                                                <table class="table table-borderless mb-0">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>#</th>
+                                                                            <th>Motivo</th>
+                                                                            <th>Data</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <?php $motivos = App\Model\AvaliacaoProposta::where('id_sugestao', 163)->orderBy('created_at')->get();?>
+                                                                    <tbody>
+                                                                        @foreach($motivos as $motivo)
+                                                                        <tr>
+                                                                            <td>{{$loop->iteration}}</td>
+                                                                            <td>{{$motivo->descricao}}</td>
+                                                                            <td>{{date('d/m/Y H:m:s',strtotime($motivo->created_at))}}</td>
+                                                                        </tr>
+                                                                        @endforeach
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     @else
                                         <div class="row">
                                             <div id="icone_resultado_proposta" class="col-12">
@@ -280,9 +340,17 @@ $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pes
                 <div class="row">
                     <div class="col-12">
                         <div class="card-box">
-                            <h5 class="table-title"><i class="fas fa-users mr-1"></i>ENVOLVENTES DO TEMA</h5><hr>
+                            <h5 class="table-title"><i class="fas fa-users mr-1"></i>ESTUDANTES ENVOLVIDOS</h5><hr>
                             <div class="table-responsive">
                                 <table class="table table-borderless mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>BI Nº</th>
+                                            <th>Curso</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
                                     <tbody id="dataTable">
 
                                     </tbody>
@@ -297,7 +365,7 @@ $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pes
                         <div class="card-box">
                             <div class=row>
                                 <div class="col-12">
-                                    <h5 style="margin-top:8px" class="table-title"><i class="fas fa-users mr-1"></i>ENVOLVENTES DO TEMA</h5>
+                                    <h5 style="margin-top:8px" class="table-title"><i class="fas fa-users mr-1"></i>ESTUDANTES ENVOLVIDOS</h5>
                                 </div>
                             </div><hr>
                             <div class="table-responsive">
@@ -351,8 +419,9 @@ $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pes
 
     function carregarDataTable(){
         var sugestao_id = $('#sugestao_id').val(); //id da sugestão selecionada
+        var sugestao_estado = $('#sugestao_estado').val(); //id da sugestão selecionada
         $.ajax({
-            url: "{{ url('verEnvolventes') }}/"+sugestao_id,
+            url: "{{ url('verEnvolventes') }}/"+sugestao_id+"/"+sugestao_estado,
             success:function(data){
                 $('#dataTable').html(data);
             },
@@ -411,18 +480,20 @@ $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pes
             success: function(data){
                 if(data == "Sucesso"){
                     Swal.fire({
-                        text: 'Sugestão aprovada com Sucesso.',
+                        text: 'Sugestão ou Proposta aprovada com Sucesso.',
                         icon: 'success',
                         confirmButtonText: 'Fechar',
                         timer: 3500
                     });
-                    location.reload();
+                    //location.reload();
+                    location.href='{{ url("trabalhoEmCurso") }}';
+                    exit;
                 }
             },
             error: function(e)
             {
                 Swal.fire({
-                    text: 'Ocorreu um erro ao aprovar a proposta.',
+                    text: 'Ocorreu um erro ao aprovar.',
                     icon: 'error',
                     confirmButtonText: 'Fechar'
                 })
@@ -512,7 +583,7 @@ $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pes
                         error: function(e)
                         {
                             Swal.fire({
-                                text: 'Erro ao abandonar a proposta.',
+                                text: 'Erro ao aceitar a proposta.',
                                 icon: 'error',
                                 confirmButtonText: 'Fechar'
                             })

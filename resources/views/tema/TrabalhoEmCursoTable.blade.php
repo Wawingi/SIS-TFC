@@ -1,5 +1,5 @@
 @foreach($temas as $tema)
-    <tr  title="Clique para ver" class="tabelaClicked clickable-row" data-href='{{ url("verSugestao/".base64_encode($tema->id)) }}'>
+    <tr  title="Clique para ver" class="tabelaClicked clickable-row" data-href='{{ url("verTrabalho/".base64_encode($tema->id)) }}'>
 		<td>{{$loop->iteration}}</td>
         <td>
 			<a>{{$tema->tema}} <i class="fas fa-folder-open"></i></a>

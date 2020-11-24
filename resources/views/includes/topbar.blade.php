@@ -225,9 +225,11 @@ $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pes
                                 <li>
                                     <a href="{{ url('listarSugestaoDepartamento')}}"><i class="fe-file-text mr-1"></i>Sugestão do Departamento</a>
                                 </li>
-                                <li>
-                                    <a href="{{ url('meusTutorandos')}}"><i class="fas fa-user-graduate noti-icon mr-1"></i>Minhas Propostas & Sugestões</a>
-                                </li>
+                                @can('visualizar_minha_prop_sug')
+                                    <li>
+                                        <a href="{{ url('meusTutorandos')}}"><i class="fas fa-user-graduate noti-icon mr-1"></i>Minhas Propostas & Sugestões</a>
+                                    </li>
+                                @endcan
                             </ul>
                         </li>
                     @endcan

@@ -56,7 +56,7 @@ class SugestaoController extends Controller
         ], [
             //Mensagens de validação de erros
             'tema.required' => 'O tema é necessário',
-            'descricao.required' => 'A descrição é necessária',
+            'descricao.required' => 'O ficheiro deve ser anexado.',
         ]);
         //Pega sessao
         $sessao = session('dados_logado');
@@ -97,7 +97,7 @@ class SugestaoController extends Controller
 
                     if ($id_docente > 0 && $idSugestao > 0) {
                         //Verifica se envolventes é um array não null, trazendo varios estudantes associados a uma sugestao
-                        if ($request->envolventes == null) {
+                        if ($request->envolventes == null || $request->modalidade == 'Individual') {
                             //Registar o departamento da sugestão
                             if (DB::table('sugestao_departamento')->insert(
                                 ['id_sugestao' => $idSugestao, 'id_departamento' => $sessao[0]->id_departamento]
@@ -153,10 +153,10 @@ class SugestaoController extends Controller
     }
 
     //ver os envolventes de um tema proposto por estudantes
-    public function verEnvolventes($idSugestao)
+    public function verEnvolventes($idSugestao, $estadoSugestao)
     {
         $envolventes = Sugestao::verEnvolventes($idSugestao);
-        return view('sugestao.envolventesTable', compact('envolventes'));
+        return view('sugestao.envolventesTable', compact('envolventes', 'estadoSugestao'));
     }
 
     //Função que adiciona estudantes a trabalhar num tema sugerido pelo DPTO
@@ -169,7 +169,7 @@ class SugestaoController extends Controller
 
         if ($request->sugestaoTrabalhar_id > 0) {
             //Verifica se envolventes é um array não null, trazendo varios estudantes associados a uma sugestao
-            if ($request->envolventes == null) {
+            if ($request->envolventes == null || $request->modalidade == 'Individual') {
                 //Registar o departamento da sugestão
                 if (DB::table('sugestao_departamento')->insert(
                     ['id_sugestao' => $request->sugestaoTrabalhar_id, 'id_departamento' => $sessao[0]->id_departamento]
@@ -263,6 +263,7 @@ class SugestaoController extends Controller
                 ->delete()) {
                 $info = 'Sucesso';
             }
+            $info = 'Sucesso';
         } else {
             $info = 'Erro';
         }
@@ -325,10 +326,12 @@ class SugestaoController extends Controller
             ->join('estudante', 'estudante_sugestao.id_estudante', '=', 'estudante.id_pessoa')
             ->join('curso', 'estudante.id_curso', '=', 'curso.id')
             ->join('departamento', 'curso.id_departamento', '=', 'departamento.id')
-            ->select('departamento.id', 'departamento.nome')
+            ->select('departamento.id', 'departamento.nome', 'estudante.id_pessoa')
             ->where('estudante_sugestao.id_sugestao', '=', $idSugestao)
             ->where('estudante_sugestao.estado', '=', 1)
             ->get();
+
+        //dd($id_departamentos);
 
         if (is_object($sugestao)) {
             //estado 1: Em desenvolvimento, 2:concluído
@@ -337,10 +340,16 @@ class SugestaoController extends Controller
             );
             if ($idTrabalho > 0) {
                 foreach ($id_departamentos as $id_departamento) {
+                    //Associar o trabalho a respectivo departamento
                     DB::table('trabalho_departamento')->insert(
                         ['id_trabalho' => $idTrabalho, 'id_departamento' => $id_departamento->id]
                     );
+                    //Associar o trabalho a seus envolventes
+                    DB::table('envolvente')->insert(
+                        ['id_trabalho' => $idTrabalho, 'id_estudante' => $id_departamento->id_pessoa]
+                    );
                 }
+
                 return true;
             }
         } else {
@@ -359,12 +368,13 @@ class SugestaoController extends Controller
                 $info = 'Sucesso';
             } else { $info = null;}
 
+            //desassociar estudante que nao aceitou convite antes da aprovação da proposta ou sugestão
             if (DB::table('estudante_sugestao')
                 ->where('id_sugestao', '=', $idSugestao)
                 ->where('estado', '=', 0)
                 ->delete()) {
                 $info = 'Sucesso';
-            } else { $info = null;}
+            } else {}
         }
         echo $info;
     }

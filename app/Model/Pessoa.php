@@ -109,6 +109,7 @@ class Pessoa extends Model
             ->join('departamento', 'departamento.id', '=', 'pessoa_departamento.id_departamento')
             ->select('pessoa.id as pessoa_id', 'pessoa.nome')
             ->where([['departamento.id', $id_departamento], ['users.tipo', 2]])
+            ->orderBy('pessoa.nome')
             ->get();
     }
 

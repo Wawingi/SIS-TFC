@@ -84,6 +84,7 @@ $sessao = session('dados_logado');
     function carregarDataTable(){
         $.ajax({
             url: "{{ url('pegaSugestoesDPTO') }}",
+            method: "GET",
             success:function(data){
                 $('#dataTable').html(data);
                 $('#paginationFullNumbers').DataTable({

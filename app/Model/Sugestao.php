@@ -42,7 +42,7 @@ class Sugestao extends Model
         return DB::table('sugestao')
             ->join('area_aplicacao', 'area_aplicacao.id', '=', 'sugestao.id_area')
             ->join('pessoa', 'pessoa.id', '=', 'sugestao.id_docente')
-            ->select('sugestao.id', 'sugestao.tema', 'sugestao.descricao', 'sugestao.proveniencia', 'sugestao.avaliacao', 'area_aplicacao.nome as area', 'pessoa.nome as docente', 'estado')
+            ->select('sugestao.id', 'sugestao.tema', 'sugestao.descricao', 'sugestao.proveniencia', 'sugestao.avaliacao', 'sugestao.created_at', 'area_aplicacao.nome as area', 'pessoa.nome as docente', 'estado')
             ->where('sugestao.id', '=', $id)
             ->get();
     }

@@ -94,7 +94,7 @@ Route::middleware(['auth'])->group(function () {
         return view('sugestao.listarSugestaoEstudante');
     });
     Route::get('pegaSugestoesEstudante', 'SugestaoController@pegaSugestoesEstudante');
-    Route::get('verEnvolventes/{id}', 'SugestaoController@verEnvolventes');
+    Route::get('verEnvolventes/{id}/{estadoSugestao}', 'SugestaoController@verEnvolventes');
     Route::get('sairGrupo/{idsugestao}/{idpessoa}/{proveniencia}/{descricao}', 'SugestaoController@sairGrupo');
     Route::get('aceitarProposta/{idPessoa}/{idSugestao}', 'SugestaoController@aceitarProposta');
     Route::get('negarProposta/{idsugestao}/{idpessoa}/{proveniencia}', 'SugestaoController@negarProposta');
@@ -117,6 +117,8 @@ Route::middleware(['auth'])->group(function () {
         return view('tema.listarTrabalhoEmCurso');
     });
     Route::get('pegaTemas', 'TemaController@pegaTemas');
+    Route::get('verTrabalho/{id}', 'TemaController@verTrabalho');
+    Route::get('verEnvolventesTrabalho/{id}', 'TemaController@verEnvolventesTrabalho');
 });
 
 //Rotas para configurações

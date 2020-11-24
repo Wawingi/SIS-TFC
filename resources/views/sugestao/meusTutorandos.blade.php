@@ -17,6 +17,7 @@ $sessao = session('dados_logado');
                             <li class="breadcrumb-item active">Meus Tutorandos</li>
                         </ol>
                     </div>
+                    <h4 class="page-title">Minhas Propostas & Sugestões</h4>
                 </div>
             </div>
         </div>

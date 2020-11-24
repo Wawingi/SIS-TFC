@@ -15,7 +15,7 @@ $sessao = session('dados_logado');
             @endif
         </td>
         <td>
-            @if($sessao[0]->id_pessoa==$envolvente->id_pessoa)
+            @if($sessao[0]->id_pessoa==$envolvente->id_pessoa && $estadoSugestao !=3)
                 <a href="#" idPessoa="{{$envolvente->id_pessoa}}" class="SairGrupo float-right"><i class='fas fa-times'></i> Abandonar </a>
             @endif
         </td>
