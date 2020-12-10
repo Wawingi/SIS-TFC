@@ -57,16 +57,16 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="name">Departamento</label>
-                                    <input required type="text" class="form-control" name="nome" placeholder="ex: Ciências da Computação">
+                                    <input type="text" class="form-control" name="nome" placeholder="ex: Ciências da Computação">
                                 </div>
                                 <div class="form-group">
                                     <label for="company">E-mail</label>
-                                    <input required type="email" class="form-control" name="email" placeholder="Informe o email">
+                                    <input type="email" class="form-control" name="email" placeholder="Informe o email">
                                 </div>
                                       
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Telefone</label>
-                                    <input required type="number" class="form-control" name="telefone" placeholder="Informe o contacto telefónico" min="0">
+                                    <input type="number" class="form-control" name="telefone" placeholder="Informe o contacto telefónico" min="0">
                                 </div>
                                           
                                 <div class="form-group mb-3">
@@ -175,9 +175,89 @@
 			}
         })
     }
+
     carregarDataTableLixeira();
 
-    $('#formularioSalvar').submit(function(e){
+    $("#formularioSalvar").validate({
+        rules: {					
+            nome: {
+                required: true,
+                pattern: /^[a-zA-ZáÁàÀçÇéÉèÈõÕóÓãÃúÚ\s]+$/
+            },
+            email: {
+                required: true
+            },
+            telefone: {
+                required: true
+            }
+        },
+        messages: {					
+            nome: {
+                required: "O nome deve ser fornecido.",
+                pattern: "Informe um nome válido contendo apenas letras alfabéticas"
+            },
+            email: {
+                required: "O email deve ser fornecido"
+            },
+            telefone: {
+                required: "O número do telefone deve ser fornecido"
+            }                
+        },
+        
+        errorElement: "em",
+        errorPlacement: function ( error, element ) {
+            // Add the `invalid-feedback` class to the error element
+            error.addClass( "invalid-feedback" );
+            if ( element.prop( "type" ) === "checkbox" ) {
+                error.insertAfter( element.next( "label" ) );
+            } else {
+                error.insertAfter( element );
+            }
+        },
+        highlight: function ( element, errorClass, validClass ) {
+            $( element ).addClass( "is-invalid" ).removeClass( "is-valid" );
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
+        },
+        
+        submitHandler: function(formularioSalvar,event){          
+            //var request = new FormData('#formularioSalvar');         
+            event.preventDefault();
+            alert('CHEGUEI');
+            $.ajax({
+                headers:{
+                    'X-CSRF-TOKEN':'<?php echo csrf_token() ?>'
+                },
+                url:"{{ url('registarDepartamento') }}",
+                method: "POST",
+                data: $("#formularioSalvar").serialize(),
+                success:function(data){
+                    if(data == "Sucesso"){
+                        Swal.fire({
+                            text: "Departamento registado com sucesso.",
+                            icon: 'success',
+                            confirmButtonText: 'Fechar'
+                        }),
+                        $('#formularioSalvar')[0].reset();
+                        //location.reload();
+                        //return false;
+                        //carregarDataTable();
+                    }         
+                },
+                error: function(e){
+                    Swal.fire({
+                        text: 'Ocorreu um erro ao registar o departamento.',
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
+                    })
+                }
+            });
+        }            
+    });
+
+
+    $('#formularioSalvarr').submit(function(e){
         e.preventDefault();
         var request = new FormData(this);
 
