@@ -26,17 +26,19 @@
         <link href="{{ asset('libs/switchery/switchery.min.css') }}" rel="stylesheet" />
         <link href="{{ asset('libs/x-editable/bootstrap-editable.css') }}" rel="stylesheet" />
         <link href="{{ asset('libs/bootstrap-select/bootstrap-select.min.css') }}" rel="stylesheet" />
+		<link href="{{ asset('libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" defer rel="stylesheet" type="text/css" />
     </head>
     <body>
         <script src="{{ asset('js/jquery-3.4.1.js') }}"></script>
         <script src="{{ asset('js/jquery.validate.js') }}"></script>
         <script src="{{ asset('js/additional-methods.js') }}"></script>
-        <script src="{{ asset('js/datatables2.min.js') }}" defer></script>
+        <script src="{{ asset('js/datatables2.min.js') }}"></script>
         <script src="{{ asset('js/select2.min.js') }}" defer></script>
+		<script src="{{ asset('libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
         <?php
-//sessão dos dados do utilizador logado
-$sessao = session('dados_logado');
-?>
+			//sessão dos dados do utilizador logado
+			$sessao = session('dados_logado');
+		?>
         <!-- PAGINA INICIAL PARA USER LOGADO -->
         <!-- TopBar-->
             @include('includes.topbar')

@@ -21,17 +21,7 @@
                 </div>
             </div>
         </div>
-        <!-- mensagens de validação de erros -->
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-        <!-- fim de mensagens de validação de erros -->
+        
         <!-- Alerta de inserção sucesso -->
         @if(session('info'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -53,11 +43,11 @@
                 <div class="row">                            
                     <div class="col-4">
                         <div class="card-box">
-                            <form id="formularioSalvar" method="post">
+                            <form id="formularioSalvarr" method="post">
                                 @csrf
                                 <div class="form-group">
                                     <label for="name">Departamento</label>
-                                    <input type="text" class="form-control" name="nome" placeholder="ex: Ciências da Computação">
+                                    <input type="text" class="form-control" id="nome" name="nome" placeholder="ex: Ciências da Computação">
                                 </div>
                                 <div class="form-group">
                                     <label for="company">E-mail</label>
@@ -67,7 +57,8 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Telefone</label>
                                     <input type="number" class="form-control" name="telefone" placeholder="Informe o contacto telefónico" min="0">
-                                </div>
+									<span class="tlf" style="color:red"></span>
+								</div>
                                           
                                 <div class="form-group mb-3">
                                     <label for="genero">Tipo</label><br>
@@ -79,7 +70,8 @@
                                         <input type="radio" value="2" name="tipo" checked>
                                         <label for="tipo"> Estudantil </label>
                                     </div>
-                                </div>                            
+                                </div>  
+								
                                 <input type="hidden" class="form-control" value="{{$sessao[0]->id_faculdade}}" name="id_faculdade">
                                 <hr>
                                 <div class="text-right">
@@ -140,7 +132,9 @@
             </div>
     </div> 
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
+		
     function carregarDataTable(){
         var isDeleted=0;
         $.ajax({
@@ -204,10 +198,10 @@
             }                
         },
         
-        errorElement: "em",
+        //errorElement: "em",
         errorPlacement: function ( error, element ) {
-            // Add the `invalid-feedback` class to the error element
-            error.addClass( "invalid-feedback" );
+            // Add the invalid-feedback` class to the error element
+            //error.addClass( "invalid-feedback" );
             if ( element.prop( "type" ) === "checkbox" ) {
                 error.insertAfter( element.next( "label" ) );
             } else {
@@ -221,10 +215,11 @@
             $( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
         },
         
-        submitHandler: function(formularioSalvar,event){          
-            //var request = new FormData('#formularioSalvar');         
-            event.preventDefault();
-            alert('CHEGUEI');
+        submitHandler: function(formularioSalvar,e){  
+			var id = $('#nome').val();
+			
+			alert(id);
+            e.preventDefault();exit;
             $.ajax({
                 headers:{
                     'X-CSRF-TOKEN':'<?php echo csrf_token() ?>'
@@ -238,19 +233,39 @@
                             text: "Departamento registado com sucesso.",
                             icon: 'success',
                             confirmButtonText: 'Fechar'
-                        }),
-                        $('#formularioSalvar')[0].reset();
+                        })
+						
+						//id = $('#nome').val('');
+						
+                        //$('#formularioSalvar')[0].reset();
+						//this.$nextTick(() => { $('#formularioSalvar')[0].reset(); });  
                         //location.reload();
                         //return false;
                         //carregarDataTable();
                     }         
                 },
-                error: function(e){
-                    Swal.fire({
-                        text: 'Ocorreu um erro ao registar o departamento.',
-                        icon: 'error',
-                        confirmButtonText: 'Fechar'
-                    })
+                error: function(response){
+					var erro='';
+					if( response.status === 422 ) {
+						$.each(response.responseJSON.errors,function(field_name,error){
+							console.log("CAMPO: "+field_name+"ERRO: "+error);							
+							erro = error+' | '+erro
+						})
+						
+						console.log('ERROS: '+erro);
+						
+						Swal.fire({
+							text: erro,
+							icon: 'error',
+							confirmButtonText: 'Fechar'
+						})
+					}else{
+						Swal.fire({
+							text: 'Ocorreu um erro ao registar o departamento.',
+							icon: 'error',
+							confirmButtonText: 'Fechar'
+						})
+					}
                 }
             });
         }            
@@ -258,11 +273,15 @@
 
 
     $('#formularioSalvarr').submit(function(e){
-        e.preventDefault();
+		var id = $('#nome').val();
+		
+		alert('NOME: '+id);exit;
+		
+        //e.preventDefault();
         var request = new FormData(this);
 
         $.ajax({
-            url:"{{ url('registarDepartamento') }}",
+            url:"{{ url('registarDepartament') }}",
             method: "POST",
             data: request,
             contentType: false,

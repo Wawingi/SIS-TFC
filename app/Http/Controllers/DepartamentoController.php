@@ -29,9 +29,11 @@ class DepartamentoController extends Controller
             //Mensagens de validação de erros
             'nome.required'=>'Por favor, informe o nome do departamento',
             'email.required'=>'Por favor, informe o email',
+			'email.unique'=>'O email já foi informado',
             'telefone.required'=>'Por favor, informe o contacto telefónico',
             'telefone.min'=>'A quantidade de digítos telefonicos é inferior',
             'telefone.max'=>'A quantidade de digítos telefonicos é superior',
+			'telefone.unique'=>'O número já foi informado',
         ]);
         
         $departamento = new Departamento;
