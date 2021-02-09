@@ -43,7 +43,7 @@
                 <div class="row">                            
                     <div class="col-4">
                         <div class="card-box">
-                            <form id="formularioSalvarr" method="post">
+                            <form id="formularioSalvar" method="post">
                                 @csrf
                                 <div class="form-group">
                                     <label for="name">Departamento</label>
@@ -132,7 +132,7 @@
             </div>
     </div> 
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
 <script>
 		
     function carregarDataTable(){
@@ -218,8 +218,7 @@
         submitHandler: function(formularioSalvar,e){  
 			var id = $('#nome').val();
 			
-			alert(id);
-            e.preventDefault();exit;
+            e.preventDefault();
             $.ajax({
                 headers:{
                     'X-CSRF-TOKEN':'<?php echo csrf_token() ?>'
@@ -272,7 +271,7 @@
     });
 
 
-    $('#formularioSalvarr').submit(function(e){
+    $('#formularioSalvarrrr').submit(function(e){
 		var id = $('#nome').val();
 		
 		alert('NOME: '+id);exit;
