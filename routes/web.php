@@ -119,6 +119,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pegaTemas', 'TemaController@pegaTemas');
     Route::get('verTrabalho/{id}', 'TemaController@verTrabalho');
     Route::get('verEnvolventesTrabalho/{id}', 'TemaController@verEnvolventesTrabalho');
+    Route::post('registarItem','ItemController@registarItem');
+    Route::get('pegaItemPretextual/{idTrabalho}/{itemTipo}','ItemController@pegaItemPretextual');
+    Route::get('abrirItem/{idItem}','ItemController@abrirItem');
+    Route::post('avaliarItem','ItemController@avaliarItem');
 });
 
 //Rotas para configurações

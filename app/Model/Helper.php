@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Helper extends Model
 {
+    //Mover proposta ou sugestão
     public static function moverFicheiro($ficheiro, $descricao, $id, $pasta)
     {
         $novoNome = $ficheiro->getClientOriginalName();
@@ -15,6 +16,17 @@ class Helper extends Model
         $ficheiro->storeAs('propostas', $novoNome);
         //$ficheiro->move(public_path('pdf/'.$pasta.'/'),$novoNome);
 
+        return $novoNome;
+    }
+
+    //Mover itens do trabalho
+    public static function moverItemFicheiro($anexo, $trabalho_tema, $trabalho_id,$titulo)
+    {
+        $novoNome = $anexo->getClientOriginalName();
+        $novoNome = Str_replace($novoNome, $trabalho_tema .'_'. $trabalho_id .'_'. $titulo .'.pdf', $novoNome);
+        
+        $anexo->storeAs('propostas/itens', $novoNome);
+       
         return $novoNome;
     }
 

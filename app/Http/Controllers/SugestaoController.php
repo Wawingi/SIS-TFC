@@ -63,7 +63,6 @@ class SugestaoController extends Controller
 
         //Verificar a extensão e o tamanho do ficheiro a anexar
         if ($request->file('descricao')->isValid()) {
-            //dd('STOPING...');
             //Pega área de aplicação do tema em causa
             $id_area = Area::pegaAreaId($request->area, $sessao[0]->id_departamento);
             switch ($sessao[0]->tipo) {
@@ -409,7 +408,6 @@ class SugestaoController extends Controller
     {
         $sessao = session('dados_logado');
         $convites = Sugestao::pegaConviteSugestoes($sessao[0]->id_pessoa);
-        //dd($convites);
         return view('sugestao.listaConvitesSugestao', compact('convites'));
     }
 }
