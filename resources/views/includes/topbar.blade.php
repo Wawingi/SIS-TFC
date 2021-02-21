@@ -49,7 +49,7 @@
                 @can('visualizar_tutorandos')
                     <!-- tutorandos de um orientador -->
                     <li class="dropdown notification-list">
-                        <a title="Meus tutorandos" class="nav-link dropdown-toggle  waves-effect waves-light" href='{{ url("meusTutorandos")}}'>
+                        <a title="Solicitação de Proposta e Sugestão" class="nav-link dropdown-toggle  waves-effect waves-light" href='{{ url("meusTutorandos")}}'>
                             <i class="fas fa-user-graduate noti-icon"></i>
                             <span id="qtdTutorandos" class="badge badge-danger rounded-circle noti-icon-badge"></span>
                         </a>

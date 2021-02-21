@@ -11,7 +11,7 @@ class ItemController extends Controller
 {
     public function registarItem(Request $request){
         $request->validate([
-            'titulo' => ['required', 'string', 'max:255'],
+            'titulo' => ['required', 'string', 'max:1'],
             'anexo' => ['required', 'mimes:pdf', 'max:2000'],
             'trabalho_id' => ['required'],
             'trabalho_tema' => ['required'],
@@ -45,22 +45,24 @@ class ItemController extends Controller
             $item->titulo=$request->titulo;
             $item->anexo=$novoFicheiro;
             $item->id_trabalho=$request->trabalho_id;
+            $item->avaliacao=3;
 
             if($item->save()){
-                echo 'Sucesso';
+                echo $request->titulo;
             }
         }
     
     }
 
-    public function pegaItemPretextual($id_Trabalho,$tipo_item){
-        $pretextual = DB::table('item')
+    //Retorna um determinado elemento em função do tipo Pre,Tex,Pos Textual
+    public function pegaElemento($id_Trabalho,$tipo_item){
+        $elemento = DB::table('item')
                     ->where('id_trabalho','=',$id_Trabalho)
                     ->where('titulo','=',$tipo_item)
                     ->first();
         
-                    if(is_object($pretextual)) 
-                        return view('tema.preTextualTable',compact('pretextual'));
+                    if(is_object($elemento)) 
+                        return view('tema.elementoTable',compact('elemento'));
     }
 
     //Abrir o pdf de um item anexado

@@ -53,7 +53,7 @@ $sessao = session('dados_logado');
         @endif
 
         <!--Inicio do conteudo-->
-        <br>
+        <br>{{$ficheiro->anexo}}
         <div class="row">
             <div class="col-12">
                 <div class="card-box">

@@ -120,7 +120,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('verTrabalho/{id}', 'TemaController@verTrabalho');
     Route::get('verEnvolventesTrabalho/{id}', 'TemaController@verEnvolventesTrabalho');
     Route::post('registarItem','ItemController@registarItem');
-    Route::get('pegaItemPretextual/{idTrabalho}/{itemTipo}','ItemController@pegaItemPretextual');
+    //Route::get('pegaItemPretextual/{idTrabalho}/{itemTipo}','ItemController@pegaItemPretextual');
+    Route::get('pegaElemento/{idTrabalho}/{itemTipo}','ItemController@pegaElemento');
     Route::get('abrirItem/{idItem}','ItemController@abrirItem');
     Route::post('avaliarItem','ItemController@avaliarItem');
 });
@@ -146,6 +147,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('verRole/{id}/{nome}/{desc}/{tipo}', 'PerfilController@verRole');
     Route::get('removerPermissao/{idPermission}/{idRole}', 'PerfilController@removerPermissao');
     Route::post('associarPermission', 'PerfilController@associarPermission');
+});
+
+//Rotas para predefesas e defesas
+Route::middleware(['auth'])->group(function () {
+    Route::post('registarPredefesa', 'DefesaController@registarPredefesa');
 });
 
 Route::post('logar', 'Auth\LoginController@authenticate');
