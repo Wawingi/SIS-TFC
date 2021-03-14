@@ -49,7 +49,7 @@
                 @can('visualizar_tutorandos')
                     <!-- tutorandos de um orientador -->
                     <li class="dropdown notification-list">
-                        <a title="Solicitação de Proposta e Sugestão" class="nav-link dropdown-toggle  waves-effect waves-light" href='{{ url("meusTutorandos")}}'>
+                        <a title="Solicitação de Proposta e Sugestão" class="nav-link dropdown-toggle  waves-effect waves-light" href='{{ url("minhasPropostas")}}'>
                             <i class="fas fa-user-graduate noti-icon"></i>
                             <span id="qtdTutorandos" class="badge badge-danger rounded-circle noti-icon-badge"></span>
                         </a>
@@ -227,7 +227,7 @@ $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pes
                                 </li>
                                 @can('visualizar_minha_prop_sug')
                                     <li>
-                                        <a href="{{ url('meusTutorandos')}}"><i class="fas fa-user-graduate noti-icon mr-1"></i>Minhas Propostas & Sugestões</a>
+                                        <a href="{{ url('minhasPropostas')}}"><i class="fas fa-user-graduate noti-icon mr-1"></i>Minhas Propostas & Sugestões</a>
                                     </li>
                                 @endcan
                             </ul>
@@ -251,10 +251,10 @@ $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pes
                                 </ul>
                             </li>
                             <li>
-                                <a href="#"><i class="fe-file-text mr-1"></i>Meu Trabalho</a>
+                                <a href="{{ url('verMeuTrabalho') }}"><i class="fe-file-text mr-1"></i>Meu Trabalho</a>
                             </li>
                             <li>
-                                <a href="#"><i class="fas fa-user-graduate noti-icon mr-1"></i>Meus Tutorandos</a>
+                                <a href="{{ url('meusTutorandos') }}"><i class="fas fa-user-graduate noti-icon mr-1"></i>Meus Tutorandos</a>
                             </li>
                         </ul>
                     </li>

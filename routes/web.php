@@ -98,8 +98,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('sairGrupo/{idsugestao}/{idpessoa}/{proveniencia}/{descricao}', 'SugestaoController@sairGrupo');
     Route::get('aceitarProposta/{idPessoa}/{idSugestao}', 'SugestaoController@aceitarProposta');
     Route::get('negarProposta/{idsugestao}/{idpessoa}/{proveniencia}', 'SugestaoController@negarProposta');
-    Route::get('meusTutorandos', function () {
-        return view('sugestao.meusTutorandos');
+    Route::get('minhasPropostas', function () {
+        return view('sugestao.minhasPropostas');
     });
     Route::get('pegaSugestoesOrientador', 'SugestaoController@pegaSugestoesOrientador');
     Route::get('contSugestoesOrientador', 'SugestaoController@contSugestoesOrientador');
@@ -111,12 +111,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('listarConvitesSugestao', 'SugestaoController@listarConvitesSugestao');
 });
 
-//Rotas para temas
+//Rotas para temas ou trabalho
 Route::middleware(['auth'])->group(function () {
     Route::get('trabalhoEmCurso', function () {
         return view('tema.listarTrabalhoEmCurso');
     });
-    Route::get('pegaTemas', 'TemaController@pegaTemas');
+    Route::get('meusTutorandos', function () {
+        return view('tema.meusTutorandos');
+    });
+    Route::get('pegaTrabalhosOrientador', 'TemaController@pegaTrabalhosOrientador');
+    Route::get('pegaTemas', 'TemaController@pegaTrabalhos');
     Route::get('verTrabalho/{id}', 'TemaController@verTrabalho');
     Route::get('verEnvolventesTrabalho/{id}', 'TemaController@verEnvolventesTrabalho');
     Route::post('registarItem','ItemController@registarItem');
@@ -124,6 +128,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pegaElemento/{idTrabalho}/{itemTipo}','ItemController@pegaElemento');
     Route::get('abrirItem/{idItem}','ItemController@abrirItem');
     Route::post('avaliarItem','ItemController@avaliarItem');
+    Route::get('verMeuTrabalho','TemaController@verMeuTrabalho');
 });
 
 //Rotas para configurações
@@ -152,6 +157,9 @@ Route::middleware(['auth'])->group(function () {
 //Rotas para predefesas e defesas
 Route::middleware(['auth'])->group(function () {
     Route::post('registarPredefesa', 'DefesaController@registarPredefesa');
+    Route::post('editarPredefesa', 'DefesaController@editarPredefesa');
+    Route::get('listarPredefesaTrabalho/{Trabalho_id}', 'DefesaController@listarPredefesaTrabalho');
+    Route::get('eliminarPredefesa/{Predefesa_id}', 'DefesaController@eliminarPredefesa');
 });
 
 Route::post('logar', 'Auth\LoginController@authenticate');
