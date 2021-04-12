@@ -10,9 +10,9 @@
                     @csrf
                     <div class="form-group">
                         <label for="name">Curso</label>
-                        <input required type="text" class="form-control" id="nome_edit" name="nome_edit" placeholder="Informe o curso">
+                        <input type="text" class="form-control" id="nome_edit" name="nome_edit" placeholder="Informe o curso">
                     </div>
-                    <input reuired type="hidden" class="form-control" id="id_curso"  name="id_curso">
+                    <input required type="hidden" class="form-control" id="id_curso"  name="id_curso">
                 </div>
                 <div class="modal-footer">
                     <button id="modalEditarClose" type="button" class="btn btn-secondary waves-effect" data-dismiss="modal"><i class="mdi mdi-close"></i> Fechar</button>

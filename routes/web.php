@@ -56,7 +56,7 @@ Route::middleware(['auth'])->group(function () {
 
 //Rotas para Departamentos
 Route::middleware(['auth'])->group(function () {
-    Route::get('listarDepartamentos', 'DepartamentoController@index');
+    Route::get('listarDepartamentos', 'DepartamentoController@index')->middleware('can.see.departamento');
     Route::post('registarDepartamento', 'DepartamentoController@registarDepartamento');
     Route::post('editarDepartamento', 'DepartamentoController@editarDepartamento');
     Route::get('pegaDepartamentos/{isDeleted}', 'DepartamentoController@pegaDepartamentos');

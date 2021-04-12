@@ -47,7 +47,7 @@
         <!--Inicio do conteudo-->
         <br><br>    
         <div class="card-box">
-            <h4 style="text-align:center;font-weight:bold" class="header-title">DADOS DO DEPARTAMENTO</h4><hr>
+            <h4 style="text-align:center;font-weight:bold" class="header-title"><i class="fas fa-clipboard-list mr-1"></i>DADOS DO DEPARTAMENTO</h4><hr>
             <input type="hidden" class="form-control" value="{{$departamento->id}}" id="id_departamento" name="id_departamento">
             <div class="row">
                 <div class="col-5">
@@ -130,7 +130,7 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="name">Curso</label>
-                                    <input required type="text" class="form-control" name="nome" placeholder="ex: Ciências da Computação">
+                                    <input  type="text" class="form-control" name="nome" placeholder="ex: Ciências da Computação">
                                 </div>  
                                 <input type="hidden" class="form-control" value="{{$departamento->id}}" id="id_departamento" name="id_departamento">                         
                                 <hr>
@@ -283,12 +283,25 @@
                     carregarCursoTable();
                 }            
             },
-            error: function(e){
-                Swal.fire({
-                    text: 'Ocorreu um erro ao registar o curso.',
-                    icon: 'error',
-                    confirmButtonText: 'Fechar'
-                })
+            error: function(response){
+                var erro='';
+				if( response.status === 422 ) {
+					$.each(response.responseJSON.errors,function(field_name,error){						
+						erro = error+' | '+erro
+					})
+					
+					Swal.fire({
+						text: erro,
+						icon: 'error',
+						confirmButtonText: 'Fechar'
+					})
+				}else{
+					Swal.fire({
+						text: 'Ocorreu um erro ao registar o curso.',
+						icon: 'error',
+						confirmButtonText: 'Fechar'
+					})
+				}
             }
         });
     });
@@ -327,14 +340,28 @@
                     carregarCursoTable();
                 }            
             },
-            error: function(e){
-                $('#modalEditarClose').click();
-                Swal.fire({
-                    text: 'Ocorreu um erro ao actualizar o curso.',
-                    icon: 'error',
-                    confirmButtonText: 'Fechar'
-                }),
-                $('#formularioEditar')[0].reset();
+            error: function(response){
+                //$('#modalEditarClose').click();
+                //$('#formularioEditar')[0].reset();
+
+                var erro='';
+				if( response.status === 422 ) {
+					$.each(response.responseJSON.errors,function(field_name,error){						
+						erro = error+' | '+erro
+					})
+					
+					Swal.fire({
+						text: erro,
+						icon: 'error',
+						confirmButtonText: 'Fechar'
+					})
+				}else{
+					Swal.fire({
+						text: 'Ocorreu um erro ao actualizar o curso.',
+						icon: 'error',
+						confirmButtonText: 'Fechar'
+					})
+				}
             }
         });
     });

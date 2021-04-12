@@ -270,49 +270,13 @@
         }            
     });
 
-
-    $('#formularioSalvarrrr').submit(function(e){
-		var id = $('#nome').val();
-		
-		alert('NOME: '+id);exit;
-		
-        //e.preventDefault();
-        var request = new FormData(this);
-
-        $.ajax({
-            url:"{{ url('registarDepartament') }}",
-            method: "POST",
-            data: request,
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(data){
-                if(data == "Sucesso"){
-                    Swal.fire({
-                        text: "Departamento registado com sucesso.",
-                        icon: 'success',
-                        confirmButtonText: 'Fechar'
-                    }),
-                    $('#formularioSalvar')[0].reset();
-                    carregarDataTable();
-                }            
-            },
-            error: function(e){
-                Swal.fire({
-                    text: 'Ocorreu um erro ao registar o departamento.',
-                    icon: 'error',
-                    confirmButtonText: 'Fechar'
-                })
-            }
-        });
-    });
-
     $(document).on('click','.pegar',function(e){
         e.preventDefault();
         var id = $(this).attr('id');
         var nome = $(this).attr('nome');
         var email = $(this).attr('email');
         var telefone = $(this).attr('telefone');
+        var tipo = $(this).attr('tipo');
 
         $('.editar').modal('show');
 
@@ -320,9 +284,116 @@
         $('#email').val(email);
         $('#telefone').val(telefone);
         $('#id_departamento').val(id);
+
+        if(tipo==1)
+            document.formularioEditar.tipo[0].checked=true;
+        else if(tipo==2)
+            document.formularioEditar.tipo[1].checked=true;
     });
 
-    $('#formularioEditar').submit(function(e){
+    //Editar o Departamento
+    $("#formularioEditar").validate({
+        rules: {					
+            nome_edit: {
+                required: true,
+                pattern: /^[a-zA-ZâêôûáÁàÀçÇéÉèÈõÕóÓãÃúÚ\s]+$/
+            },
+            email: {
+                required: true
+            },
+            telefone: {
+                required: true
+            }
+        },
+        messages: {					
+            nome_edit: {
+                required: "O nome deve ser fornecido.",
+                pattern: "Informe um nome válido contendo apenas letras alfabéticas"
+            },
+            email: {
+                required: "O email deve ser fornecido"
+            },
+            telefone: {
+                required: "O número do telefone deve ser fornecido"
+            }                
+        },
+        
+        //errorElement: "em",
+        errorPlacement: function ( error, element ) {
+            // Add the invalid-feedback` class to the error element
+            //error.addClass( "invalid-feedback" );
+            if ( element.prop( "type" ) === "checkbox" ) {
+                error.insertAfter( element.next( "label" ) );
+            } else {
+                error.insertAfter( element );
+            }
+        },
+        highlight: function ( element, errorClass, validClass ) {
+            $( element ).addClass( "is-invalid" ).removeClass( "is-valid" );
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
+        },
+        
+        submitHandler: function(formularioSalvar,e){  
+			var id = $('#nome').val();
+			
+            e.preventDefault();
+            $.ajax({
+                headers:{
+                    'X-CSRF-TOKEN':'<?php echo csrf_token() ?>'
+                },
+                url:"{{ url('editarDepartamento') }}",
+                method: "POST",
+                data: $("#formularioEditar").serialize(),
+                success:function(data){
+                    if(data == "Sucesso"){
+                        $('#modalEditarClose').click();
+                        Swal.fire({
+                            text: "Departamento actualizado com sucesso.",
+                            icon: 'success',
+                            confirmButtonText: 'Fechar'
+                        }),
+
+                        carregarDataTable();
+						
+						//id = $('#nome').val('');
+						
+                        //$('#formularioSalvar')[0].reset();
+						//this.$nextTick(() => { $('#formularioSalvar')[0].reset(); });  
+                        //location.reload();
+                        //return false;
+                        //carregarDataTable();
+                    }         
+                },
+                error: function(response){
+					var erro='';
+					if( response.status === 422 ) {
+						$.each(response.responseJSON.errors,function(field_name,error){
+							console.log("CAMPO: "+field_name+"ERRO: "+error);							
+							erro = error+' | '+erro
+						})
+						
+						console.log('ERROS: '+erro);
+						
+						Swal.fire({
+							text: erro,
+							icon: 'error',
+							confirmButtonText: 'Fechar'
+						})
+					}else{
+						Swal.fire({
+							text: 'Ocorreu um erro ao actualizar o departamento.',
+							icon: 'error',
+							confirmButtonText: 'Fechar'
+						})
+					}
+                }
+            });
+        }            
+    });
+
+    $('#formularioEditarrr').submit(function(e){
         e.preventDefault();
 
         var request = new FormData(this);

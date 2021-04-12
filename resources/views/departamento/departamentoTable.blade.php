@@ -4,7 +4,7 @@
             <td>{{$departamento->nome}}</td>
             <td>{{$departamento->email}}</td>
             <td class="text-center">
-                <a href="#" id="{{$departamento->id}}" nome="{{$departamento->nome}}" email="{{$departamento->email}}" telefone="{{$departamento->telefone}}" class="pegar mr-3" title="Editar departamento"><i class='fa fa-pencil-alt'></i></a>
+                <a href="#" id="{{$departamento->id}}" nome="{{$departamento->nome}}" email="{{$departamento->email}}" telefone="{{$departamento->telefone}}" tipo="{{$departamento->tipo}}" class="pegar mr-3" title="Editar departamento"><i class='fa fa-pencil-alt'></i></a>
                 <a href="#" id="{{$departamento->id}}" class="eliminar" title="Eliminar departamento"><i class='fa fa-trash-alt'></i></a>
             </td>
         </tr>
@@ -24,7 +24,7 @@
   jQuery().ready(function(){
     $(".clickable-row").click(function(e){//alert(e.target.tagName);
 		if (e.target.tagName == 'TD') {
-        window.location = $(this).data("href");
+            window.location = $(this).data("href");
 		}
     });
   });

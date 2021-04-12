@@ -61,20 +61,12 @@ class CursoController extends Controller
     }
 
     public function editarCurso(Request $request){
-        /*$validatedData = $request->validate([
-            'nome' => ['required', 'string', 'max:200', 'unique:departamento'],
-            'chefe_departamento' => ['required', 'string', 'max:200'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:departamento'],
-            'telefone' => ['required','min:9', 'max:9', 'unique:departamento'],
+        $validatedData = $request->validate([
+            'nome_edit' => ['required', 'string', 'max:200'],
         ],[
             //Mensagens de validação de erros
-            'nome.required'=>'Por favor, informe o nome do departamento',
-            'chefe_departamento.required'=>'Por favor, informe o nome do chefe do departamento',
-            'email.required'=>'Por favor, informe o email',
-            'telefone.required'=>'Por favor, informe o contacto telefónico',
-            'telefone.min'=>'A quantidade de digítos telefonicos é inferior',
-            'telefone.max'=>'A quantidade de digítos telefonicos é superior',
-        ]);*/
+            'nome_edit.required'=>'Por favor, informe o curso.',
+        ]);
         
         if(DB::table('curso')          
                 ->where('id','=',$request->id_curso)
