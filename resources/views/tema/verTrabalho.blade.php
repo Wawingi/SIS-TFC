@@ -426,21 +426,21 @@ $sessao = session('dados_logado');
                                 </div>
 
                                 <div class="tab-pane fade" id="predefesa">
-                                    <div class="row">
+                                    <div id="showFormPredefesa" class="row">
                                         <div class="col-xl-12">
                                             <div id="accordion" class="mb-3">
                                                 <div class="card mb-1">
-                                                    <div class="card-header" id="headingOne">
+                                                    <div class="card-header" id="headingFour">
                                                         <h5 class="m-0">
-                                                            <a class="text-dark" data-toggle="collapse" href="#collapseOne" aria-expanded="true">
-                                                                <i class="fas fa-book-reader mr-1 text-primary"></i> 
+                                                            <a class="text-primary" data-toggle="collapse" href="#collapseFour" aria-expanded="true">
+                                                                <i class="mdi mdi-plus-circle mr-1 text-primary"></i> 
                                                                 REGISTAR PRÉ DEFESA
                                                             </a>                                                           
                                                         </h5>
                                                     </div>
-                                                    <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordion">
+                                                    <div id="collapseFour" class="collapse hide" aria-labelledby="headingFour" data-parent="#accordion">
                                                         <div class="card-body">
-                                                            <form method="POST" action="{{ url('registarPredefesa') }}"> 
+                                                            <form id="formularioPredefesa" method="POST" action="{{ url('registarPredefesa') }}"> 
                                                                 @csrf
                                                                 <div class="row">
                                                                     <input required type="hidden" value="{{$trabalho->id}}" class="form-control"  name="trabalho_id" id="trabalho_id">  
@@ -477,8 +477,8 @@ $sessao = session('dados_logado');
                                                                 <div class="row">
                                                                     <div class="col-12">
                                                                         <div class="form-group mb-3">
-                                                                            <label for="genero">Recomendações</label><br>
-                                                                            <textarea name="recomendacao" type="text" class="form-control" placeholder="Escreva as recomendações sobre o elemento"></textarea>                                                    
+                                                                            <label for="genero">Nota sobre o Trabalho</label><br>
+                                                                            <textarea name="nota" type="text" class="form-control" placeholder="Escreva as notas sobre o elemento"></textarea>                                                    
                                                                         </div>
                                                                     </div>
                                                                 </div> 
@@ -489,6 +489,88 @@ $sessao = session('dados_logado');
                                                 </div>
                                             </div>
                                         </div>  
+                                    </div>   
+
+                                    <!-- Formulário para editar a predefesa -->                                     
+                                    <div id="showEditFormPredefesa" style="display:none" class="row">
+                                        <div class="col-12">                                            
+                                            <div class="card mb-1">
+                                                <div class="card-header bg-warning">
+                                                    <h5 class="m-0">
+                                                        <a class="text-white" href="#">
+                                                            <i class="fa fa-pencil-alt mr-1 text-white"></i> 
+                                                            ACTUALIZAR PRÉ DEFESA
+                                                        </a>                                                           
+                                                    </h5>
+                                                </div>
+                                                <div>
+                                                    <div class="card-body">
+                                                        <form id="formularioEditarPredefesa" name="formularioEditarPredefesa" method="POST"> 
+                                                            @csrf
+                                                            <div class="row">
+                                                                <input required type="hidden" value="{{$trabalho->id}}" class="form-control"  name="trabalho_id" id="trabalho_id">                                             
+                                                                <input required type="hidden" class="form-control"  name="predefesaid_edit" id="predefesaid_edit">  
+                                                                <div class="col-4">
+                                                                    <div class="form-group mb-3">
+                                                                        <label for="genero">Data</label><br>
+                                                                        <input id="datapredefesa_edit" name="datapredefesa_edit" type="date" class="form-control">                                                    
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <div class="form-group mb-3">
+                                                                        <label for="genero">Avaliação</label><br>
+                                                                        <select  name="avaliacao_edit" id="avaliacao_edit" class="custom-select">
+                                                                            <option value="0">Negativa</option>
+                                                                            <option value="1">Positiva</option>
+                                                                            <option value="2">Medíocre</option>
+                                                                        </select>                                                    
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <div class="form-group mb-3">
+                                                                        <label for="genero">Tipo de Pré Defesa</label><br>
+                                                                        <div style="margin-left:7px;margin-top:10px" class="radio radio-info form-check-inline">
+                                                                            <input type="radio" id="inlineRadio1" value="1" name="tipo_edit" checked>
+                                                                            <label for="inlineRadio1"> Teórica </label>
+                                                                        </div>
+                                                                        <div class="radio form-check-inline">
+                                                                            <input type="radio" id="inlineRadio2" value="2" name="tipo_edit">
+                                                                            <label for="inlineRadio2"> Prática </label>
+                                                                        </div>                                               
+                                                                    </div>
+                                                                </div>
+                                                            </div>                                                            
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <div class="form-group mb-3">
+                                                                        <label for="genero">Nota sobre o Trabalho</label><br>
+                                                                        <textarea id="nota_edit" name="nota_edit" type="text" class="form-control" placeholder="Escreva as notas sobre o elemento"></textarea>                                                    
+                                                                    </div>
+                                                                </div>
+                                                            </div> 
+                                                            <button class="btn btn-warning btn-rounded"><i class="far fa-save"> Actualizar</i></button>                                                           
+                                                            <button type="button" class="fecharFormEditPredefesa btn btn-primary btn-rounded"><i class="far fa-window-close"> Fechar</i></button>        
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <!-- Fim do formulário para editar a predefesa -->             
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="card-box">
+                                                <h5 class="table-title"><i class="fas fa-book-reader mr-1"></i>PRÉ DEFESAS</h5><hr>
+                                                <div class="table-responsive">
+                                                    <table class="table table-borderless mb-0">                                                        
+                                                        <tbody id="predefesaTable">
+                                                                   
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -738,5 +820,248 @@ $sessao = session('dados_logado');
         });
     });
 
+    //Disable future date
+    var today = new Date().toISOString().split('T')[0];
+	document.getElementsByName("datapredefesa")[0].setAttribute('max', today);
+    
+    var today1 = new Date().toISOString().split('T')[0];
+	document.getElementsByName("datapredefesa_edit")[0].setAttribute('max', today1);
+
+    $("#formularioPredefesa").validate({
+        rules: {					
+            datapredefesa: {
+                required: true
+            },
+            nota: {
+                required: true,
+                minlength:5
+            }
+        },
+        messages: {					
+            datapredefesa: {
+                required: "A data deve ser fornecida."
+            },
+            nota: {
+                required: "A recomendação deve ser fornecida.",
+                minlength: "O tamanho do texto fornecido é inferior.",
+            }               
+        },
+        
+        //errorElement: "em",
+        errorPlacement: function ( error, element ) {
+            // Add the invalid-feedback` class to the error element
+            //error.addClass( "invalid-feedback" );
+            if ( element.prop( "type" ) === "checkbox" ) {
+                error.insertAfter( element.next( "label" ) );
+            } else {
+                error.insertAfter( element );
+            }
+        },
+        highlight: function ( element, errorClass, validClass ) {
+            $( element ).addClass( "is-invalid" ).removeClass( "is-valid" );
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
+        },
+        
+        submitHandler: function(formularioSalvar,e){  			
+            e.preventDefault();
+            $.ajax({
+                headers:{
+                    'X-CSRF-TOKEN':'<?php echo csrf_token() ?>'
+                },
+                url:"{{ url('registarPredefesa') }}",
+                method: "POST",
+                data: $("#formularioPredefesa").serialize(),
+                success:function(data){
+                    if(data == "Sucesso"){
+                        $('#formularioPredefesa')[0].reset();
+                        carregarPredefesas();
+                        Swal.fire({
+                            text: "Pré defesa registada com sucesso.",
+                            icon: 'success',
+                            confirmButtonText: 'Fechar'
+                        })
+                    }else if(data == 2){
+                        Swal.fire({
+                            text: "Já foi registada uma pré defesa para este trabalho com esta data.",
+                            icon: 'error',
+                            confirmButtonText: 'Fechar'
+                        })
+                    }         
+                },
+                error: function(response){
+					
+                }
+            });
+        }            
+    });
+
+    $("#formularioEditarPredefesa").validate({
+        rules: {					
+            datapredefesa_edit: {
+                required: true
+            },
+            nota_edit: {
+                required: true,
+                minlength:5
+            }
+        },
+        messages: {					
+            datapredefesa_edit: {
+                required: "A data deve ser fornecida."
+            },
+            nota_edit: {
+                required: "A recomendação deve ser fornecida.",
+                minlength: "O tamanho do texto fornecido é inferior.",
+            }               
+        },
+        
+        //errorElement: "em",
+        errorPlacement: function ( error, element ) {
+            // Add the invalid-feedback` class to the error element
+            //error.addClass( "invalid-feedback" );
+            if ( element.prop( "type" ) === "checkbox" ) {
+                error.insertAfter( element.next( "label" ) );
+            } else {
+                error.insertAfter( element );
+            }
+        },
+        highlight: function ( element, errorClass, validClass ) {
+            $( element ).addClass( "is-invalid" ).removeClass( "is-valid" );
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
+        },
+        
+        submitHandler: function(formularioSalvar,e){  			
+            e.preventDefault();
+            $.ajax({
+                headers:{
+                    'X-CSRF-TOKEN':'<?php echo csrf_token() ?>'
+                },
+                url:"{{ url('editarPredefesa') }}",
+                method: "POST",
+                data: $("#formularioEditarPredefesa").serialize(),
+                success:function(data){
+                    if(data == "Sucesso"){
+                        carregarPredefesas();
+                        $('.fecharFormEditPredefesa').click();
+                        Swal.fire({
+                            text: "Pré defesa actualizada com sucesso.",
+                            icon: 'success',
+                            timer: 1500,
+                            confirmButtonText: 'Fechar'
+                        })
+                    }else if(data == 2){
+                        Swal.fire({
+                            text: "Já foi registada uma pré defesa para este trabalho na data de hoje.",
+                            icon: 'error',
+                            confirmButtonText: 'Fechar'
+                        })
+                    }         
+                },
+                error: function(response){
+					
+                }
+            });
+        }            
+    });
+
+    function carregarPredefesas(){
+        var trabalho_id = $('#trabalho_id').val(); 
+        $.ajax({
+            url: "{{ url('listarPredefesaTrabalho') }}/"+trabalho_id,
+            success:function(data){
+                $('#predefesaTable').html(data);
+            },
+            error: function(e)
+			{
+				alert("erro ao carregar dados");
+			}
+        })
+    }
+    carregarPredefesas();
+
+    //Chamar o formulario para editar predefesa
+    $(document).on('click','.showEditPredefesa',function(e){
+        e.preventDefault();
+        var id = $(this).attr('id');        
+        var datapredefesa = $(this).attr('datapredefesa');
+        var tipo = $(this).attr('tipo');
+        var avaliacao = $(this).attr('avaliacao');
+        var nota = $(this).attr('nota');
+
+        document.getElementById("showFormPredefesa").style.display = 'none';
+        document.getElementById("showEditFormPredefesa").style.display = 'block';
+       
+        $('#predefesaid_edit').val(id);
+        $('#avaliacao_edit').val(avaliacao);
+        $('#nota_edit').val(nota);
+        $('#datapredefesa_edit').val(datapredefesa);
+     
+        switch(tipo){
+            case 'Teórica': document.formularioEditarPredefesa.tipo_edit[0].checked=true;break;
+            case 'Prática': document.formularioEditarPredefesa.tipo_edit[1].checked=true;break;
+        }
+        
+        switch(avaliacao){
+            case 'Negativa': document.getElementById("avaliacao_edit").value = 0;break;
+            case 'Positiva': document.getElementById("avaliacao_edit").value = 1;break;
+            case 'Medíocre': document.getElementById("avaliacao_edit").value = 2;break;
+        }
+    });
+
+    //Fechar o formulario aberto na edição da predefesa
+    $(document).on('click','.fecharFormEditPredefesa',function(e){
+        document.getElementById("showFormPredefesa").style.display = 'block';
+        document.getElementById("showEditFormPredefesa").style.display = 'none';
+    });
+  
+    //Eliminar uma predefesa
+    $(document).on('click','.eliminarPredefesa',function(e){
+        Swal.fire({
+			  title: 'Deseja realmente eliminar a pré defesa?',
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: 'Eliminar',
+              cancelButtonText: 'Cancelar'
+			}).then((result) => {
+                if (result.value) {
+                    e.preventDefault();
+                    var id = $(this).attr('id');
+                    $.ajax({
+                        url: "{{ url('eliminarPredefesa') }}/"+id,
+                        type: "GET",
+                        success: function(data){
+                            if(data==1){
+                                carregarPredefesas();
+                                Swal.fire({
+                                    text: 'Eliminado com Sucesso.',
+                                    icon: 'success',
+                                    timer: 1500
+                                })
+                            }else{
+                                Swal.fire({
+                                    text: 'Ocorreu um erro ao eliminar a pré defesa.',
+                                    icon: 'error',
+                                    confirmButtonText: 'Fechar'
+                                })
+                            }
+                        },
+                        error: function(e)
+                        {
+                            Swal.fire({
+                                text: 'Ocorreu um erro ao eliminar a pré defesa.',
+                                icon: 'error',
+                                confirmButtonText: 'Fechar'
+                            })
+                        }
+                    });
+                }
+		});
+    });
 </script>
 @stop

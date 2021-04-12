@@ -22,6 +22,7 @@ class Sugestao extends Model
             ->where('proveniencia', '=', $id)
             ->where('departamento.id', '=', $id_departamento)
             ->orderBy('area_aplicacao.nome')
+            ->groupBy('sugestao.id')
             ->get();
     }
 

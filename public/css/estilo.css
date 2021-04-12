@@ -134,3 +134,11 @@ hr {
 .waiting{
     color:orange;
 }
+
+.texto-predefesa{
+    font-weight: bold;
+}
+
+.icon-texto-predefesa{
+    color:rgb(20, 190, 20);
+}
