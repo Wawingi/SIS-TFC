@@ -45,7 +45,7 @@ class ItemController extends Controller
             $item->titulo=$request->titulo;
             $item->anexo=$novoFicheiro;
             $item->id_trabalho=$request->trabalho_id;
-            $item->avaliacao=3;
+            $item->avaliacao=3;  //0:Negativa | 1: Positiva | 3: Neutro
 
             if($item->save()){
                 echo $request->titulo;
@@ -63,6 +63,27 @@ class ItemController extends Controller
         
                     if(is_object($elemento)) 
                         return view('tema.elementoTable',compact('elemento'));
+    }
+    
+    //Retorna as avaliações de um elemento
+    public function pegaElementosAvaliacao($id_Trabalho){
+        $avaliacoes = DB::table('item')
+                    ->select('titulo','avaliacao')
+                    ->where('id_trabalho','=',$id_Trabalho)
+                    ->get();
+        $pretextual;$textual;$postextual;
+        
+        foreach($avaliacoes as $av){
+            if($av->titulo==1)
+                $pretextual=$av->avaliacao;
+            else if($av->titulo==2)
+                $textual=$av->avaliacao;
+            else if($av->titulo==3)
+                $postextual=$av->avaliacao;
+        }
+       
+        $avaliacoes = array("prTextual" => $pretextual,"textual" => $textual,"psTextual" => $postextual);
+        return $avaliacoes;
     }
 
     //Abrir o pdf de um item anexado

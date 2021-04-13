@@ -30,6 +30,17 @@ class Helper extends Model
         return $novoNome;
     }
 
+    //Mover relatorios do trabalho
+    public static function moverRelatorioFicheiro($anexo, $trabalho_tema, $trabalho_id)
+    {
+        $novoNome = $anexo->getClientOriginalName();
+        $novoNome = Str_replace($novoNome, 'Relatorio_'.$trabalho_tema .'_'. $trabalho_id .'.pdf', $novoNome);
+        
+        $anexo->storeAs('trabalhos/', $novoNome);
+       
+        return $novoNome;
+    }
+
     public static function eliminarFicheiro($ficheiro, $pasta)
     {
         $path = public_path('storage/' . $pasta . '/' . $ficheiro);

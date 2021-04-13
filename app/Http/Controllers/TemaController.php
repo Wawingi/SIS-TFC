@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Model\Tema;
+use App\Model\Helper;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class TemaController extends Controller
 {
@@ -62,5 +64,33 @@ class TemaController extends Controller
     {
         $envolventes = Tema::getEnvolventes($idTrabalho);
         return view('tema.envolventesTable', compact('envolventes', 'estadoSugestao'));
+    }
+
+    //Função para anexar o relatório final
+    public function registarRelatorioFinal(Request $request){
+        $request->validate([
+            'relatorio' => ['required', 'mimes:pdf', 'max:4000'],
+            'id_trabalho' => ['required'],
+            'tema_trabalho' => ['required'],
+        ], [
+            //Mensagens de validação de erros
+            'relatorio.required' => 'O ficheiro deve ser anexado.',
+            'relatorio.max' => 'O ficheiro possúi um tamanho maior do estabelecido.',
+            'relatorio.mimes' => 'Anexe um ficheiro PDF válido.',
+        ]);        
+    
+        //Verificar a extensão e o tamanho do ficheiro a anexar
+        if ($request->file('relatorio')->isValid()) {
+            $novoFicheiro = Helper::moverRelatorioFicheiro($request->file('relatorio'),$request->tema_trabalho,$request->id_trabalho); 
+            $trabalho = Tema::find($request->id_trabalho);
+            $trabalho->descricao = $novoFicheiro;
+            if($trabalho->save()){
+                return back()->with('info','Relatório anexado com sucesso.');
+            }else{
+                return back()->with('error','Houve um erro ao anexar o relatório.');
+            }
+        }else{
+            return back()->with('error','Houve um erro ao anexar o relatório.');
+        }
     }
 }

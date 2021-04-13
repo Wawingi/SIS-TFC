@@ -123,12 +123,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pegaTemas', 'TemaController@pegaTrabalhos');
     Route::get('verTrabalho/{id}', 'TemaController@verTrabalho');
     Route::get('verEnvolventesTrabalho/{id}', 'TemaController@verEnvolventesTrabalho');
+    Route::post('registarRelatorioFinal','TemaController@registarRelatorioFinal');
+    Route::get('verMeuTrabalho','TemaController@verMeuTrabalho');
     Route::post('registarItem','ItemController@registarItem');
-    //Route::get('pegaItemPretextual/{idTrabalho}/{itemTipo}','ItemController@pegaItemPretextual');
     Route::get('pegaElemento/{idTrabalho}/{itemTipo}','ItemController@pegaElemento');
+    Route::get('pegaElementosAvaliacao/{idTrabalho}','ItemController@pegaElementosAvaliacao');
     Route::get('abrirItem/{idItem}','ItemController@abrirItem');
     Route::post('avaliarItem','ItemController@avaliarItem');
-    Route::get('verMeuTrabalho','TemaController@verMeuTrabalho');
 });
 
 //Rotas para configurações
@@ -160,6 +161,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('editarPredefesa', 'DefesaController@editarPredefesa');
     Route::get('listarPredefesaTrabalho/{Trabalho_id}', 'DefesaController@listarPredefesaTrabalho');
     Route::get('eliminarPredefesa/{Predefesa_id}', 'DefesaController@eliminarPredefesa');
+    Route::post('registarProvapublica', 'DefesaController@registarProvapublica');
+    Route::post('registarNotaInformativa', 'DefesaController@registarNotaInformativa');
+    Route::get('listarNotaInformativa/{Trabalho_id}', 'DefesaController@listarNotaInformativa');
+    Route::get('checkTrabalhoNotaInformativa/{Trabalho_id}', 'DefesaController@checkTrabalhoNotaInformativa');
+    Route::get('eliminarNotaInformativa/{id_Nota}', 'DefesaController@eliminarNotaInformativa');
+    Route::get('listarProvapublica/{Trabalho_id}', 'DefesaController@listarProvapublica');
 });
 
 Route::post('logar', 'Auth\LoginController@authenticate');

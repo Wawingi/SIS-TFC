@@ -42,10 +42,8 @@ $sessao = session('dados_logado');
                 </button>
             </div>
         @endif
-
         <!--Inicio do conteudo-->
                 <br>
-
                 <div class="row">
                     <div class="col-12">
                         <div class="card-box">
@@ -57,13 +55,7 @@ $sessao = session('dados_logado');
                                                 <span class="d-inline-block d-sm-none"><i class="fas fa-book-open"></i></span>
                                                 <span class="d-none d-sm-inline-block"><i class="fas fa-book-open"></i> Dados</span>
                                             </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="#descricao" data-toggle="tab" aria-expanded="false" class="nav-link ">
-                                                <span class="d-inline-block d-sm-none"><i class="fas fa-file-pdf"></i></span>
-                                                <span class="d-none d-sm-inline-block"><i class="fas fa-file-pdf"></i> Descrição</span>
-                                            </a>
-                                        </li>
+                                        </li>                                        
                                         <li class="nav-item">
                                             <a href="#evolucao" data-toggle="tab" aria-expanded="false" class="nav-link">
                                                 <span class="d-inline-block d-sm-none"><i class="fas fa-clipboard-list"></i></span>
@@ -71,9 +63,21 @@ $sessao = session('dados_logado');
                                             </a>
                                         </li>
                                         <li class="nav-item">
+                                            <a href="#relatorio" data-toggle="tab" aria-expanded="false" class="nav-link ">
+                                                <span class="d-inline-block d-sm-none"><i class="fas fa-file-pdf"></i></span>
+                                                <span class="d-none d-sm-inline-block"><i class="fas fa-file-pdf"></i> Relatório Final</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
                                             <a href="#predefesa" data-toggle="tab" aria-expanded="false" class="nav-link">
                                                 <span class="d-inline-block d-sm-none"><i class="fas fa-user-edit"></i></span>
                                                 <span class="d-none d-sm-inline-block"><i class="fas fa-user-edit"></i> Pré Defesas</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#notainformativa" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                                <span class="d-inline-block d-sm-none"><i class="fas fa-edit"></i></span>
+                                                <span class="d-none d-sm-inline-block"><i class="fas fa-edit"></i> Nota Informativa</span>
                                             </a>
                                         </li>
                                         <li class="nav-item">
@@ -183,15 +187,7 @@ $sessao = session('dados_logado');
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="tab-pane fade" id="descricao">
-                                    <iframe
-                                        src='{{ url("/storage/propostas/{$trabalho->descricao}") }}'
-                                        type="applicatios/pdf"
-                                        height="700px"
-                                        width="100%">
-                                    </iframe>
-                                </div>
+                               
                                 <!-- Secção da evolução do trabalho -->
                                 <div class="tab-pane fade" id="evolucao">
                                     <div class="row">
@@ -200,7 +196,7 @@ $sessao = session('dados_logado');
                                                 <div class="card mb-1">
                                                     <div class="card-header" id="headingOne">
                                                         <h5 class="m-0">
-                                                            <a class="text-dark" data-toggle="collapse" href="#collapseOne" aria-expanded="true">
+                                                            <a class="text-dark" title="Clique aqui para expandir" data-toggle="collapse" href="#collapseOne" aria-expanded="true">
                                                                 <i class="mdi mdi-notebook mr-1 text-primary"></i> 
                                                                 ELEMENTOS PRÉ-TEXTUAIS
                                                             </a>
@@ -257,7 +253,7 @@ $sessao = session('dados_logado');
                                                                         </div>
                                                                         <div style="display:none" id="mostraComentario1" class="col-sm-8 mostraComentario">
                                                                             <div class="form-group mb-3">
-                                                                                <label for="genero">Comentário</label><br>
+                                                                                <label for="genero">Anotações</label><br>
                                                                                 <textarea name="comentario" type="text" class="form-control" placeholder="Escreva o seu comentário referente ao conteúdo"></textarea>                                                    
                                                                             </div>
                                                                         </div>
@@ -276,7 +272,7 @@ $sessao = session('dados_logado');
                                                 <div class="card mb-1">
                                                     <div class="card-header" id="headingTwo">
                                                         <h5 class="m-0">
-                                                            <a class="text-dark" data-toggle="collapse" href="#collapseTwo" aria-expanded="false">
+                                                            <a class="text-dark" title="Clique aqui para expandir" data-toggle="collapse" href="#collapseTwo" aria-expanded="false">
                                                                 <i class="mdi mdi-notebook mr-1 text-primary"></i> 
                                                                 ELEMENTOS TEXTUAIS
                                                             </a>
@@ -332,7 +328,7 @@ $sessao = session('dados_logado');
                                                                         </div>
                                                                         <div style="display:none" id="mostraComentario2" class="col-sm-8 mostraComentario">
                                                                             <div class="form-group mb-3">
-                                                                                <label for="genero">Comentário</label><br>
+                                                                                <label for="genero">Anotações</label><br>
                                                                                 <textarea name="comentario" type="text" class="form-control" placeholder="Escreva o seu comentário referente ao conteúdo"></textarea>                                                    
                                                                             </div>
                                                                         </div>
@@ -351,7 +347,7 @@ $sessao = session('dados_logado');
                                                 <div class="card mb-1">
                                                     <div class="card-header" id="headingThree">
                                                         <h5 class="m-0">
-                                                            <a class="text-dark" data-toggle="collapse" href="#collapseThree" aria-expanded="false">
+                                                            <a class="text-dark" title="Clique aqui para expandir" data-toggle="collapse" href="#collapseThree" aria-expanded="false">
                                                                 <i class="mdi mdi-notebook mr-1 text-primary"></i> 
                                                                 ELEMENTOS PÓS-TEXTUAIS
                                                             </a>
@@ -407,7 +403,7 @@ $sessao = session('dados_logado');
                                                                         </div>
                                                                         <div style="display:none" id="mostraComentario3" class="col-sm-8 mostraComentario">
                                                                             <div class="form-group mb-3">
-                                                                                <label for="genero">Comentário</label><br>
+                                                                                <label for="genero">Anotações</label><br>
                                                                                 <textarea name="comentario" type="text" class="form-control" placeholder="Escreva o seu comentário referente ao conteúdo"></textarea>                                                    
                                                                             </div>
                                                                         </div>
@@ -424,7 +420,53 @@ $sessao = session('dados_logado');
                                         </div>  
                                     </div>
                                 </div>
-
+                                 
+                                <!-- Secção do relatorio final-->
+                                <div class="tab-pane fade" id="relatorio">
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <div id="accordion" class="mb-3">
+                                                <div class="card mb-1">
+                                                    <div class="card-header" id="headingFour">
+                                                        <h5 class="m-0">
+                                                            <a class="text-primary" title="Clique aqui para expandir" data-toggle="collapse" href="#collapseFour" aria-expanded="true">
+                                                                <i class="mdi mdi-plus-circle mr-1 text-primary"></i> 
+                                                                ANEXAR O RELATÓRIO FINAL
+                                                            </a>                                                           
+                                                        </h5>
+                                                    </div>
+                                                    <div id="collapseFour" class="collapse hide" aria-labelledby="headingFour" data-parent="#accordion">
+                                                        <div class="card-body">
+                                                            <form id="formularioRelatorioFinal" method="POST" action="{{ url('registarRelatorioFinal') }}" enctype="multipart/form-data"> 
+                                                                @csrf
+                                                                <div class="row">
+                                                                    <input required type="hidden" value="{{$trabalho->id}}" class="form-control"  name="id_trabalho" id="id_trabalho">  
+                                                                    <input required type="hidden" value="{{$trabalho->tema}}" class="form-control"  name="tema_trabalho" id="tema_trabalho">  
+                                                                    <div class="input-group">
+                                                                        <input type="file" required class="form-control form-control-sm" placeholder="Escolha o ficheiro" accept="application/pdf" id="relatorio" name="relatorio">
+                                                                        <div class="input-group-append">
+                                                                            <button class="btn btn-sm btn-success waves-effect waves-light" type="submit">OK</button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <span style="color:red;font-style:italic">tamanho máximo 4Mb</span>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <iframe
+                                        src='{{ url("/storage/trabalhos/{$trabalho->descricao}") }}'
+                                        type="applicatios/pdf"
+                                        height="700px"
+                                        width="100%">
+                                    </iframe>
+                                </div>
+                                
+                                <!-- Secção da predefesa -->            
                                 <div class="tab-pane fade" id="predefesa">
                                     <div id="showFormPredefesa" class="row">
                                         <div class="col-xl-12">
@@ -432,13 +474,13 @@ $sessao = session('dados_logado');
                                                 <div class="card mb-1">
                                                     <div class="card-header" id="headingFour">
                                                         <h5 class="m-0">
-                                                            <a class="text-primary" data-toggle="collapse" href="#collapseFour" aria-expanded="true">
+                                                            <a class="text-primary" data-toggle="collapse" href="#collapsePredefesa" aria-expanded="true">
                                                                 <i class="mdi mdi-plus-circle mr-1 text-primary"></i> 
                                                                 REGISTAR PRÉ DEFESA
                                                             </a>                                                           
                                                         </h5>
                                                     </div>
-                                                    <div id="collapseFour" class="collapse hide" aria-labelledby="headingFour" data-parent="#accordion">
+                                                    <div id="collapsePredefesa" class="collapse hide" aria-labelledby="headingFour" data-parent="#accordion">
                                                         <div class="card-body">
                                                             <form id="formularioPredefesa" method="POST" action="{{ url('registarPredefesa') }}"> 
                                                                 @csrf
@@ -574,10 +616,187 @@ $sessao = session('dados_logado');
                                     </div>
                                 </div>
 
-                                <div class="tab-pane fade" id="provapublica">
-                                    <div id="card-view" class="card-body">
-
+                                <!-- Secção da nota informativa --> 
+                                <div class="tab-pane fade" id="notainformativa">
+                                    <div id="showFormNI" style="display:none" class="row">
+                                        <div class="col-xl-12">
+                                            <div id="accordion" class="mb-3">
+                                                <div class="card mb-1">
+                                                    <div class="card-header" id="headingFour">
+                                                        <h5 class="m-0">
+                                                            <a class="text-primary" title="Clique aqui para expandir" data-toggle="collapse" href="#collapseNotaInformativa" aria-expanded="true">
+                                                                <i class="mdi mdi-plus-circle mr-1 text-primary"></i> 
+                                                                INFORMAR SOBRE PROVA PÚBLICA
+                                                            </a>                                                           
+                                                        </h5>
+                                                    </div>
+                                                    <div id="collapseNotaInformativa" class="collapse hide" aria-labelledby="headingFour" data-parent="#accordion">
+                                                        <div class="card-body">
+                                                            <form id="formularioNotaInformativa" method="POST"> 
+                                                                @csrf
+                                                                <div class="row">
+                                                                    <input required type="hidden" value="{{$trabalho->id}}" class="form-control"  name="id_trabalho" id="id_trabalho">  
+                                                                    <div class="col-6">
+                                                                        <div class="form-group mb-3">
+                                                                            <label>Data</label><br>
+                                                                            <input id="datadefesa" name="datadefesa" type="datetime-local" class="form-control">                                                    
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                    <div class="col-6">
+                                                                        <div class="form-group mb-3">
+                                                                            <label>Local da Defesa</label><br>
+                                                                            <input type="text" id="local" name="local" placeholder="Informe o local da realização" class="form-control">                                       
+                                                                        </div>
+                                                                    </div>
+                                                                </div> 
+                                                                <div class="row">
+                                                                    <div class="col-6">
+                                                                        <div class="form-group mb-3">
+                                                                            <label>Presidente</label><br>
+                                                                            <input type="text" id="presidente" name="presidente" placeholder="Informe o nome do preseidente" class="form-control">                                       
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <div class="form-group mb-3">
+                                                                            <label>Secrétário</label><br>
+                                                                            <input type="text" id="secretario" name="secretario" placeholder="Informe o nome do secretário" class="form-control">                                       
+                                                                        </div>
+                                                                    </div>
+                                                                </div>                                                           
+                                                                <div class="row">
+                                                                    <div class="col-6">
+                                                                        <div class="form-group mb-3">
+                                                                            <label>1º Vogal</label><br>
+                                                                            <input type="text" id="vogal_1" name="vogal_1" placeholder="Informe o nome do 1º Vogal" class="form-control">                                       
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <div class="form-group mb-3">
+                                                                            <label>2º Vogal</label><br>
+                                                                            <input type="text" id="vogal_2" name="vogal_2" placeholder="Informe o nome do 2º Vogal" class="form-control">                                       
+                                                                        </div>
+                                                                    </div>
+                                                                </div>     
+                                                                <button class="btn btn-primary btn-rounded"><i class="far fa-save"> Registar</i></button>                                                           
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
                                     </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div style="height:90%" class="card">
+                                                <div class="card-body">
+                                                    <table id="notainformativaTable"  class="table table-borderless mb-0">
+                                                                
+                                                    </table>                
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>         
+                                </div>
+
+
+                                <!-- Secção da prova publica ou defesa -->                                        
+                                <div class="tab-pane fade" id="provapublica">
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <div id="accordion" class="mb-3">
+                                                <div class="card mb-1">
+                                                    <div class="card-header" id="headingFour">
+                                                        <h5 class="m-0">
+                                                            <a class="text-primary" title="Clique aqui para expandir" data-toggle="collapse" href="#collapseFour" aria-expanded="true">
+                                                                <i class="mdi mdi-plus-circle mr-1 text-primary"></i> 
+                                                                REGISTAR PROVA PÚBLICA
+                                                            </a>                                                           
+                                                        </h5>
+                                                    </div>
+                                                    <div id="collapseFour" class="collapse hide" aria-labelledby="headingFour" data-parent="#accordion">
+                                                        <div class="card-body">
+                                                            <form id="formularioProvaPublicaa" method="POST" action="{{ url('registarProvapublica') }}"> 
+                                                                @csrf
+                                                                @php 
+                                                                    $ni= App\Model\NotaInformativa::where('id_trabalho',$trabalho->id)->select('id','created_at','local','presidente','secretario','vogal_1','vogal_2')->first()                                                   
+                                                                @endphp
+                                                                <div class="row">
+                                                                    <input required type="hidden" value="{{$trabalho->id}}" class="form-control"  name="id_trabalho" id="id_trabalho">  
+                                                                    <input required type="text" value="{{$ni->id}}" class="form-control"  name="id_nota" id="id_nota">  
+                                                                    <div class="col-4">
+                                                                        <div class="form-group mb-3">
+                                                                            <label>Data</label><br>
+                                                                            <input id="data_defesa" name="data_defesa" type="date" class="form-control">                                                    
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-4">
+                                                                        <div class="form-group mb-3">
+                                                                            <label>Nota da Defesa</label><br>
+                                                                            <input type="number" id="nota" name="nota" placeholder="Informe a nota da defesa" class="form-control">                                                  
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-4">
+                                                                        <div class="form-group mb-3">
+                                                                            <label>Local da Defesa</label><br>
+                                                                            <input @if(is_object($ni))value="{{$ni->local}}" @endif id="input-provapublica" disabled type="text" class="form-control">                                       
+                                                                        </div>
+                                                                    </div>
+                                                                </div> 
+                                                                <div class="row">
+                                                                    <div class="col-6">
+                                                                        <div class="form-group mb-3">
+                                                                            <label>Presidente</label><br>
+                                                                            <input  @if(is_object($ni)) value="{{$ni->presidente}}" @endif  id="input-provapublica" disabled type="text" class="form-control">                                       
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <div class="form-group mb-3">
+                                                                            <label>Secrétário</label><br>
+                                                                            <input @if(is_object($ni)) value="{{$ni->secretario}}" @endif id="input-provapublica" disabled type="text" class="form-control">                                       
+                                                                        </div>
+                                                                    </div>
+                                                                </div>                                                           
+                                                                <div class="row">
+                                                                    <div class="col-6">
+                                                                        <div class="form-group mb-3">
+                                                                            <label>1º Vogal</label><br>
+                                                                            <input @if(is_object($ni)) value="{{$ni->vogal_1}}" @endif id="input-provapublica" disabled type="text" class="form-control">                                       
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <div class="form-group mb-3">
+                                                                            <label>2º Vogal</label><br>
+                                                                            <input @if(is_object($ni)) value="{{$ni->vogal_2}}" @endif id="input-provapublica" disabled type="text" class="form-control">                                       
+                                                                        </div>
+                                                                    </div>
+                                                                </div>                                                           
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="form-group mb-3">
+                                                                            <label>Recomendações</label><br>
+                                                                            <textarea name="recomendacao" type="text" rows="5" class="form-control" placeholder="Escreva as recomendações sobre a prova pública"></textarea>                                                    
+                                                                        </div>
+                                                                    </div>
+                                                                </div> 
+                                                                <button class="btn btn-primary btn-rounded"><i class="far fa-save"> Registar</i></button>                                                           
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>  
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div style="height:85%" class="card">
+                                                <div id="provapublicaTable" class="card-body">
+                                         
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                   
                                 </div>
                             </div>
                         </div>
@@ -733,6 +952,39 @@ $sessao = session('dados_logado');
     };
     carregarTablePostextual();
 
+    //Mudar a cor do item-elemento aprovado ou rejeitado
+    function mudarCorCabecalho(){
+        var id_trabalho = $('#trabalho_id').val();
+        $.ajax({
+            url: "{{ url('pegaElementosAvaliacao') }}/"+id_trabalho,
+            success:function(data){
+
+                if(data.prTextual==1){
+                    document.getElementById("headingOne").style.background = '#91FBBE';
+                } else if(data.prTextual==0){ 
+                    document.getElementById("headingOne").style.background = '#FDB5AF';
+                }
+
+                if(data.textual==1){
+                    document.getElementById("headingTwo").style.background = '#91FBBE';
+                } else if(data.textual==0){ 
+                    document.getElementById("headingTwo").style.background = '#FDB5AF';
+                }
+
+                if(data.psTextual==1){
+                    document.getElementById("headingThree").style.background = '#91FBBE';
+                } else if(data.psTextual==0){ 
+                    document.getElementById("headingThree").style.background = '#FDB5AF';
+                }
+            },
+            error: function(e)
+			{
+				alert("erro ao carregar dados");
+			}
+        })        
+    }
+    mudarCorCabecalho();
+
     //Registar elemento ou item
     $('.formElemento').submit(function(e){  
         e.preventDefault();
@@ -767,6 +1019,7 @@ $sessao = session('dados_logado');
                             carregarTableTextual();
                             carregarTablePostextual();
                             fecharAnexo(data);
+                            mudarCorCabecalho();
                         //}
                     },
                     error: function(e){
@@ -807,6 +1060,7 @@ $sessao = session('dados_logado');
                     carregarTableTextual();
                     carregarTablePostextual();
                     showAvaliacaoElemento(0);
+                    mudarCorCabecalho();
                 }
             },
             error: function(e){
@@ -1017,7 +1271,7 @@ $sessao = session('dados_logado');
         document.getElementById("showFormPredefesa").style.display = 'block';
         document.getElementById("showEditFormPredefesa").style.display = 'none';
     });
-  
+    
     //Eliminar uma predefesa
     $(document).on('click','.eliminarPredefesa',function(e){
         Swal.fire({
@@ -1063,5 +1317,321 @@ $sessao = session('dados_logado');
                 }
 		});
     });
+
+    //Mostrar a parte do registo da nota informativa
+    function showFormNotaInformativa(){
+        var id_trabalho = $('#trabalho_id').val();
+        $.ajax({
+            url: "{{ url('checkTrabalhoNotaInformativa') }}/"+id_trabalho,
+            success:function(data){
+                console.log(data);
+                if(data==1){
+                    document.getElementById("showFormNI").style.display = 'none';
+                }else{ 
+                    document.getElementById("showFormNI").style.display = 'block';
+                }
+            },
+            error: function(e)
+			{
+				alert("erro ao carregar dados");
+			}
+        })        
+    }
+    showFormNotaInformativa();
+
+    //Nota informativa
+    $("#formularioNotaInformativa").validate({
+        rules: {					
+            datadefesa: {
+                required: true
+            },
+            local: {
+                required: true,
+            },
+            presidente: {
+                required: true,
+                pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈõÕóÓúÚâêôÂÊÔ\s]+$/      
+            },
+            secretario: {
+                required: true,
+                pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈõÕóÓúÚâêôÂÊÔ\s]+$/     
+            },
+            vogal_1: {
+                required: true,
+                pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈõÕóÓúÚâêôÂÊÔ\s]+$/     
+            },
+            vogal_2: {
+                required: true,
+                pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈõÕóÓúÚâêôÂÊÔ\s]+$/     
+            },
+        },
+        messages: {					
+            datadefesa: {
+                required: "A data deve ser fornecida."
+            },           
+            local: {
+                required: "O local deve ser fornecida."               
+            },               
+            presidente: {
+                required: "O nome do presidente deve ser fornecida.",
+                pattern: "Informe um nome contendo apenas letras alfabéticas"         
+            },               
+            secretario: {
+                required: "O nome do secretário deve ser fornecido.",
+                pattern: "Informe um nome contendo apenas letras alfabéticas"                    
+            },               
+            vogal_1: {
+                required: "O nome do 1º vogal deve ser fornecido.",
+                pattern: "Informe um nome contendo apenas letras alfabéticas"                    
+            },               
+            vogal_2: {
+                required: "O nome do 2º vogal deve ser fornecida.",
+                pattern: "Informe um nome contendo apenas letras alfabéticas"                    
+            }                
+        },
+        
+        //errorElement: "em",
+        errorPlacement: function ( error, element ) {
+            // Add the invalid-feedback` class to the error element
+            //error.addClass( "invalid-feedback" );
+            if ( element.prop( "type" ) === "checkbox" ) {
+                error.insertAfter( element.next( "label" ) );
+            } else {
+                error.insertAfter( element );
+            }
+        },
+        highlight: function ( element, errorClass, validClass ) {
+            $( element ).addClass( "is-invalid" ).removeClass( "is-valid" );
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
+        },
+        
+        submitHandler: function(formularioNotaInformativa,e){  			
+            e.preventDefault();
+            $.ajax({
+                headers:{
+                    'X-CSRF-TOKEN':'<?php echo csrf_token() ?>'
+                },
+                url:"{{ url('registarNotaInformativa') }}",
+                method: "POST",
+                data: $("#formularioNotaInformativa").serialize(),
+                success:function(data){
+                    if(data == "Sucesso"){
+                        $('#formularioNotaInformativa')[0].reset();
+                        carregarNotaInformativa();
+                        showFormNotaInformativa();
+                        
+                        Swal.fire({
+                            text: "Nota informativa registada com sucesso..",
+                            icon: 'success',
+                            timer: 1500,
+                            confirmButtonText: 'Fechar'
+                        })
+                    }else{
+                        Swal.fire({
+                            text: "Houve erro ao registar a nota informativa.",
+                            icon: 'error',
+                            timer: 1500,
+                            confirmButtonText: 'Fechar'
+                        })
+                    }         
+                },
+                error: function(response){
+					
+                }
+            });
+        }            
+    });
+
+     //Eliminar nota informativa
+     $(document).on('click','.eliminarNotaInformativa',function(e){
+        Swal.fire({
+			  title: 'Deseja realmente eliminar a nota informativa?',
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: 'Eliminar',
+              cancelButtonText: 'Cancelar'
+			}).then((result) => {
+                if (result.value) {
+                    e.preventDefault();
+                    var id_Nota = $(this).attr('id');
+                    $.ajax({
+                        url: "{{ url('eliminarNotaInformativa') }}/"+id_Nota,
+                        type: "GET",
+                        success: function(data){
+                            if(data==1){
+                                carregarNotaInformativa();
+                                showFormNotaInformativa();
+                                
+                                Swal.fire({
+                                    text: 'Eliminado com Sucesso.',
+                                    icon: 'success',
+                                    timer: 1500
+                                })
+                            }else{
+                                Swal.fire({
+                                    text: 'Ocorreu um erro ao eliminar.',
+                                    icon: 'error',
+                                    confirmButtonText: 'Fechar'
+                                })
+                            }
+                        },
+                        error: function(e)
+                        {
+                            Swal.fire({
+                                text: 'Ocorreu um erro ao eliminar.',
+                                icon: 'error',
+                                confirmButtonText: 'Fechar'
+                            })
+                        }
+                    });
+                }
+		});
+    });
+
+
+    //Prova pública
+    $("#formularioProvaPublica").validate({
+        rules: {					
+            datadefesa: {
+                required: true
+            },
+            nota: {
+                required: true,
+                max:20,
+                min:0
+            },
+            local: {
+                required: true,
+            },
+            presidente: {
+                required: true,
+                pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈõÕóÓúÚâêôÂÊÔ\s]+$/      
+            },
+            secretario: {
+                required: true,
+                pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈõÕóÓúÚâêôÂÊÔ\s]+$/     
+            },
+            vogal_1: {
+                required: true,
+                pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈõÕóÓúÚâêôÂÊÔ\s]+$/     
+            },
+            vogal_2: {
+                required: true,
+                pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈõÕóÓúÚâêôÂÊÔ\s]+$/     
+            },
+        },
+        messages: {					
+            datadefesa: {
+                required: "A data deve ser fornecida."
+            },
+            nota: {
+                required: "A nota deve ser fornecida.",
+                max: "O valor máximo deve ser 20 valores.",               
+                min: "O valor mínimo deve ser 0 valores."               
+            },               
+            local: {
+                required: "O local deve ser fornecida."               
+            },               
+            presidente: {
+                required: "O nome do presidente deve ser fornecida.",
+                pattern: "Informe um nome contendo apenas letras alfabéticas"         
+            },               
+            secretario: {
+                required: "O nome do secretário deve ser fornecido.",
+                pattern: "Informe um nome contendo apenas letras alfabéticas"                    
+            },               
+            vogal_1: {
+                required: "O nome do 1º vogal deve ser fornecido.",
+                pattern: "Informe um nome contendo apenas letras alfabéticas"                    
+            },               
+            vogal_2: {
+                required: "O nome do 2º vogal deve ser fornecida.",
+                pattern: "Informe um nome contendo apenas letras alfabéticas"                    
+            }       
+        },
+        
+        //errorElement: "em",
+        errorPlacement: function ( error, element ) {
+            // Add the invalid-feedback` class to the error element
+            //error.addClass( "invalid-feedback" );
+            if ( element.prop( "type" ) === "checkbox" ) {
+                error.insertAfter( element.next( "label" ) );
+            } else {
+                error.insertAfter( element );
+            }
+        },
+        highlight: function ( element, errorClass, validClass ) {
+            $( element ).addClass( "is-invalid" ).removeClass( "is-valid" );
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
+        },
+        
+        submitHandler: function(formularioSalvar,e){  			
+            e.preventDefault();
+            $.ajax({
+                headers:{
+                    'X-CSRF-TOKEN':'<?php echo csrf_token() ?>'
+                },
+                url:"{{ url('registarPredefesa') }}",
+                method: "POST",
+                data: $("#formularioPredefesa").serialize(),
+                success:function(data){
+                    if(data == "Sucesso"){
+                        $('#formularioPredefesa')[0].reset();
+                        carregarPredefesas();
+                        Swal.fire({
+                            text: "Pré defesa registada com sucesso.",
+                            icon: 'success',
+                            confirmButtonText: 'Fechar'
+                        })
+                    }else if(data == 2){
+                        Swal.fire({
+                            text: "Já foi registada uma pré defesa para este trabalho com esta data.",
+                            icon: 'error',
+                            confirmButtonText: 'Fechar'
+                        })
+                    }         
+                },
+                error: function(response){
+					
+                }
+            });
+        }            
+    });
+
+    function carregarNotaInformativa(){
+        var trabalho_id = $('#trabalho_id').val(); 
+        $.ajax({
+            url: "{{ url('listarNotaInformativa') }}/"+trabalho_id,
+            success:function(data){
+                $('#notainformativaTable').html(data);
+            },
+            error: function(e)
+			{
+				alert("erro ao carregar dados");
+			}
+        })
+    }
+    carregarNotaInformativa();
+
+    function carregarProvapublica(){
+        var trabalho_id = $('#trabalho_id').val(); 
+        $.ajax({
+            url: "{{ url('listarProvapublica') }}/"+trabalho_id,
+            success:function(data){
+                $('#provapublicaTable').html(data);
+            },
+            error: function(e)
+			{
+				alert("erro ao carregar dados");
+			}
+        })
+    }
+    carregarProvapublica();
 </script>
 @stop

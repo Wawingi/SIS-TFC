@@ -335,7 +335,7 @@ class SugestaoController extends Controller
         if (is_object($sugestao)) {
             //estado 1: Em desenvolvimento, 2:concluído
             $idTrabalho = DB::table('trabalho')->insertGetId(
-                ['tema' => $sugestao->tema, 'descricao' => $sugestao->descricao, 'proveniencia' => $sugestao->proveniencia, 'estado' => 1, 'id_area' => $sugestao->id_area, 'id_docente' => $sugestao->id_docente, 'created_at' => date('Y-m-d H:i:s', strtotime('today')), 'updated_at' => date('Y-m-d H:i:s', strtotime('today'))]
+                ['tema' => $sugestao->tema, 'descricao' => 'default.pdf', 'proveniencia' => $sugestao->proveniencia, 'estado' => 1, 'id_area' => $sugestao->id_area, 'id_docente' => $sugestao->id_docente, 'created_at' => date('Y-m-d H:i:s', strtotime('today')), 'updated_at' => date('Y-m-d H:i:s', strtotime('today'))]
             );
             if ($idTrabalho > 0) {
                 foreach ($id_departamentos as $id_departamento) {
@@ -348,7 +348,6 @@ class SugestaoController extends Controller
                         ['id_trabalho' => $idTrabalho, 'id_estudante' => $id_departamento->id_pessoa]
                     );
                 }
-
                 return true;
             }
         } else {
@@ -356,7 +355,7 @@ class SugestaoController extends Controller
         }
     }
 
-    //Aprovar a proposta por parte do conselho cientifico do departamento
+    //Aprovar a proposta por parte do conselho cientifico do departamento para constituir trabalho
     public function aprovarProposta($idSugestao)
     {
         $info = null;

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Model\Predefesa;
+use App\Model\Provapublica;
+use App\Model\NotaInformativa;
 use Illuminate\Support\Facades\DB;
 
 class DefesaController extends Controller
@@ -99,4 +101,99 @@ class DefesaController extends Controller
             echo 0;
         }
     }
+
+    //Secção da prova pública
+    public function registarNotaInformativa(Request $request){
+        $validatedData = $request->validate([
+            'datadefesa' => ['required'],
+            'local' => ['required','string'],
+            'presidente' => ['required','string'],
+            'secretario' => ['required','string'],
+            'vogal_1' => ['required','string'],
+            'vogal_2' => ['required','string'],
+            'id_trabalho' => ['required','unique:prova_publica'],
+        ],[
+            //Mensagens de validação de erros
+            'datadefesa.required'=>'Por favor, informe a data da defesa.',
+            'local.required'=>'Por favor, informe o local da realização da defesa',
+            'presidente.required'=>'Por favor, informe o nome do presidente',
+            'secretario.required'=>'Por favor, informe o nome do secretario',
+            'vogal_1.required'=>'Por favor, informe o nome do 1º vogal',
+            'vogal_2.required'=>'Por favor, informe o nome do 2º vogal',
+            'id_trabalho.unique'=>'Este tema já possúi uma prova pública'
+        ]);
+
+        //Remover o T na data informada ex:2021-04-02T16:30
+        $tiraT=Str_replace('T',' ',$request->datadefesa);
+        $novadata=Str_replace($tiraT,$tiraT.':00',$tiraT);
+
+        $provanotainformativa = new NotaInformativa;
+        
+        $provanotainformativa->created_at = $novadata;
+        $provanotainformativa->local = $request->local;
+        $provanotainformativa->presidente = $request->presidente;
+        $provanotainformativa->secretario = $request->secretario;
+        $provanotainformativa->vogal_1 = $request->vogal_1;
+        $provanotainformativa->vogal_2 = $request->vogal_2;
+        $provanotainformativa->id_trabalho = $request->id_trabalho;
+
+        if($provanotainformativa->save()){
+            echo 'Sucesso';
+        }
+    }
+
+     
+    public function listarNotaInformativa($Trabalho_id){
+        $notaInformativa = NotaInformativa::where('id_trabalho',$Trabalho_id)->get();
+        return view('tema.notainformativaTable', compact('notaInformativa'));
+    }
+
+    public function checkTrabalhoNotaInformativa($Trabalho_id){
+        $notaInformativa = NotaInformativa::where('id_trabalho',$Trabalho_id)->count();
+        return $notaInformativa;
+    }
+
+    public function eliminarNotaInformativa($id_Nota){
+        if(DB::table('nota_informativa')->where('id','=',$id_Nota)->delete()){
+            echo 1;
+        }else{
+            echo 0;
+        }
+    }
+
+    //Secção da prova pública
+    public function registarProvapublica(Request $request){
+        $validatedData = $request->validate([
+            'data_defesa' => ['required'],
+            'nota' => ['required', 'integer','min:0','max:20'],
+            'id_trabalho' => ['required','unique:prova_publica'],
+            'id_nota' => ['required'],
+        ],[
+            //Mensagens de validação de erros
+            'data_defesa.required'=>'Por favor, informe a data da defesa.',
+            'nota.required'=>'Por favor, informe a nota da defesa.',
+            'nota.max'=>'A nota não deve exceder 20 valores.',
+            'nota.min'=>'A nota não deve ser inferior a 0 valores.',
+            'id_trabalho.unique'=>'Este tema já possúi uma prova pública',
+        ]);
+
+        $provapublica = new Provapublica;
+        $provapublica->created_at = $request->data_defesa;
+        $provapublica->nota = $request->nota;
+        $provapublica->recomendacao = $request->recomendacao;
+        $provapublica->id_trabalho = $request->id_trabalho;
+        $provapublica->id_nota_informativa = $request->id_nota;
+
+        if($provapublica->save()){
+            //If work defendido, actualiza estado para defendido
+            echo 'Sucesso';
+        }
+    }
+
+    public function listarProvapublica($Trabalho_id){
+        $provapublica = Provapublica::where('id_trabalho',$Trabalho_id)->get();
+        return view('tema.provapublicaTable', compact('provapublica'));
+    }
+
+   
 }

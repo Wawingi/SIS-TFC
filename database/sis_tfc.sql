@@ -195,7 +195,7 @@ CREATE TABLE IF NOT EXISTS `envolvente` (
   CONSTRAINT `envolvente_id_trabalho_foreign` FOREIGN KEY (`id_trabalho`) REFERENCES `trabalho` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Copiando dados para a tabela sis_tfc.envolvente: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela sis_tfc.envolvente: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `envolvente` DISABLE KEYS */;
 INSERT INTO `envolvente` (`id`, `id_trabalho`, `id_estudante`, `created_at`, `updated_at`) VALUES
 	(10, 160, 62, NULL, NULL),
@@ -248,7 +248,7 @@ CREATE TABLE IF NOT EXISTS `estudante_sugestao` (
   CONSTRAINT `estudante_sugestao_id_sugestao_foreign` FOREIGN KEY (`id_sugestao`) REFERENCES `sugestao` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Copiando dados para a tabela sis_tfc.estudante_sugestao: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela sis_tfc.estudante_sugestao: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `estudante_sugestao` DISABLE KEYS */;
 INSERT INTO `estudante_sugestao` (`id_estudante`, `id_sugestao`, `estado`, `created_at`, `updated_at`) VALUES
 	(62, 172, 1, NULL, NULL),
@@ -312,13 +312,14 @@ CREATE TABLE IF NOT EXISTS `item` (
   PRIMARY KEY (`id`),
   KEY `item_id_trabalho_foreign` (`id_trabalho`),
   CONSTRAINT `item_id_trabalho_foreign` FOREIGN KEY (`id_trabalho`) REFERENCES `trabalho` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Copiando dados para a tabela sis_tfc.item: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
 INSERT INTO `item` (`id`, `titulo`, `anexo`, `id_trabalho`, `avaliacao`, `comentario`, `created_at`, `updated_at`) VALUES
-	(54, 2, 'KULONGA_160_TEXTUAL.pdf', 160, 3, NULL, '2021-02-20 19:26:48', '2021-02-20 19:26:48'),
-	(55, 1, 'KULONGA_160_PRETEXTUAL.pdf', 160, 3, NULL, '2021-02-20 20:53:57', '2021-02-20 20:53:57');
+	(54, 2, 'KULONGA_160_TEXTUAL.pdf', 160, 1, NULL, '2021-02-20 19:26:48', '2021-03-23 15:22:31'),
+	(55, 1, 'KULONGA_160_PRETEXTUAL.pdf', 160, 1, NULL, '2021-02-20 20:53:57', '2021-03-28 16:46:47'),
+	(56, 3, 'KULONGA_160_POSTEXTUAL.pdf', 160, 0, 'A conclusão está muito confusa.', '2021-03-23 15:21:33', '2021-03-28 16:47:32');
 /*!40000 ALTER TABLE `item` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela sis_tfc.migrations
@@ -327,9 +328,9 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Copiando dados para a tabela sis_tfc.migrations: ~27 rows (aproximadamente)
+-- Copiando dados para a tabela sis_tfc.migrations: ~30 rows (aproximadamente)
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(1, '2019_09_22_160323_create_pessoa_table', 1),
@@ -360,8 +361,31 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(32, '2020_10_21_211605_create_trabalho_departamento_table', 25),
 	(33, '2020_11_21_195508_create_envolvente_table', 26),
 	(34, '2020_12_28_214602_create_item_table', 27),
-	(35, '2021_02_21_190114_create_predefesa_table', 28);
+	(35, '2021_02_21_190114_create_predefesa_table', 28),
+	(38, '2021_03_28_172119_create_nota_informativa_table', 29);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
+
+-- Copiando estrutura para tabela sis_tfc.nota_informativa
+CREATE TABLE IF NOT EXISTS `nota_informativa` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `local` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `presidente` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `secretario` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `vogal_1` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `vogal_2` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_trabalho` int(10) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `nota_informativa_id_trabalho_foreign` (`id_trabalho`),
+  CONSTRAINT `nota_informativa_id_trabalho_foreign` FOREIGN KEY (`id_trabalho`) REFERENCES `trabalho` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Copiando dados para a tabela sis_tfc.nota_informativa: ~1 rows (aproximadamente)
+/*!40000 ALTER TABLE `nota_informativa` DISABLE KEYS */;
+INSERT INTO `nota_informativa` (`id`, `local`, `presidente`, `secretario`, `vogal_1`, `vogal_2`, `id_trabalho`, `created_at`, `updated_at`) VALUES
+	(12, 'Espelho Terra Nova', 'Mateus Padoca', 'Timoteo Yenga', 'Dikiefue Fabiano', 'Vicente Lopes', 160, '2021-04-20 20:56:00', '2021-04-02 19:56:50');
+/*!40000 ALTER TABLE `nota_informativa` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela sis_tfc.password_resets
 CREATE TABLE IF NOT EXISTS `password_resets` (
@@ -565,15 +589,32 @@ CREATE TABLE IF NOT EXISTS `predefesa` (
   PRIMARY KEY (`id`),
   KEY `predefesa_id_trabalho_foreign` (`id_trabalho`),
   CONSTRAINT `predefesa_id_trabalho_foreign` FOREIGN KEY (`id_trabalho`) REFERENCES `trabalho` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Copiando dados para a tabela sis_tfc.predefesa: ~3 rows (aproximadamente)
+-- Copiando dados para a tabela sis_tfc.predefesa: ~4 rows (aproximadamente)
 /*!40000 ALTER TABLE `predefesa` DISABLE KEYS */;
 INSERT INTO `predefesa` (`id`, `avaliacao`, `tipo`, `nota`, `id_trabalho`, `created_at`, `updated_at`) VALUES
 	(5, 1, 1, 'yesssssss PPPPPPPPPP', 160, '2021-02-25 00:00:00', '2021-03-13 20:12:41'),
-	(6, 0, 2, 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN', 160, '2021-02-28 00:00:00', '2021-03-02 20:22:50'),
-	(7, 2, 1, 'Precisa rever os conceitos de base de dados.', 160, '2021-03-13 00:00:00', '2021-03-13 21:57:52');
+	(6, 0, 2, 'N36A!92A', 160, '2021-02-28 00:00:00', '2021-03-23 17:52:57');
 /*!40000 ALTER TABLE `predefesa` ENABLE KEYS */;
+
+-- Copiando estrutura para tabela sis_tfc.prova_publica
+CREATE TABLE IF NOT EXISTS `prova_publica` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `nota` smallint(6) NOT NULL,
+  `recomendacao` longtext COLLATE utf8mb4_unicode_ci,
+  `id_trabalho` int(10) unsigned NOT NULL,
+  `id_nota_informativa` int(10) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Copiando dados para a tabela sis_tfc.prova_publica: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `prova_publica` DISABLE KEYS */;
+INSERT INTO `prova_publica` (`id`, `nota`, `recomendacao`, `id_trabalho`, `id_nota_informativa`, `created_at`, `updated_at`) VALUES
+	(1, 19, 'bgbggbgbgbgb grgvrvrvrvrv', 160, 12, '2021-04-14 00:00:00', '2021-04-02 20:20:02');
+/*!40000 ALTER TABLE `prova_publica` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela sis_tfc.roles
 CREATE TABLE IF NOT EXISTS `roles` (
@@ -680,7 +721,7 @@ CREATE TABLE IF NOT EXISTS `sugestao_departamento` (
   CONSTRAINT `sugestao_departamento_id_sugestao_foreign` FOREIGN KEY (`id_sugestao`) REFERENCES `sugestao` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Copiando dados para a tabela sis_tfc.sugestao_departamento: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela sis_tfc.sugestao_departamento: ~4 rows (aproximadamente)
 /*!40000 ALTER TABLE `sugestao_departamento` DISABLE KEYS */;
 INSERT INTO `sugestao_departamento` (`id_sugestao`, `id_departamento`, `created_at`, `updated_at`) VALUES
 	(172, 10, NULL, NULL),
@@ -710,8 +751,8 @@ CREATE TABLE IF NOT EXISTS `trabalho` (
 -- Copiando dados para a tabela sis_tfc.trabalho: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `trabalho` DISABLE KEYS */;
 INSERT INTO `trabalho` (`id`, `tema`, `descricao`, `proveniencia`, `estado`, `id_area`, `id_docente`, `created_at`, `updated_at`) VALUES
-	(160, 'KULONGA', 'KULONGA62.pdf', 2, 1, 6, 61, '2020-12-30 00:00:00', '2020-12-30 00:00:00'),
-	(161, 'TESTE TESTE ', 'TESTE58.pdf', 1, 1, 1, 58, '2021-03-14 00:00:00', '2021-03-14 00:00:00');
+	(160, 'KULONGA', 'Relatorio_KULONGA_160.pdf', 2, 1, 6, 61, '2020-12-30 00:00:00', '2021-03-23 14:33:05'),
+	(161, 'TESTE TESTE ', 'default.pdf', 1, 1, 1, 58, '2021-03-14 00:00:00', '2021-03-14 00:00:00');
 /*!40000 ALTER TABLE `trabalho` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela sis_tfc.trabalho_departamento
@@ -726,7 +767,7 @@ CREATE TABLE IF NOT EXISTS `trabalho_departamento` (
   CONSTRAINT `trabalho_departamento_id_trabalho_foreign` FOREIGN KEY (`id_trabalho`) REFERENCES `trabalho` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Copiando dados para a tabela sis_tfc.trabalho_departamento: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela sis_tfc.trabalho_departamento: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `trabalho_departamento` DISABLE KEYS */;
 INSERT INTO `trabalho_departamento` (`id_trabalho`, `id_departamento`, `created_at`, `updated_at`) VALUES
 	(160, 10, NULL, NULL),
