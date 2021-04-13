@@ -33,7 +33,7 @@ class Departamento extends Model
         if ($isDeleted == 0) {
             $dados = DB::table('departamento')
                 ->join('faculdade', 'faculdade.id', '=', 'departamento.id_faculdade')
-                ->select('departamento.id', 'departamento.nome', 'departamento.email', 'departamento.telefone')
+                ->select('departamento.id', 'departamento.nome', 'departamento.email', 'departamento.telefone','departamento.tipo')
                 ->where('departamento.id_faculdade', '=', $sessao[0]->id_faculdade)
                 ->whereNull('deleted_at')
                 ->orderBy('nome')

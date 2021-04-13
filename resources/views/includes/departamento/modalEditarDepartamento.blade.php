@@ -5,7 +5,7 @@
                 <h4 style="color:#ffff" class="modal-title" id="myLargeModalLabel"><i class='fa fa-pencil-alt'></i> Editar Departamento</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
-            <form id="formularioEditar" method="post">
+            <form id="formularioEditar" name="formularioEditar" method="post">
                 <div class="modal-body">
                     @csrf
                     <div class="form-group">
