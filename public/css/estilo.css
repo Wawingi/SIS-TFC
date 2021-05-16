@@ -144,5 +144,17 @@ hr {
 }
 
 #input-provapublica{
+    background-color: #f79eaa;
+}
+
+#input-provapublicaYes{
     background-color: #a3ffd4;
+}
+
+
+.dados-nao-fornecido{
+    color:#f74848;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-left: -15px;
 }

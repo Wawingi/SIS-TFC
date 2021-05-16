@@ -71,7 +71,7 @@ class ItemController extends Controller
                     ->select('titulo','avaliacao')
                     ->where('id_trabalho','=',$id_Trabalho)
                     ->get();
-        $pretextual;$textual;$postextual;
+        $pretextual=null;$textual=null;$postextual=null;
         
         foreach($avaliacoes as $av){
             if($av->titulo==1)

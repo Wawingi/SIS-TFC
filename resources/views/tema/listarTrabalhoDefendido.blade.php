@@ -14,10 +14,10 @@ $sessao = session('dados_logado');
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">SIS TFC</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Trabalhos</a></li>
-                            <li class="breadcrumb-item active">Trabalhos em Curso</li>
+                            <li class="breadcrumb-item active">Trabalhos Defendidos</li>
                         </ol>
                     </div>
-                    <h4 class="page-title">Trabalhos em Curso</h4>
+                    <h4 class="page-title">Trabalhos Defendidos</h4>
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@ $sessao = session('dados_logado');
                                 <th>#</th>
                                 <th>Tema</th>
                                 <th>Área de Aplicação</th>
-                                <th>Docente</th>
+                                <th>Nota da Defesa</th>
                             </tr>
                         </thead>
                         <tbody id="dataTable">
@@ -51,7 +51,7 @@ $sessao = session('dados_logado');
 <script>
     function carregarDataTable(){
         $.ajax({
-            url: "{{ url('pegaTemas') }}",
+            url: "{{ url('pegaTrabalhosDefendidos') }}",
             success:function(data){
                 $('#dataTable').html(data);
                 $('#paginationFullNumbers').DataTable({

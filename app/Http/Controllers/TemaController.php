@@ -25,6 +25,15 @@ class TemaController extends Controller
         $temas = Tema::getTemas($sessao[0]->id_departamento);
         return view('tema.TrabalhoEmCursoTable', compact('temas'));
     }
+    
+    //Listar os temas defendidos pelos estudantes de um departamento
+    public function pegaTrabalhosDefendidos()
+    {
+        //Pega sessao
+        $sessao = session('dados_logado');
+        $trabalhos = Tema::getTemasDefendidos($sessao[0]->id_departamento);
+        return view('tema.trabalhoDefendidoTable', compact('trabalhos'));
+    }
   
     //Pega trabalhos de um orientador
     public function pegaTrabalhosOrientador()
@@ -41,6 +50,14 @@ class TemaController extends Controller
         $id = base64_decode($id);
         $trabalho = Tema::getTema($id);
         return view('tema.verTrabalho', compact('trabalho'));
+    }
+
+    //Ver um determinado trabalho defendido
+    public function verTrabalhoDefendido($id)
+    {
+        $id = base64_decode($id);
+        $trabalho = Tema::getTrabalhoDefendido($id);
+        return view('tema.verTrabalhoDefendido', compact('trabalho'));
     }
 
     //Estudante dono do tema pretende ver o seu trabalho

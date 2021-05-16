@@ -116,12 +116,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('trabalhoEmCurso', function () {
         return view('tema.listarTrabalhoEmCurso');
     });
+    Route::get('trabalhoDefendido', function () {
+        return view('tema.listarTrabalhoDefendido');
+    });
     Route::get('meusTutorandos', function () {
         return view('tema.meusTutorandos');
     });
     Route::get('pegaTrabalhosOrientador', 'TemaController@pegaTrabalhosOrientador');
     Route::get('pegaTemas', 'TemaController@pegaTrabalhos');
+    Route::get('pegaTrabalhosDefendidos', 'TemaController@pegaTrabalhosDefendidos');
     Route::get('verTrabalho/{id}', 'TemaController@verTrabalho');
+    Route::get('verTrabalhoDefendido/{id}', 'TemaController@verTrabalhoDefendido');
     Route::get('verEnvolventesTrabalho/{id}', 'TemaController@verEnvolventesTrabalho');
     Route::post('registarRelatorioFinal','TemaController@registarRelatorioFinal');
     Route::get('verMeuTrabalho','TemaController@verMeuTrabalho');
@@ -165,8 +170,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('registarNotaInformativa', 'DefesaController@registarNotaInformativa');
     Route::get('listarNotaInformativa/{Trabalho_id}', 'DefesaController@listarNotaInformativa');
     Route::get('checkTrabalhoNotaInformativa/{Trabalho_id}', 'DefesaController@checkTrabalhoNotaInformativa');
+    Route::get('checkTrabalhoProvaPublica/{Trabalho_id}', 'DefesaController@checkTrabalhoProvaPublica');
     Route::get('eliminarNotaInformativa/{id_Nota}', 'DefesaController@eliminarNotaInformativa');
     Route::get('listarProvapublica/{Trabalho_id}', 'DefesaController@listarProvapublica');
+    Route::post('editarLocal', 'DefesaController@editarLocalNotaInformativa');
+    Route::post('editarJurado', 'DefesaController@editarJuradoNotaInformativa');
+    Route::post('editarProvaPublica', 'DefesaController@editarProvaPublica');
+    Route::get('eliminarProvaPublica/{id_prova}', 'DefesaController@eliminarProvaPublica');
 });
 
 Route::post('logar', 'Auth\LoginController@authenticate');

@@ -236,17 +236,17 @@ $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pes
 
                     <li class="has-submenu">
                         <a href="#">
-                            <i class="remixicon-book-2-fill"></i>Gestão de Temas <div class="arrow-down"></div>
+                            <i class="remixicon-book-2-fill"></i>Gestão de Trabalhos <div class="arrow-down"></div>
                         </a>
                         <ul class="submenu">
                             <li class="has-submenu">
-                                <a href="#"><i class="fe-list mr-1"></i>Listar Temas<div class="arrow-down"></div></a>
+                                <a href="#"><i class="fe-list mr-1"></i>Listar Trabalhos<div class="arrow-down"></div></a>
                                 <ul class="submenu">
                                     <li>
-                                        <a href="{{url('trabalhoEmCurso')}}">Temas em Curso</a>
+                                        <a href="{{url('trabalhoEmCurso')}}">Trabalhos em Curso</a>
                                     </li>
                                     <li>
-                                        <a href="admin-nestable.html">Temas Defendidos</a>
+                                        <a href="{{url('trabalhoDefendido')}}">Trabalhos Defendidos</a>
                                     </li>
                                 </ul>
                             </li>

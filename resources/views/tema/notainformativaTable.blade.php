@@ -1,13 +1,13 @@
 @foreach($notaInformativa as $nota)
     <tr>
-        <td colspan="4"><a href="#" id="{{$nota->id}}" class="eliminarNotaInformativa float-right btn btn-danger btn-sm btn-rounded"><i class='fa fa-trash-alt mr-2'></i>Eliminar</a></td>
+        <td colspan="4"><span style="text-align:center;font-weight:bold"><i class="fas fa-info-circle mr-1"></i>NOTA INFORMATIVA SOBRE A DEFESA</span><a href="#" id="{{$nota->id}}" class="eliminarNotaInformativa float-right btn btn-danger btn-sm btn-rounded"><i class='fa fa-trash-alt mr-2'></i>Eliminar</a></td>
     </tr>
     <tr>
         <td colspan="4"><hr style="margin-top:-20px"></td>
     </tr>
     <tr>                
         <td style="background:#edeff1">Data da defesa</td>                
-        <td><a href="#" class="dataprovapublica_edit" data-name="datadefesa" data-type="combodate" data-value="{{$nota->created_at}}" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="D / MMM / YYYY" data-pk="{{$nota->id}}"  data-title="Select Date of birth"></a></td>                
+        <td><a href="#" class="dataprovapublica_edit" data-name="created_at" data-type="combodate" data-value="{{$nota->created_at}}" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="DD/MM/YYYY" data-pk="{{$nota->id}}"></a></td>                
         <td style="background:#edeff1">Local da defesa</td>                
         <td><a href="#" class="local_edit" data-name="local" data-type="text" data-placeholder="Preenchimento obrigatório" data-pk="{{$nota->id}}" data-title="Informe o local">{{$nota->local}}</a></td>                
     </tr>                
@@ -40,7 +40,7 @@
                 if(""==$.trim(e))
                     return "Este campo é de preenchimento obrigatório"
             },
-            url:'{{url("editarPessoa")}}',
+            url:'{{url("editarLocal")}}',
             mode:"inline",
             inputclass:"form-control-sm",
             success: function(response, newValue){
@@ -48,7 +48,8 @@
                     Swal.fire({
                         text: 'Actualizado com sucesso.',
                         icon: 'success',
-                        confirmButtonText: 'Fechar'
+                        confirmButtonText: 'Fechar',
+                        timer:1500
                     })
                 }else{
                     Swal.fire({
@@ -73,7 +74,8 @@
                     Swal.fire({
                         text: 'Actualizado com sucesso.',
                         icon: 'success',
-                        confirmButtonText: 'Fechar'
+                        confirmButtonText: 'Fechar',
+                        timer:1500
                     })
                 }else{
                     Swal.fire({
@@ -92,7 +94,7 @@
                 if(!e.match(/^[a-zA-ZáÁàÀçÇéÉèÈõÕóÓãÃúÚ\s]+$/))
                     return "Nome inválido.";
             },
-            url:'{{url("editarPresidente")}}',
+            url:'{{url("editarJurado")}}',
             mode:"inline",
             inputclass:"form-control-sm",
             success: function(response, newValue){
@@ -100,7 +102,8 @@
                     Swal.fire({
                         text: 'Actualizado com sucesso.',
                         icon: 'success',
-                        confirmButtonText: 'Fechar'
+                        confirmButtonText: 'Fechar',
+                        timer:1500
                     })
                 }else{
                     Swal.fire({
@@ -118,7 +121,7 @@
                 if(!e.match(/^[a-zA-ZáÁàÀçÇéÉèÈõÕóÓãÃúÚ\s]+$/))
                     return "Nome inválido.";
             },
-            url:'{{url("editarSecretario")}}',
+            url:'{{url("editarJurado")}}',
             mode:"inline",
             inputclass:"form-control-sm",
             success: function(response, newValue){
@@ -126,7 +129,8 @@
                     Swal.fire({
                         text: 'Actualizado com sucesso.',
                         icon: 'success',
-                        confirmButtonText: 'Fechar'
+                        confirmButtonText: 'Fechar',
+                        timer:1500
                     })
                 }else{
                     Swal.fire({
@@ -145,7 +149,7 @@
                 if(!e.match(/^[a-zA-ZáÁàÀçÇéÉèÈõÕóÓãÃúÚ\s]+$/))
                     return "Nome inválido.";
             },
-            url:'{{url("editarVogal1")}}',
+            url:'{{url("editarJurado")}}',
             mode:"inline",
             inputclass:"form-control-sm",
             success: function(response, newValue){
@@ -153,7 +157,8 @@
                     Swal.fire({
                         text: 'Actualizado com sucesso.',
                         icon: 'success',
-                        confirmButtonText: 'Fechar'
+                        confirmButtonText: 'Fechar',
+                        timer:1500
                     })
                 }else{
                     Swal.fire({
@@ -172,7 +177,7 @@
                 if(!e.match(/^[a-zA-ZáÁàÀçÇéÉèÈõÕóÓãÃúÚ\s]+$/))
                     return "Nome inválido.";
             },
-            url:'{{url("editarVogal2")}}',
+            url:'{{url("editarJurado")}}',
             mode:"inline",
             inputclass:"form-control-sm",
             success: function(response, newValue){
@@ -180,7 +185,8 @@
                     Swal.fire({
                         text: 'Actualizado com sucesso.',
                         icon: 'success',
-                        confirmButtonText: 'Fechar'
+                        confirmButtonText: 'Fechar',
+                        timer:1500
                     })
                 }else{
                     Swal.fire({

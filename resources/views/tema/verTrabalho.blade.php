@@ -13,7 +13,7 @@ $sessao = session('dados_logado');
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">SIS TFC</a></li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Temas</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Trabalho</a></li>
                             <li class="breadcrumb-item active">Ver Trabalho</li>
                         </ol>
                     </div>
@@ -154,7 +154,11 @@ $sessao = session('dados_logado');
                                                         <div class="col-8">
                                                             <div class="form-group row mb-3">
                                                                 <label class="col-md-7 col-form-label">:
-                                                                    <span class="check">Em desenvolvimento</span> <i style="color:#007c00" class='fas fa-check-circle mr-3'></i>
+                                                                    @if($trabalho->estado==1)
+                                                                        <span style="color:#297BED" >Em desenvolvimento</span> <i style="color:#297BED" class='fas fa-directions mr-3'></i>
+                                                                    @elseif($trabalho->estado==2)
+                                                                        <span class="check">Defendido</span> <i style="color:#007c00" class='fas fa-check-circle mr-3'></i>
+                                                                    @endif
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -690,6 +694,13 @@ $sessao = session('dados_logado');
                                         <div class="col-lg-12">
                                             <div style="height:90%" class="card">
                                                 <div class="card-body">
+                                                    <div id="showNotaVazio" class="row">
+                                                        <div id="icone_resultado_proposta" class="col-12">
+                                                            <br>
+                                                            <img width="100px" heigth="100px" src="{{ url('images/xxx') }}"/>
+                                                            <p class="dados-nao-fornecido">NENHUMA NOTA ADICIONADA SOBRE A PROVA PÚBLICA.</p>
+                                                        </div>
+                                                    </div>
                                                     <table id="notainformativaTable"  class="table table-borderless mb-0">
                                                                 
                                                     </table>                
@@ -702,7 +713,7 @@ $sessao = session('dados_logado');
 
                                 <!-- Secção da prova publica ou defesa -->                                        
                                 <div class="tab-pane fade" id="provapublica">
-                                    <div class="row">
+                                    <div id="showFormPP" style="display:none" class="row">
                                         <div class="col-xl-12">
                                             <div id="accordion" class="mb-3">
                                                 <div class="card mb-1">
@@ -716,14 +727,14 @@ $sessao = session('dados_logado');
                                                     </div>
                                                     <div id="collapseFour" class="collapse hide" aria-labelledby="headingFour" data-parent="#accordion">
                                                         <div class="card-body">
-                                                            <form id="formularioProvaPublicaa" method="POST" action="{{ url('registarProvapublica') }}"> 
+                                                            <form id="formularioProvaPublica" method="POST" action="{{ url('registarProvapublicaaaa') }}"> 
                                                                 @csrf
                                                                 @php 
                                                                     $ni= App\Model\NotaInformativa::where('id_trabalho',$trabalho->id)->select('id','created_at','local','presidente','secretario','vogal_1','vogal_2')->first()                                                   
                                                                 @endphp
                                                                 <div class="row">
                                                                     <input required type="hidden" value="{{$trabalho->id}}" class="form-control"  name="id_trabalho" id="id_trabalho">  
-                                                                    <input required type="text" value="{{$ni->id}}" class="form-control"  name="id_nota" id="id_nota">  
+                                                                    <input required type="hidden" @if(is_object($ni))value="{{$ni->id}}" @endif class="form-control"  name="id_nota" id="id_nota">  
                                                                     <div class="col-4">
                                                                         <div class="form-group mb-3">
                                                                             <label>Data</label><br>
@@ -733,13 +744,13 @@ $sessao = session('dados_logado');
                                                                     <div class="col-4">
                                                                         <div class="form-group mb-3">
                                                                             <label>Nota da Defesa</label><br>
-                                                                            <input type="number" id="nota" name="nota" placeholder="Informe a nota da defesa" class="form-control">                                                  
+                                                                            <input type="number" id="nota_defesa" min="0" max="20" name="nota_defesa" placeholder="Informe a nota da defesa" class="form-control">                                                  
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-4">
                                                                         <div class="form-group mb-3">
                                                                             <label>Local da Defesa</label><br>
-                                                                            <input @if(is_object($ni))value="{{$ni->local}}" @endif id="input-provapublica" disabled type="text" class="form-control">                                       
+                                                                            <input @if(is_object($ni))value="{{$ni->local}}" style="background:#a3ffd4" @else id="input-provapublica" @endif name="local_defesa" readonly type="text" class="form-control">                                       
                                                                         </div>
                                                                     </div>
                                                                 </div> 
@@ -747,13 +758,13 @@ $sessao = session('dados_logado');
                                                                     <div class="col-6">
                                                                         <div class="form-group mb-3">
                                                                             <label>Presidente</label><br>
-                                                                            <input  @if(is_object($ni)) value="{{$ni->presidente}}" @endif  id="input-provapublica" disabled type="text" class="form-control">                                       
+                                                                            <input  @if(is_object($ni)) value="{{$ni->presidente}}" style="background:#a3ffd4" @else id="input-provapublica" @endif name="presidente_defesa" readonly type="text" class="form-control">                                       
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-6">
                                                                         <div class="form-group mb-3">
                                                                             <label>Secrétário</label><br>
-                                                                            <input @if(is_object($ni)) value="{{$ni->secretario}}" @endif id="input-provapublica" disabled type="text" class="form-control">                                       
+                                                                            <input @if(is_object($ni)) value="{{$ni->secretario}}" style="background:#a3ffd4" @else id="input-provapublica" @endif name="secretario_defesa" readonly type="text" class="form-control">                                       
                                                                         </div>
                                                                     </div>
                                                                 </div>                                                           
@@ -761,21 +772,21 @@ $sessao = session('dados_logado');
                                                                     <div class="col-6">
                                                                         <div class="form-group mb-3">
                                                                             <label>1º Vogal</label><br>
-                                                                            <input @if(is_object($ni)) value="{{$ni->vogal_1}}" @endif id="input-provapublica" disabled type="text" class="form-control">                                       
+                                                                            <input @if(is_object($ni)) value="{{$ni->vogal_1}}" style="background:#a3ffd4" @else id="input-provapublica" @endif name="vogal_1_defesa" readonly type="text" class="form-control">                                       
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-6">
                                                                         <div class="form-group mb-3">
                                                                             <label>2º Vogal</label><br>
-                                                                            <input @if(is_object($ni)) value="{{$ni->vogal_2}}" @endif id="input-provapublica" disabled type="text" class="form-control">                                       
+                                                                            <input @if(is_object($ni)) value="{{$ni->vogal_2}}" style="background:#a3ffd4" @else id="input-provapublica" @endif name="vogal_2_defesa" readonly type="text" class="form-control">                                       
                                                                         </div>
                                                                     </div>
                                                                 </div>                                                           
                                                                 <div class="row">
                                                                     <div class="col-12">
                                                                         <div class="form-group mb-3">
-                                                                            <label>Recomendações</label><br>
-                                                                            <textarea name="recomendacao" type="text" rows="5" class="form-control" placeholder="Escreva as recomendações sobre a prova pública"></textarea>                                                    
+                                                                            <label>Anotações</label><br>
+                                                                            <textarea name="anotacao" type="text" rows="5" class="form-control" placeholder="Escreva as anotações sobre a prova pública"></textarea>                                                    
                                                                         </div>
                                                                     </div>
                                                                 </div> 
@@ -790,13 +801,22 @@ $sessao = session('dados_logado');
 
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <div style="height:85%" class="card">
-                                                <div id="provapublicaTable" class="card-body">
-                                         
+                                            <div style="height:95%" class="card">
+                                                <div class="card-body">
+                                                    <div id="showPPVazio" class="row">
+                                                        <div id="icone_resultado_proposta" class="col-12">
+                                                            <br>
+                                                            <img width="500px" heigth="500px" src="{{ url('images/xxx') }}"/>
+                                                            <p class="dados-nao-fornecido">NENHUMA PROVA PÚBLICA REALIZADA AINDA.</p>
+                                                        </div>
+                                                    </div>
+                                                    <table id="provapublicaTable"  class="table table-borderless mb-0">
+                                                                        
+                                                    </table>  
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>                                   
+                                    </div>           
                                 </div>
                             </div>
                         </div>
@@ -1239,6 +1259,7 @@ $sessao = session('dados_logado');
 
     //Chamar o formulario para editar predefesa
     $(document).on('click','.showEditPredefesa',function(e){
+        window.scrollTo(0,0);
         e.preventDefault();
         var id = $(this).attr('id');        
         var datapredefesa = $(this).attr('datapredefesa');
@@ -1318,17 +1339,34 @@ $sessao = session('dados_logado');
 		});
     });
 
+    //Nota informativa
+    function carregarNotaInformativa(){
+        var trabalho_id = $('#trabalho_id').val(); 
+        $.ajax({
+            url: "{{ url('listarNotaInformativa') }}/"+trabalho_id,
+            success:function(data){
+                $('#notainformativaTable').html(data);
+            },
+            error: function(e)
+			{
+				alert("erro ao carregar dados");
+			}
+        })
+    }
+    carregarNotaInformativa();
+
     //Mostrar a parte do registo da nota informativa
     function showFormNotaInformativa(){
         var id_trabalho = $('#trabalho_id').val();
         $.ajax({
             url: "{{ url('checkTrabalhoNotaInformativa') }}/"+id_trabalho,
             success:function(data){
-                console.log(data);
                 if(data==1){
                     document.getElementById("showFormNI").style.display = 'none';
+                    document.getElementById("showNotaVazio").style.display = 'none';
                 }else{ 
                     document.getElementById("showFormNI").style.display = 'block';
+                    document.getElementById("showNotaVazio").style.display = 'block';
                 }
             },
             error: function(e)
@@ -1339,7 +1377,6 @@ $sessao = session('dados_logado');
     }
     showFormNotaInformativa();
 
-    //Nota informativa
     $("#formularioNotaInformativa").validate({
         rules: {					
             datadefesa: {
@@ -1444,8 +1481,8 @@ $sessao = session('dados_logado');
         }            
     });
 
-     //Eliminar nota informativa
-     $(document).on('click','.eliminarNotaInformativa',function(e){
+    //Eliminar nota informativa
+    $(document).on('click','.eliminarNotaInformativa',function(e){
         Swal.fire({
 			  title: 'Deseja realmente eliminar a nota informativa?',
 			  icon: 'warning',
@@ -1465,12 +1502,12 @@ $sessao = session('dados_logado');
                             if(data==1){
                                 carregarNotaInformativa();
                                 showFormNotaInformativa();
-                                
                                 Swal.fire({
                                     text: 'Eliminado com Sucesso.',
                                     icon: 'success',
-                                    timer: 1500
+                                    timer: 1800
                                 })
+                                //location.reload();
                             }else{
                                 Swal.fire({
                                     text: 'Ocorreu um erro ao eliminar.',
@@ -1493,62 +1530,99 @@ $sessao = session('dados_logado');
     });
 
 
-    //Prova pública
+    //Prova Pública
+    function carregarProvapublica(){
+        var trabalho_id = $('#trabalho_id').val(); 
+        $.ajax({
+            url: "{{ url('listarProvapublica') }}/"+trabalho_id,
+            success:function(data){
+                $('#provapublicaTable').html(data);
+            },
+            error: function(e)
+			{
+				alert("erro ao carregar dados");
+			}
+        })
+    }
+    carregarProvapublica();
+
+    //Mostrar a parte do registo da nota informativa
+    function showFormProvaPublica(){
+        var id_trabalho = $('#trabalho_id').val();
+        $.ajax({
+            url: "{{ url('checkTrabalhoProvaPublica') }}/"+id_trabalho,
+            success:function(data){
+                if(data==1){
+                    document.getElementById("showFormPP").style.display = 'none';
+                    document.getElementById("showPPVazio").style.display = 'none';
+                }else{ 
+                    document.getElementById("showFormPP").style.display = 'block';
+                    document.getElementById("showPPVazio").style.display = 'block';
+                }
+            },
+            error: function(e)
+			{
+				alert("erro ao carregar dados");
+			}
+        })        
+    }
+    showFormProvaPublica();
+
     $("#formularioProvaPublica").validate({
         rules: {					
-            datadefesa: {
+            data_defesa: {
                 required: true
             },
-            nota: {
+            nota_defesa: {
                 required: true,
                 max:20,
                 min:0
             },
-            local: {
+            local_defesa: {
                 required: true,
             },
-            presidente: {
+            presidente_defesa: {
                 required: true,
                 pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈõÕóÓúÚâêôÂÊÔ\s]+$/      
             },
-            secretario: {
+            secretario_defesa: {
                 required: true,
                 pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈõÕóÓúÚâêôÂÊÔ\s]+$/     
             },
-            vogal_1: {
+            vogal_1_defesa: {
                 required: true,
                 pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈõÕóÓúÚâêôÂÊÔ\s]+$/     
             },
-            vogal_2: {
+            vogal_2_defesa: {
                 required: true,
                 pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈõÕóÓúÚâêôÂÊÔ\s]+$/     
             },
         },
         messages: {					
-            datadefesa: {
+            data_defesa: {
                 required: "A data deve ser fornecida."
             },
-            nota: {
+            nota_defesa: {
                 required: "A nota deve ser fornecida.",
                 max: "O valor máximo deve ser 20 valores.",               
                 min: "O valor mínimo deve ser 0 valores."               
             },               
-            local: {
+            local_defesa: {
                 required: "O local deve ser fornecida."               
             },               
-            presidente: {
+            presidente_defesa: {
                 required: "O nome do presidente deve ser fornecida.",
                 pattern: "Informe um nome contendo apenas letras alfabéticas"         
             },               
-            secretario: {
+            secretario_defesa: {
                 required: "O nome do secretário deve ser fornecido.",
                 pattern: "Informe um nome contendo apenas letras alfabéticas"                    
             },               
-            vogal_1: {
+            vogal_1_defesa: {
                 required: "O nome do 1º vogal deve ser fornecido.",
                 pattern: "Informe um nome contendo apenas letras alfabéticas"                    
             },               
-            vogal_2: {
+            vogal_2_defesa: {
                 required: "O nome do 2º vogal deve ser fornecida.",
                 pattern: "Informe um nome contendo apenas letras alfabéticas"                    
             }       
@@ -1577,61 +1651,81 @@ $sessao = session('dados_logado');
                 headers:{
                     'X-CSRF-TOKEN':'<?php echo csrf_token() ?>'
                 },
-                url:"{{ url('registarPredefesa') }}",
+                url:"{{ url('registarProvapublica') }}",
                 method: "POST",
-                data: $("#formularioPredefesa").serialize(),
+                data: $("#formularioProvaPublica").serialize(),
                 success:function(data){
                     if(data == "Sucesso"){
-                        $('#formularioPredefesa')[0].reset();
-                        carregarPredefesas();
+                        $('#formularioProvaPublica')[0].reset();
+                        carregarProvapublica();
+                        showFormProvaPublica();
                         Swal.fire({
-                            text: "Pré defesa registada com sucesso.",
+                            text: "Prova pública registada com sucesso.",
                             icon: 'success',
+                            timer:1500,
                             confirmButtonText: 'Fechar'
                         })
-                    }else if(data == 2){
-                        Swal.fire({
-                            text: "Já foi registada uma pré defesa para este trabalho com esta data.",
-                            icon: 'error',
-                            confirmButtonText: 'Fechar'
-                        })
-                    }         
+                    }       
                 },
                 error: function(response){
-					
+                    Swal.fire({
+                        text: "Houve um erro ao registar a prova pública, verifique os dados e tente novamente.",
+                        icon: 'error',
+                        timer:1500,
+                        confirmButtonText: 'Fechar'
+                    })
                 }
             });
         }            
+    });  
+
+    //Eliminar prova publica
+    $(document).on('click','.eliminarProvaPublica',function(e){
+        Swal.fire({
+			  title: 'Deseja realmente eliminar a prova pública?',
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: 'Eliminar',
+              cancelButtonText: 'Cancelar'
+			}).then((result) => {
+                if (result.value) {
+                    e.preventDefault();
+                    var id_prova = $(this).attr('id_prova');
+                    $.ajax({
+                        url: "{{ url('eliminarProvaPublica') }}/"+id_prova,
+                        type: "GET",
+                        success: function(data){
+                            if(data==1){
+                                carregarProvapublica();
+                                showFormProvaPublica();
+                                
+                                Swal.fire({
+                                    text: 'Eliminado com Sucesso.',
+                                    icon: 'success',
+                                    timer: 1500
+                                })
+                            }else{
+                                Swal.fire({
+                                    text: 'Ocorreu um erro ao eliminar.',
+                                    icon: 'error',
+                                    confirmButtonText: 'Fechar'
+                                })
+                            }
+                        },
+                        error: function(e)
+                        {
+                            Swal.fire({
+                                text: 'Ocorreu um erro ao eliminar.',
+                                icon: 'error',
+                                confirmButtonText: 'Fechar'
+                            })
+                        }
+                    });
+                }
+		});
     });
-
-    function carregarNotaInformativa(){
-        var trabalho_id = $('#trabalho_id').val(); 
-        $.ajax({
-            url: "{{ url('listarNotaInformativa') }}/"+trabalho_id,
-            success:function(data){
-                $('#notainformativaTable').html(data);
-            },
-            error: function(e)
-			{
-				alert("erro ao carregar dados");
-			}
-        })
-    }
-    carregarNotaInformativa();
-
-    function carregarProvapublica(){
-        var trabalho_id = $('#trabalho_id').val(); 
-        $.ajax({
-            url: "{{ url('listarProvapublica') }}/"+trabalho_id,
-            success:function(data){
-                $('#provapublicaTable').html(data);
-            },
-            error: function(e)
-			{
-				alert("erro ao carregar dados");
-			}
-        })
-    }
-    carregarProvapublica();
+  
 </script>
 @stop

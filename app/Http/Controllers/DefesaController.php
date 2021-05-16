@@ -111,7 +111,7 @@ class DefesaController extends Controller
             'secretario' => ['required','string'],
             'vogal_1' => ['required','string'],
             'vogal_2' => ['required','string'],
-            'id_trabalho' => ['required','unique:prova_publica'],
+            'id_trabalho' => ['required','unique:nota_informativa'],
         ],[
             //Mensagens de validação de erros
             'datadefesa.required'=>'Por favor, informe a data da defesa.',
@@ -152,6 +152,11 @@ class DefesaController extends Controller
         $notaInformativa = NotaInformativa::where('id_trabalho',$Trabalho_id)->count();
         return $notaInformativa;
     }
+  
+    public function checkTrabalhoProvaPublica($Trabalho_id){
+        $provapublica = Provapublica::where('id_trabalho',$Trabalho_id)->count();
+        return $provapublica;
+    }
 
     public function eliminarNotaInformativa($id_Nota){
         if(DB::table('nota_informativa')->where('id','=',$id_Nota)->delete()){
@@ -165,13 +170,18 @@ class DefesaController extends Controller
     public function registarProvapublica(Request $request){
         $validatedData = $request->validate([
             'data_defesa' => ['required'],
-            'nota' => ['required', 'integer','min:0','max:20'],
+            'nota_defesa' => ['required', 'integer','min:0','max:20'],
             'id_trabalho' => ['required','unique:prova_publica'],
             'id_nota' => ['required'],
+            'local_defesa' => ['required'],
+            'presidente_defesa' => ['required'],
+            'secretario_defesa' => ['required'],
+            'vogal_1_defesa' => ['required'],
+            'vogal_2_defesa' => ['required'],
         ],[
             //Mensagens de validação de erros
             'data_defesa.required'=>'Por favor, informe a data da defesa.',
-            'nota.required'=>'Por favor, informe a nota da defesa.',
+            'nota_defesa.required'=>'Por favor, informe a nota da defesa.',
             'nota.max'=>'A nota não deve exceder 20 valores.',
             'nota.min'=>'A nota não deve ser inferior a 0 valores.',
             'id_trabalho.unique'=>'Este tema já possúi uma prova pública',
@@ -179,21 +189,73 @@ class DefesaController extends Controller
 
         $provapublica = new Provapublica;
         $provapublica->created_at = $request->data_defesa;
-        $provapublica->nota = $request->nota;
-        $provapublica->recomendacao = $request->recomendacao;
+        $provapublica->nota = $request->nota_defesa;
+        $provapublica->anotacao = $request->anotacao;
         $provapublica->id_trabalho = $request->id_trabalho;
         $provapublica->id_nota_informativa = $request->id_nota;
 
+
         if($provapublica->save()){
             //If work defendido, actualiza estado para defendido
+            if(DB::table('trabalho')          
+            ->where('id','=',$request->id_trabalho)
+            ->update(['estado' => 2]))
+            {
+                echo 'Sucesso';
+            }      
             echo 'Sucesso';
         }
     }
 
     public function listarProvapublica($Trabalho_id){
-        $provapublica = Provapublica::where('id_trabalho',$Trabalho_id)->get();
+        $provapublica = DB::table('prova_publica')
+                            ->select('nota_informativa.local','nota_informativa.presidente','nota_informativa.secretario','nota_informativa.vogal_1','nota_informativa.vogal_2','prova_publica.id','prova_publica.nota','prova_publica.anotacao','prova_publica.created_at as data_defesa')
+                            ->join('nota_informativa','nota_informativa.id','=','prova_publica.id_nota_informativa')                            
+                            ->where('prova_publica.id_trabalho',$Trabalho_id)
+                            ->get();
         return view('tema.provapublicaTable', compact('provapublica'));
     }
 
-   
+    //EDITS da nota informativa
+    public function editarLocalNotaInformativa(Request $request){
+        $status=null;
+        if(DB::table('nota_informativa')          
+            ->where('id','=',$request->pk)
+            ->update([$request->name => $request->value]))
+        {
+            $status='sucesso';
+        }      
+        echo $status;               
+    }
+
+    public function editarJuradoNotaInformativa(Request $request){
+        $status=null;
+        if(DB::table('nota_informativa')          
+            ->where('id','=',$request->pk)
+            ->update([$request->name => $request->value]))
+        {
+            $status='sucesso';
+        }      
+        echo $status;               
+    }
+
+    //EDIT PROVA PÚBLICA
+    public function editarProvaPublica(Request $request){
+        $status=null;
+        if(DB::table('prova_publica')          
+            ->where('id','=',$request->pk)
+            ->update([$request->name => $request->value]))
+        {
+            $status='sucesso';
+        }      
+        echo $status;               
+    } 
+
+    public function eliminarProvaPublica($id_prova){
+        if(DB::table('prova_publica')->where('id','=',$id_prova)->delete()){
+            echo 1;
+        }else{
+            echo 0;
+        }
+    }
 }

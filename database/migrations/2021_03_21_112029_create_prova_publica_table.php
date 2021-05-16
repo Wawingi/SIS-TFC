@@ -16,7 +16,7 @@ class CreateProvaPublicaTable extends Migration
         Schema::create('prova_publica', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->smallInteger('nota');
-            $table->longText('recomendacao')->nullable();
+            $table->longText('anotacao')->nullable();
             $table->unsignedInteger('id_trabalho');
             $table->unsignedInteger('id_nota_informativa');
             $table->timestamps();

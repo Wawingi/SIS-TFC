@@ -13,7 +13,7 @@ $sessao = session('dados_logado');
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">SIS TFC</a></li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Temas</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Trabalho</a></li>
                             <li class="breadcrumb-item active">Ver Trabalho</li>
                             <li class="breadcrumb-item active">Abrir Item</li>
                         </ol>
@@ -53,7 +53,7 @@ $sessao = session('dados_logado');
         @endif
 
         <!--Inicio do conteudo-->
-        <br>{{$ficheiro->anexo}}
+        <br>
         <div class="row">
             <div class="col-12">
                 <div class="card-box">

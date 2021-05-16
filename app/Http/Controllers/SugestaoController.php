@@ -333,7 +333,7 @@ class SugestaoController extends Controller
         //dd($id_departamentos);
 
         if (is_object($sugestao)) {
-            //estado 1: Em desenvolvimento, 2:concluído
+            //estado 1: Em desenvolvimento, 2:concluído ou defendido
             $idTrabalho = DB::table('trabalho')->insertGetId(
                 ['tema' => $sugestao->tema, 'descricao' => 'default.pdf', 'proveniencia' => $sugestao->proveniencia, 'estado' => 1, 'id_area' => $sugestao->id_area, 'id_docente' => $sugestao->id_docente, 'created_at' => date('Y-m-d H:i:s', strtotime('today')), 'updated_at' => date('Y-m-d H:i:s', strtotime('today'))]
             );

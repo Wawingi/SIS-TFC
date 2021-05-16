@@ -253,7 +253,8 @@ CREATE TABLE IF NOT EXISTS `estudante_sugestao` (
 INSERT INTO `estudante_sugestao` (`id_estudante`, `id_sugestao`, `estado`, `created_at`, `updated_at`) VALUES
 	(62, 172, 1, NULL, NULL),
 	(67, 173, 1, NULL, NULL),
-	(99, 173, 1, NULL, NULL);
+	(99, 173, 1, NULL, NULL),
+	(94, 174, 1, NULL, NULL);
 /*!40000 ALTER TABLE `estudante_sugestao` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela sis_tfc.faculdade
@@ -318,7 +319,7 @@ CREATE TABLE IF NOT EXISTS `item` (
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
 INSERT INTO `item` (`id`, `titulo`, `anexo`, `id_trabalho`, `avaliacao`, `comentario`, `created_at`, `updated_at`) VALUES
 	(54, 2, 'KULONGA_160_TEXTUAL.pdf', 160, 1, NULL, '2021-02-20 19:26:48', '2021-03-23 15:22:31'),
-	(55, 1, 'KULONGA_160_PRETEXTUAL.pdf', 160, 1, NULL, '2021-02-20 20:53:57', '2021-03-28 16:46:47'),
+	(55, 1, 'KULONGA_160_PRETEXTUAL.pdf', 160, 0, 'a capa não possui insignia', '2021-02-20 20:53:57', '2021-04-22 13:24:51'),
 	(56, 3, 'KULONGA_160_POSTEXTUAL.pdf', 160, 0, 'A conclusão está muito confusa.', '2021-03-23 15:21:33', '2021-03-28 16:47:32');
 /*!40000 ALTER TABLE `item` ENABLE KEYS */;
 
@@ -379,12 +380,12 @@ CREATE TABLE IF NOT EXISTS `nota_informativa` (
   PRIMARY KEY (`id`),
   KEY `nota_informativa_id_trabalho_foreign` (`id_trabalho`),
   CONSTRAINT `nota_informativa_id_trabalho_foreign` FOREIGN KEY (`id_trabalho`) REFERENCES `trabalho` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Copiando dados para a tabela sis_tfc.nota_informativa: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela sis_tfc.nota_informativa: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `nota_informativa` DISABLE KEYS */;
 INSERT INTO `nota_informativa` (`id`, `local`, `presidente`, `secretario`, `vogal_1`, `vogal_2`, `id_trabalho`, `created_at`, `updated_at`) VALUES
-	(12, 'Espelho Terra Nova', 'Mateus Padoca', 'Timoteo Yenga', 'Dikiefue Fabiano', 'Vicente Lopes', 160, '2021-04-20 20:56:00', '2021-04-02 19:56:50');
+	(1, 'Camama - Campus Universitário', 'Mateus Padoca', 'Timoteo Yenga', 'Dikiefue Fabiano', 'Vicente Lopes', 160, '2021-05-17 20:30:00', '2021-05-15 19:30:43');
 /*!40000 ALTER TABLE `nota_informativa` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela sis_tfc.password_resets
@@ -594,7 +595,7 @@ CREATE TABLE IF NOT EXISTS `predefesa` (
 -- Copiando dados para a tabela sis_tfc.predefesa: ~4 rows (aproximadamente)
 /*!40000 ALTER TABLE `predefesa` DISABLE KEYS */;
 INSERT INTO `predefesa` (`id`, `avaliacao`, `tipo`, `nota`, `id_trabalho`, `created_at`, `updated_at`) VALUES
-	(5, 1, 1, 'yesssssss PPPPPPPPPP', 160, '2021-02-25 00:00:00', '2021-03-13 20:12:41'),
+	(5, 1, 1, 'yesssssss', 160, '2021-02-25 00:00:00', '2021-05-06 19:56:37'),
 	(6, 0, 2, 'N36A!92A', 160, '2021-02-28 00:00:00', '2021-03-23 17:52:57');
 /*!40000 ALTER TABLE `predefesa` ENABLE KEYS */;
 
@@ -602,18 +603,18 @@ INSERT INTO `predefesa` (`id`, `avaliacao`, `tipo`, `nota`, `id_trabalho`, `crea
 CREATE TABLE IF NOT EXISTS `prova_publica` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `nota` smallint(6) NOT NULL,
-  `recomendacao` longtext COLLATE utf8mb4_unicode_ci,
+  `anotacao` longtext COLLATE utf8mb4_unicode_ci,
   `id_trabalho` int(10) unsigned NOT NULL,
   `id_nota_informativa` int(10) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Copiando dados para a tabela sis_tfc.prova_publica: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela sis_tfc.prova_publica: ~1 rows (aproximadamente)
 /*!40000 ALTER TABLE `prova_publica` DISABLE KEYS */;
-INSERT INTO `prova_publica` (`id`, `nota`, `recomendacao`, `id_trabalho`, `id_nota_informativa`, `created_at`, `updated_at`) VALUES
-	(1, 19, 'bgbggbgbgbgb grgvrvrvrvrv', 160, 12, '2021-04-14 00:00:00', '2021-04-02 20:20:02');
+INSERT INTO `prova_publica` (`id`, `nota`, `anotacao`, `id_trabalho`, `id_nota_informativa`, `created_at`, `updated_at`) VALUES
+	(5, 15, NULL, 160, 1, '2021-05-17 00:00:00', '2021-05-15 19:43:21');
 /*!40000 ALTER TABLE `prova_publica` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela sis_tfc.roles
@@ -700,13 +701,14 @@ CREATE TABLE IF NOT EXISTS `sugestao` (
   KEY `sugestao_id_docente_foreign` (`id_docente`),
   CONSTRAINT `sugestao_id_area_foreign` FOREIGN KEY (`id_area`) REFERENCES `area_aplicacao` (`id`) ON DELETE CASCADE,
   CONSTRAINT `sugestao_id_docente_foreign` FOREIGN KEY (`id_docente`) REFERENCES `docente` (`id_pessoa`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=174 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=175 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Copiando dados para a tabela sis_tfc.sugestao: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `sugestao` DISABLE KEYS */;
 INSERT INTO `sugestao` (`id`, `tema`, `descricao`, `proveniencia`, `estado`, `visibilidade`, `id_area`, `id_docente`, `avaliacao`, `created_at`, `updated_at`) VALUES
 	(172, 'KULONGA', 'KULONGA62.pdf', 2, 3, 1, 6, 61, 1, '2020-12-30 00:00:00', '2020-12-30 00:00:00'),
-	(173, 'TESTE', 'TESTE58.pdf', 1, 3, 1, 1, 58, 1, '2020-12-30 00:00:00', '2020-12-30 00:00:00');
+	(173, 'TESTE', 'TESTE58.pdf', 1, 3, 1, 1, 58, 1, '2020-12-30 00:00:00', '2020-12-30 00:00:00'),
+	(174, 'KULONGA', 'KULONGA69.pdf', 1, 3, 1, 6, 69, 1, '2021-04-22 00:00:00', '2021-04-22 00:00:00');
 /*!40000 ALTER TABLE `sugestao` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela sis_tfc.sugestao_departamento
@@ -721,13 +723,15 @@ CREATE TABLE IF NOT EXISTS `sugestao_departamento` (
   CONSTRAINT `sugestao_departamento_id_sugestao_foreign` FOREIGN KEY (`id_sugestao`) REFERENCES `sugestao` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Copiando dados para a tabela sis_tfc.sugestao_departamento: ~4 rows (aproximadamente)
+-- Copiando dados para a tabela sis_tfc.sugestao_departamento: ~6 rows (aproximadamente)
 /*!40000 ALTER TABLE `sugestao_departamento` DISABLE KEYS */;
 INSERT INTO `sugestao_departamento` (`id_sugestao`, `id_departamento`, `created_at`, `updated_at`) VALUES
 	(172, 10, NULL, NULL),
 	(173, 10, NULL, NULL),
 	(173, 10, NULL, NULL),
-	(173, 10, NULL, NULL);
+	(173, 10, NULL, NULL),
+	(174, 10, NULL, NULL),
+	(174, 10, NULL, NULL);
 /*!40000 ALTER TABLE `sugestao_departamento` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela sis_tfc.trabalho
@@ -751,7 +755,7 @@ CREATE TABLE IF NOT EXISTS `trabalho` (
 -- Copiando dados para a tabela sis_tfc.trabalho: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `trabalho` DISABLE KEYS */;
 INSERT INTO `trabalho` (`id`, `tema`, `descricao`, `proveniencia`, `estado`, `id_area`, `id_docente`, `created_at`, `updated_at`) VALUES
-	(160, 'KULONGA', 'Relatorio_KULONGA_160.pdf', 2, 1, 6, 61, '2020-12-30 00:00:00', '2021-03-23 14:33:05'),
+	(160, 'KULONGA', 'Relatorio_KULONGA_160.pdf', 2, 2, 6, 61, '2020-12-30 00:00:00', '2021-03-23 14:33:05'),
 	(161, 'TESTE TESTE ', 'default.pdf', 1, 1, 1, 58, '2021-03-14 00:00:00', '2021-03-14 00:00:00');
 /*!40000 ALTER TABLE `trabalho` ENABLE KEYS */;
 
@@ -797,17 +801,17 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Copiando dados para a tabela sis_tfc.users: ~39 rows (aproximadamente)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `email`, `email_verified_at`, `password`, `estado`, `tipo`, `qtd_vezes`, `remember_token`, `created_at`, `updated_at`, `id_pessoa`) VALUES
-	(1, 'wsa@gmail.com', '2019-09-24 04:00:00', '$2y$10$XpNQefi7MxXb4v.blp.f7.Tc5xP9CGoo5hEaiLEfLoSWYkCEj48BK', 1, 1, 1, '17tDlZpbHfooYrIpyxdNITtPRCS5ApZ4rjG2XeGNehJOUeEpqdYIh0TtVQzD', '2019-09-24 04:00:00', '2019-09-24 04:00:00', 1),
+	(1, 'wsa@gmail.com', '2019-09-24 04:00:00', '$2y$10$XpNQefi7MxXb4v.blp.f7.Tc5xP9CGoo5hEaiLEfLoSWYkCEj48BK', 1, 1, 1, 'fEtOtecYQ4sqwYCPygynQG9Cqlb5BVbGNnA0e35x9R0JXFcPSlzKLj5QHLM5', '2019-09-24 04:00:00', '2019-09-24 04:00:00', 1),
 	(5, 'eloicemarta@gmail.com', '2019-12-02 03:00:00', '$2y$10$zGyMTjucO2YibCuwtKJpaeVQtT5AuCwGSFRt.ZIiYD7DiNMqazmmW', 1, 2, 1, 's3lMyLoBCCoHPTSvyBDdC4vWOfWTwFh1GJJq2SdKHP5PMtAbhdT2zpIXZBs7', '2019-12-02 03:00:00', '2019-12-02 03:00:00', 10),
 	(25, 'redento@fceconomia.ao', '2019-12-24 03:00:00', '$2y$10$czScxQf4n4GThpV7M9wQKu/zkSC5LKtZfvwVvt0RH3.CO5Jgq0ZC6', 1, 1, 1, 'hT952zHdTTkAtU1GvWue8Pw85f1OWGegRL54Fo7bEWwdGQ5pqSR9BazPe7nm', '2019-12-24 03:00:00', '2019-12-24 03:00:00', 50),
 	(32, 'eunice@gmail.com', NULL, '$2y$10$mHs30WjbdV/6mYVPExHdbOe8fGnSHGNlZQSizZpalz9Ssz1QhJXZC', 1, 1, 1, 'oIfKJ4FmiWXjqwd5Ecd3UTz9lAZcXQgtW5StoGlv6pwf7fYfXum6T1zNxILg', NULL, NULL, 57),
-	(33, 'mateuspadoca@hotmail.com', '2019-09-24 04:00:00', '$2y$10$ORbb2H5obkVKJZcCeSY28eSPEEtKeLbxVdpCvHMvcXWtghYaal2SK', 1, 2, 1, 'uTJ4mZes2ZZlLjTtLEYa4uqojm4bpNhh1gPEAHm9IWBg8Kr6NYpA1Db5RYb5', '2019-09-24 04:00:00', '2019-12-20 03:00:00', 58),
+	(33, 'mateuspadoca@hotmail.com', '2019-09-24 04:00:00', '$2y$10$ORbb2H5obkVKJZcCeSY28eSPEEtKeLbxVdpCvHMvcXWtghYaal2SK', 1, 2, 1, 'XfZRMXrTq3Y0350nSVy5zGPjU53eymWutwhXkLpeo814w6mN33xWXGbt59Kx', '2019-09-24 04:00:00', '2019-12-20 03:00:00', 58),
 	(34, 'kianguebeni@gmail.com', NULL, '$2y$10$AUIWcnk7obTqsMfzLrpo7OAAQB6Mvyv2T0.9Em6eRAThM..emzza6', 1, 2, 1, 'mrThY1gfJOR8KvQ53uCv1SjCyZbHFXdvkVjar1jGJkBPgPlIOfpsDCCsm21m', NULL, NULL, 59),
 	(35, 'diambielizabeth@gmail.com', NULL, '$2y$10$ArkgMg.qF/xb/FIF5RSgA.D0iD5/eemsJ9dkjaOoqROv3egMqLajW', 1, 3, 1, '467J5ZZkSbovNZhAVgObKO7IZ6GYhxe1xOKbKp66eMU3CBslejtDhYd3bfWt', NULL, NULL, 60),
 	(36, 'amandio.almada@gmail.com', NULL, '$2y$10$FQfC.Mj8/4MnhwTYopzwpO7WMvzBSOPy160Sa2Z1qRJAYVezZdJiW', 1, 2, 1, 'vxAodET7V8kf02szCpYJhIBKdRELk2tGPgkMGD91lHyI8J7G6dUdl3IARLNJ', NULL, NULL, 61),
-	(37, 'dalton.cabeia@gmail.com', NULL, '$2y$10$FcL.Iu6C.2RqjaAANm0CLuDY.4NDCOdkCYa02VgDAbw4al7DMpQmO', 1, 3, 1, 'McbHU3PdWbiGjVM7ai5TgS4ItwsIuyFPZ3gQYWsFwoTvnFC4RH8mAW1gi8vA', NULL, NULL, 62),
+	(37, 'dalton.cabeia@gmail.com', NULL, '$2y$10$FcL.Iu6C.2RqjaAANm0CLuDY.4NDCOdkCYa02VgDAbw4al7DMpQmO', 1, 3, 1, 'D3LQXv5GPCa0zt096RO6jT3vc9Dzy0D79ir4BgV1pcVMYgrKhcTFo1capfjN', NULL, NULL, 62),
 	(39, 'lufialuiso@fcuan.ao', NULL, '$2y$10$ppQ8lirCH80qly5FYYrW5O6YK8K7oiZs/kxcVfNaDSkvUYvspLk8O', 1, 2, 1, 'jLRn45xK2ZHh0AjBs8ANDuw7x5idH7x61ZW97o9Hx6hzFN5dJzcUcnr1iZgQ', NULL, NULL, 66),
-	(40, 'juliana.dias@gmail.com', NULL, '$2y$10$y94iQ.5qTjdRkBr.rZcyZOJhV7b1AzAB5DQZ1fsSXdBuZNI39PG4K', 1, 3, 1, '7gRuy3bfzYnoZWOLVRZSIoWV7S2GFuO4Toz2hXOCfcwUXqAwc4p7KhiOvof8', NULL, NULL, 67),
+	(40, 'juliana.dias@gmail.com', NULL, '$2y$10$y94iQ.5qTjdRkBr.rZcyZOJhV7b1AzAB5DQZ1fsSXdBuZNI39PG4K', 1, 3, 1, 'iEQWduzPMAdNuyMYwGrMcvKblYQcLQfFhCojKYzGSMz97lMCOzrNaEi1cqhU', NULL, NULL, 67),
 	(42, 'vicente@gmail.com', NULL, '$2y$10$EubNMRl6lUQlSbvPTxOrpuhdvlslb3pr2Dl4HgeydkD9Um.1G7Vhq', 1, 2, 1, 'SskYDGt4rwUGwTEYcL5Jf08eO6JMnZifCNBMq5VFw2MvgnK2qGEsEPDqn6Tc', NULL, NULL, 69),
 	(43, 'sediamuanacongolo@gmail.com', NULL, '$2y$10$QG1C39jQyE4SOzKuJjiYVucNvugVMQOGaj2CvAt4uTv9HpdHIWWV2', 1, 3, 1, 'nz7AhqpgKbBIBIznAXLBuPLl1DQFNzTAjlX3mVRQ45srDWvgfTT5l1DHh54v', NULL, NULL, 70),
 	(44, 'loy@gmail.com', NULL, '$2y$10$RDY46f10bBliKbVf28JJfe9kS0z/vm95kbu2oo0hWX31rog/Lb9d.', 1, 1, 0, NULL, NULL, NULL, 72),
@@ -829,7 +833,7 @@ INSERT INTO `users` (`id`, `email`, `email_verified_at`, `password`, `estado`, `
 	(64, 'diabanzamavitidi@gmail.com', NULL, '$2y$10$tjk5eTee9TfgDK3taCMEV.4yOP9FzlEteTuTj2I9SmCfpCEC.Q4zy', 1, 3, 1, NULL, NULL, NULL, 93),
 	(65, 'mateus@gmail.com', NULL, '$2y$10$nnU27mJO4D/LZgEx6YhKiO0EUerVDAKdybYxUCGvsJN4ltBtXlwj.', 1, 3, 1, 'rJq696BP1hJJHuAbhL2sPcl1eoJXLH2gY5i2vR0gTzgqYZvR7sp2YH94UuVq', NULL, NULL, 94),
 	(67, 'jose_algas@gmail.com', NULL, '$2y$10$pTWd7C.GaKSbmJ7VdO7ndOdqp6FZRlQoHzZ64sOkjGV.WshYqUJx2', 1, 2, 0, NULL, NULL, NULL, 96),
-	(69, 'agx@gmail.com', NULL, '$2y$10$zGInyDi8FzxrVsop5mCPQu/LqL6rTxbDsSApQtIArJ7yoVD7XjiqW', 1, 3, 1, 'XWWopRatGqV9aArxR3dRpnmfVvfQixwvxKlDCo14GOWZDrtjT1pmUOZYDGaH', NULL, NULL, 99),
+	(69, 'agx@gmail.com', NULL, '$2y$10$zGInyDi8FzxrVsop5mCPQu/LqL6rTxbDsSApQtIArJ7yoVD7XjiqW', 1, 3, 1, 'FZJGP1AEDW677bNqR4ohw9haCDgMdfpDo9jmOdlA5HzNwlsVvi3DKvDN8Ms6', NULL, NULL, 99),
 	(71, 'sebas@hotmail.com', NULL, '$2y$10$q9aaDzmZrvo5t2Rb22N/bOU8tHJ294840cTJVpIweehKH43S98UQK', 1, 3, 0, NULL, NULL, NULL, 101),
 	(73, 'ivan.alexei@hotmail.com', NULL, '$2y$10$xBw208AdZx78WhCVe0ELi.7mqMgRsDO0SrUEay8recuGVKOynzm2G', 1, 2, 0, NULL, NULL, NULL, 103),
 	(74, 'fany@gmail.com', NULL, '$2y$10$ACNKHpRlciP.e9JLXUUgh.XItokwQ4dVD.fAwVUT62HSF7CChGz2m', 1, 2, 0, NULL, NULL, NULL, 104),
