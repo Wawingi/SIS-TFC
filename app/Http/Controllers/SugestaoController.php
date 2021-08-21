@@ -8,6 +8,8 @@ use App\Model\Departamento;
 use App\Model\Helper;
 use App\Model\Pessoa;
 use App\Model\Sugestao;
+use App\Model\EstudanteSugestao;
+use App\Model\Notificacao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -140,7 +142,6 @@ class SugestaoController extends Controller
         } else {
             echo 'Erro';
         }
-
     }
 
     public function verSugestao($id, $notificacao = null)
@@ -248,8 +249,9 @@ class SugestaoController extends Controller
     }
 
     //Função para aceitar a proposta na qual um estudante foi adicionada
-    public function aceitarProposta($idPessoa, $idSugestao)
+    public function aceitarProposta($idPessoa,$idSugestao)
     {
+        $convidados=DB::table('estudante_sugestao')->where('estado',1)->where('id_estudante',$idSugestao)->select('id_estudante')->get();
         //estado 0: pendente sobre aceitação em trabalhar
         //estado 1: aceite trabalhar numa proposta
         if (DB::table('estudante_sugestao')
@@ -259,8 +261,12 @@ class SugestaoController extends Controller
             if (DB::table('estudante_sugestao')
                 ->where('id_estudante', '=', $idPessoa)
                 ->where('estado', '=', 0)
-                ->delete()) {
+                ->delete()) 
+            {
                 $info = 'Sucesso';
+            }
+            foreach($convidados as $convidado){
+                Notificacao::registarNotificacao('O Estudante convidado aceitou trabalhar nesta proposta.',$convidado->id_estudante);    
             }
             $info = 'Sucesso';
         } else {
@@ -385,7 +391,13 @@ class SugestaoController extends Controller
         if (DB::table('estudante_sugestao')->insert(
             ['id_estudante' => $idPessoa, 'id_sugestao' => $request->sugestao_id, 'estado' => 0]
         )) {
-            $info = 'Sucesso';
+            $estudantes = EstudanteSugestao::getEstudantesID($request->sugestao_id);
+            if(count($estudantes)>0){
+                foreach($estudantes as $estudante){
+                    Notificacao::registarNotificacao('Foi adicionado um novo estudante à sugestão, consulte a sugestão para ver o novo adicionado.',$estudante->id_estudante);
+                }
+                $info = 'Sucesso';
+            }
         }
         echo $info;
     }
@@ -396,8 +408,15 @@ class SugestaoController extends Controller
         $info = null;
         if (DB::table('sugestao')
             ->where('id', '=', $request->sugestao_id)
-            ->update(['id_docente' => $request->orientador])) {
-            $info = 'Sucesso';
+            ->update(['id_docente' => $request->orientador])) 
+        {
+            $estudantes = EstudanteSugestao::getEstudantesID($request->sugestao_id);
+            if(count($estudantes)>0){
+                foreach($estudantes as $estudante){
+                    Notificacao::registarNotificacao('O orientador desta sugestão foi alterado, consulte a sugestão para ver o novo adicionado.',$estudante->id_estudante);
+                }
+                $info = 'Sucesso';
+            }
         }
         echo $info;
     }

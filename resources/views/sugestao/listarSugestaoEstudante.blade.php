@@ -51,9 +51,9 @@ $sessao = session('dados_logado');
         @if($sessao[0]->tipo==3)
             <div class="row">
                 <?php
-$jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pessoa, 1);
-if (count($jaSugestao) <= 0) {
-    ?>
+                    $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pessoa, 1);
+                    if (count($jaSugestao) <= 0) {
+                ?>
                     <div class="col-lg-12">
                         <button type="button" class="btn btn-primary btn-rounded btn-sm waves-effect waves-light" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#exampleModalScrollable"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Proposta</button>
                     </div>

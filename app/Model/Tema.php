@@ -48,7 +48,7 @@ class Tema extends Model
          return DB::table('trabalho')
              ->join('area_aplicacao', 'area_aplicacao.id', '=', 'trabalho.id_area')
              ->join('pessoa', 'pessoa.id', '=', 'trabalho.id_docente')
-             ->select('trabalho.id', 'trabalho.tema', 'trabalho.descricao', 'trabalho.proveniencia', 'trabalho.created_at', 'area_aplicacao.nome as area', 'pessoa.nome as docente', 'estado')
+             ->select('trabalho.id', 'trabalho.tema', 'trabalho.descricao','trabalho.recomendacao', 'trabalho.proveniencia', 'trabalho.created_at', 'area_aplicacao.nome as area', 'pessoa.nome as docente', 'estado')
              ->where('trabalho.id', '=', $id)
              ->first();
     }
@@ -73,7 +73,8 @@ class Tema extends Model
             ->join('area_aplicacao', 'area_aplicacao.id', '=', 'trabalho.id_area')
             ->join('pessoa', 'pessoa.id', '=', 'trabalho.id_docente')
             ->join('prova_publica', 'prova_publica.id_trabalho', '=', 'trabalho.id')
-            ->select('trabalho.id', 'trabalho.tema', 'trabalho.descricao', 'area_aplicacao.nome as area','pessoa.nome as docente','prova_publica.nota','prova_publica.created_at')
+            ->join('nota_informativa','nota_informativa.id_trabalho','=','trabalho.id')
+            ->select('trabalho.id', 'trabalho.tema', 'trabalho.descricao', 'area_aplicacao.nome as area','pessoa.nome as docente','prova_publica.nota','prova_publica.created_at','nota_informativa.local','nota_informativa.presidente','nota_informativa.secretario','vogal_1','vogal_2')
             ->where('trabalho.id', '=', $id)
             ->where('trabalho.estado', '=', 2)
             ->first();

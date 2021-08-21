@@ -17,6 +17,7 @@ class CreateTrabalhoTable extends Migration
             $table->increments('id');
             $table->string('tema');
             $table->longText('descricao');
+            $table->longText('recomendacao')->nullable();;
             $table->integer('proveniencia');
             $table->integer('estado');
             $table->unsignedInteger('id_area');

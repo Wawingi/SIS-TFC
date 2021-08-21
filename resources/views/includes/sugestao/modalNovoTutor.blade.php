@@ -5,7 +5,7 @@
                 <h4 style="color:#ffff" class="modal-title" id="myLargeModalLabel"><i class='fa fa-pencil-alt mr-2'></i>Adicionar Outro Orientador</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
-            <form id="formularioNovoTutor" method="post">
+            <form id="formularioNovoTutor" action="{{ url('trocarTutor') }}" method="post">
                 <div class="modal-body">
                     @csrf
                     <div class="row">

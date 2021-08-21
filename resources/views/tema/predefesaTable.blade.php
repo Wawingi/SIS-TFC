@@ -10,7 +10,7 @@
     </tr>     
     <tr>
         <td colspan="4">
-            <textarea readonly class="form-control" rows="3">{{$predefesa->nota}}</textarea>
+            <textarea style="background:#f5f6f8" readonly class="form-control" rows="3">{{$predefesa->nota}}</textarea>
         </td>
     </tr>  
     <tr>

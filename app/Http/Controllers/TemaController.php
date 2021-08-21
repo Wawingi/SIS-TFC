@@ -101,6 +101,36 @@ class TemaController extends Controller
             $novoFicheiro = Helper::moverRelatorioFicheiro($request->file('relatorio'),$request->tema_trabalho,$request->id_trabalho); 
             $trabalho = Tema::find($request->id_trabalho);
             $trabalho->descricao = $novoFicheiro;
+            $trabalho->recomendacao = $request->recomendacao;
+            if($trabalho->save()){
+                return back()->with('info','Relatório anexado com sucesso.');
+            }else{
+                return back()->with('error','Houve um erro ao anexar o relatório.');
+            }
+        }else{
+            return back()->with('error','Houve um erro ao anexar o relatório.');
+        }
+    }
+
+    //Função para editar o relatório final
+    public function editarRelatorioFinal(Request $request){
+        $request->validate([
+            'relatorio_edit' => ['required', 'mimes:pdf', 'max:4000'],
+            'id_trabalho' => ['required'],
+            'tema_trabalho' => ['required'],
+        ], [
+            //Mensagens de validação de erros
+            'relatorio_edit.required' => 'O ficheiro deve ser anexado.',
+            'relatorio_edit.max' => 'O ficheiro possúi um tamanho maior do estabelecido.',
+            'relatorio_edit.mimes' => 'Anexe um ficheiro PDF válido.',
+        ]);        
+    
+        //Verificar a extensão e o tamanho do ficheiro a anexar
+        if ($request->file('relatorio_edit')->isValid()) {
+            $novoFicheiro = Helper::moverRelatorioFicheiro($request->file('relatorio_edit'),$request->tema_trabalho,$request->id_trabalho); 
+            $trabalho = Tema::find($request->id_trabalho);
+            $trabalho->descricao = $novoFicheiro;
+            $trabalho->recomendacao = $request->recomendacao_edit;
             if($trabalho->save()){
                 return back()->with('info','Relatório anexado com sucesso.');
             }else{

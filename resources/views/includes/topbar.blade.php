@@ -59,8 +59,8 @@
                 @can('visualizar_convite')
                     <!-- verificar se o estudante foi escolhido numa sugestão -->
                     <?php
-$jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pessoa, 0);
-?>
+                        $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pessoa, 0);
+                    ?>
                     @if(count($jaSugestao) > 0)
                         <li class="dropdown notification-list">
                         <!--<a title="Convite para trabalhar no tema" class="nav-link dropdown-toggle  waves-effect waves-light" href='{{ url("verSugestao/".base64_encode($jaSugestao[0]->id_sugestao)."/".base64_encode(1)) }}'>-->
@@ -78,44 +78,8 @@ $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pes
                     @endif
                 @endcan
 
-                <li class="dropdown notification-list">
-                    <a class="nav-link dropdown-toggle  waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                        <i class="fe-bell noti-icon"></i>
-                        <span class="badge badge-danger rounded-circle noti-icon-badge">4</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-lg">
-
-                        <!-- item-->
-                        <div class="dropdown-item noti-title">
-                            <h5 class="m-0">
-                                <span class="float-right">
-                                    <a href="#" class="text-dark">
-                                        <small>Clear All</small>
-                                    </a>
-                                </span>Notification
-                            </h5>
-                        </div>
-
-                        <div class="slimscroll noti-scroll">
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item active">
-                                <div class="notify-icon bg-soft-primary text-primary">
-                                    <i class="mdi mdi-comment-account-outline"></i>
-                                </div>
-                                <p class="notify-details">Doug Dukes commented on Admin Dashboard
-                                    <small class="text-muted">1 min ago</small>
-                                </p>
-                            </a>
-                        </div>
-
-                        <!-- All-->
-                        <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">
-                            View all
-                            <i class="fi-arrow-right"></i>
-                        </a>
-
-                    </div>
+                <li id="notificacaoTable" class="dropdown notification-list">
+                    <!--Notificações serão exibidas aqui-->
                 </li>
 
                 <li class="dropdown notification-list">
@@ -151,10 +115,7 @@ $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pes
 
                     </div>
                 </li>
-
             </ul>
-
-
 
             @can('criar_user')
                 <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
@@ -178,7 +139,6 @@ $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pes
                     </li>
                 </ul>
             @endcan
-
             <div class="clearfix"></div>
         </div>
     </div>
@@ -282,6 +242,9 @@ $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pes
                             <li>
                                 <a href="{{ url('listarPerfilUtilizador')}}"><i class="fas fa-users-cog mr-1"></i>Perfil de Utilizador</a>
                             </li>
+                            <li>
+                                <a href="{{ url('listarPredefinidoAvaliacao')}}"><i class="fas fa-users-cog mr-1"></i>Avalições Predefinidas</a>
+                            </li>
                         </ul>
                     </li>
 
@@ -316,4 +279,18 @@ $jaSugestao = App\Model\Pessoa::verificarEnvolvimentoSugestao($sessao[0]->id_pes
         })
     }
     contTutorandos();
+
+    function carregarDataTableNotificacao(){
+        $.ajax({
+            url: "{{ url('pegaNotificacoes') }}",
+            success:function(data){
+                $('#notificacaoTable').html(data);
+            },
+            error: function(e)
+			{
+				alert("erro ao carregar dados");
+			}
+        })
+    }
+    carregarDataTableNotificacao();
 </script>

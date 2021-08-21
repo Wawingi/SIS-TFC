@@ -129,12 +129,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('verTrabalhoDefendido/{id}', 'TemaController@verTrabalhoDefendido');
     Route::get('verEnvolventesTrabalho/{id}', 'TemaController@verEnvolventesTrabalho');
     Route::post('registarRelatorioFinal','TemaController@registarRelatorioFinal');
+    Route::post('editarRelatorioFinal','TemaController@editarRelatorioFinal');
     Route::get('verMeuTrabalho','TemaController@verMeuTrabalho');
     Route::post('registarItem','ItemController@registarItem');
     Route::get('pegaElemento/{idTrabalho}/{itemTipo}','ItemController@pegaElemento');
     Route::get('pegaElementosAvaliacao/{idTrabalho}','ItemController@pegaElementosAvaliacao');
     Route::get('abrirItem/{idItem}','ItemController@abrirItem');
     Route::post('avaliarItem','ItemController@avaliarItem');
+    Route::post('registarAvaliacao', 'ItemController@registarAvaliacao');
 });
 
 //Rotas para configurações
@@ -158,6 +160,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('verRole/{id}/{nome}/{desc}/{tipo}', 'PerfilController@verRole');
     Route::get('removerPermissao/{idPermission}/{idRole}', 'PerfilController@removerPermissao');
     Route::post('associarPermission', 'PerfilController@associarPermission');
+    Route::get('listarPredefinidoAvaliacao', function () {
+        return view('configuracao.listarPredefinidoAvaliacao');
+    });
+    Route::post('registarPredefinidaAvaliacao', 'PredefinidoAvaliacaoController@registarPredefinidaAvaliacao');
+    Route::get('pegaPredefinidaAvaliacao', 'PredefinidoAvaliacaoController@pegaPredefinidaAvaliacao');
+    Route::get('eliminarPredefinida/{id}', 'PredefinidoAvaliacaoController@eliminarPredefinida');
+    Route::post('editarPredefinida', 'PredefinidoAvaliacaoController@editarPredefinida');
 });
 
 //Rotas para predefesas e defesas
@@ -177,6 +186,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('editarJurado', 'DefesaController@editarJuradoNotaInformativa');
     Route::post('editarProvaPublica', 'DefesaController@editarProvaPublica');
     Route::get('eliminarProvaPublica/{id_prova}', 'DefesaController@eliminarProvaPublica');
+});
+
+//Rotas para notificações
+Route::middleware(['auth'])->group(function () {
+    Route::get('pegaNotificacoes', 'NotificacaoController@pegaNotificacoes');
+    Route::get('listarNotificacoes', 'NotificacaoController@listarNotificacoes');
+    Route::get('marcarNotificacao/{id_notificacao}', 'NotificacaoController@marcarNotificacao');
+    Route::get('eliminarNotificacao/{id_notificacao}', 'NotificacaoController@eliminarNotificacao');
 });
 
 Route::post('logar', 'Auth\LoginController@authenticate');

@@ -22,6 +22,7 @@ $sessao = session('dados_logado');
             </div>
         </div>
         <!--Inicio do conteudo-->
+            @include('includes.trabalho.modalVerElementoPdf')
                 <br>
                 <div class="row">
                     <div class="col-12">
@@ -29,7 +30,7 @@ $sessao = session('dados_logado');
                             <div class="row">
                                 <div class="col-lg-12">
                                     <ul class="sortable-list tasklist list-unstyled" id="upcoming">
-                                        <li style="background:#fff;height:auto" id="task1" class="task-low">
+                                        <li style="background:#fff;height:210px" id="task1" class="task-low">
                                             <br>
                                             <input type="hidden" name="trabalho_id" id="trabalho_id" class="form-control" value="{{$trabalho->id}}">
                                             <div id="labelespaco" class="row">
@@ -88,7 +89,7 @@ $sessao = session('dados_logado');
                                                 </div>
                                                 <div class="col-8">
                                                     <div class="form-group row mb-3">
-                                                        <label class="col-md-7 col-form-label">: {{$trabalho->nota}} Valores</label>
+                                                        <label style="color:green" class="col-md-7 col-form-label">: {{$trabalho->nota}} Valores</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -100,7 +101,7 @@ $sessao = session('dados_logado');
                                                 </div>
                                                 <div class="col-8">
                                                     <div class="form-group row mb-3">
-                                                        <label class="col-md-7 col-form-label">: <a href="#">{{$trabalho->descricao}} <i class="fas fa-file-pdf"></i></a></label>
+                                                        <label class="col-md-7 col-form-label">: <a ficheiro="{{$trabalho->descricao}}" class="AbrirElementoPdf" href="#">{{$trabalho->descricao}} <i class="fas fa-file-pdf"></i></a></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -129,7 +130,38 @@ $sessao = session('dados_logado');
                                         </div>
                                     </div>
                                 </div>
-                            </div>                         
+                            </div> 
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card-box">
+                                        <h5 class="table-title"><i class="fas fa-user-graduate mr-1"></i>PROVA PÚBLICA</h5><hr>
+                                        <div class="table-responsive">
+                                            <table class="table table-borderless mb-0">
+                                                <tbody>
+                                                    <tr>                
+                                                        <td style="background:#edeff1">Data da defesa</td>                
+                                                        <td><B>{{date('d-m-Y',strtotime($trabalho->created_at))}}</B></td>
+                                                        <td style="background:#edeff1">Local da defesa</td>                
+                                                        <td><B>{{$trabalho->local}}</B></td>                                                        
+                                                    </tr>       
+                                                    <tr>                
+                                                        <td style="background:#edeff1">Presidente</td>                
+                                                        <td><B>{{$trabalho->presidente}}</B></td>   
+                                                        <td style="background:#edeff1">Secretário</td>                
+                                                        <td><B>{{$trabalho->secretario}}</B></td>              
+                                                    </tr>                
+                                                    <tr>                
+                                                        <td style="background:#edeff1">1º Vogal</td>                
+                                                        <td><B>{{$trabalho->vogal_1}}</B></td>       
+                                                        <td style="background:#edeff1">2º Vogal</td>                
+                                                        <td><B>{{$trabalho->vogal_2}}</B></td>            
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                              
                         </div>
                     </div>
                 </div>
@@ -153,5 +185,15 @@ $sessao = session('dados_logado');
         })
     }
     carregarDataTable();  
+
+    $(document).on('click','.AbrirElementoPdf',function(e){
+        e.preventDefault();
+
+        var ficheiro = $(this).attr('ficheiro');
+        let source="{{ url('/storage/trabalhos/')}}/"+ficheiro;
+
+        $('.modalShowElementoPdf').modal('show');
+        $('#ficheiroElemento').attr('src', source); 
+    });
 </script>
 @stop
