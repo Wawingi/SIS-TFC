@@ -169,7 +169,6 @@
 			}
         })
     }
-
     carregarDataTableLixeira();
 
     $("#formularioSalvar").validate({

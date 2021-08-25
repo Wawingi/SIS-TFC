@@ -177,6 +177,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('editarJurado', 'DefesaController@editarJuradoNotaInformativa');
     Route::post('editarProvaPublica', 'DefesaController@editarProvaPublica');
     Route::get('eliminarProvaPublica/{id_prova}', 'DefesaController@eliminarProvaPublica');
+    Route::get('abrirActaNota/{id_prova}', 'DefesaController@abrirActaNota');
 });
 
 Route::post('logar', 'Auth\LoginController@authenticate');

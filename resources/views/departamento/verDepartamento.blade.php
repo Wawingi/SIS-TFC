@@ -223,13 +223,15 @@
 		}
     });
     
-    function carregarCursoTable(){
+    //Chamar a data table
+    $(document).ready(function() {
         var id = $('#id_departamento').val();
         var isDeleted=0;
         $.ajax({
             url: "{{ url('pegaCursos') }}/"+id+"/"+isDeleted,
             success:function(data){
-                $('#cursoTable').html(data);
+                $('#cursoTable').html(data); 
+                
                 $('#paginationFullNumbers').DataTable({
                     "pagingType": "full_numbers"
                 }); 
@@ -239,8 +241,23 @@
 				alert(e);
 			}
         })
+    });
+
+    function carregarCursoTable(){
+        var id = $('#id_departamento').val();
+        var isDeleted=0;
+        $.ajax({
+            url: "{{ url('pegaCursos') }}/"+id+"/"+isDeleted,
+            success:function(data){
+                $('#cursoTable').html(data);  
+            },
+            error: function(e)
+			{
+				alert(e);
+			}
+        })
     }
-    carregarCursoTable();
+    //carregarCursoTable();
 
     function carregarCursoTableLixeira(){
         var id = $('#id_departamento').val();
@@ -277,10 +294,12 @@
                     Swal.fire({
                         text: "Curso registado com sucesso.",
                         icon: 'success',
+                        timer:1000,
                         confirmButtonText: 'Fechar'
                     }),
-                    $('#formularioSalvar')[0].reset();
                     carregarCursoTable();
+                    $('#formularioSalvar')[0].reset();
+                   
                 }            
             },
             error: function(response){

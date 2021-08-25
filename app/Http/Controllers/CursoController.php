@@ -15,6 +15,7 @@ class CursoController extends Controller
         ],[
             //Mensagens de validação de erros
             'nome.required'=>'Por favor, informe o nome do curso',
+            'nome.unique'=>'Este departamento já foi registado.',
         ]);
             
         $curso = new Curso;

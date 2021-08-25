@@ -837,7 +837,7 @@ $sessao = session('dados_logado');
             },
             error: function(e)
 			{
-				alert("erro ao carregar dados");
+				alert("erro ao carregar Envolventes");
 			}
         })
     }
@@ -932,7 +932,7 @@ $sessao = session('dados_logado');
             },
             error: function(e)
 			{
-				alert("erro ao carregar dados");
+				alert("erro ao carregar pretextuall");
 			}
         })
     };
@@ -949,7 +949,7 @@ $sessao = session('dados_logado');
             },
             error: function(e)
 			{
-				alert("erro ao carregar dados");
+				alert("erro ao carregar textual");
 			}
         })
     };
@@ -966,7 +966,7 @@ $sessao = session('dados_logado');
             },
             error: function(e)
 			{
-				alert("erro ao carregar dados");
+				alert("erro ao carregar pos textual");
 			}
         })
     };

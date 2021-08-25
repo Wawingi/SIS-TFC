@@ -13,7 +13,7 @@
     <tr>                
         <td style="background:#edeff1">Nota do trabalho</td>                
         <td><a href="#" class="nota_edit" data-name="nota" data-type="number" data-min="0" data-max="20" data-placeholder="Preenchimento obrigatório" data-pk="{{$pp->id}}" data-title="Informe o local">{{$pp->nota}}</a> <span style="margin-left:10px"><B>Valor</B></span></td>                
-        <td style="text-align:left"><a href="#"><i class="fas fa-file-pdf"></i> ACTA DA LEITURA DE NOTA</a></td>
+        <td style="text-align:left"><a href='{{ url("abrirActaNota/".base64_encode($pp->id)) }}'><i class="fas fa-file-pdf"></i> ACTA DA LEITURA DE NOTA</a></td>
     </tr>                      
     <tr>                
         <td style="background:#edeff1">Local da defesa</td>                

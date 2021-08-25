@@ -21,11 +21,9 @@
     @endforeach 
 @endif
 <script>
-  jQuery().ready(function(){
-    $(".clickable-row").click(function(e){//alert(e.target.tagName);
-		if (e.target.tagName == 'TD') {
+    $(document).on('click','.clickable-row',function(e){
+        if (e.target.tagName == 'TD') {
             window.location = $(this).data("href");
-		}
+        }
     });
-  });
 </script>
