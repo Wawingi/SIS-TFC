@@ -55,7 +55,7 @@
                                                 <br><small class="text-muted">{{date('d-m-Y H:i',strtotime($notificacao->created_at))}}</small>
                                             </p>
                                         </td>
-                                        <td>    
+                                        <td width="30%">    
                                             <a href='{{ url("eliminarNotificacao/".base64_encode($notificacao->id)) }}' class="btn btn-danger btn-sm btn-rounded float-right"><i class='fas fa-trash'></i> Eliminar </a>
                                             <a href='{{ url("marcarNotificacao/".base64_encode($notificacao->id)) }}' class="btn btn-success btn-sm btn-rounded float-right mr-1"><i class='fas fa-check'></i> Marcar Lida </a>
                                         </td>

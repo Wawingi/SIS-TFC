@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Model\Tema;
+use App\Model\Area;
+use App\Model\Pessoa;
 use App\Model\Helper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -139,5 +141,26 @@ class TemaController extends Controller
         }else{
             return back()->with('error','Houve um erro ao anexar o relatório.');
         }
+    }
+
+    public function contEstatisticas(){
+        $sessao=session('dados_logado');
+        $id_faculdade=$sessao[0]->id_faculdade;
+        
+        //Contar trabalhos em progresso de uma faculdade
+        $contTrabalhos=Tema::getTotalTrabalhosByFaculdade($id_faculdade);
+
+        //Contar as linhas de investigação
+        $contLinhas=count(Area::getAreasByFaculdade($id_faculdade));
+
+        //Contar orientadores envolvidos
+        $contDocentes=count(Pessoa::getTotalDocentes($id_faculdade));
+        
+        //Contar estudantes envolvidos
+        $contEstudantes=Tema::getTotalEstudantesByFaculdade($id_faculdade);
+
+        $contadores=["total_trabalhos"=>$contTrabalhos,"total_linhas"=>$contLinhas,"total_docentes"=>$contDocentes,"total_estudantes"=>$contEstudantes];
+        
+        return view('layouts.contabilidadeTrabalho',compact('contadores'));
     }
 }

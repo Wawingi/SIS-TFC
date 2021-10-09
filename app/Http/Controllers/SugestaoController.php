@@ -251,17 +251,17 @@ class SugestaoController extends Controller
     //Função para aceitar a proposta na qual um estudante foi adicionada
     public function aceitarProposta($idPessoa,$idSugestao)
     {
-        $convidados=DB::table('estudante_sugestao')->where('estado',1)->where('id_estudante',$idSugestao)->select('id_estudante')->get();
+        $convidados=$convidados=$estudantes = EstudanteSugestao::getEstudanteSugestaoID($idSugestao);
         //estado 0: pendente sobre aceitação em trabalhar
         //estado 1: aceite trabalhar numa proposta
         if (DB::table('estudante_sugestao')
             ->where('id_estudante', '=', $idPessoa)
             ->where('id_sugestao', '=', $idSugestao)
-            ->update(['estado' => 1])) {
+            ->update(['estado' => 1])) { //ACeita o convite em trabalhar na sugestão
             if (DB::table('estudante_sugestao')
                 ->where('id_estudante', '=', $idPessoa)
                 ->where('estado', '=', 0)
-                ->delete()) 
+                ->delete())  //Elimina todas sugestões ou propostas pendentes
             {
                 $info = 'Sucesso';
             }
@@ -278,11 +278,17 @@ class SugestaoController extends Controller
     //FUnção para negar o convite para trabalhar num tema
     public function negarProposta($idSugestao, $idPessoa)
     {
+        $convidados=$estudantes = EstudanteSugestao::getEstudanteSugestaoID($idSugestao);
+
         $info = null;
         if (DB::table('estudante_sugestao')
             ->where('id_sugestao', '=', $idSugestao)
             ->where('id_estudante', '=', $idPessoa)
-            ->delete()) {
+            ->delete()) 
+        {
+            foreach($convidados as $convidado){
+                Notificacao::registarNotificacao('O Estudante convidado rejeitou o convite para trabalhar nesta proposta.',$convidado->id_estudante);    
+            }
             $info = 'Sucesso';
         }
         echo $info;
@@ -291,6 +297,8 @@ class SugestaoController extends Controller
     //Rejeitar proposta pelo corpo científico
     public function rejeitarProposta(Request $request)
     {
+        $convidados=$estudantes = EstudanteSugestao::getEstudanteSugestaoID($request->idSugestao);
+
         $validatedData = $request->validate([
             'descricao' => ['required'],
         ], [
@@ -307,6 +315,10 @@ class SugestaoController extends Controller
             if ($avaliacao->save()) {
                 Sugestao::mudarEstadoSugestao($request->proveniencia, $request->idSugestao);
                 $info = 'Sucesso';
+
+                foreach($convidados as $convidado){
+                    Notificacao::registarNotificacao('A proposta ou sugestão adicionada foi rejeitada pelo conselho científico. Por favor verifique o motivo na aba AVALIAÇÂO TÉCNIA.',$convidado->id_estudante);    
+                }
             }
         }
         echo $info;
@@ -364,11 +376,18 @@ class SugestaoController extends Controller
     //Aprovar a proposta por parte do conselho cientifico do departamento para constituir trabalho
     public function aprovarProposta($idSugestao)
     {
+        $convidados = EstudanteSugestao::getEstudanteSugestaoID($idSugestao);
+
         $info = null;
         if ($this->criarTrabalho($idSugestao)) {
             if (DB::table('sugestao')
                 ->where('id', '=', $idSugestao)
-                ->update(['estado' => 3, 'avaliacao' => 1])) {
+                ->update(['estado' => 3, 'avaliacao' => 1])) 
+            {
+                foreach($convidados as $convidado){
+                    Notificacao::registarNotificacao('A proposta ou sugestão adicionada foi aprovada com sucesso pelo conselho científico. Um novo trabalho foi criado de acordo a sugestão proposta.',$convidado->id_estudante);    
+                }
+
                 $info = 'Sucesso';
             } else { $info = null;}
 
@@ -376,7 +395,8 @@ class SugestaoController extends Controller
             if (DB::table('estudante_sugestao')
                 ->where('id_sugestao', '=', $idSugestao)
                 ->where('estado', '=', 0)
-                ->delete()) {
+                ->delete()) 
+            {
                 $info = 'Sucesso';
             } else {}
         }

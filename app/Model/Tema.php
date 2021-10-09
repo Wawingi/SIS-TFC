@@ -39,6 +39,7 @@ class Tema extends Model
             ->where('trabalho.estado',2)
             ->orderBy('area_aplicacao.nome')
             //->groupBy('trabalho.id')
+            ->distinct('trabalho.id')
             ->get();
     }
 
@@ -74,7 +75,7 @@ class Tema extends Model
             ->join('pessoa', 'pessoa.id', '=', 'trabalho.id_docente')
             ->join('prova_publica', 'prova_publica.id_trabalho', '=', 'trabalho.id')
             ->join('nota_informativa','nota_informativa.id_trabalho','=','trabalho.id')
-            ->select('trabalho.id', 'trabalho.tema', 'trabalho.descricao', 'area_aplicacao.nome as area','pessoa.nome as docente','prova_publica.nota','prova_publica.created_at','nota_informativa.local','nota_informativa.presidente','nota_informativa.secretario','vogal_1','vogal_2')
+            ->select('trabalho.id', 'trabalho.tema', 'trabalho.descricao','trabalho.recomendacao','area_aplicacao.nome as area','pessoa.nome as docente','prova_publica.nota','prova_publica.created_at','nota_informativa.local','nota_informativa.presidente','nota_informativa.secretario','vogal_1','vogal_2')
             ->where('trabalho.id', '=', $id)
             ->where('trabalho.estado', '=', 2)
             ->first();
@@ -91,6 +92,33 @@ class Tema extends Model
             ->select('pessoa.nome', 'pessoa.bi', 'curso.nome as nome_curso')
             ->where('trabalho.id', '=', $idTrabalho)
             ->get();
+    }
+
+    public static function getEstudanteTrabalhoID($id_trabalho){
+        return DB::table('envolvente')->where('id_trabalho',$id_trabalho)->select('id_estudante')->get();
+    }
+
+    public static function getTotalTrabalhosByFaculdade($id_faculdade){
+        return DB::table('trabalho')
+            ->join('trabalho_departamento', 'trabalho_departamento.id_trabalho', '=', 'trabalho.id')
+            ->join('departamento', 'trabalho_departamento.id_departamento', '=', 'departamento.id')
+            ->join('faculdade', 'faculdade.id', '=', 'departamento.id_faculdade')
+            ->select('trabalho.id', 'trabalho.tema')
+            ->where('faculdade.id',$id_faculdade)
+            ->where('trabalho.estado',1)
+            ->distinct('trabalho_departamento.id_trabalho')
+            ->count();
+    }
+
+    public static function getTotalEstudantesByFaculdade($id_faculdade){
+        return DB::table('trabalho')
+            ->join('trabalho_departamento', 'trabalho_departamento.id_trabalho', '=', 'trabalho.id')
+            ->join('departamento', 'trabalho_departamento.id_departamento', '=', 'departamento.id')
+            ->join('faculdade', 'faculdade.id', '=', 'departamento.id_faculdade')
+            ->select('trabalho.id', 'trabalho.tema')
+            ->where('faculdade.id',$id_faculdade)
+            ->where('trabalho.estado',1)
+            ->count();
     }
 
 }

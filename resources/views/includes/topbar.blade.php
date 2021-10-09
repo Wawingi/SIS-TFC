@@ -7,12 +7,12 @@
             <div class="logo-box">
                 <a href="{{ url('home') }}" class="logo text-center">
                     <span class="logo-lg">
-                        <img src="{{ url('images/logo-light.png') }}" alt="" height="24">
+                        <img src="{{ url('images/logo.png') }}" alt="" height="44">
                         <!-- <span class="logo-lg-text-light">Xeria</span> -->
                     </span>
                     <span class="logo-sm">
                         <!-- <span class="logo-sm-text-dark">X</span> -->
-                        <img src="{{ url('images/logo-light.png') }}" alt="" height="24">
+                        <img src="{{ url('images/logo.png') }}" alt="" height="24">
                     </span>
                 </a>
             </div>
@@ -221,13 +221,18 @@
 
                     <li class="has-submenu">
                         <a href="#">
-                            <i class="remixicon-bar-chart-fill"></i>Estatísticas <div class="arrow-down"></div>
+                            <i class="remixicon-bar-chart-fill"></i>Relatórios <div class="arrow-down"></div>
                         </a>
                         <ul class="submenu">
                             <li>
-                                <a href="#"><i class="fe-file-text mr-1"></i>Registar Tema</a>
+                                <a href="{{url('listarOrientadores')}}"><i class="fe-file-text mr-1"></i>Orientadores Envolvidos</a>
                             </li>
-
+                            <li>
+                                <a href="{{url('listarEditais')}}"><i class="fe-file-text mr-1"></i>Listar Editais</a>
+                            </li>
+                            <li>
+                                <a href="{{url('listarProvasPublica')}}"><i class="fe-file-text mr-1"></i>Listar Provas Pública</a>
+                            </li>
                         </ul>
                     </li>
 

@@ -24,7 +24,7 @@
         @endif
     </td>
     <td class="float-right">
-        <a href="#" id_item="{{$elemento->id}}" avaliacao="{{$elemento->avaliacao}}" comentario="{{$elemento->comentario}}" data_avaliacao="{{$elemento->updated_at}}" data_registo="{{$elemento->created_at}}" predefinidas="{{$pr}}" class="verElemento"><i class='fas fa-eye mr-1'></i>Ver Elemento</a>
+        <a href="#" id_item="{{$elemento->id}}" avaliacao="{{$elemento->avaliacao}}" comentario="{{$elemento->comentario}}" data_avaliacao="{{date('d-m-Y',strtotime($elemento->updated_at))}}" data_registo="{{date('d-m-Y',strtotime($elemento->created_at))}}" predefinidas="{{$pr}}" class="verElemento"><i class='fas fa-eye mr-1'></i>Ver Elemento</a>
         @if($elemento->avaliacao==3)
             <a href="#" id_item="{{$elemento->id}}" class="avaliarELemento"><i class='fas fa-clipboard-check mr-1'></i>Avaliar o Elemento</a>
         @endif
@@ -65,7 +65,6 @@
         $('#data_registo').val(data_registo);
         $('#data_avaliacao').val(data_avaliacao);
         $('#predefinidas').val(predefinidas);
-
     });
     
     $(document).on('click','.avaliarELemento',function(e){

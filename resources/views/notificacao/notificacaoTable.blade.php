@@ -14,7 +14,7 @@
     </div>
     <div class="slimscroll noti-scroll">
         @foreach($notificacoes as $notificacao)
-        <a href="javascript:void(0);" @if($notificacao->estado==0) class="dropdown-item notify-item active" @else class="dropdown-item notify-item" @endif>
+        <a href="{{url('listarNotificacoes')}}" @if($notificacao->estado==0) class="dropdown-item notify-item active" @else class="dropdown-item notify-item" @endif>
             <div class="notify-icon bg-soft-primary text-primary">
                 <i class="mdi mdi-bell-ring"></i>
             </div>

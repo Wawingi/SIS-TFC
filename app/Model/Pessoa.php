@@ -152,4 +152,27 @@ class Pessoa extends Model
             ->get();
     }
 
+    public static function getTotalDocentes($id_faculdade){
+        return DB::table('pessoa')
+                ->join('docente', 'pessoa.id', '=', 'docente.id_pessoa')
+                ->join('pessoa_departamento', 'pessoa.id', '=', 'pessoa_departamento.id_pessoa')
+                ->join('departamento', 'departamento.id', '=', 'pessoa_departamento.id_departamento')
+                ->join('faculdade', 'faculdade.id', '=', 'departamento.id_faculdade')
+                ->select('pessoa.id as pessoa_id', 'pessoa.nome', 'faculdade.nome as faculdade', 'departamento.nome as departamento')
+                ->where('faculdade.id', '=', $id_faculdade)
+                ->get();
+    }
+
+    //Listar orientadores de faculdade um departamento
+    public static function getOrientadores($id_departamento){
+        return DB::table('pessoa')
+                ->join('docente', 'pessoa.id', '=', 'docente.id_pessoa')
+                ->join('pessoa_departamento', 'pessoa.id', '=', 'pessoa_departamento.id_pessoa')
+                ->join('departamento', 'departamento.id', '=', 'pessoa_departamento.id_departamento')
+                ->join('faculdade', 'faculdade.id', '=', 'departamento.id_faculdade')
+                ->select('pessoa.nome', 'faculdade.nome as faculdade', 'departamento.nome as departamento')
+                ->where('departamento.id', '=', $id_departamento)
+                ->get();
+    }
+
 }

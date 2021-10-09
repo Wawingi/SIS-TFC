@@ -627,7 +627,7 @@ $sessao = session('dados_logado');
                                     </div>
                                 </div>
 
-                                <!-- Secção da nota informativa --> 
+                                <!-- Secção da prova publica --> 
                                 <div class="tab-pane fade" id="notainformativa">
                                     <div id="showFormNI" style="display:none" class="row">
                                         <div class="col-xl-12">
@@ -704,7 +704,7 @@ $sessao = session('dados_logado');
                                                     <div id="showNotaVazio" class="row">
                                                         <div id="icone_resultado_proposta" class="col-12">
                                                             <br>
-                                                            <img width="100px" heigth="100px" src="{{ url('images/xxx') }}"/>
+                                                            <img width="100px" heigth="100px" src="{{ url('images/aguardando.png') }}"/>
                                                             <p class="dados-nao-fornecido">NENHUMA NOTA ADICIONADA SOBRE A PROVA PÚBLICA.</p>
                                                         </div>
                                                     </div>
@@ -813,7 +813,7 @@ $sessao = session('dados_logado');
                                                     <div id="showPPVazio" class="row">
                                                         <div id="icone_resultado_proposta" class="col-12">
                                                             <br>
-                                                            <img width="500px" heigth="500px" src="{{ url('images/xxx') }}"/>
+                                                            <img width="100px" heigth="100px" src="{{ url('images/aguardando.png') }}"/>
                                                             <p class="dados-nao-fornecido">NENHUMA PROVA PÚBLICA REALIZADA AINDA.</p>
                                                         </div>
                                                     </div>
@@ -1435,7 +1435,7 @@ $sessao = session('dados_logado');
                 method: "POST",
                 data: $("#formularioNotaInformativa").serialize(),
                 success:function(data){
-                    if(data == "Sucesso"){
+                    if(data == 1){
                         $('#formularioNotaInformativa')[0].reset();
                         carregarNotaInformativa();
                         showFormNotaInformativa();

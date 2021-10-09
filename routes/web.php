@@ -131,6 +131,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('registarRelatorioFinal','TemaController@registarRelatorioFinal');
     Route::post('editarRelatorioFinal','TemaController@editarRelatorioFinal');
     Route::get('verMeuTrabalho','TemaController@verMeuTrabalho');
+    Route::get('contEstatisticas', 'TemaController@contEstatisticas');
     Route::post('registarItem','ItemController@registarItem');
     Route::get('pegaElemento/{idTrabalho}/{itemTipo}','ItemController@pegaElemento');
     Route::get('pegaElementosAvaliacao/{idTrabalho}','ItemController@pegaElementosAvaliacao');
@@ -199,3 +200,22 @@ Route::middleware(['auth'])->group(function () {
 Route::post('logar', 'Auth\LoginController@authenticate');
 
 Auth::routes(['register' => false]);
+
+//Rotas para estatisticas e relatorios
+Route::middleware(['auth'])->group(function () {
+    Route::get('pegaGeralLinhaInvestigacao', 'AreaController@pegaGeralLinhaInvestigacao');
+    Route::get('listarOrientadores', function () {
+        return view('relatorios.listarOrientadores');
+    });
+    Route::get('listarOrientadores/{id_departamento}','RelatorioController@listarOrientadores');
+
+    Route::get('listarEditais', function () {
+        return view('relatorios.listarEditais');
+    });
+    Route::get('listarEditais/{id_departamento}','RelatorioController@listarEditais');
+    
+    Route::get('listarProvasPublica', function () {
+        return view('relatorios.listarProvasPublica');
+    });
+    Route::get('listarProvasPublica/{id_departamento}','RelatorioController@listarProvasPublica');    
+});

@@ -24,8 +24,6 @@ $sessao = session('dados_logado');
         <!--Inicio do conteudo-->
         <br>
 
-        @include('includes.trabalho.contabilidadeTrabalho')
-
         <div class="row">
             <div class="col-12">
                 <div class="card-box">

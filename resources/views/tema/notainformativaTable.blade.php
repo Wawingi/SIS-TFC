@@ -6,7 +6,7 @@
         <td colspan="4"><hr style="margin-top:-20px"></td>
     </tr>
     <tr>                
-        <td style="background:#edeff1">Data da defesa</td>                
+        <td style="background:#edeff1">Data prevista da defesa</td>                
         <td><a href="#" class="dataprovapublica_edit" data-name="created_at" data-type="combodate" data-value="{{$nota->created_at}}" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="DD/MM/YYYY" data-pk="{{$nota->id}}"></a></td>                
         <td style="background:#edeff1">Local da defesa</td>                
         <td><a href="#" class="local_edit" data-name="local" data-type="text" data-placeholder="Preenchimento obrigatório" data-pk="{{$nota->id}}" data-title="Informe o local">{{$nota->local}}</a></td>                

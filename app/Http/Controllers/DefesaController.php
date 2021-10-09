@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Model\Predefesa;
 use App\Model\Provapublica;
 use App\Model\NotaInformativa;
+use App\Model\Tema;
+use App\Model\Notificacao;
 use Illuminate\Support\Facades\DB;
 
 class DefesaController extends Controller
@@ -123,6 +125,8 @@ class DefesaController extends Controller
             'id_trabalho.unique'=>'Este tema já possúi uma prova pública'
         ]);
 
+        $estudantes=Tema::getEstudanteTrabalhoID($request->id_trabalho);
+        
         //Remover o T na data informada ex:2021-04-02T16:30
         $tiraT=Str_replace('T',' ',$request->datadefesa);
         $novadata=Str_replace($tiraT,$tiraT.':00',$tiraT);
@@ -138,7 +142,10 @@ class DefesaController extends Controller
         $provanotainformativa->id_trabalho = $request->id_trabalho;
 
         if($provanotainformativa->save()){
-            echo 'Sucesso';
+            foreach($estudantes as $estudante){
+                Notificacao::registarNotificacao('Foi publicado o edital contendo a data para a prova pública e a respectiva bancada examinadora. Navegue até ao seu trabalho e abra a aba Edital para ver mais detalhes.',$estudante->id_estudante);    
+            }
+            echo 1;
         }
     }
 
@@ -196,7 +203,7 @@ class DefesaController extends Controller
 
 
         if($provapublica->save()){
-            //If work defendido, actualiza estado para defendido
+            //If work defendido, actualiza estado para defendido estado1=Em desenvolvimento ||2=Defendido
             if(DB::table('trabalho')          
             ->where('id','=',$request->id_trabalho)
             ->update(['estado' => 2]))

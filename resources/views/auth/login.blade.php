@@ -19,7 +19,7 @@
                         <form id="formularioLogar" method="post">
                             @csrf
                             <div class="text-center">
-                                <h3><a href="#" class="logo-lg"><i class="  fas fa-user-graduate"></i> <span>SIS TFC</span> </a></h3>
+                                <h3><img height="55" src="{{url('images/logo-blue.png')}}"></h3>
                                 <hr>
                                 <p class="text-muted mb-4 mt-3">Informe o email e a senha para aceder a sua conta.</p>
                             </div>
