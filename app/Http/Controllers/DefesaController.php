@@ -9,6 +9,7 @@ use App\Model\NotaInformativa;
 use App\Model\Tema;
 use App\Model\Notificacao;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class DefesaController extends Controller
 {
@@ -264,5 +265,10 @@ class DefesaController extends Controller
         }else{
             echo 0;
         }
+    }
+
+    public function abrirActaNota($id_prova){
+        $pdf = PDF::loadView('pdf.actaNota',compact('id_prova'))->setOptions(['debugKeepTemp' => true, 'defaultFont' => 'sans-serif']);
+        return $pdf->setPaper('a4')->stream('ACTA DA LEITURA DE NOTA.pdf');
     }
 }
