@@ -151,10 +151,15 @@ hr {
     background-color: #a3ffd4;
 }
 
-
 .dados-nao-fornecido{
     color:#f74848;
     font-size: 16px;
     margin-top: 10px;
     margin-left: -15px;
+}
+
+.status-notification{
+    background-color: #caddec;
+    font-weight: bold;
+    font-size: 14px;
 }

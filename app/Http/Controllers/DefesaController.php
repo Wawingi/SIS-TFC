@@ -53,7 +53,7 @@ class DefesaController extends Controller
             if($predefesa->tipo==2)
                 $predefesa->tipo='Prática';
             if($predefesa->avaliacao==0)
-                $predefesa->avaliacao='Negativa';
+                $predefesa->avaliacao='Baixa';
             if($predefesa->avaliacao==1)
                 $predefesa->avaliacao='Positiva';
             if($predefesa->avaliacao==2)
@@ -171,7 +171,7 @@ class DefesaController extends Controller
     public function registarProvapublica(Request $request){
         $validatedData = $request->validate([
             'data_defesa' => ['required'],
-            'nota_defesa' => ['required', 'integer','min:0','max:20'],
+            'nota_defesa' => ['required', 'integer','min:10','max:20'],
             'id_trabalho' => ['required','unique:prova_publica'],
             'id_nota' => ['required'],
             'local_defesa' => ['required'],

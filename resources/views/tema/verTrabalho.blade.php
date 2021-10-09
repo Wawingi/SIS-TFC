@@ -21,6 +21,12 @@ $sessao = session('dados_logado');
                 </div>
             </div>
         </div>
+        <!--Modal ver elemento-->
+        @include('includes.trabalho.modalVerElementoPdf')
+        @include('includes.trabalho.modalVerElemento')
+        @include('includes.trabalho.modalAvaliarElemento')
+        
+
         <!-- mensagens de validação de erros -->
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -77,7 +83,7 @@ $sessao = session('dados_logado');
                                         <li class="nav-item">
                                             <a href="#notainformativa" data-toggle="tab" aria-expanded="false" class="nav-link">
                                                 <span class="d-inline-block d-sm-none"><i class="fas fa-edit"></i></span>
-                                                <span class="d-none d-sm-inline-block"><i class="fas fa-edit"></i> Nota Informativa</span>
+                                                <span class="d-none d-sm-inline-block"><i class="fas fa-edit"></i> Edital</span>
                                             </a>
                                         </li>
                                         <li class="nav-item">
@@ -90,6 +96,7 @@ $sessao = session('dados_logado');
                                 </div>
                             </div>
                             <div class="tab-content">
+                                <!-- Secção de dados do trabalho -->
                                 <div class="tab-pane fade show active" id="dados">
                                     <div class="row">
                                         <div class="col-lg-12">
@@ -200,12 +207,12 @@ $sessao = session('dados_logado');
                                                 <div class="card mb-1">
                                                     <div class="card-header" id="headingOne">
                                                         <h5 class="m-0">
-                                                            <a class="text-dark" title="Clique aqui para expandir" data-toggle="collapse" href="#collapseOne" aria-expanded="true">
+                                                            <a class="text-dark" title="Clique aqui para expandir" data-toggle="collapse" href="#collapseOneNOT" aria-expanded="true">
                                                                 <i class="mdi mdi-notebook mr-1 text-primary"></i> 
                                                                 ELEMENTOS PRÉ-TEXTUAIS
                                                             </a>
-                                                            <a id="showBtnAdicionar1" class="float-right" href="#" onclick="mudaAnexoElemento(1)"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Ficheiro</a>
-                                                            <a id="showBtnCancelar1" style="display:none" class="float-right" href="#" onclick="fecharAnexo(1)"><i class="mdi mdi-close mr-1"></i>Cancelar</a>
+                                                            <a id="showBtnAdicionar1" class="float-right btn btn-success btn-sm btn-rounded" data-toggle="collapse" href="#" onclick="mudaAnexoElemento(1)"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Item</a>
+                                                            <a id="showBtnCancelar1" style="display:none" class="float-right" data-toggle="collapse" href="#" onclick="fecharAnexo(1)"><i class="mdi mdi-close mr-1"></i>Cancelar</a>
                                                         </h5>
                                                     </div>
                                         
@@ -213,19 +220,19 @@ $sessao = session('dados_logado');
                                                         <div class="card-body">
                                                             <div id="showAnexo1" style="display:none" class="row">
                                                                 <div class="col-12">
-                                                                <form class="formElemento" method="post" enctype="multipart/form-data">
-                                                                    @csrf
-                                                                    <input required type="hidden" value="{{$trabalho->id}}" class="form-control"  name="trabalho_id" id="trabalho_id">    
-                                                                    <input required type="hidden" value="{{$trabalho->tema}}" class="form-control"  name="trabalho_tema" id="trabalho_tema">    
-                                                                    <input required type="hidden" value="1" class="form-control" name="titulo" id="titulo">    
-                                                                    <div class="input-group">
-                                                                        <input type="file" required class="form-control form-control-sm" placeholder="Escolha o ficheiro" accept="application/pdf" id="anexo" name="anexo">
-                                                                        <div class="input-group-append">
-                                                                            <button class="btn btn-sm btn-success waves-effect waves-light" type="submit">OK</button>
+                                                                    <form class="formElemento" method="post" enctype="multipart/form-data">
+                                                                        @csrf
+                                                                        <input required type="hidden" value="{{$trabalho->id}}" class="form-control"  name="trabalho_id" id="trabalho_id">    
+                                                                        <input required type="hidden" value="{{$trabalho->tema}}" class="form-control"  name="trabalho_tema" id="trabalho_tema">    
+                                                                        <input required type="hidden" value="1" class="form-control" name="titulo" id="titulo">    
+                                                                        <div class="input-group">
+                                                                            <input type="file" required class="form-control form-control-sm" placeholder="Escolha o ficheiro" accept="application/pdf" id="anexo" name="anexo">  
                                                                         </div>
-                                                                    </div>
-                                                                    <span style="color:red;font-style:italic">tamanho máximo 2Mb</span>
-                                                                </form>
+                                                                        <span style="color:red;font-style:italic">tamanho máximo 2Mb</span>
+                                                                        <textarea required style="margin-top:10px" placeholder="Escreva o que foi feito neste elemento" class="form-control form-control-sm" name="comentario" rows="3"></textarea> 
+                                                                        <br><button type="submit" class="btn btn-sm btn-primary btn-rounded"><i class="far fa-save"> Registar </i></button>    
+                                                                        <hr>
+                                                                    </form>
                                                                 </div>
                                                             </div>
                                                             <br>
@@ -235,37 +242,6 @@ $sessao = session('dados_logado');
                                                                         
                                                                     </tbody>
                                                                 </table>
-                                                            </div>                                                            
-                                                            <div id="showFormAvaliar1" style="display:none">
-                                                                <hr>
-                                                                <form class="formAvaliar" method="POST">
-                                                                    @csrf
-                                                                    <input type="hidden" id="id_item"  name="id_item">
-                                                                    <div class="form-group row mb-0">                                                                       
-                                                                        <div class="col-sm-4">
-                                                                            <div class="form-group mb-3">
-                                                                                <label for="genero">Avaliação</label><br>
-                                                                                <div style="margin-left:7px;margin-top:10px" class="radio radio-info form-check-inline">
-                                                                                    <input type="radio" id="valor" onclick="mudarAValiacao(1,1)" value="1" name="avaliacao" checked>
-                                                                                    <label for="inlineRadio1"> Positiva </label>
-                                                                                </div>
-                                                                                <div class="radio form-check-inline">
-                                                                                    <input type="radio" id="valor" onclick="mudarAValiacao(0,1)" value="0" name="avaliacao">
-                                                                                    <label for="inlineRadio2"> Negativa </label>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div style="display:none" id="mostraComentario1" class="col-sm-8 mostraComentario">
-                                                                            <div class="form-group mb-3">
-                                                                                <label for="genero">Anotações</label><br>
-                                                                                <textarea name="comentario" type="text" class="form-control" placeholder="Escreva o seu comentário referente ao conteúdo"></textarea>                                                    
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <hr style="margin-top:-10px">
-                                                                    <button type="submit" class="btn btn-primary btn-rounded"><i class="far fa-save"> Avaliar </i></button>
-                                                                    <button type="button" onclick="showAvaliacaoElemento(0)" class="btn btn-warning btn-rounded"><i class="far fa-window-close"> Cancelar </i></button>
-                                                                </form>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -280,11 +256,11 @@ $sessao = session('dados_logado');
                                                                 <i class="mdi mdi-notebook mr-1 text-primary"></i> 
                                                                 ELEMENTOS TEXTUAIS
                                                             </a>
-                                                            <a id="showBtnAdicionar2" class="float-right" href="#" onclick="mudaAnexoElemento(2)"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Ficheiro</a>
+                                                            <a id="showBtnAdicionar2" class="float-right btn btn-success btn-sm btn-rounded" href="#" onclick="mudaAnexoElemento(2)"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Item</a>
                                                             <a id="showBtnCancelar2" style="display:none" class="float-right" href="#" onclick="fecharAnexo(2)"><i class="mdi mdi-close mr-1"></i>Cancelar</a>
                                                         </h5>
                                                     </div>
-                                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                                    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
                                                         <div class="card-body">
                                                             <div id="showAnexo2" style="display:none" class="row">
                                                                 <div class="col-12">
@@ -295,11 +271,11 @@ $sessao = session('dados_logado');
                                                                         <input required type="hidden" value="2" class="form-control" name="titulo" id="titulo">    
                                                                         <div class="input-group">
                                                                             <input type="file" required class="form-control form-control-sm" placeholder="Escolha o ficheiro" accept="application/pdf" id="anexo" name="anexo">
-                                                                            <div class="input-group-append">
-                                                                                <button class="btn btn-sm btn-success waves-effect waves-light" type="submit">OK</button>
-                                                                            </div>
                                                                         </div>
                                                                         <span style="color:red;font-style:italic">tamanho máximo 2Mb</span>
+                                                                        <textarea required style="margin-top:10px" placeholder="Escreva o que foi feito neste elemento" class="form-control form-control-sm" name="comentario" rows="3"></textarea> 
+                                                                        <br><button type="submit" class="btn btn-sm btn-primary btn-rounded"><i class="far fa-save"> Registar </i></button>    
+                                                                        <hr>
                                                                     </form>
                                                                 </div>
                                                             </div>
@@ -310,37 +286,6 @@ $sessao = session('dados_logado');
                                                                         
                                                                     </tbody>
                                                                 </table>
-                                                            </div>  
-                                                            <div id="showFormAvaliar2" style="display:none">
-                                                                <hr>
-                                                                <form class="formAvaliar" method="POST">
-                                                                    @csrf
-                                                                    <input type="hidden" id="id_item2" name="id_item">
-                                                                    <div class="form-group row mb-0">                                                                       
-                                                                        <div class="col-sm-4">
-                                                                            <div class="form-group mb-3">
-                                                                                <label for="genero">Avaliação</label><br>
-                                                                                <div style="margin-left:7px;margin-top:10px" class="radio radio-info form-check-inline">
-                                                                                    <input type="radio" id="valor" onclick="mudarAValiacao(1,2)" value="1" name="avaliacao" checked>
-                                                                                    <label for="inlineRadio1"> Positiva </label>
-                                                                                </div>
-                                                                                <div class="radio form-check-inline">
-                                                                                    <input type="radio" id="valor" onclick="mudarAValiacao(0,2)" value="0" name="avaliacao">
-                                                                                    <label for="inlineRadio2"> Negativa </label>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div style="display:none" id="mostraComentario2" class="col-sm-8 mostraComentario">
-                                                                            <div class="form-group mb-3">
-                                                                                <label for="genero">Anotações</label><br>
-                                                                                <textarea name="comentario" type="text" class="form-control" placeholder="Escreva o seu comentário referente ao conteúdo"></textarea>                                                    
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <hr style="margin-top:-10px">
-                                                                    <button type="submit" class="btn btn-primary btn-rounded"><i class="far fa-save"> Avaliar </i></button>
-                                                                    <button type="button" onclick="showAvaliacaoElemento(0)" class="btn btn-warning btn-rounded"><i class="far fa-window-close"> Cancelar </i></button>
-                                                                </form>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -355,26 +300,26 @@ $sessao = session('dados_logado');
                                                                 <i class="mdi mdi-notebook mr-1 text-primary"></i> 
                                                                 ELEMENTOS PÓS-TEXTUAIS
                                                             </a>
-                                                            <a id="showBtnAdicionar3" class="float-right" href="#" onclick="mudaAnexoElemento(3)"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Ficheiro</a>
+                                                            <a id="showBtnAdicionar3" class="float-right btn btn-success btn-sm btn-rounded" href="#" onclick="mudaAnexoElemento(3)"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Item</a>
                                                             <a id="showBtnCancelar3" style="display:none" class="float-right" href="#" onclick="fecharAnexo(3)"><i class="mdi mdi-close mr-1"></i>Cancelar</a>
                                                         </h5>
                                                     </div>
-                                                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                                                    <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
                                                         <div class="card-body">
                                                             <div id="showAnexo3" style="display:none" class="row">
                                                                 <div class="col-12">
-                                                                    <form class="formElemento" method="post" enctype="multipart/form-data">
+                                                                    <form class="formElemento" action="{{url('registarItemmm')}}" method="post" enctype="multipart/form-data">
                                                                         @csrf
                                                                         <input required type="hidden" value="{{$trabalho->id}}" class="form-control"  name="trabalho_id" id="trabalho_id">    
                                                                         <input required type="hidden" value="{{$trabalho->tema}}" class="form-control"  name="trabalho_tema" id="trabalho_tema">    
                                                                         <input required type="hidden" value="3" class="form-control" name="titulo" id="titulo">    
                                                                         <div class="input-group">
                                                                             <input type="file" required class="form-control form-control-sm" placeholder="Escolha o ficheiro" accept="application/pdf" id="anexo" name="anexo">
-                                                                            <div class="input-group-append">
-                                                                                <button class="btn btn-sm btn-success waves-effect waves-light" type="submit">OK</button>
-                                                                            </div>
                                                                         </div>
                                                                         <span style="color:red;font-style:italic">tamanho máximo 2Mb</span>
+                                                                        <textarea required style="margin-top:10px" placeholder="Escreva o que foi feito neste elemento" class="form-control form-control-sm" name="comentario" rows="3"></textarea> 
+                                                                        <br><button type="submit" class="btn btn-sm btn-primary btn-rounded"><i class="far fa-save"> Registar </i></button>    
+                                                                        <hr>
                                                                     </form>
                                                                 </div>
                                                             </div>
@@ -385,37 +330,6 @@ $sessao = session('dados_logado');
                                                                         
                                                                     </tbody>
                                                                 </table>
-                                                            </div>  
-                                                            <div id="showFormAvaliar3" style="display:none">
-                                                                <hr>
-                                                                <form class="formAvaliar" method="POST">
-                                                                    @csrf
-                                                                    <input type="hidden" id="id_item3" name="id_item">
-                                                                    <div class="form-group row mb-0">                                                                       
-                                                                        <div class="col-sm-4">
-                                                                            <div class="form-group mb-3">
-                                                                                <label for="genero">Avaliação</label><br>
-                                                                                <div style="margin-left:7px;margin-top:10px" class="radio radio-info form-check-inline">
-                                                                                    <input type="radio" id="valor" onclick="mudarAValiacao(1,3)" value="1" name="avaliacao" checked>
-                                                                                    <label for="inlineRadio1"> Positiva </label>
-                                                                                </div>
-                                                                                <div class="radio form-check-inline">
-                                                                                    <input type="radio" id="valor" onclick="mudarAValiacao(0,3)" value="0" name="avaliacao">
-                                                                                    <label for="inlineRadio2"> Negativa </label>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div style="display:none" id="mostraComentario3" class="col-sm-8 mostraComentario">
-                                                                            <div class="form-group mb-3">
-                                                                                <label for="genero">Anotações</label><br>
-                                                                                <textarea name="comentario" type="text" class="form-control" placeholder="Escreva o seu comentário referente ao conteúdo"></textarea>                                                    
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <hr style="margin-top:-10px">
-                                                                    <button type="submit" class="btn btn-primary btn-rounded"><i class="far fa-save"> Avaliar </i></button>
-                                                                    <button type="button" onclick="showAvaliacaoElemento(0)" class="btn btn-warning btn-rounded"><i class="far fa-window-close"> Cancelar </i></button>
-                                                                </form>
                                                             </div>                                                           
                                                         </div>
                                                     </div>
@@ -427,32 +341,126 @@ $sessao = session('dados_logado');
                                  
                                 <!-- Secção do relatorio final-->
                                 <div class="tab-pane fade" id="relatorio">
-                                    <div class="row">
-                                        <div class="col-xl-12">
-                                            <div id="accordion" class="mb-3">
+                                    @if($trabalho->descricao=='default.pdf')
+                                        <div class="row">
+                                            <div class="col-xl-12">
+                                                <div id="accordion" class="mb-3">
+                                                    <div class="card mb-1">
+                                                        <div class="card-header" id="headingFour">
+                                                            <h5 class="m-0">
+                                                                <a class="text-primary" title="Clique aqui para expandir" data-toggle="collapse" href="#collapseFour" aria-expanded="true">
+                                                                    <i class="mdi mdi-plus-circle mr-1 text-primary"></i> 
+                                                                    ANEXAR O RELATÓRIO FINAL
+                                                                </a>                                                           
+                                                            </h5>
+                                                        </div>
+                                                        <div id="collapseFour" class="collapse hide" aria-labelledby="headingFour" data-parent="#accordion">
+                                                            <div class="card-body">
+                                                                <form id="formularioRelatorioFinal" method="POST" action="{{ url('registarRelatorioFinal') }}" enctype="multipart/form-data"> 
+                                                                    @csrf
+                                                                    <div class="row">
+                                                                        <div class="col-8">
+                                                                            <input required type="hidden" value="{{$trabalho->id}}" class="form-control"  name="id_trabalho" id="id_trabalho">  
+                                                                            <input required type="hidden" value="{{$trabalho->tema}}" class="form-control"  name="tema_trabalho" id="tema_trabalho">  
+                                                                            <div class="form-group">
+                                                                                <label for="genero">Anexo</label><br>
+                                                                                <input type="file" required class="form-control" placeholder="Escolha o ficheiro" accept="application/pdf" id="relatorio" name="relatorio">
+                                                                                <span style="color:red;font-style:italic">tamanho máximo 4Mb</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-4">
+                                                                            <div class="form-group mb-3">
+                                                                                <label for="genero">Possui recomendação?</label><br>
+                                                                                <div style="margin-left:7px;margin-top:10px" class="radio radio-info form-check-inline">
+                                                                                    <input type="radio" id="valor" onclick="showRecomendacao(1)" value="1" name="isRecomendacao" checked>
+                                                                                    <label for="inlineRadio1"> Sim </label>
+                                                                                </div>
+                                                                                <div class="radio form-check-inline">
+                                                                                    <input type="radio" id="valor" onclick="showRecomendacao(0)" value="0" name="isRecomendacao">
+                                                                                    <label for="inlineRadio2"> Não </label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div id="input-recomendacao" class="row">
+                                                                        <div class="col-12">
+                                                                            <br>
+                                                                            <div class="form-group">
+                                                                                <textarea name="recomendacao" rows="3" class="form-control" placeholder="Escreva a recomendação caso existir."></textarea>                                                    
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <button class="btn btn-sm btn-success waves-effect waves-light" type="submit">Registar</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div id="showVisualizarRelatorio" class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label>Recomendação</label>
+                                                    <button onclick="editarRelatorio('{{$trabalho->recomendacao}}')" class="btn btn-sm btn-warning float-right btn-rounded" type="submit"><i class='fa fa-pencil-alt mr-2'></i>Editar</button>
+                                                    <textarea style="margin-top:5px;background:#f5f6f8" readonly name="recomendacao" rows="3" class="form-control">{{$trabalho->recomendacao}}</textarea>                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Form editar relatorio-->
+                                        <div style="display:none" id="showEditarRelatorio" class="row">
+                                            <div class="col-xl-12">
                                                 <div class="card mb-1">
-                                                    <div class="card-header" id="headingFour">
+                                                    <div class="card-header bg-warning">
                                                         <h5 class="m-0">
-                                                            <a class="text-primary" title="Clique aqui para expandir" data-toggle="collapse" href="#collapseFour" aria-expanded="true">
-                                                                <i class="mdi mdi-plus-circle mr-1 text-primary"></i> 
-                                                                ANEXAR O RELATÓRIO FINAL
+                                                            <a class="text-white" href="#">
+                                                                <i class="fa fa-pencil-alt mr-1 text-white"></i>
+                                                                EDITAR RELATÓRIO FINAL
                                                             </a>                                                           
                                                         </h5>
                                                     </div>
-                                                    <div id="collapseFour" class="collapse hide" aria-labelledby="headingFour" data-parent="#accordion">
-                                                        <div class="card-body">
-                                                            <form id="formularioRelatorioFinal" method="POST" action="{{ url('registarRelatorioFinal') }}" enctype="multipart/form-data"> 
+                                                    <div>
+                                                        <div style="height:auto" class="card-body">
+                                                            <form method="POST" action="{{ url('editarRelatorioFinal') }}" enctype="multipart/form-data"> 
                                                                 @csrf
                                                                 <div class="row">
-                                                                    <input required type="hidden" value="{{$trabalho->id}}" class="form-control"  name="id_trabalho" id="id_trabalho">  
-                                                                    <input required type="hidden" value="{{$trabalho->tema}}" class="form-control"  name="tema_trabalho" id="tema_trabalho">  
-                                                                    <div class="input-group">
-                                                                        <input type="file" required class="form-control form-control-sm" placeholder="Escolha o ficheiro" accept="application/pdf" id="relatorio" name="relatorio">
-                                                                        <div class="input-group-append">
-                                                                            <button class="btn btn-sm btn-success waves-effect waves-light" type="submit">OK</button>
+                                                                    <div class="col-8">
+                                                                        <input required type="hidden" value="{{$trabalho->id}}" class="form-control"  name="id_trabalho" id="id_trabalho">  
+                                                                        <input required type="hidden" value="{{$trabalho->tema}}" class="form-control"  name="tema_trabalho" id="tema_trabalho">  
+                                                                        <div class="form-group">
+                                                                            <label for="genero">Anexo</label><br>
+                                                                            <input type="file" required class="form-control" placeholder="Escolha o ficheiro" accept="application/pdf" id="relatorio_edit" name="relatorio_edit">
+                                                                            <span style="color:red;font-style:italic">tamanho máximo 4Mb</span>
                                                                         </div>
                                                                     </div>
-                                                                    <span style="color:red;font-style:italic">tamanho máximo 4Mb</span>
+                                                                    <div class="col-sm-4">
+                                                                        <div class="form-group mb-3">
+                                                                            <label for="genero">Possui recomendação?</label><br>
+                                                                            <div style="margin-left:7px;margin-top:10px" class="radio radio-info form-check-inline">
+                                                                                <input type="radio" id="valor" onclick="showRecomendacao(1)" value="1" name="isRecomendacao" checked>
+                                                                                <label for="inlineRadio1"> Sim </label>
+                                                                            </div>
+                                                                            <div class="radio form-check-inline">
+                                                                                <input type="radio" id="valor" onclick="showRecomendacao(0)" value="0" name="isRecomendacao">
+                                                                                <label for="inlineRadio2"> Não </label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div id="input-recomendacao" class="row">
+                                                                    <div class="col-12">
+                                                                        <br>
+                                                                        <div class="form-group">
+                                                                            <textarea id="recomendacao_edit" name="recomendacao_edit" rows="3" class="form-control" placeholder="Escreva a recomendação caso existir."></textarea>                                                    
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <button class="btn btn-warning btn-rounded"><i class="far fa-save"> Actualizar</i></button>                                                           
+                                                                    <button onclick="fechaEditarRelatorio()" type="button" class="btn btn-primary btn-rounded"><i class="far fa-window-close"> Fechar</i></button>
                                                                 </div>
                                                             </form>
                                                         </div>
@@ -460,8 +468,7 @@ $sessao = session('dados_logado');
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                
+                                    @endif                               
                                     <iframe
                                         src='{{ url("/storage/trabalhos/{$trabalho->descricao}") }}'
                                         type="applicatios/pdf"
@@ -500,9 +507,9 @@ $sessao = session('dados_logado');
                                                                         <div class="form-group mb-3">
                                                                             <label for="genero">Avaliação</label><br>
                                                                             <select name="avaliacao" id="avaliacao" class="custom-select">
-                                                                                <option value="0">Negativa</option>
-                                                                                <option value="1">Positiva</option>
+                                                                                <option value="0">Baixa</option>
                                                                                 <option value="2">Medíocre</option>
+                                                                                <option value="1">Positiva</option>
                                                                             </select>                                                    
                                                                         </div>
                                                                     </div>
@@ -620,7 +627,7 @@ $sessao = session('dados_logado');
                                     </div>
                                 </div>
 
-                                <!-- Secção da nota informativa --> 
+                                <!-- Secção da prova publica --> 
                                 <div class="tab-pane fade" id="notainformativa">
                                     <div id="showFormNI" style="display:none" class="row">
                                         <div class="col-xl-12">
@@ -697,7 +704,7 @@ $sessao = session('dados_logado');
                                                     <div id="showNotaVazio" class="row">
                                                         <div id="icone_resultado_proposta" class="col-12">
                                                             <br>
-                                                            <img width="100px" heigth="100px" src="{{ url('images/xxx') }}"/>
+                                                            <img width="100px" heigth="100px" src="{{ url('images/aguardando.png') }}"/>
                                                             <p class="dados-nao-fornecido">NENHUMA NOTA ADICIONADA SOBRE A PROVA PÚBLICA.</p>
                                                         </div>
                                                     </div>
@@ -709,7 +716,6 @@ $sessao = session('dados_logado');
                                         </div>
                                     </div>         
                                 </div>
-
 
                                 <!-- Secção da prova publica ou defesa -->                                        
                                 <div class="tab-pane fade" id="provapublica">
@@ -738,13 +744,14 @@ $sessao = session('dados_logado');
                                                                     <div class="col-4">
                                                                         <div class="form-group mb-3">
                                                                             <label>Data</label><br>
-                                                                            <input id="data_defesa" name="data_defesa" type="date" class="form-control">                                                    
+                                                                            <input @if(is_object($ni))value="{{$ni->created_at}}" style="background:#a3ffd4" @else id="input-provapublica" @endif name="data_defesa" readonly type="text" class="form-control">                  
+                                                                                                                          
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-4">
                                                                         <div class="form-group mb-3">
                                                                             <label>Nota da Defesa</label><br>
-                                                                            <input type="number" id="nota_defesa" min="0" max="20" name="nota_defesa" placeholder="Informe a nota da defesa" class="form-control">                                                  
+                                                                            <input type="number" id="nota_defesa" min="10" max="20" name="nota_defesa" placeholder="Informe a nota da defesa" class="form-control">                                                  
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-4">
@@ -806,7 +813,7 @@ $sessao = session('dados_logado');
                                                     <div id="showPPVazio" class="row">
                                                         <div id="icone_resultado_proposta" class="col-12">
                                                             <br>
-                                                            <img width="500px" heigth="500px" src="{{ url('images/xxx') }}"/>
+                                                            <img width="100px" heigth="100px" src="{{ url('images/aguardando.png') }}"/>
                                                             <p class="dados-nao-fornecido">NENHUMA PROVA PÚBLICA REALIZADA AINDA.</p>
                                                         </div>
                                                     </div>
@@ -837,7 +844,7 @@ $sessao = session('dados_logado');
             },
             error: function(e)
 			{
-				alert("erro ao carregar Envolventes");
+				alert("erro ao carregar dados envolventes");
 			}
         })
     }
@@ -899,28 +906,6 @@ $sessao = session('dados_logado');
         }
     }
 
-    //Mostar a inout comentario caso avaliacao seja negativa
-    function mudarAValiacao(av,tipo_elemento){
-        if(tipo_elemento==1){
-            if(av==0)
-                document.getElementById("mostraComentario1").style.display = 'block';
-            else 
-                document.getElementById("mostraComentario1").style.display = 'none';
-        }
-        if(tipo_elemento==2){
-            if(av==0)
-                document.getElementById("mostraComentario2").style.display = 'block';
-            else 
-                document.getElementById("mostraComentario2").style.display = 'none';
-        }
-        if(tipo_elemento==3){
-            if(av==0)
-                document.getElementById("mostraComentario3").style.display = 'block';
-            else 
-                document.getElementById("mostraComentario3").style.display = 'none';
-        }
-    }
-
     //Mostrar os dados do item pretextual
     function carregarTablePretextual(){
         var id_trabalho = $('#trabalho_id').val();
@@ -932,7 +917,7 @@ $sessao = session('dados_logado');
             },
             error: function(e)
 			{
-				alert("erro ao carregar pretextuall");
+				alert("erro ao carregar dados pretextual");
 			}
         })
     };
@@ -949,7 +934,7 @@ $sessao = session('dados_logado');
             },
             error: function(e)
 			{
-				alert("erro ao carregar textual");
+				alert("erro ao carregar dados");
 			}
         })
     };
@@ -966,7 +951,7 @@ $sessao = session('dados_logado');
             },
             error: function(e)
 			{
-				alert("erro ao carregar pos textual");
+				alert("erro ao carregar dados");
 			}
         })
     };
@@ -1010,7 +995,7 @@ $sessao = session('dados_logado');
         e.preventDefault();
         var request = new FormData(this);
         Swal.fire({
-			  title: 'Ao adicionar novo elemento, irá substituir o existente caso existir. Deseja continuar? ',
+			  title: 'Ao adicionar novo elemento, irá substituir o ficheiro existente caso existir. Deseja continuar? ',
 			  icon: 'warning',
 			  showCancelButton: true,
 			  confirmButtonColor: '#3085d6',
@@ -1026,21 +1011,32 @@ $sessao = session('dados_logado');
                     contentType: false,
                     cache: false,
                     processData: false,
-                    success:function(data){
-                        //if(data == "Sucesso"){
-                            $('.formElemento')[0].reset();
+                    success:function(data){                    
+                        $('.formElemento')[0].reset();
+                        carregarTablePretextual();
+                        carregarTableTextual();
+                        carregarTablePostextual();
+                        fecharAnexo(data);
+                        mudarCorCabecalho();
+                        if(data == 5){
                             Swal.fire({
-                                text: "Item registado com sucesso.",
-                                icon: 'success',
-                                confirmButtonText: 'Fechar',
-                                timer: 1500
+                                text: 'Este elemento já se encontra aprovado.',
+                                icon: 'error',
+                                confirmButtonText: 'Fechar'
                             });
-                            carregarTablePretextual();
-                            carregarTableTextual();
-                            carregarTablePostextual();
-                            fecharAnexo(data);
-                            mudarCorCabecalho();
-                        //}
+                        }else if(data == 4){
+                            Swal.fire({
+                                text: 'O elemento anterior precisa ser avaliado primeiro.',
+                                icon: 'error',
+                                confirmButtonText: 'Fechar'
+                            });
+                        }else{
+                            Swal.fire({
+                                text: 'Elemento registado com sucesso.',
+                                icon: 'success',
+                                confirmButtonText: 'Fechar'
+                            });
+                        }
                     },
                     error: function(e){
                         $('.formElemento')[0].reset();
@@ -1055,51 +1051,36 @@ $sessao = session('dados_logado');
 		});
     });
 
-    //Avaliar elemento
-    $('.formAvaliar').submit(function(e){
-        e.preventDefault();
-        var request = new FormData(this);
-
-        $.ajax({
-            url:"{{ url('avaliarItem') }}",
-            type: "POST",
-            data: request,
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(data){
-                if(data == "Sucesso"){
-                    $('.formAvaliar')[0].reset();
-                    Swal.fire({
-                        text: "Elemento avaliado com sucesso.",
-                        icon: 'success',
-                        confirmButtonText: 'Fechar',
-                        timer: 1500
-                    });
-                    carregarTablePretextual();
-                    carregarTableTextual();
-                    carregarTablePostextual();
-                    showAvaliacaoElemento(0);
-                    mudarCorCabecalho();
-                }
-            },
-            error: function(e){
-                $('.formAvaliar')[0].reset();
-                Swal.fire({
-                    text: 'Ocorreu um erro ao avaliar o elemento.',
-                    icon: 'error',
-                    confirmButtonText: 'Fechar'
-                })
-            }
-        });
-    });
-
     //Disable future date
     var today = new Date().toISOString().split('T')[0];
 	document.getElementsByName("datapredefesa")[0].setAttribute('max', today);
     
     var today1 = new Date().toISOString().split('T')[0];
 	document.getElementsByName("datapredefesa_edit")[0].setAttribute('max', today1);
+
+    //Mostar a input da recomendação ao cadastrar relatorio
+    function showRecomendacao(value){
+        if(value==1){          
+            document.getElementById("input-recomendacao").style.display = 'block';
+        }else if(value==0){
+            document.getElementById("input-recomendacao").style.display = 'none';
+        }
+    }
+
+    //Mostar o formulario para editar o relatório final
+    function editarRelatorio(recomendacao){
+        document.getElementById("showVisualizarRelatorio").style.display = 'none';
+        document.getElementById("showEditarRelatorio").style.display = 'block';  
+
+        
+        $('#recomendacao_edit').val(recomendacao);    
+    }
+    
+    //Fechar o formulario para editar o relatório final
+    function fechaEditarRelatorio(){
+        document.getElementById("showVisualizarRelatorio").style.display = 'block';
+        document.getElementById("showEditarRelatorio").style.display = 'none';      
+    }
 
     $("#formularioPredefesa").validate({
         rules: {					
@@ -1454,7 +1435,7 @@ $sessao = session('dados_logado');
                 method: "POST",
                 data: $("#formularioNotaInformativa").serialize(),
                 success:function(data){
-                    if(data == "Sucesso"){
+                    if(data == 1){
                         $('#formularioNotaInformativa')[0].reset();
                         carregarNotaInformativa();
                         showFormNotaInformativa();
@@ -1576,7 +1557,7 @@ $sessao = session('dados_logado');
             nota_defesa: {
                 required: true,
                 max:20,
-                min:0
+                min:10
             },
             local_defesa: {
                 required: true,

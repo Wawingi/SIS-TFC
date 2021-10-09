@@ -100,7 +100,7 @@
                                         </div> <!-- end col -->
                                         <div class="col-7">
                                             <div class="form-group row mb-3">
-                                                <a href="#" class="pessoa_edit" data-name="bi" data-type="text" data-placeholder="Preenchimento obrigatório" data-pk="{{$dados->pessoa_id}}" data-title="Informe o nº do documento">{{$dados->bi}}</a>
+                                                <a class="nao_edit">{{$dados->bi}}</a>
                                             </div>
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
