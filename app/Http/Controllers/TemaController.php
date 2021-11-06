@@ -8,6 +8,7 @@ use App\Model\Pessoa;
 use App\Model\Helper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Gate;
 
 class TemaController extends Controller
 {
@@ -64,6 +65,8 @@ class TemaController extends Controller
 
     //Estudante dono do tema pretende ver o seu trabalho
     public function verMeuTrabalho(){
+        if(Gate::denies('visualizar_meu_trabalho'))
+            return redirect()->back(); 
         //Pega sessao
         $sessao = session('dados_logado');
         $idTrabalho = DB::table('envolvente')->where('id_estudante',$sessao[0]->id_pessoa)->value('id_trabalho');
@@ -162,5 +165,39 @@ class TemaController extends Controller
         $contadores=["total_trabalhos"=>$contTrabalhos,"total_linhas"=>$contLinhas,"total_docentes"=>$contDocentes,"total_estudantes"=>$contEstudantes];
         
         return view('layouts.contabilidadeTrabalho',compact('contadores'));
+    }
+
+    public function contTrabalhosDepartamentos(){
+        $sessao=session('dados_logado');
+        $id_faculdade=$sessao[0]->id_faculdade;
+        $departamentos=Tema::getDepartamentosByFaculdade($id_faculdade);
+
+        $nomeDepartamentos=array();
+        $contTrabalhos=array();
+        $estatisticaTrabalhos=array();
+        
+        foreach($departamentos as $departamento){
+            array_push($nomeDepartamentos,$departamento->nome);    
+            array_push($contTrabalhos,Tema::contTrabalhosDepartamento($departamento->id));    
+        }
+
+        array_push($estatisticaTrabalhos,$nomeDepartamentos,$contTrabalhos);
+
+        return $estatisticaTrabalhos; 
+    }
+
+    public function contComparaTrabalhos(){
+        $sessao=session('dados_logado');
+        $id_faculdade=$sessao[0]->id_faculdade;
+        $contadores = array();
+
+        $trabalhos_curso=Tema::contTrabalhosTipo(1,$id_faculdade);
+        $trabalhos_defendidos=Tema::contTrabalhosTipo(2,$id_faculdade);
+
+                  //[{valor:x,name:y},{valor:x,name:y}]
+        $contadores=[$trabalhos_curso,'Em curso',$trabalhos_defendidos,'Defendidos'];
+
+        return $contadores;
+
     }
 }

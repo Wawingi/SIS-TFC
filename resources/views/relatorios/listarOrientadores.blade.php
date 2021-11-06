@@ -22,26 +22,40 @@ $sessao = session('dados_logado');
             </div>
         </div>
 
+        <!-- Alerta de inserção sucesso -->
+        @if(session('info'))
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Alerta!</strong>
+                    {{ session('info')}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-9">
-                                <div class="form-group">
-                                    <?php $departamentos = App\Model\Departamento::pegaDepartamentoByTipo(2,$sessao[0]->id_faculdade);?>  
-                                    <select onchange="mudarDepartamento()" name="departamento" id="departamento" class="custom-select">
-                                            <option value="0" selected disabled>Escolha o departamento</option>
-                                        @foreach($departamentos as $departamento)
-                                            <option value="{{$departamento->id}}">{{$departamento->nome}}</option>
-                                        @endforeach
-                                    </select>
+                        <form method="post" action="{{url('baixar_relatorio_orientadores')}}">
+                            @csrf
+                            <div class="row">
+                                <div class="col-9">
+                                    <div class="form-group">
+                                            <?php $departamentos = App\Model\Departamento::pegaDepartamentoByTipo(2,$sessao[0]->id_faculdade);?>  
+                                            <select onchange="mudarDepartamento()" name="departamento" id="departamento" class="custom-select">
+                                                    <option value="0" selected disabled>Escolha o departamento</option>
+                                                @foreach($departamentos as $departamento)
+                                                    <option value="{{$departamento->id}}">{{$departamento->nome}}</option>
+                                                @endforeach
+                                            </select>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <button type="submit" class="btn btn-primary btn-rounded float-right"><i class="fas fa-download mr-1"></i>Baixar Relatório</button>
                                 </div>
                             </div>
-                            <div class="col-3">
-                                <a href="#" onclick="baixarRelatorio()" class="btn btn-primary btn-rounded float-right"><i class="fas fa-download mr-1"></i>Baixar Relatório</a>
-                            </div>
-                        </div>                       
+                        </form>                           
                     </div>
                 </div>
             </div>
@@ -66,7 +80,6 @@ $sessao = session('dados_logado');
                 </div>
             </div>
         </div>        
-    
         <!--Fim do conteudo-->
     </div> 
 </div>

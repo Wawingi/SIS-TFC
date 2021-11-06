@@ -26,7 +26,9 @@
     <td class="float-right">
         <a href="#" id_item="{{$elemento->id}}" avaliacao="{{$elemento->avaliacao}}" comentario="{{$elemento->comentario}}" data_avaliacao="{{date('d-m-Y',strtotime($elemento->updated_at))}}" data_registo="{{date('d-m-Y',strtotime($elemento->created_at))}}" predefinidas="{{$pr}}" class="verElemento"><i class='fas fa-eye mr-1'></i>Ver Elemento</a>
         @if($elemento->avaliacao==3)
-            <a href="#" id_item="{{$elemento->id}}" class="avaliarELemento"><i class='fas fa-clipboard-check mr-1'></i>Avaliar o Elemento</a>
+            @can('avaliar_item')
+                <a href="#" id_item="{{$elemento->id}}" class="avaliarELemento"><i class='fas fa-clipboard-check mr-1'></i>Avaliar o Elemento</a>
+            @endcan
         @endif
     </td>
 </tr>

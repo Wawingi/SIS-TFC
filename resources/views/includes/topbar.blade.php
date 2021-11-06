@@ -31,21 +31,6 @@
                     <!-- End mobile menu toggle-->
                 </li>
 
-                <li class="d-none d-sm-block">
-                    <form class="app-search">
-                        <div class="app-search-box">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Procurar...">
-                                <div class="input-group-append">
-                                    <button class="btn" type="submit">
-                                        <i class="fe-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </li>
-
                 @can('visualizar_tutorandos')
                     <!-- tutorandos de um orientador -->
                     <li class="dropdown notification-list">
@@ -193,7 +178,8 @@
                             </ul>
                         </li>
                     @endcan
-
+                    
+                    @can('visualizar_trabalhos')
                     <li class="has-submenu">
                         <a href="#">
                             <i class="remixicon-book-2-fill"></i>Gestão de Trabalhos <div class="arrow-down"></div>
@@ -210,14 +196,19 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li>
-                                <a href="{{ url('verMeuTrabalho') }}"><i class="fe-file-text mr-1"></i>Meu Trabalho</a>
-                            </li>
-                            <li>
-                                <a href="{{ url('meusTutorandos') }}"><i class="fas fa-user-graduate noti-icon mr-1"></i>Meus Tutorandos</a>
-                            </li>
+                            @can('visualizar_meu_trabalho')
+                                <li>
+                                    <a href="{{ url('verMeuTrabalho') }}"><i class="fe-file-text mr-1"></i>Meu Trabalho</a>
+                                </li>
+                            @endcan
+                            @can('visualizar_tutorandos')
+                                <li>
+                                    <a href="{{ url('meusTutorandos') }}"><i class="fas fa-user-graduate noti-icon mr-1"></i>Meus Tutorandos</a>
+                                </li>
+                            @endcan
                         </ul>
                     </li>
+                    @endcan
 
                     <li class="has-submenu">
                         <a href="#">
@@ -233,6 +224,9 @@
                             <li>
                                 <a href="{{url('listarProvasPublica')}}"><i class="fe-file-text mr-1"></i>Listar Provas Pública</a>
                             </li>
+                            <li>
+                                <a href="{{url('listarLinhas')}}"><i class="fe-file-text mr-1"></i>Listar Linhas de Investigação</a>
+                            </li>
                         </ul>
                     </li>
 
@@ -241,18 +235,27 @@
                             <i class="remixicon-settings-3-fill"></i>Configurações <div class="arrow-down"></div>
                         </a>
                         <ul class="submenu">
-                            <li>
-                                <a href="{{ url('listarAreaAplicacao')}}"><i class="fe-file-text mr-1"></i>Linha de Investigação</a>
-                            </li>
+                            @can('visualizar_linhas')
+                                <li>
+                                    <a href="{{ url('listarAreaAplicacao')}}"><i class="fe-file-text mr-1"></i>Linha de Investigação</a>
+                                </li>
+                            @endcan
+                            @can('visualizar_perfil')
                             <li>
                                 <a href="{{ url('listarPerfilUtilizador')}}"><i class="fas fa-users-cog mr-1"></i>Perfil de Utilizador</a>
                             </li>
+                            @endcan
+                            @can('visualizar_aval_predefinidas')
                             <li>
                                 <a href="{{ url('listarPredefinidoAvaliacao')}}"><i class="fas fa-users-cog mr-1"></i>Avalições Predefinidas</a>
                             </li>
+                            @endcan
+                            <li>
+                                <a href="{{ url('normasTFC')}}"><i class="fe-file-text mr-1"></i>Normas de TFC</a>
+                            </li>
                         </ul>
                     </li>
-
+                  
                     <li class="has-submenu float-right">
                         <a href="#" onclick="window.history.back();">
                             <i class="fas fa-arrow-left"></i>Voltar

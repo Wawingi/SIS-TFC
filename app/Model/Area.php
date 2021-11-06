@@ -24,8 +24,17 @@ class Area extends Model
         return DB::table('area_aplicacao')
             ->join('departamento','departamento.id','=','area_aplicacao.id_departamento')
             ->join('faculdade','faculdade.id','=','departamento.id_faculdade')
-            ->select('area_aplicacao.nome as linha','departamento.nome as departamento')
+            ->select('area_aplicacao.nome as linha')
             ->where('faculdade.id','=',$id_faculdade)
+            ->get();
+    }
+
+    public static function getAreasByDepartamento($id_departamento){
+        return DB::table('area_aplicacao')
+            ->join('departamento','departamento.id','=','area_aplicacao.id_departamento')
+            ->join('faculdade','faculdade.id','=','departamento.id_faculdade')
+            ->select('area_aplicacao.nome as linha','departamento.nome as departamento','faculdade.nome as faculdade','faculdade.logotipo')
+            ->where('departamento.id','=',$id_departamento)
             ->orderBy('departamento.nome')
             ->get();
     }

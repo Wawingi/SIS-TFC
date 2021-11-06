@@ -100,11 +100,8 @@ class AreaController extends Controller
         echo $info;
     }
 
-    public function pegaGeralLinhaInvestigacao(){
-        $sessao=session('dados_logado');
-        
-        $linhas = Area::getAreasByFaculdade($sessao[0]->id_faculdade);
-        
-        return view('estatistica.linhasInvestigacaoTable',compact('linhas'));
+    public function pegaGeralLinhaInvestigacao($id_departamento){        
+        $linhas = Area::getAreasByDepartamento($id_departamento);
+        return view('relatorios.linhasInvestigacaoTable',compact('linhas'));
     }
 }

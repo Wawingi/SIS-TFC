@@ -207,16 +207,18 @@ $sessao = session('dados_logado');
                                                 <div class="card mb-1">
                                                     <div class="card-header" id="headingOne">
                                                         <h5 class="m-0">
-                                                            <a class="text-dark" title="Clique aqui para expandir" data-toggle="collapse" href="#collapseOneNOT" aria-expanded="true">
+                                                            <a class="text-dark" title="Clique aqui para expandir" data-toggle="collapse" href="#" aria-expanded="true">
                                                                 <i class="mdi mdi-notebook mr-1 text-primary"></i> 
                                                                 ELEMENTOS PRÉ-TEXTUAIS
                                                             </a>
-                                                            <a id="showBtnAdicionar1" class="float-right btn btn-success btn-sm btn-rounded" data-toggle="collapse" href="#" onclick="mudaAnexoElemento(1)"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Item</a>
-                                                            <a id="showBtnCancelar1" style="display:none" class="float-right" data-toggle="collapse" href="#" onclick="fecharAnexo(1)"><i class="mdi mdi-close mr-1"></i>Cancelar</a>
+                                                            @can('add_item')
+                                                                <a id="showBtnAdicionar1" class="float-right btn btn-success btn-sm btn-rounded" data-toggle="collapse" href="#" onclick="mudaAnexoElemento(1)"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Item</a>
+                                                                <a id="showBtnCancelar1" style="display:none" class="float-right" data-toggle="collapse" href="#" onclick="fecharAnexo(1)"><i class="mdi mdi-close mr-1"></i>Cancelar</a>
+                                                            @endcan
                                                         </h5>
                                                     </div>
                                         
-                                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                                    <div>
                                                         <div class="card-body">
                                                             <div id="showAnexo1" style="display:none" class="row">
                                                                 <div class="col-12">
@@ -256,11 +258,13 @@ $sessao = session('dados_logado');
                                                                 <i class="mdi mdi-notebook mr-1 text-primary"></i> 
                                                                 ELEMENTOS TEXTUAIS
                                                             </a>
-                                                            <a id="showBtnAdicionar2" class="float-right btn btn-success btn-sm btn-rounded" href="#" onclick="mudaAnexoElemento(2)"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Item</a>
-                                                            <a id="showBtnCancelar2" style="display:none" class="float-right" href="#" onclick="fecharAnexo(2)"><i class="mdi mdi-close mr-1"></i>Cancelar</a>
+                                                            @can('add_item')
+                                                                <a id="showBtnAdicionar2" class="float-right btn btn-success btn-sm btn-rounded" href="#" onclick="mudaAnexoElemento(2)"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Item</a>
+                                                                <a id="showBtnCancelar2" style="display:none" class="float-right" href="#" onclick="fecharAnexo(2)"><i class="mdi mdi-close mr-1"></i>Cancelar</a>
+                                                            @endcan
                                                         </h5>
                                                     </div>
-                                                    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
+                                                    <div>
                                                         <div class="card-body">
                                                             <div id="showAnexo2" style="display:none" class="row">
                                                                 <div class="col-12">
@@ -300,11 +304,13 @@ $sessao = session('dados_logado');
                                                                 <i class="mdi mdi-notebook mr-1 text-primary"></i> 
                                                                 ELEMENTOS PÓS-TEXTUAIS
                                                             </a>
-                                                            <a id="showBtnAdicionar3" class="float-right btn btn-success btn-sm btn-rounded" href="#" onclick="mudaAnexoElemento(3)"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Item</a>
-                                                            <a id="showBtnCancelar3" style="display:none" class="float-right" href="#" onclick="fecharAnexo(3)"><i class="mdi mdi-close mr-1"></i>Cancelar</a>
+                                                            @can('add_item')
+                                                                <a id="showBtnAdicionar3" class="float-right btn btn-success btn-sm btn-rounded" href="#" onclick="mudaAnexoElemento(3)"><i class="mdi mdi-plus-circle mr-1"></i>Adicionar Item</a>
+                                                                <a id="showBtnCancelar3" style="display:none" class="float-right" href="#" onclick="fecharAnexo(3)"><i class="mdi mdi-close mr-1"></i>Cancelar</a>
+                                                            @endcan
                                                         </h5>
                                                     </div>
-                                                    <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
+                                                    <div>
                                                         <div class="card-body">
                                                             <div id="showAnexo3" style="display:none" class="row">
                                                                 <div class="col-12">
@@ -346,15 +352,17 @@ $sessao = session('dados_logado');
                                             <div class="col-xl-12">
                                                 <div id="accordion" class="mb-3">
                                                     <div class="card mb-1">
-                                                        <div class="card-header" id="headingFour">
-                                                            <h5 class="m-0">
-                                                                <a class="text-primary" title="Clique aqui para expandir" data-toggle="collapse" href="#collapseFour" aria-expanded="true">
-                                                                    <i class="mdi mdi-plus-circle mr-1 text-primary"></i> 
-                                                                    ANEXAR O RELATÓRIO FINAL
-                                                                </a>                                                           
-                                                            </h5>
-                                                        </div>
-                                                        <div id="collapseFour" class="collapse hide" aria-labelledby="headingFour" data-parent="#accordion">
+                                                        @can('add_relatorio_final')
+                                                            <div class="card-header" id="headingFour">
+                                                                <h5 class="m-0">
+                                                                    <a class="text-primary" title="Clique aqui para expandir" data-toggle="collapse" href="#collapseRelatorioFinal" aria-expanded="true">
+                                                                        <i class="mdi mdi-plus-circle mr-1 text-primary"></i> 
+                                                                        ANEXAR O RELATÓRIO FINAL
+                                                                    </a>                                                           
+                                                                </h5>
+                                                            </div>
+                                                        @endcan
+                                                        <div id="collapseRelatorioFinal" class="collapse hide" aria-labelledby="headingFour" data-parent="#accordion">
                                                             <div class="card-body">
                                                                 <form id="formularioRelatorioFinal" method="POST" action="{{ url('registarRelatorioFinal') }}" enctype="multipart/form-data"> 
                                                                     @csrf
@@ -483,14 +491,16 @@ $sessao = session('dados_logado');
                                         <div class="col-xl-12">
                                             <div id="accordion" class="mb-3">
                                                 <div class="card mb-1">
-                                                    <div class="card-header" id="headingFour">
-                                                        <h5 class="m-0">
-                                                            <a class="text-primary" data-toggle="collapse" href="#collapsePredefesa" aria-expanded="true">
-                                                                <i class="mdi mdi-plus-circle mr-1 text-primary"></i> 
-                                                                REGISTAR PRÉ DEFESA
-                                                            </a>                                                           
-                                                        </h5>
-                                                    </div>
+                                                    @can('add_predefesa')
+                                                        <div class="card-header" id="headingFour">
+                                                            <h5 class="m-0">
+                                                                <a class="text-primary" data-toggle="collapse" href="#collapsePredefesa" aria-expanded="true">
+                                                                    <i class="mdi mdi-plus-circle mr-1 text-primary"></i> 
+                                                                    REGISTAR PRÉ DEFESA
+                                                                </a>                                                           
+                                                            </h5>
+                                                        </div>
+                                                    @endcan
                                                     <div id="collapsePredefesa" class="collapse hide" aria-labelledby="headingFour" data-parent="#accordion">
                                                         <div class="card-body">
                                                             <form id="formularioPredefesa" method="POST" action="{{ url('registarPredefesa') }}"> 
@@ -627,20 +637,22 @@ $sessao = session('dados_logado');
                                     </div>
                                 </div>
 
-                                <!-- Secção da prova publica --> 
+                                <!-- Secção do edital --> 
                                 <div class="tab-pane fade" id="notainformativa">
                                     <div id="showFormNI" style="display:none" class="row">
                                         <div class="col-xl-12">
                                             <div id="accordion" class="mb-3">
                                                 <div class="card mb-1">
-                                                    <div class="card-header" id="headingFour">
-                                                        <h5 class="m-0">
-                                                            <a class="text-primary" title="Clique aqui para expandir" data-toggle="collapse" href="#collapseNotaInformativa" aria-expanded="true">
-                                                                <i class="mdi mdi-plus-circle mr-1 text-primary"></i> 
-                                                                INFORMAR SOBRE PROVA PÚBLICA
-                                                            </a>                                                           
-                                                        </h5>
-                                                    </div>
+                                                    @can('add_edital')
+                                                        <div class="card-header" id="headingFour">
+                                                            <h5 class="m-0">
+                                                                <a class="text-primary" title="Clique aqui para expandir" data-toggle="collapse" href="#collapseNotaInformativa" aria-expanded="true">
+                                                                    <i class="mdi mdi-plus-circle mr-1 text-primary"></i> 
+                                                                    INFORMAR SOBRE PROVA PÚBLICA
+                                                                </a>                                                           
+                                                            </h5>
+                                                        </div>
+                                                    @endcan
                                                     <div id="collapseNotaInformativa" class="collapse hide" aria-labelledby="headingFour" data-parent="#accordion">
                                                         <div class="card-body">
                                                             <form id="formularioNotaInformativa" method="POST"> 
@@ -723,14 +735,16 @@ $sessao = session('dados_logado');
                                         <div class="col-xl-12">
                                             <div id="accordion" class="mb-3">
                                                 <div class="card mb-1">
-                                                    <div class="card-header" id="headingFour">
-                                                        <h5 class="m-0">
-                                                            <a class="text-primary" title="Clique aqui para expandir" data-toggle="collapse" href="#collapseFour" aria-expanded="true">
-                                                                <i class="mdi mdi-plus-circle mr-1 text-primary"></i> 
-                                                                REGISTAR PROVA PÚBLICA
-                                                            </a>                                                           
-                                                        </h5>
-                                                    </div>
+                                                    @can('add_provapublica')
+                                                        <div class="card-header" id="headingFour">
+                                                            <h5 class="m-0">
+                                                                <a class="text-primary" title="Clique aqui para expandir" data-toggle="collapse" href="#collapseFour" aria-expanded="true">
+                                                                    <i class="mdi mdi-plus-circle mr-1 text-primary"></i> 
+                                                                    REGISTAR PROVA PÚBLICA
+                                                                </a>                                                           
+                                                            </h5>
+                                                        </div>
+                                                    @endcan
                                                     <div id="collapseFour" class="collapse hide" aria-labelledby="headingFour" data-parent="#accordion">
                                                         <div class="card-body">
                                                             <form id="formularioProvaPublica" method="POST" action="{{ url('registarProvapublicaaaa') }}"> 

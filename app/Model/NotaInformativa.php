@@ -19,7 +19,7 @@ class NotaInformativa extends Model
                 ->join('envolvente', 'envolvente.id_trabalho', '=', 'trabalho.id')
                 ->join('estudante', 'estudante.id_pessoa', '=', 'envolvente.id_estudante')
                 ->join('pessoa', 'pessoa.id', '=', 'estudante.id_pessoa')
-                ->select('pessoa.nome','trabalho.tema','nota_informativa.local','nota_informativa.created_at','nota_informativa.presidente','nota_informativa.secretario','nota_informativa.vogal_1','nota_informativa.vogal_2')
+                ->select('pessoa.nome','trabalho.tema','nota_informativa.local','nota_informativa.created_at','nota_informativa.presidente','nota_informativa.secretario','nota_informativa.vogal_1','nota_informativa.vogal_2','faculdade.nome as faculdade','faculdade.logotipo','departamento.nome as departamento')
                 ->where('departamento.id',$id_departamento)
                 ->where('trabalho.estado',1)
                 ->distinct('trabalho.tema')

@@ -121,4 +121,37 @@ class Tema extends Model
             ->count();
     }
 
+    public static function getDepartamentosByFaculdade($id_faculdade){
+        return DB::table('faculdade')
+            ->join('departamento', 'departamento.id_faculdade', '=', 'faculdade.id')
+            ->select('departamento.id','departamento.nome')
+            ->where('faculdade.id',$id_faculdade)
+            ->where('departamento.tipo',2)
+            ->get();
+    }
+    
+    //Conta quantos trabalhos cada departamento possui
+    public static function contTrabalhosDepartamento($id_departamento){
+        return DB::table('trabalho')
+            ->join('trabalho_departamento', 'trabalho_departamento.id_trabalho', '=', 'trabalho.id')
+            ->join('departamento', 'trabalho_departamento.id_departamento', '=', 'departamento.id')
+            //->join('trabalho', 'trabalho.id', '=', 'departamento.id_faculdade')
+            ->select('trabalho.id')
+            ->where('departamento.id',$id_departamento)
+            ->count('trabalho.id');
+    }
+
+    //Conta trabalhos defendidos ou em curso
+    public static function contTrabalhosTipo($estado,$id_faculdade){
+        return DB::table('trabalho')
+            ->join('trabalho_departamento', 'trabalho_departamento.id_trabalho', '=', 'trabalho.id')
+            ->join('departamento', 'trabalho_departamento.id_departamento', '=', 'departamento.id')
+            ->join('faculdade', 'faculdade.id', '=', 'departamento.id_faculdade')
+            //->select('trabalho.id')
+            ->where('trabalho.estado',$estado)
+            ->where('faculdade.id','=',$id_faculdade)
+            ->distinct('trabalho_departamento.id_trabalho') 
+            ->count('trabalho.id');  
+    }
+
 }

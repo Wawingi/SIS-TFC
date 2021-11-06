@@ -6,7 +6,6 @@ Route::get('/', function () {
 
 //Rotas para Utilizador e Pessoa
 Route::middleware(['auth'])->group(function () {
-    //Route::get('registarUtilizador', 'UtilizadorController@registarUtilizador');
     Route::get('home', 'HomeController@index');
     Route::get('alterarSenha', function () {
         return view('perfil.AlterarSenha');
@@ -38,9 +37,6 @@ Route::middleware(['auth'])->group(function () {
     });
     Route::post('pesquisarUtilizador', 'PerfilController@pesquisarUtilizador');
     Route::get('resetarSenha/{id}', 'PerfilController@resetarSenha');
-    /*Route::get('trocarSenha', function(){
-    return view('perfil.trocarSenha');
-    });*/
     Route::post('trocarSenha', 'PerfilController@trocarSenha');
     Route::post('editarPessoa', 'UtilizadorController@editarPessoa');
     Route::post('editarNome', 'UtilizadorController@editarPessoa');
@@ -99,6 +95,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('aceitarProposta/{idPessoa}/{idSugestao}', 'SugestaoController@aceitarProposta');
     Route::get('negarProposta/{idsugestao}/{idpessoa}/{proveniencia}', 'SugestaoController@negarProposta');
     Route::get('minhasPropostas', function () {
+        if (Gate::denies('visualizar_minha_prop_sug')) {
+            return redirect()->back();
+        }
         return view('sugestao.minhasPropostas');
     });
     Route::get('pegaSugestoesOrientador', 'SugestaoController@pegaSugestoesOrientador');
@@ -120,6 +119,9 @@ Route::middleware(['auth'])->group(function () {
         return view('tema.listarTrabalhoDefendido');
     });
     Route::get('meusTutorandos', function () {
+        if (Gate::denies('visualizar_tutorandos')) {
+            return redirect()->back();
+        }
         return view('tema.meusTutorandos');
     });
     Route::get('pegaTrabalhosOrientador', 'TemaController@pegaTrabalhosOrientador');
@@ -143,6 +145,9 @@ Route::middleware(['auth'])->group(function () {
 //Rotas para configurações
 Route::middleware(['auth'])->group(function () {
     Route::get('listarAreaAplicacao', function () {
+        if (Gate::denies('visualizar_linhas')) {
+            return redirect()->back();
+        }
         return view('configuracao.listarAreaAplicacao');
     });
     Route::get('pegaAreasAplicacao/{isDeleted}', 'AreaController@pegaAreasAplicacao');
@@ -151,6 +156,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('eliminarArea/{id}', 'AreaController@softDeleteArea');
     Route::get('restaurarArea/{id}', 'AreaController@restaurarArea');
     Route::get('listarPerfilUtilizador', function () {
+        if (Gate::denies('visualizar_perfil')) {
+            return redirect()->back();
+        }
         return view('configuracao.listarPerfilUtilizador');
     });
     Route::post('registarPerfil', 'PerfilController@registarPerfil');
@@ -162,12 +170,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('removerPermissao/{idPermission}/{idRole}', 'PerfilController@removerPermissao');
     Route::post('associarPermission', 'PerfilController@associarPermission');
     Route::get('listarPredefinidoAvaliacao', function () {
+        if (Gate::denies('visualizar_aval_predefinidas')) {
+            return redirect()->back();
+        }
         return view('configuracao.listarPredefinidoAvaliacao');
     });
     Route::post('registarPredefinidaAvaliacao', 'PredefinidoAvaliacaoController@registarPredefinidaAvaliacao');
     Route::get('pegaPredefinidaAvaliacao', 'PredefinidoAvaliacaoController@pegaPredefinidaAvaliacao');
     Route::get('eliminarPredefinida/{id}', 'PredefinidoAvaliacaoController@eliminarPredefinida');
     Route::post('editarPredefinida', 'PredefinidoAvaliacaoController@editarPredefinida');
+    Route::get('normasTFC',function(){
+        return view('configuracao.normasTfc');
+    });
 });
 
 //Rotas para predefesas e defesas
@@ -204,7 +218,6 @@ Auth::routes(['register' => false]);
 
 //Rotas para estatisticas e relatorios
 Route::middleware(['auth'])->group(function () {
-    Route::get('pegaGeralLinhaInvestigacao', 'AreaController@pegaGeralLinhaInvestigacao');
     Route::get('listarOrientadores', function () {
         return view('relatorios.listarOrientadores');
     });
@@ -218,5 +231,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('listarProvasPublica', function () {
         return view('relatorios.listarProvasPublica');
     });
-    Route::get('listarProvasPublica/{id_departamento}','RelatorioController@listarProvasPublica');    
+    Route::get('listarProvasPublica/{id_departamento}','RelatorioController@listarProvasPublica');
+
+    Route::get('listarLinhas', function () {
+        return view('relatorios.listarLinhas');
+    });
+    Route::get('pegaGeralLinhaInvestigacao/{id_departamento}', 'AreaController@pegaGeralLinhaInvestigacao');
+        
+    Route::post('baixar_relatorio_orientadores','RelatorioController@baixar_relatorio_orientadores');    
+    Route::post('baixar_relatorio_editais','RelatorioController@baixar_Editais');    
+    Route::post('baixar_relatorio_provapublica','RelatorioController@baixar_Provapublica');    
+    Route::post('baixar_relatorio_linhas','RelatorioController@baixar_Linhas');  
+    
+    Route::get('contTrabalhosDepartamentos', 'TemaController@contTrabalhosDepartamentos');
+    Route::get('contComparaTrabalhos', 'TemaController@contComparaTrabalhos');
 });

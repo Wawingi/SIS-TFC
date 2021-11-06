@@ -170,7 +170,7 @@ class Pessoa extends Model
                 ->join('pessoa_departamento', 'pessoa.id', '=', 'pessoa_departamento.id_pessoa')
                 ->join('departamento', 'departamento.id', '=', 'pessoa_departamento.id_departamento')
                 ->join('faculdade', 'faculdade.id', '=', 'departamento.id_faculdade')
-                ->select('pessoa.nome', 'faculdade.nome as faculdade', 'departamento.nome as departamento')
+                ->select('pessoa.nome', 'faculdade.nome as faculdade','faculdade.logotipo','departamento.nome as departamento')
                 ->where('departamento.id', '=', $id_departamento)
                 ->get();
     }

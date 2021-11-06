@@ -18,6 +18,7 @@ class CreateFaculdadeTable extends Migration
             $table->string('nome')->unique();
             $table->string('decano');
             $table->integer('telefone');
+            $table->string('logotipo');
             $table->timestamps();
         });
     }

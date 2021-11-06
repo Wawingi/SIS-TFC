@@ -32,12 +32,12 @@
 		<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
         <script src="{{ asset('js/jquery.validate.js') }}"></script>
         <script src="{{ asset('js/additional-methods.js') }}"></script>
+        <script src="{{ asset('js/echarts.min.js') }}"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/echarts@5.2.1/dist/echarts.min.js"></script>
 	
 	</head>
-    <body>
-		
-        
-       
+    <body>      
         <?php
 			//sessão dos dados do utilizador logado
 			$sessao = session('dados_logado');
@@ -65,6 +65,7 @@
         <!-- Plugins js-->
 		
 		<script src="{{ asset('js/datatables2.min.js') }}"></script>
+
 		
 		<script src="{{ asset('js/select2.min.js') }}" defer></script>
 		<script src="{{ asset('libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
