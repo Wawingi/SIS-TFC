@@ -131,10 +131,10 @@ $sessao = session('dados_logado');
                                                     <div id="labelespaco" class="row">
                                                         <div class="col-4">
                                                             <div class="form-group row mb-3">
-                                                                <p class="col-md-5 col-form-label"> Data de aprovação</p>
+                                                                <p class="col-md-6 col-form-label"> Data de aprovação</p>
                                                             </div>
                                                         </div>
-                                                        <div class="col-8">
+                                                        <div class="col-7">
                                                             <div class="form-group row mb-3">
                                                                 <label class="col-md-7 col-form-label">: {{ date('d/m/Y',strtotime($trabalho->created_at)) }}</label>
                                                             </div>
@@ -648,7 +648,7 @@ $sessao = session('dados_logado');
                                                             <h5 class="m-0">
                                                                 <a class="text-primary" title="Clique aqui para expandir" data-toggle="collapse" href="#collapseNotaInformativa" aria-expanded="true">
                                                                     <i class="mdi mdi-plus-circle mr-1 text-primary"></i> 
-                                                                    INFORMAR SOBRE PROVA PÚBLICA
+                                                                    REGISTAR EDITAL
                                                                 </a>                                                           
                                                             </h5>
                                                         </div>
@@ -965,7 +965,7 @@ $sessao = session('dados_logado');
             },
             error: function(e)
 			{
-				alert("erro ao carregar dados");
+				alert("erro ao carregar dados postextual");
 			}
         })
     };

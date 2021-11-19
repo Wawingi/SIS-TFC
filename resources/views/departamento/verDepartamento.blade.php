@@ -193,36 +193,7 @@
         <?php } ?>
     </div> 
 </div> 
-<script>
-    $( "#formularioSalvarr" ).validate( {
-		rules: {					
-			nome: {
-				required: true,
-			}
-		},
-		messages: {					
-			nome: {
-                required: "O nome do curso é obrigatório.",
-			}
-		},
-		errorElement: "em",
-		errorPlacement: function ( error, element ) {
-			// Add the `invalid-feedback` class to the error element
-			error.addClass( "invalid-feedback" );
-			if ( element.prop( "type" ) === "checkbox" ) {
-				error.insertAfter( element.next( "label" ) );
-			} else {
-				error.insertAfter( element );
-			}
-		},
-		highlight: function ( element, errorClass, validClass ) {
-			$( element ).addClass( "is-invalid" ).removeClass( "is-valid" );
-		},
-		unhighlight: function (element, errorClass, validClass) {
-			$( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
-		}
-    });
-    
+<script>    
     //Chamar a data table
     $(document).ready(function() {
         var id = $('#id_departamento').val();
@@ -257,7 +228,6 @@
 			}
         })
     }
-    //carregarCursoTable();
 
     function carregarCursoTableLixeira(){
         var id = $('#id_departamento').val();
@@ -353,6 +323,7 @@
                     Swal.fire({
                         text: "Curso Actualizado com sucesso.",
                         icon: 'success',
+                        timer: 1500,
                         confirmButtonText: 'Fechar'
                     }),
                     $('#formularioEditar')[0].reset();
@@ -360,9 +331,6 @@
                 }            
             },
             error: function(response){
-                //$('#modalEditarClose').click();
-                //$('#formularioEditar')[0].reset();
-
                 var erro='';
 				if( response.status === 422 ) {
 					$.each(response.responseJSON.errors,function(field_name,error){						
@@ -402,13 +370,12 @@
                         url: "{{ url('eliminarCurso') }}/"+id,
                         type: "GET",
                         success: function(data){
-                            carregarCursoTable();
-                            carregarCursoTableLixeira();
                             Swal.fire(
-                            'Eliminado!',
-                            'Eliminado com Sucesso.',
-                            'success'
-                            )
+                                'Eliminado!',
+                                'Eliminado com Sucesso.',
+                                'success'
+                            );
+                            location.reload();
                         },
                         error: function(e)
                         {
@@ -422,7 +389,6 @@
                 }
 		});
     });
-
 
     $(document).on('click','.restaurar',function(e){
         Swal.fire({

@@ -129,8 +129,7 @@
                         confirmButtonText: 'Fechar',
                         timer: 1500
                     }),
-                    $('#formularioSalvar')[0].reset();
-                    carregarDataTable();
+                    location.reload();
                 }            
             },
             error: function(e){
@@ -178,8 +177,7 @@
                         icon: 'success',
                         confirmButtonText: 'Fechar'
                     }),
-                    $('#formularioEditar')[0].reset();
-                    carregarDataTable();
+                    location.reload();
                 }            
             },
             error: function(e){
@@ -194,7 +192,7 @@
 
     $(document).on('click','.eliminar',function(e){
         Swal.fire({
-			  title: 'Deseja realmente eliminar a avaliação predfinida?',
+			  title: 'Deseja realmente eliminar a avaliação predefinida?',
 			  icon: 'warning',
 			  showCancelButton: true,
 			  confirmButtonColor: '#3085d6',
@@ -209,12 +207,12 @@
                         url: "{{ url('eliminarPredefinida') }}/"+id,
                         type: "GET",
                         success: function(data){
-                            carregarDataTable();
                             Swal.fire(
                             'Eliminado!',
                             'Eliminada com Sucesso.',
                             'success'
                             )
+                            location.reload();
                         },
                         error: function(e)
                         {

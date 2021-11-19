@@ -134,13 +134,13 @@
 </div>
 
 <script>
-		
-    function carregarDataTable(){
+    //Chamar a data table
+    $(document).ready(function() {
         var isDeleted=0;
         $.ajax({
             url: "{{ url('pegaDepartamentos') }}/"+isDeleted,
             success:function(data){
-                $('#dataTable').html(data);
+                $('#dataTable').html(data); 
                 $('#paginationFullNumbers').DataTable({
                     "pagingType": "full_numbers"
                 }); 
@@ -150,8 +150,21 @@
 				alert(e);
 			}
         })
+    });
+		
+    function carregarDataTable(){
+        var isDeleted=0;
+        $.ajax({
+            url: "{{ url('pegaDepartamentos') }}/"+isDeleted,
+            success:function(data){
+                $('#dataTable').html(data);
+            },
+            error: function(e)
+			{
+				alert(e);
+			}
+        })
     }
-    carregarDataTable();
 
     function carregarDataTableLixeira(){
         var isDeleted=1;
@@ -175,7 +188,7 @@
         rules: {					
             nome: {
                 required: true,
-                pattern: /^[a-zA-ZáÁàÀçÇéÉèÈõÕóÓãÃúÚ\s]+$/
+                pattern: /^[a-zA-ZáÁàÀçÇéÉèÈíÍìÌõÕóÓãÃúÚ\s]+$/
             },
             email: {
                 required: true
@@ -232,14 +245,7 @@
                             icon: 'success',
                             confirmButtonText: 'Fechar'
                         })
-						
-						//id = $('#nome').val('');
-						
-                        //$('#formularioSalvar')[0].reset();
-						//this.$nextTick(() => { $('#formularioSalvar')[0].reset(); });  
-                        //location.reload();
-                        //return false;
-                        //carregarDataTable();
+						location.reload();
                     }         
                 },
                 error: function(response){
@@ -295,7 +301,7 @@
         rules: {					
             nome_edit: {
                 required: true,
-                pattern: /^[a-zA-ZâêôûáÁàÀçÇéÉèÈõÕóÓãÃúÚ\s]+$/
+                pattern: /^[a-zA-ZâêôûáÁàÀçÇéÉèÈíÍìÌõÕóÓãÃúÚ\s]+$/
             },
             email: {
                 required: true
@@ -351,18 +357,11 @@
                         Swal.fire({
                             text: "Departamento actualizado com sucesso.",
                             icon: 'success',
+                            timer: 1500,
                             confirmButtonText: 'Fechar'
                         }),
 
                         carregarDataTable();
-						
-						//id = $('#nome').val('');
-						
-                        //$('#formularioSalvar')[0].reset();
-						//this.$nextTick(() => { $('#formularioSalvar')[0].reset(); });  
-                        //location.reload();
-                        //return false;
-                        //carregarDataTable();
                     }         
                 },
                 error: function(response){
@@ -371,13 +370,12 @@
 						$.each(response.responseJSON.errors,function(field_name,error){
 							console.log("CAMPO: "+field_name+"ERRO: "+error);							
 							erro = error+' | '+erro
-						})
-						
-						console.log('ERROS: '+erro);
+						});
 						
 						Swal.fire({
 							text: erro,
 							icon: 'error',
+                            timer: 1500,
 							confirmButtonText: 'Fechar'
 						})
 					}else{
@@ -390,48 +388,6 @@
                 }
             });
         }            
-    });
-
-    $('#formularioEditarrr').submit(function(e){
-        e.preventDefault();
-
-        var request = new FormData(this);
-
-        $.ajax({
-            url:"{{ url('editarDepartamento') }}",
-            method: "POST",
-            data: request,
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(data){
-                if(data == "Sucesso"){
-                    $('#modalEditarClose').click();
-                    Swal.fire({
-                        text: "Departamento Actualizado com sucesso.",
-                        icon: 'success',
-                        confirmButtonText: 'Fechar'
-                    }),
-                    $('#formularioSalvar')[0].reset();
-                    carregarDataTable();
-                }else{
-                    $('#modalEditarClose').click();
-                    Swal.fire({
-                        text: 'Ocorreu um erro ao actualizar o departamento, verifique os dados e tente novamente.',
-                        icon: 'error',
-                        confirmButtonText: 'Fechar'
-                    }),
-                    $('#formularioSalvar')[0].reset();
-                }            
-            },
-            error: function(e){
-                Swal.fire({
-                    text: 'Ocorreu um erro ao actualizar o departamento.',
-                    icon: 'error',
-                    confirmButtonText: 'Fechar'
-                })
-            }
-        });
     });
 
     $(document).on('click','.eliminar',function(e){
@@ -451,13 +407,12 @@
                         url: "{{ url('eliminarDepartamento') }}/"+id,
                         type: "GET",
                         success: function(data){
-                            carregarDataTable();
-                            carregarDataTableLixeira();
                             Swal.fire(
-                            'Eliminado!',
-                            'Eliminado com Sucesso.',
-                            'success'
-                            )
+                                'Eliminado!',
+                                'Eliminado com Sucesso.',
+                                'success'
+                            );
+                            location.reload();
                         },
                         error: function(e)
                         {

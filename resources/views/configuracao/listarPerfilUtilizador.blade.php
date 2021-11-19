@@ -55,28 +55,28 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="name">Nome</label>
-                                    <input type="text" class="form-control" name="nome" placeholder="ex: Administrador">
+                                    <input required type="text" class="form-control" name="nome" placeholder="ex: Administrador">
                                 </div>    
                                 <div class="form-group">
                                     <label for="name">Descrição</label>
-                                    <input type="text" class="form-control" name="descricao" placeholder="ex: Administrador funcionário">
+                                    <input required type="text" class="form-control" name="descricao" placeholder="ex: Administrador funcionário">
                                 </div> 
                                 @if($sessao[0]->tipo==2)   
                                     <div class="form-group">
                                         <label for="name">Tipo</label><br>
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="radio" name="tipo" id="tipo" value="2"> Docente
+                                                <input required class="form-check-input" type="radio" name="tipo" id="tipo" value="2"> Docente
                                             </label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="radio" name="tipo" id="tipo" value="3"> Estudante
+                                                <input required class="form-check-input" type="radio" name="tipo" id="tipo" value="3"> Estudante
                                             </label>
                                         </div>
                                     </div>
                                 @elseif($sessao[0]->tipo==1)
-                                    <input class="form-check-input" type="hidden" name="tipo" id="tipo" value="1">
+                                    <input required class="form-check-input" type="hidden" name="tipo" id="tipo" value="1">
                                 @endif     
                                 <hr>
                                 <div class="text-right">
@@ -194,10 +194,9 @@
                         text: "Perfil registado com sucesso.",
                         icon: 'success',
                         confirmButtonText: 'Fechar',
-                        timer: 1500
-                    })             
-                    carregarDataTable();
-                    $('#formularioSalvar')[0].reset();
+                        timer: 5500
+                    })          
+                    location.reload();   
                 }            
             },
             error: function(e){
@@ -244,8 +243,7 @@
                         icon: 'success',
                         confirmButtonText: 'Fechar'
                     }),
-                    $('#formularioSalvar')[0].reset();
-                    //carregarDataTable();
+                    location.reload();   
                 }            
             },
             error: function(e){
@@ -275,13 +273,12 @@
                         url: "{{ url('eliminarPerfil') }}/"+id,
                         type: "GET",
                         success: function(data){
-                            carregarDataTable();
-                            carregarDataTableLixeira();
                             Swal.fire(
-                            'Eliminado!',
-                            'Eliminado com Sucesso.',
-                            'success'
+                                'Eliminado!',
+                                'Eliminado com Sucesso.',
+                                'success'
                             )
+                            location.reload();   
                         },
                         error: function(e)
                         {
