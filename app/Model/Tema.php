@@ -89,7 +89,7 @@ class Tema extends Model
             ->join('trabalho', 'envolvente.id_trabalho', '=', 'trabalho.id')
             ->join('pessoa', 'pessoa.id', '=', 'estudante.id_pessoa')
             ->join('curso', 'curso.id', '=', 'estudante.id_curso')
-            ->select('pessoa.nome', 'pessoa.bi', 'curso.nome as nome_curso')
+            ->select('pessoa.id as pessoa_id','pessoa.nome', 'pessoa.bi', 'curso.nome as nome_curso')
             ->where('trabalho.id', '=', $idTrabalho)
             ->get();
     }

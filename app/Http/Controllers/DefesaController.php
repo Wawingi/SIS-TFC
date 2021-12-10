@@ -8,6 +8,7 @@ use App\Model\Provapublica;
 use App\Model\NotaInformativa;
 use App\Model\Tema;
 use App\Model\Notificacao;
+use App\Model\Pessoa;
 use Illuminate\Support\Facades\DB;
 use PDF;
 
@@ -149,10 +150,14 @@ class DefesaController extends Controller
             echo 1;
         }
     }
-
      
     public function listarNotaInformativa($Trabalho_id){
         $notaInformativa = NotaInformativa::where('id_trabalho',$Trabalho_id)->get();
+        $notaInformativa[0]->presidente = Pessoa::getPessoaById($notaInformativa[0]->presidente)->nome;
+        $notaInformativa[0]->secretario = Pessoa::getPessoaById($notaInformativa[0]->secretario)->nome;
+        $notaInformativa[0]->vogal_1 = Pessoa::getPessoaById($notaInformativa[0]->vogal_1)->nome;
+        $notaInformativa[0]->vogal_2 = Pessoa::getPessoaById($notaInformativa[0]->vogal_2)->nome;
+
         return view('tema.notainformativaTable', compact('notaInformativa'));
     }
 
@@ -221,6 +226,12 @@ class DefesaController extends Controller
                             ->join('nota_informativa','nota_informativa.id','=','prova_publica.id_nota_informativa')                            
                             ->where('prova_publica.id_trabalho',$Trabalho_id)
                             ->get();
+
+        $provapublica[0]->presidente = Pessoa::getPessoaById($provapublica[0]->presidente)->nome;
+        $provapublica[0]->secretario = Pessoa::getPessoaById($provapublica[0]->secretario)->nome;
+        $provapublica[0]->vogal_1 = Pessoa::getPessoaById($provapublica[0]->vogal_1)->nome;
+        $provapublica[0]->vogal_2 = Pessoa::getPessoaById($provapublica[0]->vogal_2)->nome;
+                    
         return view('tema.provapublicaTable', compact('provapublica'));
     }
 

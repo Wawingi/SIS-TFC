@@ -60,6 +60,12 @@ class TemaController extends Controller
     {
         $id = base64_decode($id);
         $trabalho = Tema::getTrabalhoDefendido($id);
+
+        $trabalho->presidente = Pessoa::getPessoaById($trabalho->presidente)->nome;
+        $trabalho->secretario = Pessoa::getPessoaById($trabalho->secretario)->nome;
+        $trabalho->vogal_1 = Pessoa::getPessoaById($trabalho->vogal_1)->nome;
+        $trabalho->vogal_2 = Pessoa::getPessoaById($trabalho->vogal_2)->nome;
+
         return view('tema.verTrabalhoDefendido', compact('trabalho'));
     }
 

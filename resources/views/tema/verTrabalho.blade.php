@@ -673,17 +673,28 @@ $sessao = session('dados_logado');
                                                                         </div>
                                                                     </div>
                                                                 </div> 
+                                                                @php $docentes = App\Model\Pessoa::getDocentes($sessao[0]->id_departamento); @endphp
                                                                 <div class="row">
                                                                     <div class="col-6">
                                                                         <div class="form-group mb-3">
                                                                             <label>Presidente</label><br>
-                                                                            <input type="text" id="presidente" name="presidente" placeholder="Informe o nome do preseidente" class="form-control">                                       
+                                                                            <select id="presidente" name="presidente" class="selectpicker" data-live-search="true" data-style="btn-light">
+                                                                                <option selected disabled>Escolha o nome</option>
+                                                                                @foreach ($docentes as $docente)
+                                                                                    <option value="{{$docente->pessoa_id}}">{{$docente->nome}}</option>
+                                                                                @endforeach
+                                                                            </select>                                      
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-6">
                                                                         <div class="form-group mb-3">
                                                                             <label>Secrétário</label><br>
-                                                                            <input type="text" id="secretario" name="secretario" placeholder="Informe o nome do secretário" class="form-control">                                       
+                                                                            <select id="secretario" name="secretario" class="selectpicker" data-live-search="true" data-style="btn-light">
+                                                                                <option selected disabled>Escolha o nome</option>       
+                                                                                @foreach ($docentes as $docente)
+                                                                                    <option value="{{$docente->pessoa_id}}">{{$docente->nome}}</option>
+                                                                                @endforeach
+                                                                            </select>                                     
                                                                         </div>
                                                                     </div>
                                                                 </div>                                                           
@@ -691,13 +702,23 @@ $sessao = session('dados_logado');
                                                                     <div class="col-6">
                                                                         <div class="form-group mb-3">
                                                                             <label>1º Vogal</label><br>
-                                                                            <input type="text" id="vogal_1" name="vogal_1" placeholder="Informe o nome do 1º Vogal" class="form-control">                                       
+                                                                            <select id="vogal_1" name="vogal_1" class="selectpicker" data-live-search="true" data-style="btn-light">
+                                                                                <option selected disabled>Escolha o nome</option>
+                                                                                @foreach ($docentes as $docente)
+                                                                                    <option value="{{$docente->pessoa_id}}">{{$docente->nome}}</option>
+                                                                                @endforeach
+                                                                            </select>                                          
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-6">
                                                                         <div class="form-group mb-3">
                                                                             <label>2º Vogal</label><br>
-                                                                            <input type="text" id="vogal_2" name="vogal_2" placeholder="Informe o nome do 2º Vogal" class="form-control">                                       
+                                                                            <select id="vogal_2" name="vogal_2" class="selectpicker" data-live-search="true" data-style="btn-light">
+                                                                                <option selected disabled>Escolha o nome</option>
+                                                                                @foreach ($docentes as $docente)
+                                                                                    <option value="{{$docente->pessoa_id}}">{{$docente->nome}}</option>
+                                                                                @endforeach
+                                                                            </select>                                       
                                                                         </div>
                                                                     </div>
                                                                 </div>     
@@ -749,9 +770,9 @@ $sessao = session('dados_logado');
                                                         <div class="card-body">
                                                             <form id="formularioProvaPublica" method="POST" action="{{ url('registarProvapublicaaaa') }}"> 
                                                                 @csrf
-                                                                @php 
-                                                                    $ni= App\Model\NotaInformativa::where('id_trabalho',$trabalho->id)->select('id','created_at','local','presidente','secretario','vogal_1','vogal_2')->first()                                                   
-                                                                @endphp
+                                                                <?php 
+                                                                    $ni= App\Model\NotaInformativa::getNotaInformativa($trabalho->id);                                                  
+                                                                ?>
                                                                 <div class="row">
                                                                     <input required type="hidden" value="{{$trabalho->id}}" class="form-control"  name="id_trabalho" id="id_trabalho">  
                                                                     <input required type="hidden" @if(is_object($ni))value="{{$ni->id}}" @endif class="form-control"  name="id_nota" id="id_nota">  
@@ -1381,20 +1402,16 @@ $sessao = session('dados_logado');
                 required: true,
             },
             presidente: {
-                required: true,
-                pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈõÕóÓúÚâêôÂÊÔ\s]+$/      
+                required: true,  
             },
             secretario: {
                 required: true,
-                pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈõÕóÓúÚâêôÂÊÔ\s]+$/     
             },
             vogal_1: {
-                required: true,
-                pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈõÕóÓúÚâêôÂÊÔ\s]+$/     
+                required: true,    
             },
             vogal_2: {
-                required: true,
-                pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈõÕóÓúÚâêôÂÊÔ\s]+$/     
+                required: true,    
             },
         },
         messages: {					
@@ -1405,20 +1422,16 @@ $sessao = session('dados_logado');
                 required: "O local deve ser fornecida."               
             },               
             presidente: {
-                required: "O nome do presidente deve ser fornecida.",
-                pattern: "Informe um nome contendo apenas letras alfabéticas"         
+                required: "O nome do presidente deve ser fornecida.",        
             },               
             secretario: {
-                required: "O nome do secretário deve ser fornecido.",
-                pattern: "Informe um nome contendo apenas letras alfabéticas"                    
+                required: "O nome do secretário deve ser fornecido.",                  
             },               
             vogal_1: {
-                required: "O nome do 1º vogal deve ser fornecido.",
-                pattern: "Informe um nome contendo apenas letras alfabéticas"                    
+                required: "O nome do 1º vogal deve ser fornecido.",                   
             },               
             vogal_2: {
-                required: "O nome do 2º vogal deve ser fornecida.",
-                pattern: "Informe um nome contendo apenas letras alfabéticas"                    
+                required: "O nome do 2º vogal deve ser fornecida.",                   
             }                
         },
         
@@ -1578,19 +1591,19 @@ $sessao = session('dados_logado');
             },
             presidente_defesa: {
                 required: true,
-                pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈõÕóÓúÚâêôÂÊÔ\s]+$/      
+                pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈíÍìÌñÑõÕóÓúÚâêôÂÊÔ\s]+$/      
             },
             secretario_defesa: {
                 required: true,
-                pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈõÕóÓúÚâêôÂÊÔ\s]+$/     
+                pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈíÍìÌñÑõÕóÓúÚâêôÂÊÔ\s]+$/     
             },
             vogal_1_defesa: {
                 required: true,
-                pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈõÕóÓúÚâêôÂÊÔ\s]+$/     
+                pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈíÍìÌñÑõÕóÓúÚâêôÂÊÔ\s]+$/     
             },
             vogal_2_defesa: {
                 required: true,
-                pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈõÕóÓúÚâêôÂÊÔ\s]+$/     
+                pattern: /^[a-zA-ZáÁàÀãÃçÇéÉèÈíÍìÌñÑõÕóÓúÚâêôÂÊÔ\s]+$/     
             },
         },
         messages: {					

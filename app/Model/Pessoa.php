@@ -47,6 +47,10 @@ class Pessoa extends Model
         return $dados;
     }
 
+    public static function getPessoaById($id){
+        return Pessoa::find($id);
+    }
+
     //Função que pega dados da pessoa pesquisada
     public static function pegaDadosUtilizadorPesquisado($id, $tipo = null, $tipoLogado, $idFaculdade)
     {
@@ -173,6 +177,15 @@ class Pessoa extends Model
                 ->select('pessoa.nome', 'faculdade.nome as faculdade','faculdade.logotipo','departamento.nome as departamento')
                 ->where('departamento.id', '=', $id_departamento)
                 ->get();
+    }
+
+    public static function getJuri($id_pessoa){
+        return DB::table('pessoa')
+                ->join('pessoa_departamento','pessoa_departamento.id_pessoa','=','pessoa.id')
+                ->join('departamento','departamento.id','=','pessoa_departamento.id_departamento')
+                ->select('pessoa.nome as juri','departamento.nome as departamento')
+                ->where('pessoa.id',$id_pessoa)
+                ->first();
     }
 
 }

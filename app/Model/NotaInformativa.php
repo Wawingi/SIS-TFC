@@ -4,6 +4,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Model\Pessoa;
 
 class NotaInformativa extends Model
 {
@@ -24,5 +25,15 @@ class NotaInformativa extends Model
                 ->where('trabalho.estado',1)
                 ->distinct('trabalho.tema')
                 ->get();
+    }
+
+    public static function getNotaInformativa($id_trabalho){
+        $ni = NotaInformativa::where('id_trabalho',$id_trabalho)->select('id','created_at','local','presidente','secretario','vogal_1','vogal_2')->first();
+        $ni->presidente = Pessoa::getPessoaById($ni->presidente)->nome; 
+        $ni->secretario = Pessoa::getPessoaById($ni->secretario)->nome; 
+        $ni->vogal_1 = Pessoa::getPessoaById($ni->vogal_1)->nome; 
+        $ni->vogal_2 = Pessoa::getPessoaById($ni->vogal_2)->nome; 
+        
+        return $ni;
     }
 }

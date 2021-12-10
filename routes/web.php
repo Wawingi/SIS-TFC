@@ -242,6 +242,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('baixar_relatorio_editais','RelatorioController@baixar_Editais');    
     Route::post('baixar_relatorio_provapublica','RelatorioController@baixar_Provapublica');    
     Route::post('baixar_relatorio_linhas','RelatorioController@baixar_Linhas');  
+    Route::get('gerarActaDefesa/{pessoa_id}','RelatorioController@gerarActaDefesa');  
+    Route::get('gerarActaSessaoDefesa/{pessoa_id}','RelatorioController@gerarActaSessaoDefesa');  
     
     Route::get('contTrabalhosDepartamentos', 'TemaController@contTrabalhosDepartamentos');
     Route::get('contComparaTrabalhos', 'TemaController@contComparaTrabalhos');

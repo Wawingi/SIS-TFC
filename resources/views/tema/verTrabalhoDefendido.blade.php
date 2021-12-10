@@ -105,12 +105,6 @@ $sessao = session('dados_logado');
                                                 <td><a ficheiro="{{$trabalho->descricao}}" class="AbrirElementoPdf" href="#"><i class="fas fa-file-pdf"></i> RELATÓRIO FINAL</a></td>      
                                             </tr>
                                             <tr>
-                                                <td><a href="#"><i class="fas fa-file-pdf"></i> ACTA FINAL DA DEFESA</a></td>      
-                                            </tr>
-                                            <tr>
-                                                <td><a href="#"><i class="fas fa-file-pdf"></i> ACTA DA LEITURA DE NOTA</a></td>      
-                                            </tr>
-                                            <tr>
                                                 <td><a recomendacao="{{$trabalho->recomendacao}}" class="AbrirRecomendacao" href="#"><i class="fas fa-file-pdf"></i> RECOMENDAÇÕES</a></td>      
                                             </tr>
                                         </table>

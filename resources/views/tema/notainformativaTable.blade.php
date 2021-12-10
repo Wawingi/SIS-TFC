@@ -14,16 +14,16 @@
                 
     <tr>                
         <td style="background:#edeff1">Presidente</td>                
-        <td><a href="#" class="presidente_edit" data-name="presidente" data-type="text" data-placeholder="Preenchimento obrigatório" data-pk="{{$nota->id}}" data-title="Informe o nome do presidente">{{$nota->presidente}}</a></td>                
+        <td><B>{{$nota->presidente}}</B></td>                
         <td style="background:#edeff1">Secretário</td>                
-        <td><a href="#" class="secretario_edit" data-name="secretario" data-type="text" data-placeholder="Preenchimento obrigatório" data-pk="{{$nota->id}}" data-title="Informe o nome do secretário">{{$nota->secretario}}</a></td>                
+        <td><B>{{$nota->secretario}}</B></td>                
     </tr>                
              
     <tr>                
         <td style="background:#edeff1">1º Vogal</td>                
-        <td><a href="#" class="vogal1_edit" data-name="vogal_1" data-type="text" data-placeholder="Preenchimento obrigatório" data-pk="{{$nota->id}}" data-title="Informe o nome do 1º vogal">{{$nota->vogal_1}}</a></td>                
+        <td><B>{{$nota->vogal_1}}</B></td>                
         <td style="background:#edeff1">2º Vogal</td>                
-        <td><a href="#" class="vogal2_edit" data-name="vogal_2" data-type="text" data-placeholder="Preenchimento obrigatório" data-pk="{{$nota->id}}" data-title="Informe o nome do 2º vogal">{{$nota->vogal_2}}</a></td>                
+        <td><B>{{$nota->vogal_2}}</B></td>                
     </tr>                   
 @endforeach
 <script>
