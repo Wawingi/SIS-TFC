@@ -145,20 +145,6 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-4" id="mostra_para_dpto1" style="display:none">
-                                        <?php 
-                                            $departamentos = App\Model\Departamento::pegaDepartamentoByTipo(2,$dados[0]->id_faculdade);
-                                        ?>
-                                        <div class="form-group mb-3">
-                                            <label for="departamento">Departamento</label>
-                                            <select id="departamento_estudantil" name="departamento_estudantil" class="selectpicker" data-live-search="true"  data-style="btn-light">
-                                                <?php foreach($departamentos as $departamento): ?>
-                                                    <option value="{{$departamento->id}}" <?php if(App\Model\Departamento::pegaChefeDepartamento($departamento->id)){ echo "disabled";} ?>>{{$departamento->nome}}</option>
-                                                <?php endforeach ?>
-                                            </select>                                            
-                                        </div>
-                                    </div>            
-                                    
                                     <div class="col-lg-4" id="mostra_para_direcao1">
                                         <?php                                         
                                             $departamentos = App\Model\Departamento::pegaDepartamentoByTipo(1,$dados[0]->id_faculdade);
@@ -167,11 +153,25 @@
                                             <label for="departamento">Departamento</label>
                                             <select id="departamento_direcao" name="departamento_direcao" class="selectpicker" data-live-search="true"  data-style="btn-light">
                                                 <?php foreach($departamentos as $departamento): ?>
-                                                    <option value="{{$departamento->id}}" <?php if(App\Model\Departamento::pegaChefeDepartamento($departamento->id)){ echo "disabled";} ?> >{{$departamento->nome}}</option>
+                                                    <option value="{{$departamento->id}}" @if(App\Model\Departamento::pegaChefeDepartamento($departamento->id)) disabled style="color:#e7eaed" @endif>{{$departamento->nome}}</option>
                                                 <?php endforeach ?>
                                             </select>                                           
                                         </div>
-                                    </div>                                   
+                                    </div>     
+
+                                    <div class="col-lg-4" id="mostra_para_dpto1" style="display:none">
+                                        <?php 
+                                            $departamentos = App\Model\Departamento::pegaDepartamentoByTipo(2,$dados[0]->id_faculdade);
+                                        ?>
+                                        <div class="form-group mb-3">
+                                            <label for="departamento">Departamento</label>
+                                            <select id="departamento_estudantil" name="departamento_estudantil" class="custom-select" data-live-search="true"  data-style="btn-light">
+                                                <?php foreach($departamentos as $departamento): ?>
+                                                    <option value="{{$departamento->id}}" @if(App\Model\Departamento::pegaChefeDepartamento($departamento->id)) disabled style="color:#e7eaed" @endif>{{$departamento->nome}}</option>
+                                                <?php endforeach ?>
+                                            </select>                                            
+                                        </div>
+                                    </div>                        
                                 </div>
                                 <!-- 3ª Linha --> 
                                 <div class="row" id="mostra_para_dpto2" style="display:none">

@@ -261,17 +261,11 @@
                             <i class="fas fa-arrow-left"></i>Voltar
                         </a>
                     </li>
-
                 </ul>
-                <!-- End navigation menu -->
-
                 <div class="clearfix"></div>
             </div>
-            <!-- end #navigation -->
         </div>
-        <!-- end container -->
     </div>
-    <!-- Fim MenuBar -->
 </header>
 <script>
     function contTutorandos(){

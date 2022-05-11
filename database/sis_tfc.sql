@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `departamento` (
   UNIQUE KEY `email` (`email`),
   KEY `departamento_id_faculdade_foreign` (`id_faculdade`),
   CONSTRAINT `departamento_id_faculdade_foreign` FOREIGN KEY (`id_faculdade`) REFERENCES `faculdade` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sis_tfc.departamento: ~15 rows (approximately)
 /*!40000 ALTER TABLE `departamento` DISABLE KEYS */;
@@ -152,7 +152,8 @@ INSERT INTO `departamento` (`id`, `nome`, `email`, `telefone`, `tipo`, `id_facul
 	(22, 'Engenharia Geográfica', 'eng.geografica@fcuan.ao', 947777777, 2, 1, '2020-07-09 22:47:46', '2020-07-09 22:47:46', NULL),
 	(25, 'Departamento de Assuntos Acadêmicos', 'dac@fcuan.ao', 940988990, 1, 1, '2020-08-03 16:15:32', '2020-08-03 16:15:32', NULL),
 	(27, 'Meteorologia', 'dei.met@fcuan.ao', 998889988, 2, 1, '2021-05-22 11:28:14', '2021-05-22 11:28:14', NULL),
-	(28, 'Economia', 'economia.curso@fceconomia.ao', 999888999, 2, 3, '2021-10-09 18:19:59', '2021-10-09 18:19:59', NULL);
+	(28, 'Economia', 'economia.curso@fceconomia.ao', 999888999, 2, 3, '2021-10-09 18:19:59', '2021-10-09 18:19:59', NULL),
+	(29, 'Departamento de Recursos Humanos', 'drh@fcuan.com', 999123456, 1, 1, '2022-03-24 08:51:49', '2022-03-24 08:51:49', NULL);
 /*!40000 ALTER TABLE `departamento` ENABLE KEYS */;
 
 -- Dumping structure for table sis_tfc.docente
@@ -752,18 +753,16 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table sis_tfc.roles: ~7 rows (approximately)
+-- Dumping data for table sis_tfc.roles: ~5 rows (approximately)
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
 INSERT INTO `roles` (`id`, `nome`, `desc`, `tipo`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(1, 'administrador', 'Administrador funcionário', 1, NULL, NULL, NULL),
 	(2, 'visualizador', 'Visualizador funcionario', 1, NULL, NULL, NULL),
 	(3, 'orientador', 'Orientador do departamento', 2, '2020-02-03 03:00:00', '2020-07-05 01:47:49', NULL),
 	(4, 'coordenador', 'Coordenação científica do departamento', 2, '2020-02-03 03:00:00', '2020-02-03 03:00:00', NULL),
-	(5, 'estudante', 'Estudante de um curso', 3, '2020-02-10 03:00:46', '2020-07-05 01:47:55', NULL),
-	(6, 'Astrologia1', 'AAAASASSA', 2, '2021-11-18 10:58:18', '2021-11-18 11:16:54', '2021-11-18 11:16:54'),
-	(7, 'AstrologGGGGGGGGGGGGG', 'aaaaa', 3, '2021-11-18 11:11:35', '2021-11-18 11:18:42', '2021-11-18 11:18:42');
+	(5, 'estudante', 'Estudante de um curso', 3, '2020-02-10 03:00:46', '2020-07-05 01:47:55', NULL);
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 
 -- Dumping structure for table sis_tfc.role_user
@@ -776,7 +775,7 @@ CREATE TABLE IF NOT EXISTS `role_user` (
   KEY `role_user_id_role_foreign` (`role_id`),
   CONSTRAINT `role_user_id_role_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
   CONSTRAINT `role_user_id_user_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sis_tfc.role_user: ~32 rows (approximately)
 /*!40000 ALTER TABLE `role_user` DISABLE KEYS */;
@@ -812,7 +811,9 @@ INSERT INTO `role_user` (`id`, `user_id`, `role_id`) VALUES
 	(89, 25, 2),
 	(90, 74, 3),
 	(91, 74, 4),
-	(92, 81, 5);
+	(92, 81, 5),
+	(93, 80, 1),
+	(94, 33, 3);
 /*!40000 ALTER TABLE `role_user` ENABLE KEYS */;
 
 -- Dumping structure for table sis_tfc.sugestao
@@ -930,18 +931,18 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Dumping data for table sis_tfc.users: ~40 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `email`, `email_verified_at`, `password`, `estado`, `tipo`, `qtd_vezes`, `remember_token`, `created_at`, `updated_at`, `id_pessoa`) VALUES
-	(1, 'wsa@gmail.com', '2019-09-24 04:00:00', '$2y$10$XpNQefi7MxXb4v.blp.f7.Tc5xP9CGoo5hEaiLEfLoSWYkCEj48BK', 1, 1, 1, 'ZuPTlAKlxn4ZcboE2nEmZNuYBHRTYwQz4IJIn2vAZZXwwbj9R2xzPV31LjlF', '2019-09-24 04:00:00', '2019-09-24 04:00:00', 1),
+	(1, 'wsa@gmail.com', '2019-09-24 04:00:00', '$2y$10$XpNQefi7MxXb4v.blp.f7.Tc5xP9CGoo5hEaiLEfLoSWYkCEj48BK', 1, 1, 1, '5oqeXfnZZdM9dAzkBkaGPlGWYoxnTXK0AUXdYRTrKCXGATXmATjDfmvRxOXi', '2019-09-24 04:00:00', '2019-09-24 04:00:00', 1),
 	(5, 'eloicemarta@gmail.com', '2019-12-02 03:00:00', '$2y$10$zGyMTjucO2YibCuwtKJpaeVQtT5AuCwGSFRt.ZIiYD7DiNMqazmmW', 1, 2, 1, 's3lMyLoBCCoHPTSvyBDdC4vWOfWTwFh1GJJq2SdKHP5PMtAbhdT2zpIXZBs7', '2019-12-02 03:00:00', '2019-12-02 03:00:00', 10),
 	(25, 'redento@fceconomia.ao', '2019-12-24 03:00:00', '$2y$10$czScxQf4n4GThpV7M9wQKu/zkSC5LKtZfvwVvt0RH3.CO5Jgq0ZC6', 1, 1, 1, '5rYKpDHEf92WVXQlPkTv5Tr6cRUKFW6tFApYwSC3UnnUCYpYBg2TD8FqTi6J', '2019-12-24 03:00:00', '2019-12-24 03:00:00', 50),
-	(32, 'eunice@gmail.com', NULL, '$2y$10$mHs30WjbdV/6mYVPExHdbOe8fGnSHGNlZQSizZpalz9Ssz1QhJXZC', 1, 1, 1, 'oIfKJ4FmiWXjqwd5Ecd3UTz9lAZcXQgtW5StoGlv6pwf7fYfXum6T1zNxILg', NULL, NULL, 57),
-	(33, 'mateuspadoca@hotmail.com', '2019-09-24 04:00:00', '$2y$10$ORbb2H5obkVKJZcCeSY28eSPEEtKeLbxVdpCvHMvcXWtghYaal2SK', 1, 2, 1, '5SROAaRX7W1w6yrEcc2QMILshoM9gUVM5adyCweFBtvaWXwooTeHdvlOXOfj', '2019-09-24 04:00:00', '2019-12-20 03:00:00', 58),
+	(32, 'eunice@gmail.com', NULL, '$2y$10$mHs30WjbdV/6mYVPExHdbOe8fGnSHGNlZQSizZpalz9Ssz1QhJXZC', 1, 1, 1, 'NrtlEIvv77h9cL0CIpBVo8lt3VkMobi5rl8vtP6ZL0g057R1ymP1HU1xvhXN', NULL, NULL, 57),
+	(33, 'mateuspadoca@hotmail.com', '2019-09-24 04:00:00', '$2y$10$ORbb2H5obkVKJZcCeSY28eSPEEtKeLbxVdpCvHMvcXWtghYaal2SK', 1, 2, 1, 'vZOaSm7ILPpKegL1PVXk6v0ZrqokUhzUVCta7RyxGUUgF5cFeODLsjcYDyS8', '2019-09-24 04:00:00', '2019-12-20 03:00:00', 58),
 	(34, 'kianguebeni@gmail.com', NULL, '$2y$10$AUIWcnk7obTqsMfzLrpo7OAAQB6Mvyv2T0.9Em6eRAThM..emzza6', 1, 2, 1, 'mrThY1gfJOR8KvQ53uCv1SjCyZbHFXdvkVjar1jGJkBPgPlIOfpsDCCsm21m', NULL, NULL, 59),
 	(35, 'diambielizabeth@gmail.com', NULL, '$2y$10$ArkgMg.qF/xb/FIF5RSgA.D0iD5/eemsJ9dkjaOoqROv3egMqLajW', 1, 3, 1, '467J5ZZkSbovNZhAVgObKO7IZ6GYhxe1xOKbKp66eMU3CBslejtDhYd3bfWt', NULL, NULL, 60),
 	(36, 'amandio.almada@gmail.com', NULL, '$2y$10$FQfC.Mj8/4MnhwTYopzwpO7WMvzBSOPy160Sa2Z1qRJAYVezZdJiW', 1, 2, 1, 'vxAodET7V8kf02szCpYJhIBKdRELk2tGPgkMGD91lHyI8J7G6dUdl3IARLNJ', NULL, NULL, 61),
 	(37, 'dalton.cabeia@gmail.com', NULL, '$2y$10$FcL.Iu6C.2RqjaAANm0CLuDY.4NDCOdkCYa02VgDAbw4al7DMpQmO', 1, 3, 1, 'Elap3i6Rme5CTAaGSNhdz6xyh5hqlIPk5HFhKqyuKCfUjTt1DMEbYeWjMulX', NULL, NULL, 62),
 	(39, 'lufialuiso@fcuan.ao', NULL, '$2y$10$ppQ8lirCH80qly5FYYrW5O6YK8K7oiZs/kxcVfNaDSkvUYvspLk8O', 1, 2, 1, 'jLRn45xK2ZHh0AjBs8ANDuw7x5idH7x61ZW97o9Hx6hzFN5dJzcUcnr1iZgQ', NULL, NULL, 66),
 	(40, 'juliana.dias@gmail.com', NULL, '$2y$10$y94iQ.5qTjdRkBr.rZcyZOJhV7b1AzAB5DQZ1fsSXdBuZNI39PG4K', 1, 3, 1, 'sJQRFM4xHvbYDAm1ZeYve6VBFddvh3kIqpUZnyjD2DfqJkwj0NSkR75twNit', NULL, NULL, 67),
-	(42, 'vicente@gmail.com', NULL, '$2y$10$EubNMRl6lUQlSbvPTxOrpuhdvlslb3pr2Dl4HgeydkD9Um.1G7Vhq', 1, 2, 1, 'qgglb3yz8JRavRxAqkXksf0rDvL7uQ70rZ7SlkEAf5JSQozRANWoS35xlbR5', NULL, NULL, 69),
+	(42, 'vicente@gmail.com', NULL, '$2y$10$EubNMRl6lUQlSbvPTxOrpuhdvlslb3pr2Dl4HgeydkD9Um.1G7Vhq', 1, 2, 1, 'vDRZ9q9MHP1FshWLRBuPIjJEs5K12H2wwt8MHZQ1CJOChkvJdENATqplyQR5', NULL, NULL, 69),
 	(43, 'sediamuanacongolo@gmail.com', NULL, '$2y$10$QG1C39jQyE4SOzKuJjiYVucNvugVMQOGaj2CvAt4uTv9HpdHIWWV2', 1, 3, 1, 'nz7AhqpgKbBIBIznAXLBuPLl1DQFNzTAjlX3mVRQ45srDWvgfTT5l1DHh54v', NULL, NULL, 70),
 	(44, 'loy@gmail.com', NULL, '$2y$10$RDY46f10bBliKbVf28JJfe9kS0z/vm95kbu2oo0hWX31rog/Lb9d.', 1, 1, 0, NULL, NULL, NULL, 72),
 	(46, 'geronimo@hotmail.com', NULL, '$2y$10$3hBW7WSPsAg3MBiviVHApemLAkWvXXL08a1TQ3SGQF9qbDa2uhGVy', 1, 2, 1, 'GZ9oMHU38jURNtS3hsR67AfMoQg7fY1lgpaEaAai4nBL0jHB87ym1bxluc9B', NULL, NULL, 74),
