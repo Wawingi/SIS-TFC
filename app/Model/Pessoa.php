@@ -187,5 +187,15 @@ class Pessoa extends Model
                 ->where('pessoa.id',$id_pessoa)
                 ->first();
     }
+    
+    public static function getVogal2($id_trabalho){
+        return DB::table('trabalho')
+                ->join('docente','docente.id_pessoa','=','trabalho.id_docente')
+                ->join('pessoa','pessoa.id','=','docente.id_pessoa')
+                ->join('envolvente','envolvente.id_trabalho','=','trabalho.id')
+                ->select('pessoa.nome','trabalho.id_docente')
+                ->where('envolvente.id_trabalho',$id_trabalho)
+                ->first('pessoa.nome','trabalho.id_docente');
+    }
 
 }

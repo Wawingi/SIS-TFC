@@ -34,7 +34,7 @@ class UtilizadorController extends Controller
     public function registarPessoa(Request $request){        
         $validatedData = $request->validate([
             'nome' => ['required', 'string', 'max:255'],
-            //'bi' => ['required', 'string', 'max:15', 'unique:pessoa'],
+            'bi' => ['required', 'string', 'max:15', 'unique:pessoa'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'telefone' => ['required','min:8', 'max:11', 'unique:pessoa'],
         ],[
@@ -42,6 +42,7 @@ class UtilizadorController extends Controller
             'email.unique'=>'O email já foi associado a outra conta',
             'telefone.min'=>'A quantidade de digítos telefonicos é inferior',
             'telefone.max'=>'A quantidade de digítos telefonicos é superior',
+            'telefone.unique'=>'Este número já se encontra registado',
         ]);
 
         //Variaveis globais

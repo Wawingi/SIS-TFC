@@ -88,6 +88,10 @@ class RelatorioController extends Controller
                     ->select('faculdade.logotipo','faculdade.nome as faculdade','pessoa.nome as nome_estudante','departamento.nome as departamento','trabalho.tema','nota_informativa.local','nota_informativa.presidente','nota_informativa.secretario','nota_informativa.vogal_1','nota_informativa.vogal_2','prova_publica.nota','prova_publica.created_at as data_defesa')
                     ->where('estudante.id_pessoa',$pessoa_id)
                     ->first();
+        
+        if(is_null($estudante)){
+            return back()->with('error','Acta não gerada por falta de realização da prova pública');
+        }
 
         $presidente = Pessoa::getJuri($estudante->presidente);
         $vogal_1 = Pessoa::getJuri($estudante->vogal_1);
@@ -118,6 +122,10 @@ class RelatorioController extends Controller
                     ->select('faculdade.logotipo','faculdade.nome as faculdade','pessoa.nome as nome_estudante','departamento.nome as departamento','trabalho.tema','nota_informativa.local','nota_informativa.presidente','nota_informativa.secretario','nota_informativa.vogal_1','nota_informativa.vogal_2','prova_publica.nota','prova_publica.created_at as data_defesa')
                     ->where('estudante.id_pessoa',$pessoa_id)
                     ->first();
+        
+        if(is_null($estudante)){
+            return back()->with('error','Acta não gerada por falta de realização da prova pública');
+        }
 
         $presidente = Pessoa::getJuri($estudante->presidente);
         $vogal_1 = Pessoa::getJuri($estudante->vogal_1);

@@ -47,6 +47,14 @@ $sessao = session('dados_logado');
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+        @elseif(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Erro!</strong>
+                    {{ session('error')}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
         @endif
         <!--Inicio do conteudo-->
                 <br>
@@ -413,7 +421,9 @@ $sessao = session('dados_logado');
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label>Recomendação</label>
-                                                    <button onclick="editarRelatorio('{{$trabalho->recomendacao}}')" class="btn btn-sm btn-warning float-right btn-rounded" type="submit"><i class='fa fa-pencil-alt mr-2'></i>Editar</button>
+                                                    @can('add_relatorio_final')
+                                                        <button onclick="editarRelatorio('{{$trabalho->recomendacao}}')" class="btn btn-sm btn-warning float-right btn-rounded" type="submit"><i class='fa fa-pencil-alt mr-2'></i>Editar</button>
+                                                    @endcan
                                                     <textarea style="margin-top:5px;background:#f5f6f8" readonly name="recomendacao" rows="3" class="form-control">{{$trabalho->recomendacao}}</textarea>                                                    
                                                 </div>
                                             </div>
@@ -662,7 +672,7 @@ $sessao = session('dados_logado');
                                                                     <div class="col-6">
                                                                         <div class="form-group mb-3">
                                                                             <label>Data</label><br>
-                                                                            <input id="datadefesa" name="datadefesa" type="datetime-local" class="form-control">                                                    
+                                                                            <input id="datadefesa" name="datadefesa" min='{{date("Y-m-d")}}' type="datetime-local" class="form-control">                                                    
                                                                         </div>
                                                                     </div>
                                                                     
@@ -713,11 +723,9 @@ $sessao = session('dados_logado');
                                                                     <div class="col-6">
                                                                         <div class="form-group mb-3">
                                                                             <label>2º Vogal</label><br>
+                                                                            @php $vogal2=App\Model\Pessoa::getVogal2($trabalho->id); @endphp
                                                                             <select id="vogal_2" name="vogal_2" class="selectpicker" data-live-search="true" data-style="btn-light">
-                                                                                <option selected disabled>Escolha o nome</option>
-                                                                                @foreach ($docentes as $docente)
-                                                                                    <option value="{{$docente->pessoa_id}}">{{$docente->nome}}</option>
-                                                                                @endforeach
+                                                                                <option value="{{$vogal2->id_docente}}">{{$vogal2->nome}}</option>
                                                                             </select>                                       
                                                                         </div>
                                                                     </div>
@@ -771,7 +779,7 @@ $sessao = session('dados_logado');
                                                             <form id="formularioProvaPublica" method="POST" action="{{ url('registarProvapublicaaaa') }}"> 
                                                                 @csrf
                                                                 <?php 
-                                                                    $ni= App\Model\NotaInformativa::getNotaInformativa($trabalho->id);                                                  
+                                                                    $ni= App\Model\NotaInformativa::getNotaInformativa($trabalho->id);                                                 
                                                                 ?>
                                                                 <div class="row">
                                                                     <input required type="hidden" value="{{$trabalho->id}}" class="form-control"  name="id_trabalho" id="id_trabalho">  
@@ -852,7 +860,7 @@ $sessao = session('dados_logado');
                                                             <p class="dados-nao-fornecido">NENHUMA PROVA PÚBLICA REALIZADA AINDA.</p>
                                                         </div>
                                                     </div>
-                                                    <table id="provapublicaTable"  class="table table-borderless mb-0">
+                                                    <table id="provapublicaTable" class="table table-borderless mb-0">
                                                                         
                                                     </table>  
                                                 </div>
@@ -969,7 +977,7 @@ $sessao = session('dados_logado');
             },
             error: function(e)
 			{
-				alert("erro ao carregar dados");
+				alert("erro ao carregar dados textual");
 			}
         })
     };
@@ -1019,7 +1027,7 @@ $sessao = session('dados_logado');
             },
             error: function(e)
 			{
-				alert("erro ao carregar dados");
+				alert("erro ao carregar dados cabeca");
 			}
         })        
     }
@@ -1167,6 +1175,7 @@ $sessao = session('dados_logado');
                     if(data == "Sucesso"){
                         $('#formularioPredefesa')[0].reset();
                         carregarPredefesas();
+                        location.reload();
                         Swal.fire({
                             text: "Pré defesa registada com sucesso.",
                             icon: 'success',
@@ -1267,7 +1276,7 @@ $sessao = session('dados_logado');
             },
             error: function(e)
 			{
-				alert("erro ao carregar dados");
+				alert("erro ao carregar dados predefe");
 			}
         })
     }
@@ -1365,7 +1374,7 @@ $sessao = session('dados_logado');
             },
             error: function(e)
 			{
-				alert("erro ao carregar dados");
+				alert("erro ao carregar dados NI: ");
 			}
         })
     }
@@ -1383,11 +1392,12 @@ $sessao = session('dados_logado');
                 }else{ 
                     document.getElementById("showFormNI").style.display = 'block';
                     document.getElementById("showNotaVazio").style.display = 'block';
+                    document.getElementById("notainformativaTable").style.display = 'none';
                 }
             },
             error: function(e)
 			{
-				alert("erro ao carregar dados");
+				showFormNotaInformativa();
 			}
         })        
     }
@@ -1462,11 +1472,16 @@ $sessao = session('dados_logado');
                 method: "POST",
                 data: $("#formularioNotaInformativa").serialize(),
                 success:function(data){
-                    if(data == 1){
+                    if(data == 0){
+                        Swal.fire({
+                            text: "Deve realizar primeiro a pré-defesa.",
+                            icon: 'error',
+                            confirmButtonText: 'Fechar'
+                        })
+                    }else if(data == 1){
                         $('#formularioNotaInformativa')[0].reset();
                         carregarNotaInformativa();
-                        showFormNotaInformativa();
-                        
+                        location.reload();                        
                         Swal.fire({
                             text: "Nota informativa registada com sucesso..",
                             icon: 'success',
@@ -1548,7 +1563,7 @@ $sessao = session('dados_logado');
             },
             error: function(e)
 			{
-				alert("erro ao carregar dados");
+				alert("erro ao carregar dados PP");
 			}
         })
     }
@@ -1565,12 +1580,13 @@ $sessao = session('dados_logado');
                     document.getElementById("showPPVazio").style.display = 'none';
                 }else{ 
                     document.getElementById("showFormPP").style.display = 'block';
-                    document.getElementById("showPPVazio").style.display = 'block';
+                    document.getElementById("showPPVazio").style.display = 'block';                    
+                    document.getElementById("provapublicaTable").style.display = 'none';
                 }
             },
             error: function(e)
 			{
-				alert("erro ao carregar dados");
+				alert("erro ao carregar dados SHOWPP");
 			}
         })        
     }
@@ -1667,6 +1683,7 @@ $sessao = session('dados_logado');
                         $('#formularioProvaPublica')[0].reset();
                         carregarProvapublica();
                         showFormProvaPublica();
+                        location.reload();
                         Swal.fire({
                             text: "Prova pública registada com sucesso.",
                             icon: 'success',

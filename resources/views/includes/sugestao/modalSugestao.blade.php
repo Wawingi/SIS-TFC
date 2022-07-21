@@ -56,8 +56,8 @@
                         <div id="envolventes" style="display:none">
                             <?php $envolventes = App\Model\Pessoa::pegaEstudantesFaculdade($sessao[0]->faculdade, $sessao[0]->id_pessoa);?>
                             <div class="form-group">
-                                <label for="name">Envolventes</label>
-                                <select class="js-example-basic-multiple custom-select" name="envolventes[]" multiple="multiple">
+                                <label>Envolventes</label>
+                                <select class="js-example-basic-multiple custom-select" id="envolventes[]" name="envolventes[]" multiple="multiple">
                                     <?php foreach ($envolventes as $envolvente): ?>
                                         <option value="{{$envolvente->id}}">{{$envolvente->nome}} - {{$envolvente->departamento}}</option>
                                     <?php endforeach?>

@@ -1,9 +1,9 @@
 @foreach($temas as $tema)
-    <tr  title="Clique para ver" class="tabelaClicked clickable-roww" data-href='{{ url("verTrabalho/".base64_encode($tema->id)) }}'>
-		<td>{{$loop->iteration}}</td>
+    <tr title="Clique para ver" class="tabelaClicked clickable-row" data-href='{{ url("verTrabalho/".base64_encode($tema->id)) }}'>
+		    <td>{{$loop->iteration}}</td>
         <td>
-			<a>{{$tema->tema}} <i class="fas fa-folder-open"></i></a>
-		</td>
+			    <a>{{$tema->tema}} <i class="fas fa-folder-open"></i></a>
+		    </td>
         <td>{{$tema->nome}}</td>
         <td>{{$tema->orientador}}</td>
     </tr>

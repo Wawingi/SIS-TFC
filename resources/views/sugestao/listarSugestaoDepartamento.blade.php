@@ -120,8 +120,9 @@ $sessao = session('dados_logado');
                         confirmButtonText: 'Fechar',
                         timer: 1500
                     }),
-                    $('#formularioSalvar')[0].reset();
-                    carregarDataTable();
+                    location.reload();
+                    //$('#formularioSalvar')[0].reset();
+                    //carregarDataTable();
                 }else{
                     $('#formularioSalvar')[0].reset();
                     $('#modalClose').click();

@@ -127,37 +127,50 @@ class DefesaController extends Controller
             'id_trabalho.unique'=>'Este tema já possúi uma prova pública'
         ]);
 
-        $estudantes=Tema::getEstudanteTrabalhoID($request->id_trabalho);
+        $checkPDF=DB::table('predefesa')->where('id_trabalho',$request->id_trabalho)->count();
         
-        //Remover o T na data informada ex:2021-04-02T16:30
-        $tiraT=Str_replace('T',' ',$request->datadefesa);
-        $novadata=Str_replace($tiraT,$tiraT.':00',$tiraT);
+        if($checkPDF<1)
+            echo $checkPDF;
+        else{
+            $estudantes=Tema::getEstudanteTrabalhoID($request->id_trabalho);
+            
+            //Remover o T na data informada ex:2021-04-02T16:30
+            $tiraT=Str_replace('T',' ',$request->datadefesa);
+            $novadata=Str_replace($tiraT,$tiraT.':00',$tiraT);
 
-        $provanotainformativa = new NotaInformativa;
-        
-        $provanotainformativa->created_at = $novadata;
-        $provanotainformativa->local = $request->local;
-        $provanotainformativa->presidente = $request->presidente;
-        $provanotainformativa->secretario = $request->secretario;
-        $provanotainformativa->vogal_1 = $request->vogal_1;
-        $provanotainformativa->vogal_2 = $request->vogal_2;
-        $provanotainformativa->id_trabalho = $request->id_trabalho;
+            $provanotainformativa = new NotaInformativa;
+            
+            $provanotainformativa->created_at = $novadata;
+            $provanotainformativa->local = $request->local;
+            $provanotainformativa->presidente = $request->presidente;
+            $provanotainformativa->secretario = $request->secretario;
+            $provanotainformativa->vogal_1 = $request->vogal_1;
+            $provanotainformativa->vogal_2 = $request->vogal_2;
+            $provanotainformativa->id_trabalho = $request->id_trabalho;
 
-        if($provanotainformativa->save()){
-            foreach($estudantes as $estudante){
-                Notificacao::registarNotificacao('Foi publicado o edital contendo a data para a prova pública e a respectiva bancada examinadora. Navegue até ao seu trabalho e abra a aba Edital para ver mais detalhes.',$estudante->id_estudante);    
+            if($provanotainformativa->save()){
+                foreach($estudantes as $estudante){
+                    Notificacao::registarNotificacao('Foi publicado o edital contendo a data para a prova pública e a respectiva bancada examinadora. Navegue até ao seu trabalho e abra a aba Edital para ver mais detalhes.',$estudante->id_estudante);    
+                }
+                echo 1;
             }
-            echo 1;
         }
     }
      
     public function listarNotaInformativa($Trabalho_id){
-        $notaInformativa = NotaInformativa::where('id_trabalho',$Trabalho_id)->get();
-        $notaInformativa[0]->presidente = Pessoa::getPessoaById($notaInformativa[0]->presidente)->nome;
-        $notaInformativa[0]->secretario = Pessoa::getPessoaById($notaInformativa[0]->secretario)->nome;
-        $notaInformativa[0]->vogal_1 = Pessoa::getPessoaById($notaInformativa[0]->vogal_1)->nome;
-        $notaInformativa[0]->vogal_2 = Pessoa::getPessoaById($notaInformativa[0]->vogal_2)->nome;
-
+        $notaInformativa = NotaInformativa::where('id_trabalho',$Trabalho_id)->first();
+        if(is_object($notaInformativa)){
+            $notaInformativa->presidente = Pessoa::getPessoaById($notaInformativa->presidente)->nome;
+            $notaInformativa->secretario = Pessoa::getPessoaById($notaInformativa->secretario)->nome;
+            $notaInformativa->vogal_1 = Pessoa::getPessoaById($notaInformativa->vogal_1)->nome;
+            $notaInformativa->vogal_2 = Pessoa::getPessoaById($notaInformativa->vogal_2)->nome;
+        }else{
+            $notaInformativa = new NotaInformativa;
+            $notaInformativa->presidente = null;
+            $notaInformativa->secretario = null;
+            $notaInformativa->vogal_1 = null;
+            $notaInformativa->vogal_2 = null;
+        }
         return view('tema.notainformativaTable', compact('notaInformativa'));
     }
 
@@ -225,13 +238,19 @@ class DefesaController extends Controller
                             ->select('nota_informativa.local','nota_informativa.presidente','nota_informativa.secretario','nota_informativa.vogal_1','nota_informativa.vogal_2','prova_publica.id','prova_publica.nota','prova_publica.anotacao','prova_publica.created_at as data_defesa')
                             ->join('nota_informativa','nota_informativa.id','=','prova_publica.id_nota_informativa')                            
                             ->where('prova_publica.id_trabalho',$Trabalho_id)
-                            ->get();
-
-        $provapublica[0]->presidente = Pessoa::getPessoaById($provapublica[0]->presidente)->nome;
-        $provapublica[0]->secretario = Pessoa::getPessoaById($provapublica[0]->secretario)->nome;
-        $provapublica[0]->vogal_1 = Pessoa::getPessoaById($provapublica[0]->vogal_1)->nome;
-        $provapublica[0]->vogal_2 = Pessoa::getPessoaById($provapublica[0]->vogal_2)->nome;
-                    
+                            ->first();
+        if(is_object($provapublica)){
+            $provapublica->presidente = Pessoa::getPessoaById($provapublica->presidente)->nome;
+            $provapublica->secretario = Pessoa::getPessoaById($provapublica->secretario)->nome;
+            $provapublica->vogal_1 = Pessoa::getPessoaById($provapublica->vogal_1)->nome;
+            $provapublica->vogal_2 = Pessoa::getPessoaById($provapublica->vogal_2)->nome;
+        }else{
+            $provapublica = new Provapublica;
+            $provapublica->presidente = null;
+            $provapublica->secretario = null;
+            $provapublica->vogal_1 = null;
+            $provapublica->vogal_2 = null;
+        }
         return view('tema.provapublicaTable', compact('provapublica'));
     }
 

@@ -385,6 +385,11 @@
 </div>
 
 <script>
+    //Disable future date
+    //var today = new Date().toISOString().split('T')[0];
+    var today = '2002-01-01';
+	document.getElementsByName("data_nascimento")[0].setAttribute('max', today);
+
     $(document).ready(function(){
         //validação da escolha do funcionario (Direcção ou Departamento Estudantil)
         document.getElementById("tipo_registar1").onchange = function() {

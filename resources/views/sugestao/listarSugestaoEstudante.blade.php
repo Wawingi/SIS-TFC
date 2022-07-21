@@ -118,16 +118,26 @@ $sessao = session('dados_logado');
             },
             error: function(e)
 			{
-				alert("erro ao carregar dados");
+				carregarDataTable();
 			}
         })
     }
-
     carregarDataTable();
 
     $('#formularioSalvar').submit(function(e){
         e.preventDefault();
         var request = new FormData(this);
+        var modalidade = request.get('modalidade');
+        var envolventes = request.get('envolventes[]');
+
+        if(modalidade=='Colectivo' && envolventes<1){
+            Swal.fire({
+                text: 'Para o trabalho colectivo, deve escolher o envolvente',
+                icon: 'error',
+                confirmButtonText: 'Fechar'
+            }),
+            exit;
+        }
 
         $.ajax({
             url:"{{ url('registarSugestao') }}",
@@ -145,8 +155,7 @@ $sessao = session('dados_logado');
                         confirmButtonText: 'Fechar',
                         timer: 1500
                     }),
-                    $('#formularioSalvar')[0].reset();
-                    carregarDataTable();
+                    location.reload();
                 }
             },
             error: function(e){
