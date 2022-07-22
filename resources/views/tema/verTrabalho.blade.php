@@ -1679,15 +1679,15 @@ $sessao = session('dados_logado');
                 method: "POST",
                 data: $("#formularioProvaPublica").serialize(),
                 success:function(data){
-                    if(data == "Sucesso"){
+                    if(data == 1){
                         $('#formularioProvaPublica')[0].reset();
-                        carregarProvapublica();
-                        showFormProvaPublica();
+                        //carregarProvapublica();
+                        //showFormProvaPublica();
                         location.reload();
                         Swal.fire({
                             text: "Prova pública registada com sucesso.",
                             icon: 'success',
-                            timer:1500,
+                            timer:9500,
                             confirmButtonText: 'Fechar'
                         })
                     }       

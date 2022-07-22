@@ -227,9 +227,9 @@ class DefesaController extends Controller
             ->where('id','=',$request->id_trabalho)
             ->update(['estado' => 2]))
             {
-                echo 'Sucesso';
+                echo 1;
             }      
-            echo 'Sucesso';
+            echo 1;
         }
     }
 
